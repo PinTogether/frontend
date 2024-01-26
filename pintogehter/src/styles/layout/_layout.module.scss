@@ -1,13 +1,17 @@
+@import "../base/variables";
+@import "../base/placeholders";
+
 .container {
 	position: relative;
 	height: 100vh;
 	display: flex;
-	color:black;
+	color: $color-black;
   }
 
   .sidebar {
 	width: 65px;
-	background-color: aqua;
+	background-color: $color-grey;
+	box-shadow: inset -3px 0px 1px -2px gray;
 	z-index: 2;
   }
 
@@ -22,7 +26,6 @@
   .map {
 	position: absolute;
 	left:65px;
-	background-color: darkcyan;
 	z-index: 1;
   }
 
@@ -30,7 +33,7 @@
 	position:static;
 	flex-direction: column;
 	left:65px;
-	background-color: azure;
+	background-color: $color-background-default;
 	z-index: 2;
   }
 
@@ -39,10 +42,6 @@
 	height:100px;
 	z-index: 2;
 	align-items: center;
-	background-color: beige;
+	background-color: $color-button-inactive;
 	cursor:pointer;
-  }
-
-  .footer{
-	background-color: beige;
   }

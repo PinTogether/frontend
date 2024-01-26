@@ -4,6 +4,7 @@ import { useState } from "react";
 import './globals.css'
 import styles from "@/styles/layout/_layout.module.scss"
 import Map from '@/components/Map'
+import Test from '@/components/Test'
 
 export default function RootLayout({
   children,
@@ -15,20 +16,14 @@ export default function RootLayout({
   const toggleFlexBarWidth = () => {
     setFlexBarWidth((prevWidth) => {
       if (prevWidth === "0px") return "650px"; // 0이면 600으로 변경
-      if (prevWidth === "650px") return "98%"; // 600이면 전체 화면 너비로 변경
+      if (prevWidth === "650px") return "98%"; // 600이면 전체 화면 너비로 변경(슬라이드 바 부분 제외)
       return "0px"; // 나머지 경우에는 0으로 변경
     });
   };
 
   return (
       <html lang="en">
-        <head>
-        <script
-          type="text/javascript"
-          src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}
-          defer
-        /> {/* https://nextjs.org/docs/messages/no-sync-scripts */}
-        </head>
+        <Test></Test>
         <body>
           <section className={styles.container}>
             <aside className={styles.sidebar}>
