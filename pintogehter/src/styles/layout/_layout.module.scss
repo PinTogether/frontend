@@ -1,0 +1,48 @@
+.container {
+	position: relative;
+	height: 100vh;
+	display: flex;
+	color:black;
+  }
+
+  .sidebar {
+	width: 65px;
+	background-color: aqua;
+	z-index: 2;
+  }
+
+  .map, .maincontent {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	transition: all 0.3s ease;
+  }
+
+  .map {
+	position: absolute;
+	left:65px;
+	background-color: darkcyan;
+	z-index: 1;
+  }
+
+  .maincontent {
+	position:static;
+	flex-direction: column;
+	left:65px;
+	background-color: azure;
+	z-index: 2;
+  }
+
+  .mainButton{
+	width:20px;
+	height:100px;
+	z-index: 2;
+	align-items: center;
+	background-color: beige;
+	cursor:pointer;
+  }
+
+  .footer{
+	background-color: beige;
+  }
