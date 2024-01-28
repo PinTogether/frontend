@@ -9,7 +9,7 @@
   }
 
   .sidebar {
-	width: $layout-size-sidebar;
+	min-width: $layout-size-sidebar;
 	z-index: 2;
   }
 
@@ -28,18 +28,6 @@
   }
 
   .maincontent {
-	position:static;
-	flex-direction: column;
-	left:$layout-size-sidebar;
-	background-color: $color-background-default;
+	position:relative;
 	z-index: 2;
-  }
-
-  .mainButton{
-	width:20px;
-	height:100px;
-	z-index: 2;
-	align-items: center;
-	background-color: $color-button-inactive;
-	cursor:pointer;
   }

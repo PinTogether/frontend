@@ -1,0 +1,23 @@
+@import "../base/variables";
+
+.container{
+	position: relative;
+	height: 100vh;
+	display: flex;
+}
+
+.maincontent {
+	position:grid;
+	flex-direction: column;
+	background-color: $color-background-default;
+	height: 100vh;
+	flex: 1;
+  }
+
+.mainButton{
+	width:20px;
+	height:100px;
+	align-items: center;
+	background-color: $color-button-inactive;
+	cursor:pointer;
+}
