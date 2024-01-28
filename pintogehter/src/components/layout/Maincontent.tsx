@@ -20,7 +20,7 @@ export default function Sidebar({
 	};
 
 	return(
-		<section className={styles.container} style={{width:FlexbarWidth}}>
+		<section className={styles.container}>
 			<div className={styles.maincontent} style={{width:FlexbarWidth}}>
 				{
 					FlexbarWidth != "0px" &&

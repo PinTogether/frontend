@@ -8,12 +8,13 @@
 	display: flex;
 }
 
-.maincontent {
+.maincontent{
 	position:flex;
 	flex-direction: column;
 	background-color: $color-background-default;
 	height: 100vh;
 	flex: 1;
+	transition: all 0.3s ease;
   }
 
 .mainButton{
