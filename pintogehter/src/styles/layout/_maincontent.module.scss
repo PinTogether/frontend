@@ -1,13 +1,15 @@
 @import "../base/variables";
 
 .container{
-	position: relative;
+	position: grid;
+	grid-template-columns: 1fr 20px;
 	height: 100vh;
+	min-height: 410px;
 	display: flex;
 }
 
 .maincontent {
-	position:grid;
+	position:flex;
 	flex-direction: column;
 	background-color: $color-background-default;
 	height: 100vh;

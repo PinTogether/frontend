@@ -4,8 +4,43 @@
 	display: grid;
 	background-color: $color-grey;
 	box-shadow: inset -3px 0px 1px -2px gray;
-	grid-template-rows: 10px 70px 70px 70px 1fr 70px 100px 10px;
+	grid-template-rows: 10px 60px 60px 60px 1fr 60px 100px 10px;
 	height: 100vh;
+	min-height: 410px;
+	margin:0;
+	padding:0;
+	overflow: auto;
+	justify-content: center;
 	align-items: center;
 	text-align: center;
 }
+
+.icon,
+.hoveredIcon {
+  position: absolute;
+  margin:0;
+  padding:0;
+  width:40px;
+  height:40px;
+  transition: opacity 0.1s ease-in-out;
+}
+
+.button{
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.hoveredIcon {
+	opacity: 0;
+  }
+
+  .button:hover .icon {
+	opacity: 0;
+  }
+
+  .button:hover .hoveredIcon {
+	opacity: 1;
+  }

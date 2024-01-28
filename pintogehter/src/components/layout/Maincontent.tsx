@@ -13,14 +13,14 @@ export default function Sidebar({
 
 	const toggleFlexBarWidth = () => {
 	  setFlexBarWidth((prevWidth) => {
-		if (prevWidth === "0px") return "650px"; // 0이면 600으로 변경
-		if (prevWidth === "650px") return "96vw"; // 600이면 전체 화면 너비로 변경(슬라이드 바 부분 제외)
+		if (prevWidth === "0px") return "600px"; // 0이면 600으로 변경
+		if (prevWidth === "600px") return "95vw"; // 600이면 전체 화면 너비로 변경(슬라이드 바 부분 제외)
 		return "0px"; // 나머지 경우에는 0으로 변경
 	  });
 	};
 
 	return(
-		<section className={styles.container}>
+		<section className={styles.container} style={{width:FlexbarWidth}}>
 			<div className={styles.maincontent} style={{width:FlexbarWidth}}>
 				{
 					FlexbarWidth != "0px" &&
@@ -29,7 +29,9 @@ export default function Sidebar({
 					</main>
 				}
 			</div>
-			<button onClick={toggleFlexBarWidth} className={styles.mainButton}>버튼1</button>
+			<div>
+				<button onClick={toggleFlexBarWidth} className={styles.mainButton}>버튼1</button>
+			</div>
 		</section>
 	);
 }
