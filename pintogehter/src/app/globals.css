@@ -19,6 +19,7 @@
 body {
   margin: 0;
 	padding: 0;
+  min-height: 400px;
   font-family: Arial, sans-serif;
   color:black;
   color: rgb(var(--foreground-rgb));

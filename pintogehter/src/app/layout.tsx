@@ -1,10 +1,14 @@
 "use client"
+ // Next의 <Script> 실패
+ // 메인콘텐트를 전체로 덮고 children과 버튼을 다른 컴포넌트로 빼기 -> (조작은 되나 z-index때문에 지도가 덮여서 조작불가)
+
+// script 노출문제는 레이아웃에 use client 사용하지않게 수정 하면 해결될듯
 
 import { useState } from "react";
 import './globals.css'
 import styles from "@/styles/layout/_layout.module.scss"
 import Map from '@/components/Map'
-import Test from '@/components/Test'
+import Sidebar from '@/components/Sidebar'
 
 export default function RootLayout({
   children,
@@ -23,11 +27,17 @@ export default function RootLayout({
 
   return (
       <html lang="en">
-        <Test></Test>
+        <head>
+        <script
+          type="text/javascript"
+          src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}
+          async
+        /> {/* https://nextjs.org/docs/messages/no-sync-scripts */}
+        </head>
         <body>
           <section className={styles.container}>
             <aside className={styles.sidebar}>
-              사이드바
+              <Sidebar />
             </aside>
             <section className={styles.map}>
               <Map />
@@ -44,7 +54,6 @@ export default function RootLayout({
             </div>
             <button onClick={toggleFlexBarWidth} className={styles.mainButton}>버튼1</button>
           </section>
-          Footer들어갈자리
         </body>
       </html>
   )
