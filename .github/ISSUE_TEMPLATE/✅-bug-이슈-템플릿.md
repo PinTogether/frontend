@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-<--!
+<!--
   * Assignees 등록하기
   * Labels 등록하기
   * commit 시 issue number 넣기
