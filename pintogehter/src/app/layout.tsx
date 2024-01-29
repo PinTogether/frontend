@@ -4,9 +4,9 @@
 
 import './globals.css'
 import styles from "@/styles/layout/_layout.module.scss"
-import Map from '@/components/layout/Map'
-import Sidebar from '@/components/layout/Sidebar'
-import Maincontent from '@/components/layout/Maincontent'
+import Map from '@/containers/layout/Map'
+import Sidebar from '@/containers/layout/Sidebar'
+import Maincontent from '@/containers/layout/Maincontent'
 
 export default function RootLayout({
   children,
