@@ -1,0 +1,38 @@
+@import "../base/variables";
+
+.overlay{
+	display: grid;
+	grid-template-rows: 100px 1fr 400px;
+	height: 100dvh;
+	margin:0;
+	padding:0;
+	place-items: center;
+}
+
+.top, .middle, .bottom{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.top{
+	font-size: $font-size-medium;
+	min-width: 300px;
+	height:50px;
+	border-radius: 30px;
+	margin: 5px;
+	padding: 10px;
+	background-color: rgb(230, 230, 212, 0.8);
+	pointer-events: none;
+}
+
+.middle{
+	background-color: blanchedalmond;
+	pointer-events: none;
+}
+
+.bottom{
+	width: 800px;
+	background-color: azure;
+	pointer-events: auto;
+}

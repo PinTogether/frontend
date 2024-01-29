@@ -7,6 +7,7 @@ import styles from "@/styles/layout/_layout.module.scss"
 import Map from '@/containers/map/Map'
 import Sidebar from '@/containers/layout/Sidebar'
 import Maincontent from '@/containers/layout/Maincontent'
+import Overlay from '@/containers/overlay/Overlay'
 
 export default function RootLayout({
   children,
@@ -29,6 +30,9 @@ export default function RootLayout({
             </aside>
             <section className={styles.map}>
               <Map />
+            </section>
+            <section className={styles.overlay}>
+              <Overlay />
             </section>
             <main className={styles.maincontent}>
               <Maincontent>
