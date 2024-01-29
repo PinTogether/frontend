@@ -1,0 +1,34 @@
+@import "../base/variables";
+@import "../base/placeholders";
+
+.container {
+	position: relative;
+	height: 100vh;
+	min-height: 410px;
+	display: flex;
+	color: $color-black;
+  }
+
+  .sidebar {
+	min-width: $layout-size-sidebar;
+	z-index: 2;
+  }
+
+  .map, .maincontent {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	transition: all 0.3s ease;
+  }
+
+  .map {
+	position: absolute;
+	left:$layout-size-sidebar;
+	z-index: 1;
+  }
+
+  .maincontent {
+	position:relative;
+	z-index: 2;
+  }
