@@ -1,0 +1,19 @@
+@import "../base/placeholders";
+
+.page {
+  @extend %pt-page;
+  //   @include page;
+  button {
+    @extend %pt-button;
+    //   @include button;
+  }
+  input {
+    @extend %pt-input;
+  }
+  
+
+  textarea{
+    @extend %pt-textarea;
+  }
+
+}
