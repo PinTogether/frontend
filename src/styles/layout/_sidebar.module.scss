@@ -2,7 +2,7 @@
 
 .container{
 	display: grid;
-	background-color: $color-grey;
+	background-color: $color-grey-light;
 	box-shadow: inset -3px 0px 1px -2px gray;
 	grid-template-rows: 10px 60px 60px 60px 1fr 60px 100px 10px;
 	height: 100vh;
