@@ -1,0 +1,38 @@
+@import "../../base/placeholders";
+
+$color-kakao: #fee500;
+
+.page {
+  @extend %pt-page;
+  gap: 1rem;
+  button {
+    @extend %pt-button;
+    padding: 0.5rem 3.8rem;
+    font-size: 1.2rem;
+    width: 240px;
+    // border: none;
+
+    label {
+      color: rgba(0, 0, 0, 0.85);
+    }
+  }
+  background-color: white;
+
+  .kakaoButton {
+    background-color: $color-kakao;
+    &:hover {
+      //   background-color: rgba(fe, e5, 00, 0.8);
+      background-color: $color-kakao;
+      border: none;
+      outline: none;
+      // i
+      //   opacity: 0.8;
+    }
+  }
+
+  .googleButton {
+  }
+
+  .naverButton {
+  }
+}
