@@ -5,6 +5,8 @@
 	height: 100vh;
 	pointer-events: none;
 	min-height: 410px;
+	align-items: center;
+	transition: all 0.3s ease;
 }
 
 .maincontent{
@@ -15,13 +17,20 @@
   }
 
 .mainButton{
+	display: flex;
 	width:20px;
 	height:100px;
 	align-items: center;
-	background-color: $color-button-inactive;
+	text-align: center;
+	background-color: $color-grey;
 	pointer-events: auto;
 	cursor:pointer;
 	transition: all 0.3s ease;
+	border-radius: 0px 5px 5px 0px;
+}
+
+.mainButton:hover{
+	background-color: $color-button-active;
 }
 
 .overlay{

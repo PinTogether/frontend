@@ -85,13 +85,14 @@
 }
 
 .bottomButton{
-	font-size: $font-size-medium;
+	font-size: $font-size-large;
+	color: $color-grey-dark;
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	margin:10px;
-	padding:10px;
+	padding:15px;
 	height:30px;
 	border-radius: 30px;
 	background-color: rgba(255, 255, 255, 0.8);

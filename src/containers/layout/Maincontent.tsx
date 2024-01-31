@@ -31,7 +31,7 @@ export default function Sidebar({
 				}
 			</div>
 			<div>
-				<button onClick={toggleFlexBarWidth} className={styles.mainButton}>버튼1</button>
+				<button onClick={toggleFlexBarWidth} className={styles.mainButton}>1</button>
 			</div>
 			<div className={styles.overlay}>
 				<Overlay />
