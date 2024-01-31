@@ -7,22 +7,25 @@
 	margin:0;
 	padding:0;
 	flex:1;
-	place-items: center;
 	overflow: hidden;
+	transition: all 0.3s ease;
 }
 
 .middle, .bottom{
+	place-self: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .top{
+	width: 400px;
+	place-self: left;
 	display: grid;
 	position: relative;
 	align-items: center;
-	justify-content: left;
-	grid-template-columns: 0.25fr 2fr;
+	grid-template-columns: 2fr 0.1fr 0.25fr;
+	left: 50px;
 }
 
 .topButton{
@@ -32,29 +35,34 @@
 	align-items: center;
 	margin:0;
 	padding:0;
-	width:40px;
-	height:40px;
+	width:50px;
+	height:50px;
 	border-radius: 70%;
-	background-color: rgba(230, 230, 212, 0.8);
+	background-color: rgba(255, 255, 255, 0.8);
 	cursor: pointer;
 	pointer-events: auto;
+	border: 1px solid;
+	grid-column: 3;
 }
 
 .topButton:hover {
-	background-color: rgba(191, 191, 181, 0.8);
+	background-color: rgba(232, 232, 232, 0.8);
 }
 
 .topLocation{
+	display: grid;
+	grid-template-columns: 1.25fr 1fr 1fr;
 	position: relative;
 	font-size: $font-size-large;
-	min-width: 300px;
+	min-width: 200px;
 	height:50px;
 	border-radius: 30px;
-	margin: 5px;
 	padding: 10px;
-	background-color: rgb(230, 230, 212, 0.8);
+	background-color: rgba(255, 255, 255, 0.8);
 	pointer-events: none;
 	text-align: center;
+	justify-content: center;
+	border: 1px solid;
 }
 
 .middle{

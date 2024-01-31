@@ -11,6 +11,7 @@
 	width:600px;
 	background-color: $color-white;
 	position: relative;
+	transition: all 0.3s ease;
   }
 
 .mainButton{
@@ -20,9 +21,11 @@
 	background-color: $color-button-inactive;
 	pointer-events: auto;
 	cursor:pointer;
+	transition: all 0.3s ease;
 }
 
 .overlay{
 	overflow:hidden;
 	flex:1; /* 나머지 너비를 차지합니다. */
+	transition: all 0.3s ease;
 }
