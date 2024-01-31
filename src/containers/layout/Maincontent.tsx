@@ -20,6 +20,15 @@ export default function Sidebar({
 	  });
 	};
 
+	function ButtonMsg(){
+		if(FlexbarWidth == "92vw")
+		{
+			return (<p>{'<'}</p>);
+		}
+		else
+			return(<p>{'>'}</p>);
+	}
+
 	return(
 		<section className={styles.container}>
 			<div className={styles.maincontent} style={{width:FlexbarWidth}}>
@@ -31,7 +40,9 @@ export default function Sidebar({
 				}
 			</div>
 			<div>
-				<button onClick={toggleFlexBarWidth} className={styles.mainButton}>1</button>
+				<button onClick={toggleFlexBarWidth} className={styles.mainButton}>
+					{ButtonMsg()}
+				</button>
 			</div>
 			<div className={styles.overlay}>
 				<Overlay />
