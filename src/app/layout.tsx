@@ -31,9 +31,6 @@ export default function RootLayout({
             <section className={styles.map}>
               <Map />
             </section>
-            <section className={styles.overlay}>
-              <Overlay />
-            </section>
             <main className={styles.maincontent}>
               <Maincontent>
                 {children}

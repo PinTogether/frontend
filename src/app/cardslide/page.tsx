@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "@/styles/containers/example/_cardslide.module.scss";
+import styles from "@/styles/components/_cardslider.module.scss";
 import { useRef, useEffect } from "react";
 import CardSlider from "@/components/CardSlider";
 
@@ -20,7 +20,7 @@ export default function Page() {
         <img src="https://picsum.photos/200/300" alt="image" />
         <img src="https://picsum.photos/200/300" alt="image" />
         <img src="https://picsum.photos/200/300" alt="image" />
-     
+
       </CardSlider>
     </div>
   );

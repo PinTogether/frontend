@@ -29,14 +29,9 @@
 	z-index: 1;
   }
 
-  .overlay{
-	position: absolute;
-	pointer-events: none;
-	left: $layout-size-sidebar;
-	z-index: 2;
-  }
-
   .maincontent {
-	position:relative;
+	position: absolute;
+	left: $layout-size-sidebar;
+	pointer-events: none;
 	z-index: 3;
   }

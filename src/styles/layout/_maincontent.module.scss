@@ -1,20 +1,16 @@
 @import "../base/variables";
 
 .container{
-	position: grid;
-	grid-template-columns: 1fr 20px;
-	height: 100vh;
-	min-height: 410px;
 	display: flex;
+	height: 100vh;
+	pointer-events: none;
+	min-height: 410px;
 }
 
 .maincontent{
-	position:flex;
-	flex-direction: column;
-	background-color: $color-background-default;
-	height: 100vh;
-	flex: 1;
-	transition: all 0.3s ease;
+	width:600px;
+	background-color: $color-white;
+	position: relative;
   }
 
 .mainButton{
@@ -22,5 +18,11 @@
 	height:100px;
 	align-items: center;
 	background-color: $color-button-inactive;
+	pointer-events: auto;
 	cursor:pointer;
+}
+
+.overlay{
+	overflow:hidden;
+	flex:1; /* 나머지 너비를 차지합니다. */
 }

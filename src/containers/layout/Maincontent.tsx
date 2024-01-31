@@ -1,6 +1,7 @@
 "use client"
 
 import styles from "@/styles/layout/_maincontent.module.scss"
+import Overlay from "../overlay/Overlay";
 import { useState } from "react";
 
 export default function Sidebar({
@@ -9,7 +10,7 @@ export default function Sidebar({
 	children: React.ReactNode
   }) {
 
-	const [FlexbarWidth, setFlexBarWidth] = useState("650px");
+	const [FlexbarWidth, setFlexBarWidth] = useState("600px");
 
 	const toggleFlexBarWidth = () => {
 	  setFlexBarWidth((prevWidth) => {
@@ -31,6 +32,9 @@ export default function Sidebar({
 			</div>
 			<div>
 				<button onClick={toggleFlexBarWidth} className={styles.mainButton}>버튼1</button>
+			</div>
+			<div className={styles.overlay}>
+				<Overlay />
 			</div>
 		</section>
 	);
