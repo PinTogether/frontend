@@ -6,17 +6,46 @@
 	height: 100dvh;
 	margin:0;
 	padding:0;
+	flex:1;
 	place-items: center;
 }
 
-.top, .middle, .bottom{
+.middle, .bottom{
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .top{
-	font-size: $font-size-medium;
+	display: grid;
+	position: relative;
+	align-items: center;
+	justify-content: left;
+	grid-template-columns: 0.25fr 2fr;
+}
+
+.topButton{
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin:0;
+	padding:0;
+	width:40px;
+	height:40px;
+	border-radius: 70%;
+	background-color: rgba(230, 230, 212, 0.8);
+	cursor: pointer;
+	pointer-events: auto;
+}
+
+.topButton:hover {
+	background-color: rgba(191, 191, 181, 0.8);
+}
+
+.topLocation{
+	position: relative;
+	font-size: $font-size-large;
 	min-width: 300px;
 	height:50px;
 	border-radius: 30px;
@@ -24,15 +53,16 @@
 	padding: 10px;
 	background-color: rgb(230, 230, 212, 0.8);
 	pointer-events: none;
+	text-align: center;
 }
 
 .middle{
-	background-color: blanchedalmond;
 	pointer-events: none;
 }
 
 .bottom{
-	width: 800px;
+	position: relative;
+	min-width: 800px;
 	background-color: azure;
 	pointer-events: auto;
 }
