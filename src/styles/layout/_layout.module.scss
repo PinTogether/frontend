@@ -2,8 +2,7 @@
 @import "../base/placeholders";
 
 .container {
-	position: grid;
-	grid-template-columns: $layout-size-sidebar 1fr;
+	position: relative;
 	height: 100vh;
 	min-height: 410px;
 	display: flex;
@@ -15,7 +14,7 @@
 	z-index: 3;
   }
 
-  .map, .maincontent {
+  .map, .maincontent, .overlay{
 	top: 0;
 	left: 0;
 	right: 0;
@@ -25,17 +24,15 @@
 
   .map {
 	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
+	left: $layout-size-sidebar;
 	height: 100%;
 	z-index: 1;
   }
 
   .overlay{
 	position: absolute;
-	width:100vw;
 	pointer-events: none;
+	left: $layout-size-sidebar;
 	z-index: 2;
   }
 
