@@ -3,8 +3,7 @@
 .container{
 	display: grid;
 	background-color: $color-grey-light;
-	box-shadow: inset -3px 0px 1px -2px gray;
-	grid-template-rows: 10px 60px 60px 60px 1fr 60px 100px 10px;
+	grid-template-rows: 10px 50px 50px 50px 50px 1fr 50px 100px 10px;
 	height: 100vh;
 	min-height: 410px;
 	margin:0;
@@ -19,8 +18,8 @@
   position: absolute;
   margin:0;
   padding:0;
-  width:40px;
-  height:40px;
+  width:30px;
+  height:30px;
   border-radius: 70%;
   transition: opacity 0.2s ease-in-out;
 }

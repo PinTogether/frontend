@@ -16,6 +16,10 @@ export default function Sidebar(){
 				<img src="/icon/like_plain.svg" alt="like Icon" className={styles.icon} />
 				<img src="/icon/like_hovered.svg" alt="Like Icon Hovered" className={styles.hoveredIcon} />
 			</button>
+			<button className={styles.button}>
+				<img src="/icon/search_plain.svg" alt="search Icon" className={styles.icon} />
+				<img src="/icon/search_hovered.svg" alt="search Icon" className={styles.hoveredIcon} />
+			</button>
 			<div></div>
 			<button className={styles.button}>
 				<img src="/icon/bell_plain.svg" alt="bell Icon" className={styles.icon} />

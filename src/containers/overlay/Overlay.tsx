@@ -41,24 +41,21 @@ export default function Overlay(){
 			</div>
 			<div></div>
 			<div className={styles.bottom}>
-				<div>
-					{
-						isCardSliderOn == 1 &&
-						<CardSlider width={900} scrollCardNumber={3}>
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-							<img src="https://picsum.photos/200/300" alt="image" />
-						</CardSlider>
-					}
+				<div className={`${styles.bottomContent} ${isCardSliderOn ? styles.visible : ''}`}>
+					<CardSlider width={900} scrollCardNumber={3}>
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/200/300" alt="image" />
+					</CardSlider>
 				</div>
 				<div className={styles.buttonBox}>
 					<button className={styles.bottomButton}>내 지도</button>
