@@ -11,6 +11,8 @@
 
 .maincontent{
 	width:600px;
+	height: 100vh;
+	min-height: 410px;
 	background-color: $color-white;
 	position: relative;
 	transition: all 0.3s ease;
@@ -21,11 +23,10 @@
 	width:20px;
 	height:100px;
 	padding: 5px;
-	align-items: center;
 	background-color: $color-grey;
 	pointer-events: auto;
+	align-items: center;
 	cursor:pointer;
-	transition: all 0.3s ease;
 	border-radius: 0px 5px 5px 0px;
 }
 

@@ -16,6 +16,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	transition: all 0.3s ease;
 }
 
 .top{
@@ -46,7 +47,7 @@
 }
 
 .topButton:hover {
-	background-color: rgba(232, 232, 232, 0.8);
+	background-color: $color-button-active;
 }
 
 .topLocation{
@@ -75,6 +76,7 @@
 	place-items: center;
 	position: relative;
 	pointer-events: auto;
+	transition: all 0.3s ease;
 }
 
 .buttonBox{
@@ -82,6 +84,7 @@
 	justify-content: center;
 	align-items: center;
 	padding:10px;
+	transition: all 0.3s ease;
 }
 
 .bottomButton{
@@ -99,4 +102,13 @@
 	cursor: pointer;
 	pointer-events: auto;
 	border: 1px solid;
+	transition: all 0.3s ease;
+}
+
+.bottomButton:hover {
+	background-color: $color-button-active;
+}
+
+.visible {
+	opacity: 1;
 }
