@@ -77,8 +77,9 @@ export default function CardSlider({
       rootMargin: "0px",
       threshold: 1.0,
     }),
-    [children]
+    [cardContainerRef]
   );
+
   const callback = useCallback(
     (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
       entries.forEach((entry) => {
@@ -97,24 +98,27 @@ export default function CardSlider({
         }
       });
     },
-    [children]
+    [setIsFirstCard, setIsLastCard]
   );
 
   useEffect(() => {
     observerRef.current = new IntersectionObserver(callback, option);
-
-    if (firstCardRef.current)
-      observerRef?.current?.observe(firstCardRef.current);
-    if (lastCardRef.current) observerRef?.current?.observe(lastCardRef.current);
-
     return () => {
-      if (firstCardRef.current)
-        observerRef?.current?.unobserve(firstCardRef.current);
-      if (lastCardRef.current)
-        observerRef?.current?.unobserve(lastCardRef.current);
       observerRef?.current?.disconnect();
     };
-  }, []);
+  }, [callback, option]);
+
+  useEffect(() => {
+    const firstCard = firstCardRef.current;
+    const lastCard = lastCardRef.current;
+    if (firstCard) observerRef?.current?.observe(firstCard);
+    if (lastCard) observerRef?.current?.observe(lastCard);
+
+    return () => {
+      if (firstCard) observerRef?.current?.unobserve(firstCard);
+      if (lastCard) observerRef?.current?.unobserve(lastCard);
+    };
+  }, [observerRef, lastCardRef, firstCardRef]);
 
   return (
     <section style={withStyle} className={styles.cardSlider}>
