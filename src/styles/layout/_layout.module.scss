@@ -11,10 +11,10 @@
 
   .sidebar {
 	min-width: $layout-size-sidebar;
-	z-index: 2;
+	z-index: 3;
   }
 
-  .map, .maincontent {
+  .map, .maincontent, .overlay{
 	top: 0;
 	left: 0;
 	right: 0;
@@ -24,11 +24,14 @@
 
   .map {
 	position: absolute;
-	left:$layout-size-sidebar;
+	left: $layout-size-sidebar;
+	height: 100%;
 	z-index: 1;
   }
 
   .maincontent {
-	position:relative;
-	z-index: 2;
+	position: absolute;
+	left: $layout-size-sidebar;
+	pointer-events: none;
+	z-index: 3;
   }

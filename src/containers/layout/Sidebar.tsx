@@ -55,6 +55,22 @@ export default function Sidebar() {
           height={size}
         />
       </button>
+			<button className={styles.button}>
+				<Image
+        src="/icon/search_plain.svg"
+        alt="search Icon"
+        className={styles.icon}
+        width={size}
+        height={size}
+      />
+				<Image
+        src="/icon/search_hovered.svg"
+        alt="search Icon"
+        className={styles.hoveredIcon}
+        width={size}
+        height={size}
+        />
+			</button>
       <div></div>
       <button className={styles.button}>
         <Image

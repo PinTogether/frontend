@@ -1,0 +1,119 @@
+@import "../base/variables";
+
+.overlay{
+	display: grid;
+	grid-template-rows: 100px 1fr 400px;
+	height: 100dvh;
+	margin:0;
+	padding:0;
+	flex:1;
+	overflow: hidden;
+	transition: all 0.3s ease;
+}
+
+.middle, .bottom{
+	place-self: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+}
+
+.top{
+	width: 400px;
+	place-self: left;
+	display: grid;
+	position: relative;
+	align-items: center;
+	grid-template-columns: 2fr 0.1fr 0.25fr;
+	left: 50px;
+}
+
+.topButton{
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin:0;
+	padding:0;
+	width:40px;
+	height:40px;
+	border-radius: 70%;
+	background-color: rgba(255, 255, 255, 0.8);
+	cursor: pointer;
+	pointer-events: auto;
+	border: 1px solid;
+	grid-column: 3;
+}
+
+.topButton:hover {
+	background-color: $color-button-active;
+}
+
+.topLocation{
+	display: grid;
+	grid-template-columns: 1.25fr 1fr 1fr;
+	position: relative;
+	font-size: $font-size-medium;
+	min-width: 200px;
+	height:40px;
+	border-radius: 30px;
+	padding: 10px;
+	background-color: rgba(255, 255, 255, 0.8);
+	pointer-events: none;
+	text-align: center;
+	justify-content: center;
+	border: 1px solid;
+}
+
+.middle{
+	pointer-events: none;
+}
+
+.bottom{
+	display: grid;
+	grid-template-rows: 1fr 0.25fr;
+	place-items: center;
+	position: relative;
+	pointer-events: auto;
+	transition: all 0.3s ease;
+}
+
+.bottomContent{
+	opacity: 0;
+	transition: all 0.3s ease;
+}
+
+.buttonBox{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding:10px;
+	transition: all 0.3s ease;
+}
+
+.bottomButton{
+	font-size: $font-size-medium;
+	color: $color-grey-dark;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin:10px;
+	padding:15px;
+	height:30px;
+	border-radius: 30px;
+	background-color: rgba(255, 255, 255, 0.8);
+	cursor: pointer;
+	pointer-events: auto;
+	border: 1px solid;
+	transition: all 0.3s ease;
+}
+
+.bottomButton:hover {
+	background-color: $color-button-active;
+}
+
+.visible {
+	opacity: 1;
+}

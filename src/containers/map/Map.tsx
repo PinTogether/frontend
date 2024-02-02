@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 
 const MapNaverDefault = () => {
 	const [newMap, setNewMap] = useState<naver.maps.Map | null>(null);
+	const [Lat, setLat] = useState(37.488243);
+	const [Lng, setLng] = useState(127.064865);
 	const mapElement = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
@@ -12,7 +14,7 @@ const MapNaverDefault = () => {
 
 		if (!mapElement.current || !naver) return;
 
-		const center = new naver.maps.LatLng(37.488243, 127.064865);
+		const center = new naver.maps.LatLng(Lat, Lng);
 
 		const mapOptions: naver.maps.MapOptions = {
 		  center: center,
