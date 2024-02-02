@@ -16,8 +16,10 @@
 	background-color: $color-white;
 	position: relative;
 	transition: all 0.2s ease;
-	overflow:scroll;
+	overflow:hidden;
+	pointer-events: auto;
   }
+
 
 .mainButton{
 	display: flex;

@@ -16,7 +16,7 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    console.log("popup page");ㄴ
+    console.log("popup page");
     const oauth = cookies.get("Authorization");
     console.log(cookies);
     if (oauth) {
