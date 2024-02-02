@@ -9,18 +9,78 @@ export default function Page() {
   return (
     <div className={styles.page}>
       <CardSlider width={500} scrollCardNumber={3}>
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
-        <Image src="https://picsum.photos/200/300" alt="image" />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
+        <Image
+          src="https://picsum.photos/200/300"
+          alt="image"
+          width={200}
+          height={400}
+        />
       </CardSlider>
     </div>
   );
