@@ -6,12 +6,14 @@ export default function Page() {
 	return(
 	  <section className={styles.container}>
 		<section className={styles.topper}>
-			<img src="/icon/expand_left.svg" alt="expand left" className={styles.icon} />
+			<button>
+				<img src="/icon/expand_left.svg" alt="expand left" className={styles.icon} />
+			</button>
 			<p>컬렉션(장소모음) 조회</p>
 		</section>
 		<section className={styles.collectionDataContainer}>
 			<div className={styles.collectionData}>
-				asd
+				<div style={{width:"380px"}}>asd</div>
 			</div>
 		</section>
 		<section className={styles.buttonContainer}>
