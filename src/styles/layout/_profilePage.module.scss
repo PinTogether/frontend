@@ -20,7 +20,7 @@
     justify-content: flex-start;
 }
 
-.collectionDataContainer{
+.profileDataContainer{
 	flex:1;
 	display: flex;
 	flex-wrap: wrap;
@@ -28,13 +28,36 @@
 	padding: 20px;
 }
 
-.collectionData{
+.profileData{
+	display: grid;
+	grid-template-rows: 1fr 50px 50px;
 	border-bottom: 1px solid $color-grey;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
 	justify-items: center;
 	place-items: center;
+}
+
+.profileImage{
+	width:150px;
+	height:150px;
+	border-radius: 70%;
+    overflow: hidden;
+}
+
+.profileName{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	flex-direction: columns;
+	align-items: center;
+    justify-content: center;
+	font-size: $font-size-largest;
+}
+
+.profileLog{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 }
 
 .buttonContainer{
@@ -65,12 +88,12 @@
 	}
 }
 
-.collectionListContainer{
+.profileListContainer{
 	flex:1;
 	display: grid;
 	align-items: center;
 	justify-content: center;
-	grid-template-columns: repeat(auto-fill, 380px);
+	grid-template-columns: repeat(auto-fill, 170px);
 	gap: 10px;
 	padding: 20px;
 }
@@ -82,6 +105,6 @@
 
 .dummycard{
 	height: 200px;
-	background-color: bisque;
+	background-color: rgb(140, 203, 226);
 	border: 1px solid;
 }
