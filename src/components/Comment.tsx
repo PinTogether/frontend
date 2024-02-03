@@ -48,7 +48,7 @@ export default function Comment({
         <button className={styles.morePhoto}>+3 사진 더보기</button>
         {activeGoCollectionBtn && (
           <button className={styles.morePhoto}>
-            "개포 맛집" 컬렉션 보러가기
+            {`"개포 맛집" 컬렉션 보러가기`}
           </button>
         )}
       </div>
