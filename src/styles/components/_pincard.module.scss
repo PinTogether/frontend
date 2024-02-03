@@ -1,0 +1,91 @@
+@import "../base/placeholders";
+@import "../base/variables";
+
+.page {
+  // for example page
+  width: 100%;
+  height: 100vh;
+
+  overflow-y: auto;
+  padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+
+.pinCard {
+  @extend %pt-card;
+  padding: 12px;
+  border-radius: 12px;
+  min-width: 20rem;
+
+  .mainInfo {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+
+    .title {
+      display: flex;
+      align-items: flex-end;
+
+      h3 {
+        font-size: $font-size-medium + 0.1rem;
+        font-weight: 600;
+        line-height: 1;
+      }
+      p {
+        padding-left: 0.4rem;
+        font-size: $font-size-small;
+        line-height: 1;
+        color: $color-text-caption;
+      }
+    }
+    address {
+      grid-column: 2 / -1;
+      font-style: normal;
+      font-size: $font-size-medium;
+      color: $color-text-caption;
+    }
+  }
+
+  .buttons {
+    margin-top: 0.4rem;
+    grid-column: 2 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: start;
+    font-size: $font-size-small;
+    color: $color-text-caption;
+
+    border-bottom: 1px solid $color-border-inactive;
+
+    button {
+      &:first-child {
+      }
+
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      background-color: $color-button-inactive;
+      stroke: $color-text-caption;
+      &:hover {
+        border-radius: 3rem;
+        color: $color-primary;
+        stroke: $color-primary;
+      }
+      svg {
+        width: 1rem;
+      }
+    }
+  }
+
+  .commentList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
