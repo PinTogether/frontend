@@ -1,0 +1,94 @@
+@import "../base/variables";
+
+.container{
+	display: grid;
+	grid-template-rows: 70px 350px 35px 1fr;
+	margin:0;
+	padding:0;
+	min-height: 100vh;
+	transition: all 0.3s ease;
+	padding-left: 7%;
+	padding-right: 7%;
+}
+
+.topper{
+	display: grid;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	grid-template-columns: 40px 1fr;
+	align-items: left;
+	justify-content: left;
+}
+
+.collectionDataContainer{
+	flex:1;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 20px;
+}
+
+.collectionData{
+	display: grid;
+	background-color: rgb(253, 255, 223);
+	width: 600px;
+	height: 300px;
+	border-bottom: 1px solid $color-grey;
+}
+
+.buttonContainer{
+	align-items: left;
+	justify-content: left;
+	gap: 20px;
+	border-bottom: 1px solid $color-grey;
+}
+
+.buttons{
+	justify-content: center;
+	align-items: center;
+	width: fit-content;
+	height: fit-content;
+	max-width: 100%;
+	max-height: 100%;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin: 5px;
+	border-radius: 3rem;
+
+	font-size: $font-size-medium;
+
+	font-weight: 500;
+	color: $color-grey-dark;
+	background-color: $color-grey;
+	outline: 1px solid $color-border-inactive;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+
+	&:hover {
+	  background-color: $color-button-active;
+	  outline: 2px solid $color-border-active;
+	}
+}
+
+.collectionListContainer{
+	flex:1;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 20px;
+	padding: 20px;
+	align-items: flex-start;
+	flex-direction: row;
+}
+
+.icon{
+	width: 25px;
+	height: 25px;
+}
+
+.dummycard{
+	width: 380px;
+	height: 200px;
+	background-color: bisque;
+	border: 1px solid;
+}
