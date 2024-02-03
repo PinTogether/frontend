@@ -10,12 +10,12 @@ export default function Sidebar({
 	children: React.ReactNode
   }) {
 
-	const [FlexbarWidth, setFlexBarWidth] = useState("380px");
+	const [FlexbarWidth, setFlexBarWidth] = useState("480px");
 
 	const toggleFlexBarWidth = () => {
 	  setFlexBarWidth((prevWidth) => {
-		if (prevWidth === "0px") return "380px";
-		if (prevWidth === "380px") return "95%";
+		if (prevWidth === "0px") return "480px";
+		if (prevWidth === "480px") return "95%";
 		return "0px"; // 나머지 경우에는 0으로 변경
 	  });
 	};

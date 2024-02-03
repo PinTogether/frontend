@@ -16,7 +16,7 @@
 	background-color: $color-white;
 	position: relative;
 	transition: all 0.2s ease;
-	overflow:hidden;
+	overflow-y: scroll;
 	pointer-events: auto;
   }
 
