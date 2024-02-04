@@ -2,7 +2,7 @@
 
 .container{
 	display: grid;
-	grid-template-rows: 70px 300px 35px 1fr;
+	grid-template-rows: 70px 40px 100px 30px 300px 1fr;
 	margin:0;
 	padding:0;
 	min-height: 100vh;
@@ -11,37 +11,42 @@
 	padding-right: 7%;
 }
 
+.logoTopper{
+	align-items: center;
+    justify-content: flex-start;
+	place-items: center;
+	padding-top: 15px;
+}
+
 .topper{
 	display: grid;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	grid-template-columns: 40px 1fr;
+	grid-template-columns: 50px 50px 300px;
     align-items: center;
     justify-content: flex-start;
 }
 
-.collectionDataContainer{
-	flex:1;
+.inputContainer{
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	padding: 20px;
+	align-items: center;
 }
 
-.collectionData{
-	border-bottom: 1px solid $color-grey;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	justify-items: center;
-	place-items: center;
+.input{
+	border: 1px solid $color-grey;
+	border-radius: 3rem;
+	color: $color-grey-dark;
+	padding: 5px;
+	flex: 1;
+}
+
+.inputButton{
+	margin-left: -40px;
 }
 
 .buttonContainer{
-    align-items: center;
-    justify-content: flex-start;
-	gap: 20px;
-	border-bottom: 1px solid $color-grey;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
+	padding-bottom: 20px;
 }
 
 .buttons{
@@ -65,12 +70,25 @@
 	}
 }
 
+.message{
+	font-size: $font-size-small;
+}
+
 .collectionListContainer{
 	flex:1;
 	display: grid;
 	align-items: center;
 	justify-content: center;
-	grid-template-columns: repeat(auto-fill, minmax(1px, 380px));
+	grid-template-columns: repeat(auto-fill, minmax(1px, 400px));
+	gap: 10px;
+}
+
+.searchListContainer{
+	flex:1;
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	grid-template-columns: repeat(auto-fill, minmax(1px, 200px));
 	gap: 10px;
 	padding: 20px;
 }
@@ -80,8 +98,14 @@
 	height: 25px;
 }
 
-.dummycard{
+.dummycard1{
 	height: 200px;
-	background-color: bisque;
+	background-color: rgb(204, 204, 204);
+	border: 1px solid;
+}
+
+.dummycard2{
+	height: 70px;
+	background-color: rgb(96, 96, 96);
 	border: 1px solid;
 }

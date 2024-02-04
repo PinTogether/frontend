@@ -61,7 +61,7 @@ export default function Sidebar() {
           height={size}
         />
       </button>
-			<button className={styles.button}>
+			<button className={styles.button} onClick={() => router.push("/search") }>
 				<Image
         src="/icon/search_plain.svg"
         alt="search Icon"
