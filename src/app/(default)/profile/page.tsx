@@ -21,7 +21,7 @@ export default function Page() {
 					</button>
 				</div>
 				<div className={styles.profileLog}>
-					<p>내 지도 모음 <b>8</b></p>
+					<p>내 지도 모음 <b>10</b></p>
 					<p>좋아요한 지도 모음 <b>24</b></p>
 				</div>
 			</div>

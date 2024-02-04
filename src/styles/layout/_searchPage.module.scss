@@ -2,7 +2,7 @@
 
 .container{
 	display: grid;
-	grid-template-rows: 70px 40px 100px 30px 300px 1fr;
+	grid-template-rows: 100px 40px 100px 30px 300px 1fr;
 	margin:0;
 	padding:0;
 	min-height: 100vh;
@@ -12,10 +12,13 @@
 }
 
 .logoTopper{
+	display: grid;
+	grid-template-columns: 150px 1fr;
 	align-items: center;
     justify-content: flex-start;
-	place-items: center;
 	padding-top: 15px;
+	padding-bottom: 10px;
+	gap: 10px;
 }
 
 .topper{
@@ -28,6 +31,14 @@
 .inputContainer{
 	display: flex;
 	align-items: center;
+}
+
+.inputLogo{
+	border: 1px solid $color-primary;
+	border-radius: 3rem;
+	color: $color-grey-dark;
+	padding: 5px;
+	flex: 1;
 }
 
 .input{
