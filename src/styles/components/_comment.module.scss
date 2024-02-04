@@ -1,0 +1,59 @@
+@import "../base/placeholders";
+@import "../base/variables";
+
+.comment {
+  width: 100%;
+  font-size: $font-size-small;
+  background-color: $color-grey-light;
+  padding: 0.2rem;
+  border-radius: $border-radius;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem;
+  align-items: center;
+  justify-content: center;
+
+  .userAvatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .userNick {
+    grid-column: 2 / -1;
+    color: $color-text-caption;
+  }
+  .content {
+    display: flex;
+    grid-column: 2 / -1;
+    gap: 0.2rem;
+    padding: 0.2rem;
+    img {
+      width: 8rem;
+      height: 8rem;
+      object-fit: cover;
+    }
+  }
+  .text {
+    line-height: 1.4;
+    grid-column: 2 / -1;
+  }
+
+  .buttons {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0;
+    grid-column: 2 / -1;
+    font-size: $font-size-small;
+    .morePhoto {
+      cursor: pointer;
+      font-size: $font-size-small;
+	  color: $color-text-caption;
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+}

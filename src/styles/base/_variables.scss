@@ -38,12 +38,18 @@ $color-button-inactive: $color-white;
 // -------------------------
 $font-family: "Noto Sans KR", sans-serif; //
 $font-size-largest: 1.875rem; // 30px
-$font-size-large: 1.375rem; // 22px
+// $font-size-large: 1.375rem; // 22px
+$font-size-large: 1.25rem; // 20px
 $font-size-medium: 1rem; // 16px
 $font-size-small: 0.875rem; // 14px
 $font-size-smallest: 0.75rem; // 12px
 
 // -------------------------
+
+// Border
+// -------------------------
+$border-radius: 0.3125rem; // 5px
+
 
 // Media Queries
 // -------------------------
