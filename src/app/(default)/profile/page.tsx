@@ -1,15 +1,11 @@
 import styles from "@/styles/layout/_profilePage.module.scss"
+import Topper from "@/components/SubTopper";
 
 export default function Page() {
 
 	return(
 	  <section className={styles.container}>
-		<section className={styles.topper}>
-			<button>
-				<img src="/icon/expand_left.svg" alt="backward" className={styles.icon} />
-			</button>
-			<p>내 프로필</p>
-		</section>
+		<Topper msg={"내 프로필"} children={null}/>
 		<section className={styles.profileDataContainer}>
 			<div className={styles.profileData}>
 				<img src="/images/cat_dummy.jpeg" alt="profile img" className={styles.profileImage} />

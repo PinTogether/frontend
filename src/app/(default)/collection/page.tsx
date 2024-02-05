@@ -1,5 +1,6 @@
 import styles from "@/styles/layout/_collectionPage.module.scss"
 import PinCard from "@/components/PinCard";
+import Topper from "@/components/SubTopper";
 import { IPinCard } from "@/components/PinCard";
 import { IComment } from "@/components/Comment";
 
@@ -95,12 +96,7 @@ export default function Page() {
 
 	return(
 	  <section className={styles.container}>
-		<section className={styles.topper}>
-			<button>
-				<img src="/icon/expand_left.svg" alt="expand left" className={styles.icon} />
-			</button>
-			<p>컬렉션(장소모음) 조회</p>
-		</section>
+		<Topper msg={"컬렉션(장소모음) 조회"} children={null}/>
 		<section className={styles.collectionDataContainer}>
 			<div className={styles.collectionData}>
 				<div style={{width:"380px"}}>asd</div>

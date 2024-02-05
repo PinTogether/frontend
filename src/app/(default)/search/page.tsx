@@ -3,6 +3,7 @@
 import styles from "@/styles/layout/_searchPage.module.scss"
 import { useState } from "react";
 import CardSlider from "@/components/CardSlider";
+import Topper from "@/components/SubTopper";
 
 export default function Page() {
 	const [inputCollectionSearch, setInputCollectionSearch] = useState("");
@@ -11,18 +12,13 @@ export default function Page() {
 	}
 	return(
 	  <section className={styles.container}>
-		<section className={styles.topper}>
-			<button>
-				<img src="/icon/expand_left.svg" alt="backward" className={styles.icon} />
+		<Topper msg={"검색"}/>
+		<div className={styles.inputContainer}>
+			<button className={styles.inputButton}>
+				<img src="/icon/search_plain.svg" alt="search icon" className={styles.icon} />
 			</button>
-			<p>검색</p>
-			<div className={styles.inputContainer}>
-				<button className={styles.inputButton}>
-					<img src="/icon/search_plain.svg" alt="search icon" className={styles.icon} />
-				</button>
-				<input className={styles.input} onChange={onChangeCollection} value={inputCollectionSearch} placeholder="다른 사람의 컬렉션을 검색해 보세요 !  추천 키워드  :  강릉, 맛집,  디저트 ... !"/>
-			</div>
-		</section>
+			<input className={styles.input} onChange={onChangeCollection} value={inputCollectionSearch} placeholder="다른 사람의 컬렉션을 검색해 보세요 !  추천 키워드  :  강릉, 맛집,  디저트 ... !"/>
+		</div>
 		<section className={styles.buttonContainer}>
 			<button className={styles.buttons}>장소만 보기</button>
 			<button className={styles.buttons}>코멘트 같이 보기</button>

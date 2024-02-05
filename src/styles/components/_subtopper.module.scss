@@ -1,0 +1,43 @@
+@import "../base/variables";
+
+.topper{
+	display: grid;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	grid-template-columns: 50px 200px 1fr;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.icon{
+	width: 25px;
+	height: 25px;
+}
+
+.inputContainer{
+	display: flex;
+	position: relative;
+	align-items: center;
+	top: 0;
+	bottom: 0;
+}
+
+.input{
+	border: 1px solid $color-primary;
+	border-radius: 3rem;
+	color: $color-grey-dark;
+	padding: 5px;
+	padding-left: 50px;
+	padding-right: 50px;
+	flex: 1;
+}
+
+.inputButton{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 10px;
+	margin: auto 0;
+	width:25px;
+	height: 25px;
+}
