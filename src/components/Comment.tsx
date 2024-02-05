@@ -1,13 +1,6 @@
 import Image from "next/image";
 import styles from "@/styles/components/_comment.module.scss";
-
-export interface IComment {
-  id: number;
-  userId: number;
-  userNickname: string;
-  comment: string;
-  commentImages: object;
-}
+import IComment from "@/types/IComment";
 
 export default function Comment({
   commentData,

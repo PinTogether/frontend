@@ -2,17 +2,23 @@
 
 import PinCard from "@/components/PinCard";
 import styles from "@/styles/components/_pincard.module.scss";
-import { IPinCard } from "@/components/PinCard";
-import { IComment } from "@/components/Comment";
 import CollectionCard from "@/components/CollectionCard";
-import { ICollection } from "@/components/CollectionCard";
+import ICollection from "@/types/ICollection";
+import IPin from "@/types/IPin";
+import IComment from "@/types/IComment";
 
 const collection: ICollection = {
-  name: "맛집",
-  description: "맛있는 음식을 먹을 수 있는 곳",
+  id: 1,
+  title: "강릉 주민 맛집",
+  ownerId: 1,
+  ownerNickname: "잠자는_짱구의_콧털",
+  thumbnail: "/images/cat_dummy.jpeg",
+  detail: "강릉 주민들이 자주 가는 맛집",
+  likeCnt: 10,
+  pinCnt: 5,
 };
 
-const pinData: IPinCard = {
+const pinData: IPin = {
   id: 1,
   serviceId: "서울특별시 강남구 역삼동 123-45",
   localCode: 1,

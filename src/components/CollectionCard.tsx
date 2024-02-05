@@ -1,12 +1,7 @@
 import styles from "@/styles/components/_collectioncard.module.scss";
 import Image from "next/image";
 import { LinkIcon } from "@/components/Icons";
-
-export interface ICollection {
-  // tmp
-  name: string;
-  description: string;
-}
+import ICollection from "@/types/ICollection";
 
 export default function CollectionCard({
   collectionData,
