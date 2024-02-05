@@ -1,38 +1,64 @@
 @import "../../base/placeholders";
+@import "../../base/variables";
 
 $color-kakao: #fee500;
+$color-google: #ffffff;
+$color-naver: #03c75a;
 
 .page {
   @extend %pt-page;
-  gap: 1rem;
-  button {
-    @extend %pt-button;
-    padding: 0.5rem 3.8rem;
-    font-size: 1.2rem;
-    width: 240px;
-    // border: none;
+  gap: 2rem;
 
-    label {
-      color: rgba(0, 0, 0, 0.85);
-    }
-  }
-  background-color: white;
-
-  .kakaoButton {
-    background-color: $color-kakao;
-    &:hover {
-      //   background-color: rgba(fe, e5, 00, 0.8);
-      background-color: $color-kakao;
-      border: none;
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    button {
+      @extend %pt-button;
+      box-shadow: 0 0px 0.1rem 0 rgba(0, 0, 0, 0.5);
+      padding: 0.5rem 0rem;
+      font-size: 1.2rem;
+      width: 240px;
       outline: none;
-      // i
-      //   opacity: 0.8;
+      gap: 1rem;
+
+      label {
+        color: rgba(0, 0, 0, 0.85);
+      }
+      &:hover {
+        border: none;
+        outline: none;
+        opacity: 0.4;
+      }
+    }
+    .kakaoButton {
+      background-color: $color-kakao;
+      &:hover {
+        background-color: $color-kakao;
+      }
+    }
+    .googleButton {
+      background-color: $color-google;
+      &:hover {
+        background-color: $color-google;
+      }
+    }
+    .naverButton {
+      background-color: $color-naver;
+      &:hover {
+        background-color: $color-naver;
+      }
     }
   }
 
-  .googleButton {
-  }
-
-  .naverButton {
+  footer {
+    margin-top: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    font-size: $font-size-small;
+    color: $color-text-caption;
   }
 }

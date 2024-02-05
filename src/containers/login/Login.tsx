@@ -3,6 +3,7 @@
 import { LogoHorizontal } from "@/components/LogoSvg";
 import styles from "@/styles/containers/login/_login.module.scss";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function Login() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
@@ -46,22 +47,25 @@ export default function Login() {
       <LogoHorizontal />
       <div className={styles.buttonContainer}>
         <button
-          onClick={() => handleClick({ loginType: "google" })}
-          className={styles.googleButton}
+          onClick={() => handleClick({ loginType: "naver" })}
+          className={styles.naverButton}
         >
-          <label>구글 로그인</label>
+          <Image width={16} height={16} src={"/logo/naver.svg"} alt="naver" />
+          <label>네이버 로그인</label>
         </button>
         <button
           onClick={() => handleClick({ loginType: "kakao" })}
           className={styles.kakaoButton}
         >
+          <Image width={20} height={20} src={"/logo/kakao.svg"} alt="kakao" />
           <label>카카오 로그인</label>
         </button>
         <button
-          onClick={() => handleClick({ loginType: "naver" })}
-          className={styles.naverButton}
+          onClick={() => handleClick({ loginType: "google" })}
+          className={styles.googleButton}
         >
-          <label>네이버 로그인</label>
+          <Image width={18} height={18} src={"/logo/google.svg"} alt="google" />
+          <label>구글 로그인</label>
         </button>
       </div>
       <footer>
