@@ -1,6 +1,6 @@
 "use client";
 
-import { LogoHorizontal } from "@/components/LogoImage";
+import { LogoHorizontal } from "@/components/LogoSvg";
 import styles from "@/styles/containers/login/_login.module.scss";
 import { useState, useEffect } from "react";
 
@@ -16,7 +16,9 @@ export default function Login() {
     };
     externalPopup?.addEventListener("message", handleMessage);
     return () => {
-      externalPopup?.removeEventListener("message", handleMessage);
+      if (externalPopup?.closed === false) {
+        externalPopup?.removeEventListener("message", handleMessage);
+      }
     };
   }, [externalPopup]);
 
@@ -25,6 +27,7 @@ export default function Login() {
   }: {
     loginType: "google" | "kakao" | "naver";
   }) => {
+    externalPopup?.close();
     const width = 500; // 팝업의 가로 길이: 500
     const height = 600; // 팝업의 세로 길이 : 500
     const left = window.screenX + (window.outerWidth - width) / 2;
@@ -40,25 +43,32 @@ export default function Login() {
 
   return (
     <div className={styles.page}>
-      <LogoHorizontal width={240} />
-      <button
-        onClick={() => handleClick({ loginType: "google" })}
-        className={styles.googleButton}
-      >
-        <label>구글 로그인</label>
-      </button>
-      <button
-        onClick={() => handleClick({ loginType: "kakao" })}
-        className={styles.kakaoButton}
-      >
-        <label>카카오 로그인</label>
-      </button>
-      <button
-        onClick={() => handleClick({ loginType: "naver" })}
-        className={styles.naverButton}
-      >
-        <label>네이버 로그인</label>
-      </button>
+      <LogoHorizontal />
+      <div className={styles.buttonContainer}>
+        <button
+          onClick={() => handleClick({ loginType: "google" })}
+          className={styles.googleButton}
+        >
+          <label>구글 로그인</label>
+        </button>
+        <button
+          onClick={() => handleClick({ loginType: "kakao" })}
+          className={styles.kakaoButton}
+        >
+          <label>카카오 로그인</label>
+        </button>
+        <button
+          onClick={() => handleClick({ loginType: "naver" })}
+          className={styles.naverButton}
+        >
+          <label>네이버 로그인</label>
+        </button>
+      </div>
+      <footer>
+        <a>서비스 이용약관</a>
+        <p>|</p>
+        <a>개인정보 처리방침</a>
+      </footer>
     </div>
   );
 }
