@@ -1,0 +1,102 @@
+@import "../base/variables";
+
+.container{
+	display: grid;
+	grid-template-rows: 60px 100px 30px 30px 200px 1fr;
+	margin:0;
+	padding:0;
+	min-height: 100vh;
+	transition: all 0.3s ease;
+	padding-left: 7%;
+	padding-right: 7%;
+}
+
+.inputContainer{
+	display: grid;
+	grid-template-columns: 25px 1fr 150px;
+	width: 100%;
+	height: 50px;
+	padding-left: 20px;
+	padding-right: 20px;
+	gap: 10px;
+	border: 1px solid $color-primary;
+	border-radius: 3rem;
+	color: $color-grey-dark;
+	align-items: center;
+	justify-content: center;
+}
+
+.input{
+	font-size: $font-size-large;
+	height: 100%;
+	border-right: 1px solid $color-primary;
+}
+
+.inputButton{
+	width:25px;
+	height: 25px;
+}
+
+.buttonContainer{
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
+	padding-bottom: 20px;
+}
+
+.buttons{
+	justify-content: center;
+	align-items: center;
+	width: fit-content;
+	height: fit-content;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin: 5px;
+	border-radius: 3rem;
+	color: $color-grey-dark;
+	background-color: $color-grey;
+	outline: 1px solid $color-border-inactive;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+
+	&:hover {
+	  background-color: $color-button-active;
+	  outline: 2px solid $color-border-active;
+	}
+}
+
+.message{
+	font-size: $font-size-small;
+}
+
+.collectionListContainer{
+	flex:1;
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	border-bottom: 1px solid $color-grey;
+	overflow-x: hidden;
+}
+
+.searchListContainer{
+	flex:1;
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	grid-template-columns: repeat(auto-fill, minmax(1px, 180px));
+	gap: 10px;
+	padding: 20px;
+	padding-top: 40px;
+}
+
+.icon{
+	width: 25px;
+	height: 25px;
+}
+
+.dummycard1{
+	height: 200px;
+	background-color: rgb(204, 204, 204);
+	border: 1px solid;
+}

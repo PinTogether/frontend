@@ -58,11 +58,11 @@
 	min-width: 200px;
 	height:40px;
 	border-radius: 30px;
-	padding: 10px;
 	background-color: rgba(255, 255, 255, 0.8);
 	pointer-events: none;
 	text-align: center;
 	justify-content: center;
+	align-items: center;
 	border: 1px solid;
 }
 
@@ -75,12 +75,13 @@
 	grid-template-rows: 1fr 0.25fr;
 	place-items: center;
 	position: relative;
-	pointer-events: auto;
+	pointer-events: none;
 	transition: all 0.3s ease;
 }
 
 .bottomContent{
 	opacity: 0;
+	pointer-events: none;
 	transition: all 0.3s ease;
 }
 
@@ -116,4 +117,5 @@
 
 .visible {
 	opacity: 1;
+	pointer-events: auto;
 }

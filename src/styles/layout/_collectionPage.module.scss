@@ -11,15 +11,6 @@
 	padding-right: 7%;
 }
 
-.topper{
-	display: grid;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	grid-template-columns: 40px 1fr;
-    align-items: center;
-    justify-content: flex-start;
-}
-
 .collectionDataContainer{
 	flex:1;
 	display: flex;
@@ -70,8 +61,8 @@
 	display: grid;
 	align-items: center;
 	justify-content: center;
-	grid-template-columns: repeat(auto-fill, 380px);
-	gap: 10px;
+	grid-template-columns: repeat(auto-fill, minmax(1px, 380px));
+	gap: 30px;
 	padding: 20px;
 }
 
