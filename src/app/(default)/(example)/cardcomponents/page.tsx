@@ -2,10 +2,23 @@
 
 import PinCard from "@/components/PinCard";
 import styles from "@/styles/components/_pincard.module.scss";
-import { IPinCard } from "@/components/PinCard";
-import { IComment } from "@/components/Comment";
+import CollectionCard from "@/components/CollectionCard";
+import ICollection from "@/types/ICollection";
+import IPin from "@/types/IPin";
+import IComment from "@/types/IComment";
 
-const pinData: IPinCard = {
+const collection: ICollection = {
+  id: 1,
+  title: "강릉 주민 맛집",
+  ownerId: 1,
+  ownerNickname: "잠자는_짱구의_콧털",
+  thumbnail: "/images/cat_dummy.jpeg",
+  detail: "강릉 주민들이 자주 가는 맛집",
+  likeCnt: 10,
+  pinCnt: 5,
+};
+
+const pinData: IPin = {
   id: 1,
   serviceId: "서울특별시 강남구 역삼동 123-45",
   localCode: 1,
@@ -96,12 +109,26 @@ const commentList: IComment[] = [
 export default function Page() {
   return (
     <div className={styles.page}>
+      <p>1. collectioncard default</p>
+      <CollectionCard collectionData={collection} />
+      <br />
+
+      <p>2. collectioncard simple</p>
+      <CollectionCard collectionData={collection} simple={true} />
+      <br />
+
+      <p>3. collectioncard horizontal</p>
+      <CollectionCard collectionData={collection} horizontal={true} />
+      <br />
+
       <p>1. pincard simple</p>
       <PinCard pinData={pinData} />
       <br />
+
       <p>2. pincard with comment</p>
       <PinCard pinData={pinData} commentData={commentData} />
       <br />
+
       <p>3. pincard with comment list</p>
       <PinCard pinData={pinData} commentList={commentList} />
       <br />

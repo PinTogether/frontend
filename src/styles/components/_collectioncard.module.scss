@@ -1,0 +1,176 @@
+@import "../base/placeholders";
+@import "../base/variables";
+
+$default-size: 12rem;
+$simple-size: 8rem;
+$horizontal-size: 22rem;
+$container-padding: 0.5rem;
+
+.collectionCard {
+  @extend %pt-card;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: $default-size;
+  //   outline: solid 5px $color-secondary-light;
+
+  .imgContainer {
+    img {
+      width: $default-size;
+      height: $default-size;
+      object-fit: cover;
+      border-radius: $border-radius;
+    }
+  }
+
+  .textContainer {
+    padding: 0 $container-padding;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0.3rem;
+    align-items: center;
+    justify-items: start;
+
+    img {
+      grid-row: 1 / -1;
+      width: 2.5rem;
+      height: 2.5rem;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    p {
+      font-size: $font-size-small;
+      // line-height: ;
+      color: $color-text-caption;
+    }
+    h2 {
+      font-size: $font-size-large;
+      line-height: 1;
+      font-weight: 700;
+      // justify-self: center;
+    }
+  }
+
+  .buttonContainer {
+    padding: 0 $container-padding;
+    padding-bottom: 0.5rem;
+
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    font-size: $font-size-small;
+    color: $color-text-caption;
+    stroke: $color-text-caption;
+
+    button {
+      display: flex;
+      align-items: center;
+
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        color: $color-primary;
+        stroke: $color-primary;
+      }
+    }
+  }
+}
+
+.simpleCollectionCard {
+  @extend %pt-card;
+  display: flex;
+  flex-direction: column;
+  width: $simple-size;
+  //   outline: solid 5px $color-secondary-light;
+
+  .imgContainer {
+    img {
+      width: $simple-size;
+      height: $simple-size;
+      object-fit: cover;
+      border-radius: $border-radius;
+    }
+  }
+  .textContainer {
+    height: $simple-size / 3;
+    padding: 0 $container-padding;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    h2 {
+      font-size: $font-size-medium;
+      line-height: 1;
+      font-weight: 600;
+      // justify-self: center;
+    }
+  }
+}
+
+.horizontalCollectionCard {
+  @extend %pt-card;
+  width: $horizontal-size;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 0.5rem;
+  padding: 0.8rem;
+
+  .imgContainer {
+    grid-row: 1 / -1;
+    img {
+      width: $horizontal-size / 3 - 2rem;
+      height: $horizontal-size / 3 - 2rem;
+      object-fit: cover;
+      border-radius: $border-radius;
+    }
+  }
+
+  .textContainer {
+    display: flex;
+    flex-direction: column;
+	padding-left: 0.4rem;
+    gap: 0.2rem;
+    p {
+      font-size: $font-size-medium;
+      color: $color-text-caption;
+    }
+    h2 {
+      font-size: $font-size-large + 0.4rem;
+      line-height: 1;
+      font-weight: 600;
+    }
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.2rem;
+
+    font-size: $font-size-small;
+    color: $color-text-caption;
+    stroke: $color-text-caption;
+
+    button {
+      display: flex;
+      align-items: center;
+
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        color: $color-primary;
+        stroke: $color-primary;
+      }
+      p {
+      }
+      svg {
+      }
+    }
+  }
+}
