@@ -5,7 +5,7 @@ export default function Page() {
 
 	return(
 	  <section className={styles.container}>
-		<Topper msg={"내 프로필"} children={null}/>
+		<Topper msg={"내 프로필"}/>
 		<section className={styles.profileDataContainer}>
 			<div className={styles.profileData}>
 				<img src="/images/cat_dummy.jpeg" alt="profile img" className={styles.profileImage} />
