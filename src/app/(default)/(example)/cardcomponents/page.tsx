@@ -4,6 +4,13 @@ import PinCard from "@/components/PinCard";
 import styles from "@/styles/components/_pincard.module.scss";
 import { IPinCard } from "@/components/PinCard";
 import { IComment } from "@/components/Comment";
+import CollectionCard from "@/components/CollectionCard";
+import { ICollection } from "@/components/CollectionCard";
+
+const collection: ICollection = {
+  name: "맛집",
+  description: "맛있는 음식을 먹을 수 있는 곳",
+};
 
 const pinData: IPinCard = {
   id: 1,
@@ -96,12 +103,26 @@ const commentList: IComment[] = [
 export default function Page() {
   return (
     <div className={styles.page}>
+      <p>1. collectioncard default</p>
+      <CollectionCard collectionData={collection} />
+      <br />
+
+      <p>2. collectioncard simple</p>
+      <CollectionCard collectionData={collection} simple={true} />
+      <br />
+
+      <p>3. collectioncard horizontal</p>
+      <CollectionCard collectionData={collection} horizontal={true} />
+      <br />
+
       <p>1. pincard simple</p>
       <PinCard pinData={pinData} />
       <br />
+
       <p>2. pincard with comment</p>
       <PinCard pinData={pinData} commentData={commentData} />
       <br />
+
       <p>3. pincard with comment list</p>
       <PinCard pinData={pinData} commentList={commentList} />
       <br />
