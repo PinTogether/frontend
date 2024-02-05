@@ -2,7 +2,7 @@
 
 .container{
 	display: grid;
-	grid-template-rows: 100px 40px 100px 30px 300px 1fr;
+	grid-template-rows: 40px 100px 30px 200px 1fr;
 	margin:0;
 	padding:0;
 	min-height: 100vh;
@@ -11,46 +11,40 @@
 	padding-right: 7%;
 }
 
-.logoTopper{
-	display: grid;
-	grid-template-columns: 150px 1fr;
-	align-items: center;
-    justify-content: flex-start;
-	padding-top: 15px;
-	padding-bottom: 10px;
-	gap: 10px;
-}
-
 .topper{
 	display: grid;
-	grid-template-columns: 50px 50px 300px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	grid-template-columns: 50px 50px 1fr;
     align-items: center;
     justify-content: flex-start;
 }
 
 .inputContainer{
 	display: flex;
+	position: relative;
 	align-items: center;
+	top: 0;
+	bottom: 0;
 }
 
-.inputLogo{
+.input{
 	border: 1px solid $color-primary;
 	border-radius: 3rem;
 	color: $color-grey-dark;
 	padding: 5px;
-	flex: 1;
-}
-
-.input{
-	border: 1px solid $color-grey;
-	border-radius: 3rem;
-	color: $color-grey-dark;
-	padding: 5px;
+	padding-left: 50px;
 	flex: 1;
 }
 
 .inputButton{
-	margin-left: -40px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 10px;
+	margin: auto 0;
+	width:25px;
+	height: 25px;
 }
 
 .buttonContainer{
@@ -90,8 +84,9 @@
 	display: grid;
 	align-items: center;
 	justify-content: center;
-	grid-template-columns: repeat(auto-fill, minmax(1px, 400px));
 	gap: 10px;
+	border-bottom: 1px solid $color-grey;
+	overflow-x: hidden;
 }
 
 .searchListContainer{
@@ -99,9 +94,10 @@
 	display: grid;
 	align-items: center;
 	justify-content: center;
-	grid-template-columns: repeat(auto-fill, minmax(1px, 200px));
+	grid-template-columns: repeat(auto-fill, minmax(1px, 180px));
 	gap: 10px;
 	padding: 20px;
+	padding-top: 40px;
 }
 
 .icon{
@@ -112,11 +108,5 @@
 .dummycard1{
 	height: 200px;
 	background-color: rgb(204, 204, 204);
-	border: 1px solid;
-}
-
-.dummycard2{
-	height: 70px;
-	background-color: rgb(96, 96, 96);
 	border: 1px solid;
 }

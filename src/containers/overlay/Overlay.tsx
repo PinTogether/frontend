@@ -43,18 +43,18 @@ export default function Overlay(){
 			<div className={styles.bottom}>
 				<div className={`${styles.bottomContent} ${isCardSliderOn ? styles.visible : ''}`}>
 					<CardSlider width={900} scrollCardNumber={3}>
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
-						<img src="https://picsum.photos/200/300" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
+						<img src="https://picsum.photos/150/215" alt="image" />
 					</CardSlider>
 				</div>
 				<div className={styles.buttonBox}>

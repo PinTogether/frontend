@@ -15,7 +15,7 @@ export default function Page() {
 				<img src="/images/cat_dummy.jpeg" alt="profile img" className={styles.profileImage} />
 				<div className={styles.profileName}>
 					<div></div>
-					<p>김고양</p>
+					<p>잠자는_짱구의_콧털</p>
 					<button>
 						<img src="/icon/edit_plain.svg" alt="edit icon" className={styles.icon} style={{paddingLeft:"5px"}}/>
 					</button>

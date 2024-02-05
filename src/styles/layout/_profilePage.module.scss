@@ -48,7 +48,7 @@
 
 .profileName{
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-columns: 25px 1fr 25px;
 	flex-direction: columns;
 	align-items: center;
     justify-content: center;
@@ -94,7 +94,7 @@
 	align-items: center;
 	justify-content: center;
 	grid-template-columns: repeat(auto-fill, minmax(1px, 170px));
-	gap: 10px;
+	gap: 30px;
 	padding: 20px;
 }
 
