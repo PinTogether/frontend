@@ -2,37 +2,59 @@
 
 import styles from '@/styles/layout/_overlay.module.scss'
 import CardSlider from '@/components/CardSlider'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { GetGeoCodingAuth } from '@/utils/GeoCoding';
 
 export default function Overlay(){
 	const [isCardSliderOn, setIsCardSliderOn] = useState(1);
 	const [cardSliderBtnMsg, setCardSliderBtnMsg] = useState("지도 목록 숨기기 ∨");
+	const [sidoName, setSidoName] = useState("서울특별시");
+	const [sggName, setSggName] = useState("강남구");
+	const [emdongName, setEmdongName] = useState("개포2동");
+
+	const handleGetAuth = async () => {
+		try {
+		  const result = await GetGeoCodingAuth({
+			consumer_key: 'your_consumer_secret', // 실제 사용할 consumer_key 값으로 변경
+			consumer_secret: 'your_consumer_secret', // 실제 사용할 consumer_secret 값으로 변경
+		  });
+		  console.log("실행"),
+		  // 성공적으로 처리했을 때의 로직
+		  console.log(result);
+		} catch (error) {
+		  // 오류가 발생했을 때의 로직
+		  console.error(error);
+		}
+	  };
+
+	useEffect(() => {
+		handleGetAuth
+	});
 
 	const toggleCardSlider = () => {
 		setIsCardSliderOn((prevState) => {
 		  if (prevState === 1) return 0;
 		  return 1;
 		});
-		if(cardSliderBtnMsg === "지도 목록 숨기기 ∨"){
+		if(cardSliderBtnMsg === "지도 목록 숨기기 v"){
 			setCardSliderBtnMsg("지도 목록 보이기 ∧");
 		}
 		else{
-			setCardSliderBtnMsg("지도 목록 숨기기 ∨");
+			setCardSliderBtnMsg("지도 목록 숨기기 v");
 		}
 	  };
-
 	return(
 		<section className={styles.overlay}>
 			<div className={styles.top}>
 				<div className={styles.topLocation}>
 					<div>
-						서울특별시
+						{sidoName}
 					</div>
 					<div>
-						강남구
+						{sggName}
 					</div>
 					<div>
-						개포2동
+						{emdongName}
 					</div>
 				</div>
 				<button className={styles.topButton}>
