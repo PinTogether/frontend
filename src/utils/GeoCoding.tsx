@@ -6,8 +6,7 @@ const GetGeoCodingAuth = ({
 	consumer_key:string;
 	consumer_secret:string;
   }) => {
-	console.log("실행");
-	const url = `https://sgisapi.kostat.go.kr/OpenAPI3/auth/authentication.json?consumer_key=${process.env.NEXT_PUBLIC_SGIS_ID}&consumer_secret=${process.env.NEXT_PUBLIC_SGIS_KEY}`;
+	const url = `https://sgisapi.kostat.go.kr/OpenAPI3/auth/authentication.json?consumer_key=${consumer_key}&consumer_secret=${consumer_secret}`;
 	return fetch(url)
 	  .then(response => {
 		if (!response.ok) {
