@@ -3,40 +3,39 @@
 import styles from '@/styles/layout/_overlay.module.scss'
 import CardSlider from '@/components/CardSlider'
 import { useState, useEffect } from 'react';
-import { GetGeoCodingAuth, ReverseGeoCoding } from '@/utils/GeoCoding';
+//import { GetGeoCodingAuth, ReverseGeoCoding } from '@/utils/GeoCoding';
 
 export default function Overlay(){
 	const [isCardSliderOn, setIsCardSliderOn] = useState(1);
 	const [cardSliderBtnMsg, setCardSliderBtnMsg] = useState("지도 목록 숨기기 ∨");
-	const [geoApiAuth, setGeoApiAuth] = useState("");
+	//const [geoApiAuth, setGeoApiAuth] = useState("");
 	const [sidoName, setSidoName] = useState("서울특별시");
 	const [sggName, setSggName] = useState("강남구");
 	const [emdongName, setEmdongName] = useState("개포2동");
 
-	const handleGetAuth = async () => {
-		try {
-			if (process.env.NEXT_PUBLIC_SGIS_KEY != undefined && process.env.NEXT_PUBLIC_SGIS_ID != undefined)
-			{
-				const result = await GetGeoCodingAuth({
-					consumer_key: process.env.NEXT_PUBLIC_SGIS_ID,
-					consumer_secret: process.env.NEXT_PUBLIC_SGIS_KEY,
-				});
-				console.log(result);
-				setGeoApiAuth(result.result.accessToken);
-			}
-			else
-			{
-				console.error("INVALID SGIS KEY")
-			}
-		} catch (error) {
-		  console.error(error);
-		}
-	  };
+	// const handleGetAuth = async () => {
+	// 	try {
+	// 		if (process.env.NEXT_PUBLIC_SGIS_KEY != undefined && process.env.NEXT_PUBLIC_SGIS_ID != undefined)
+	// 		{
+	// 			const result = await GetGeoCodingAuth({
+	// 				consumer_key: process.env.NEXT_PUBLIC_SGIS_ID,
+	// 				consumer_secret: process.env.NEXT_PUBLIC_SGIS_KEY,
+	// 			});
+	// 			console.log(result);
+	// 			setGeoApiAuth(result.result.accessToken);
+	// 		}
+	// 		else
+	// 		{
+	// 			console.error("INVALID SGIS KEY")
+	// 		}
+	// 	} catch (error) {
+	// 	  console.error(error);
+	// 	}
+	//   };
 
-	useEffect(() => {
-		handleGetAuth();
-		console.log("실행");
-	},[]);
+	// useEffect(() => {
+	// 	handleGetAuth();
+	// },[]);
 
 	const toggleCardSlider = () => {
 		setIsCardSliderOn((prevState) => {
