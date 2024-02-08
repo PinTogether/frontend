@@ -62,7 +62,7 @@ const MapNaverDefault = () => {
 
 	useEffect(() => {
 		console.log(`${Si} ${Gu} ${Dong}`);
-	}, [Si, Gu, Dong]);
+	}, [Dong]);
 
 	useEffect(() => {
 		const { naver } = window;
