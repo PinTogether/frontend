@@ -64,10 +64,34 @@
 	overflow-x: hidden;
 }
 
-.popularTop{
+.recommendListContainer{
+	flex:1;
+	display: grid;
 	align-items: center;
 	justify-content: center;
-	place-items: center;
+	grid-template-columns: repeat(auto-fill, 100%);
+	gap: 30px;
+	padding: 20px;
+}
+
+.popularTop{
+	width:100%;
+	height:100%;
+	display: grid;
+	grid-template-rows: 50px 1fr;
+	font-size: $font-size-large;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	flex:1;
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	overflow-x: hidden;
+}
+.popularTopText{
+	align-items: center;
+	justify-content: flex-start;
 }
 
 .icon {

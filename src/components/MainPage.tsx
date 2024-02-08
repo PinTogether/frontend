@@ -5,6 +5,8 @@ import styles from "@/styles/layout/_mainPage.module.scss"
 import { useState } from "react";
 import CardSlider from "@/components/CardSlider";
 
+// 카드슬라이드 크기설정을 창 크기에따라 할 수 있게 변경해야함
+
 export default function MainPage(){
 	const [inputCollectionSearch, setInputCollectionSearch] = useState("");
 	const onChangeCollection = (e: any) => {
@@ -30,9 +32,58 @@ export default function MainPage(){
 				asd
 			</section>
 			<section className={styles.recommendCard}>
+				<CardSlider width={1200} scrollCardNumber={2}>
+					<img src="https://picsum.photos/500/300" alt="image" />
+					<img src="https://picsum.photos/500/300" alt="image" />
+					<img src="https://picsum.photos/500/300" alt="image" />
+					<img src="https://picsum.photos/500/300" alt="image" />
+					<img src="https://picsum.photos/500/300" alt="image" />
+					<img src="https://picsum.photos/500/300" alt="image" />
+					<img src="https://picsum.photos/500/300" alt="image" />
+					<img src="https://picsum.photos/500/300" alt="image" />
+					<img src="https://picsum.photos/500/300" alt="image" />
+				</CardSlider>
 			</section>
-			<section className={styles.popularTop}>
+			<section className={styles.recommendListContainer}>
+				<section className={styles.popularTop}>
+					<p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
+					<CardSlider width={1200} scrollCardNumber={5}>
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
 
+					</CardSlider>
+				</section>
+				<section className={styles.popularTop}>
+					<p className={styles.popularTopText}>별로 안 추천 컬렉션 TOP10</p>
+					<CardSlider width={1200} scrollCardNumber={5}>
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+
+					</CardSlider>
+				</section>
+				<section className={styles.popularTop}>
+					<p className={styles.popularTopText}>적당히 추천 컬렉션 TOP10</p>
+					<CardSlider width={1200} scrollCardNumber={5}>
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+						<img src="https://picsum.photos/170/200" alt="image" />
+
+					</CardSlider>
+				</section>
 			</section>
 		 </section>
 	  );
