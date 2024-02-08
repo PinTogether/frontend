@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 import styles from "@/styles/layout/_sidebar.module.scss";
 import Image from "next/image";
@@ -13,7 +13,7 @@ export default function Sidebar() {
   return (
     <section className={styles.container}>
       <div></div>
-      <button className={styles.button} onClick={() => router.push("/") }>
+      <button className={styles.button} onClick={() => router.push("/")}>
         <Image
           src="/icon/home_plain.svg"
           alt="Home Icon"
@@ -45,7 +45,10 @@ export default function Sidebar() {
           height={size}
         />
       </button>
-      <button className={styles.button} onClick={() => router.push("/collection") }>
+      <button
+        className={styles.button}
+        onClick={() => router.push("/collection")}
+      >
         <Image
           src="/icon/like_plain.svg"
           alt="like Icon"
@@ -61,22 +64,22 @@ export default function Sidebar() {
           height={size}
         />
       </button>
-			<button className={styles.button} onClick={() => router.push("/search") }>
-				<Image
-        src="/icon/search_plain.svg"
-        alt="search Icon"
-        className={styles.icon}
-        width={size}
-        height={size}
-      />
-				<Image
-        src="/icon/search_hovered.svg"
-        alt="search Icon"
-        className={styles.hoveredIcon}
-        width={size}
-        height={size}
+      <button className={styles.button} onClick={() => router.push("/search")}>
+        <Image
+          src="/icon/search_plain.svg"
+          alt="search Icon"
+          className={styles.icon}
+          width={size}
+          height={size}
         />
-			</button>
+        <Image
+          src="/icon/search_hovered.svg"
+          alt="search Icon"
+          className={styles.hoveredIcon}
+          width={size}
+          height={size}
+        />
+      </button>
       <div></div>
       <button className={styles.button}>
         <Image
@@ -94,7 +97,7 @@ export default function Sidebar() {
           height={size}
         />
       </button>
-      <button className={styles.button} onClick={() => router.push("/profile") }>
+      <button className={styles.button} onClick={() => router.push("/profile")}>
         <div className={styles.profilebox}>
           <Image
             src="/images/cat_dummy.jpeg"
