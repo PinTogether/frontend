@@ -5,12 +5,16 @@ interface CounterState {
   emdong: string;
   sgg: string;
   sido: string;
+  lat: number;
+  lng: number;
 }
 
 const initialState: CounterState = {
   emdong: "개포2동",
   sgg: "강남구",
   sido: "서울특별시",
+  lat: 37.488243,
+  lng: 127.064865,
 };
 
 export const locationSlice = createSlice({
@@ -28,10 +32,16 @@ export const locationSlice = createSlice({
     sidoByAmount: (state, action: PayloadAction<string>) => {
       state.sido = action.payload;
     },
+    latByAmount: (state, action: PayloadAction<number>) => {
+      state.lat = action.payload;
+    },
+    lngByAmount: (state, action: PayloadAction<number>) => {
+      state.lng = action.payload;
+    },
   },
 });
 
-export const { emdongByAmount, sggByAmount, sidoByAmount } = locationSlice.actions;
+export const { emdongByAmount, sggByAmount, sidoByAmount, latByAmount, lngByAmount } = locationSlice.actions;
 
 export const selectLocation = (state: RootState) => state.counter.value;
 

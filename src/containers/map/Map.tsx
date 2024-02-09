@@ -3,7 +3,7 @@
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useEffect, useRef, useState } from "react";
 import { GetGeoCodingAuth, ReverseGeoCoding } from "@/utils/GeoCoding";
-import { emdongByAmount, sggByAmount, sidoByAmount } from "@/redux/locationSlice";
+import { emdongByAmount, sggByAmount, sidoByAmount, latByAmount, lngByAmount } from "@/redux/locationSlice";
 
 
 const MapNaverDefault = () => {
@@ -13,8 +13,8 @@ const MapNaverDefault = () => {
   const dispatch = useAppDispatch();
 
   const [geoApiAuth, setgeoApiAuth] = useState("");
-  const [Lat, setLat] = useState(37.488243);
-  const [Lng, setLng] = useState(127.064865);
+  const Lat = useAppSelector((state) => state.location.lat);
+  const Lng = useAppSelector((state) => state.location.lng);
 
   let map: naver.maps.Map;
 
@@ -61,15 +61,17 @@ const MapNaverDefault = () => {
 
   function getLocation(){
     navigator.geolocation.getCurrentPosition(function(pos) {
-      setLat(pos.coords.latitude);
-      setLng(pos.coords.longitude);
+      dispatch(latByAmount(pos.coords.latitude));
+      dispatch(lngByAmount(pos.coords.longitude));
     });
   };
 
+  // 클릭하거나 현재위치 불러오기등으로 좌표가 변경될 시, 처음 api키 받아오기 성공할 시 주소 변환받아와서 오버레이에 전달
   useEffect(() => {
     handleGetAddress(Lng, Lat);
   },[Lat, Lng, geoApiAuth])
 
+  // 첫 렌더링시 현재 내 위치 불러오고 api키 받아오기
   useEffect(() => {
     getLocation();
     handleGetAuth();
@@ -80,7 +82,7 @@ const MapNaverDefault = () => {
 
     if (!mapElement.current || !naver) return;
     const center = new naver.maps.LatLng(Lat, Lng);
-
+    // 지도 생성할 옵션
     const mapOptions: naver.maps.MapOptions = {
       center: center,
       zoom: 18,
@@ -92,11 +94,12 @@ const MapNaverDefault = () => {
     };
     //설정해놓은 옵션을 바탕으로 지도 생성
     map = new naver.maps.Map(mapElement.current, mapOptions);
+    //드래그로 지도 이동시 지도 중앙좌표 받아와서 주소로 변환
     naver.maps.Event.addListener(map, 'dragend', function(e) {
       const center = map.getCenter();
       handleGetAddress(center.x, center.y)
     });
-    }, [Lat, Lng]);
+    }, [Lat, Lng]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
 
     return (
       <div id="map" ref={mapElement} style={{ minHeight: "100vh" }}></div>
