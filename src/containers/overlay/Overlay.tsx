@@ -1,5 +1,6 @@
 "use client"
 
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import styles from '@/styles/layout/_overlay.module.scss'
 import CardSlider from '@/components/CardSlider'
 import { useState, useEffect } from 'react';
@@ -9,9 +10,9 @@ export default function Overlay(){
 	const [isCardSliderOn, setIsCardSliderOn] = useState(1);
 	const [cardSliderBtnMsg, setCardSliderBtnMsg] = useState("지도 목록 숨기기 ∨");
 	//const [geoApiAuth, setGeoApiAuth] = useState("");
-	const [sidoName, setSidoName] = useState("서울특별시");
-	const [sggName, setSggName] = useState("강남구");
-	const [emdongName, setEmdongName] = useState("개포2동");
+	const sidoName = useAppSelector((state) => state.location.sido);
+	const sggName = useAppSelector((state) => state.location.sgg);
+	const emdongName = useAppSelector((state) => state.location.emdong);
 
 	// const handleGetAuth = async () => {
 	// 	try {
