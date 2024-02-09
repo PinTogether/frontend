@@ -12,6 +12,7 @@ const MapNaverDefault = () => {
 
   const dispatch = useAppDispatch();
 
+  const [errCount, setErrCount] = useState(0);
   const [geoApiAuth, setgeoApiAuth] = useState("");
   const Lat = useAppSelector((state) => state.location.lat);
   const Lng = useAppSelector((state) => state.location.lng);
@@ -46,13 +47,26 @@ const MapNaverDefault = () => {
           y_coor: Y,
           addr_type: 20
         });
-        dispatch(emdongByAmount(data.result[0].emdong_nm));
-        dispatch(sggByAmount(data.result[0].sgg_nm));
-        dispatch(sidoByAmount(data.result[0].sido_nm));
+        if(data.errCd === 0){
+          dispatch(emdongByAmount(data.result[0].emdong_nm));
+          dispatch(sggByAmount(data.result[0].sgg_nm));
+          dispatch(sidoByAmount(data.result[0].sido_nm));
+        }
+        else if(data.errCd === -100){
+          dispatch(emdongByAmount(""));
+          dispatch(sggByAmount(""));
+          dispatch(sidoByAmount("위치정보없음"));
+        }
       }
       else
       {
         console.error("INVALID geoApiAuth");
+        setErrCount(errCount + 1);
+        if (errCount >= 5)
+        {
+          setErrCount(0);
+          handleGetAuth();
+        }
       }
     } catch (error) {
       console.error(error);
