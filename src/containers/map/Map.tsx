@@ -99,6 +99,9 @@ const MapNaverDefault = () => {
       const center = map.getCenter();
       handleGetAddress(center.x, center.y)
     });
+    return() => {
+      map.destroy();
+    }
     }, [Lat, Lng]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
 
     return (
