@@ -3,7 +3,7 @@
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useEffect, useRef, useState } from "react";
 import { GetGeoCodingAuth, ReverseGeoCoding } from "@/utils/GeoCoding";
-import { geoApiAuthByAmount, emdongByAmount, sggByAmount, sidoByAmount, latByAmount, lngByAmount } from "@/redux/locationSlice";
+import { emdongByAmount, sggByAmount, sidoByAmount } from "@/redux/locationSlice";
 
 
 const MapNaverDefault = () => {
@@ -13,13 +13,13 @@ const MapNaverDefault = () => {
   const dispatch = useAppDispatch();
 
   const [geoApiAuth, setgeoApiAuth] = useState("");
+  const [Lat, setLat] = useState(37.488243);
+  const [Lng, setLng] = useState(127.064865);
 
-  const Lat = useAppSelector((state) => state.location.lat);
-  const Lng = useAppSelector((state) => state.location.lng);
+  let map: naver.maps.Map;
 
   const handleGetAuth = async () => {
     try {
-      console.log("auth");
       if (process.env.NEXT_PUBLIC_SGIS_KEY != undefined && process.env.NEXT_PUBLIC_SGIS_ID != undefined)
       {
         const result = await GetGeoCodingAuth({
@@ -36,20 +36,19 @@ const MapNaverDefault = () => {
     }
     };
 
-    const handleGetAddress = async () => {
+    const handleGetAddress = async (X:number, Y:number) => {
     try {
       if (geoApiAuth != "")
       {
         const data = await ReverseGeoCoding({
           accessToken: geoApiAuth,
-          x_coor: Lng,
-          y_coor: Lat,
+          x_coor: X,
+          y_coor: Y,
           addr_type: 20
         });
         dispatch(emdongByAmount(data.result[0].emdong_nm));
         dispatch(sggByAmount(data.result[0].sgg_nm));
         dispatch(sidoByAmount(data.result[0].sido_nm));
-        console.log("address success");
       }
       else
       {
@@ -60,25 +59,24 @@ const MapNaverDefault = () => {
     }
     };
 
-  const getLocation = () => {
-    console.log("location");
+  function getLocation(){
     navigator.geolocation.getCurrentPosition(function(pos) {
-      dispatch(latByAmount(pos.coords.latitude));
-      dispatch(lngByAmount(pos.coords.longitude));
-      console.log(`location success: ${Lat} ${Lng}`);
+      setLat(pos.coords.latitude);
+      setLng(pos.coords.longitude);
     });
   };
 
   useEffect(() => {
-    handleGetAddress();
+    handleGetAddress(Lng, Lat);
   },[Lat, Lng, geoApiAuth])
 
   useEffect(() => {
-    const { naver } = window;
-    let map: naver.maps.Map;
-
     getLocation();
     handleGetAuth();
+  },[])
+
+  useEffect(() => {
+    const { naver } = window;
 
     if (!mapElement.current || !naver) return;
     const center = new naver.maps.LatLng(Lat, Lng);
@@ -94,6 +92,10 @@ const MapNaverDefault = () => {
     };
     //설정해놓은 옵션을 바탕으로 지도 생성
     map = new naver.maps.Map(mapElement.current, mapOptions);
+    naver.maps.Event.addListener(map, 'dragend', function(e) {
+      const center = map.getCenter();
+      handleGetAddress(center.x, center.y)
+    });
     }, [Lat, Lng]);
 
     return (
