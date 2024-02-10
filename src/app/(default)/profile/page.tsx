@@ -1,8 +1,10 @@
 "use client";
 import styles from "@/styles/layout/_profilePage.module.scss";
 import Topper from "@/components/SubTopper";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
   return (
     <section className={styles.container}>
       <Topper msg={"내 프로필"} />
@@ -16,7 +18,7 @@ export default function Page() {
           <div className={styles.profileName}>
             <div></div>
             <p>잠자는_짱구의_콧털</p>
-            <button>
+            <button onClick={() => router.push("/profile/setting")}>
               <img
                 src="/icon/edit_plain.svg"
                 alt="edit icon"

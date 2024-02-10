@@ -1,0 +1,65 @@
+@import "../base/variables";
+
+.container{
+	display: grid;
+	grid-template-rows: 70px 10px 250px 10px 200px 10px 200px;
+	margin:0;
+	padding:0;
+	min-height: 100vh;
+	transition: all 0.3s ease;
+  width:100%;
+	padding-left: 7%;
+	padding-right: 7%;
+}
+
+.message{
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.avartarChangeContainer{
+	display: grid;
+  grid-template-columns: 25px 150px 25px;
+  align-items: center;
+  justify-content: center;
+  place-items: center;
+  border-bottom: 1px solid $color_grey;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.avartar{
+	width:150px;
+	height:150px;
+	border-radius: 70%;
+	object-fit: cover;
+}
+
+.cancelButtonBox{
+  position: relative;
+  width:100%;
+  height:100%;
+}
+
+.cancelButton{
+  position: absolute;
+  left:0;
+  top:80%;
+}
+
+.nicknameChangeContainer{
+	display: grid;
+  grid-template-rows: 100px 50px 50px;
+  align-items: center;
+  justify-content: center;
+  place-items: center;
+  border-bottom: 1px solid $color_grey;
+}
+
+.buttonContainer{
+	display: grid;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-content: center;
+  place-items: center;
+}
