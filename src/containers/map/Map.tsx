@@ -113,6 +113,10 @@ const MapNaverDefault = () => {
       const center = map.getCenter();
       handleGetAddress(center.x, center.y)
     });
+    naver.maps.Event.addListener(map, 'zoom_changed', function(e) {
+      const center = map.getCenter();
+      handleGetAddress(center.x, center.y)
+    });
     return() => {
       map.destroy();
     }
