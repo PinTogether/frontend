@@ -3,6 +3,19 @@ import PinCard from "@/components/PinCard";
 import Topper from "@/components/SubTopper";
 import IPin from "@/types/IPin";
 import IComment from "@/types/IComment";
+import ICollection from "@/types/ICollection";
+import CollectionCard from "@/components/CollectionCard"
+
+const collection: ICollection = {
+  id: 1,
+  title: "강릉 주민 맛집",
+  ownerId: 1,
+  ownerNickname: "잠자는_짱구의_콧털",
+  thumbnail: "/images/cat_dummy.jpeg",
+  detail: "강릉 주민들이 자주 가는 맛집",
+  likeCnt: 10,
+  pinCnt: 5,
+};
 
 const pinData: IPin = {
   id: 1,
@@ -99,13 +112,14 @@ export default function Page() {
       <Topper msg={"컬렉션(장소모음) 조회"}/>
       <section className={styles.collectionDataContainer}>
         <div className={styles.collectionData}>
-          <div style={{ width: "380px" }}>asd</div>
+          <CollectionCard collectionData={collection} />
         </div>
       </section>
       <section className={styles.buttonContainer}>
-        <button className={styles.buttons}>장소만 보기</button>
-        <button className={styles.buttons}>코멘트 같이 보기</button>
-        <button className={styles.buttons}>+ 장소 추가</button>
+        <button className={styles.buttons}>핀 보기</button>
+        <button className={styles.buttons}>핀 코멘트 같이 보기</button>
+        <button className={styles.buttons}>컬렉션 댓글 보기</button>
+        <button className={styles.buttons}>+ 핀 추가</button>
       </section>
       <section className={styles.collectionListContainer}>
         <PinCard pinData={pinData} commentData={commentData} />

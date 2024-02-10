@@ -38,14 +38,10 @@
 
 .button:hover .icon {
 	opacity: 0;
-	background-color: $color-primary-light;
-	outline : solid 10px $color-primary-light;
   }
 
 .button:hover .hoveredIcon {
 	opacity: 1;
-	background-color: $color-primary-light;
-	outline : solid 10px $color-primary-light;
   }
 
 .profilebox{
@@ -71,8 +67,10 @@
 .currPath{
 	background-color: $color-primary-light;
 	outline : solid 10px $color-primary-light;
+	transition: opacity 0.1s ease-in-out;
 }
 
 .currPathProfile{
 	border : solid 3px $color-primary-light;
+	transition: opacity 0.1s ease-in-out;
 }

@@ -2,13 +2,40 @@
 
 .container{
 	display: grid;
-	grid-template-rows: 60px 100px 30px 30px 200px 1fr;
+	grid-template-rows: 60px 70px 25px 100px 1fr;
 	margin:0;
 	padding:0;
 	min-height: 100vh;
 	transition: all 0.3s ease;
 	padding-left: 7%;
 	padding-right: 7%;
+}
+
+.searchLogBanner{
+	align-items:center;
+	justify-content: flex-start;
+}
+
+.searchLogContainer{
+	display: grid;
+	align-items:center;
+	justify-content: flex-start;
+	grid-template-columns: repeat(auto-fill, minmax(1px, 200px));
+	overflow: hidden;
+	padding-bottom: 10px;
+}
+
+.searchLog{
+	display: flex;
+	align-items:baseline;
+	justify-content: flex-start;
+	font-size: $font-size-medium;
+	gap: 3px;
+}
+
+.searchCategory{
+	font-size: $font-size-small;
+	color:$color-grey-dark;
 }
 
 .inputContainer{
@@ -38,54 +65,25 @@
 	height: 25px;
 }
 
-.buttonContainer{
-	display: flex;
-	justify-content: flex-start;
-	align-items: flex-end;
-	padding-bottom: 20px;
-}
-
-.buttons{
-	justify-content: center;
-	align-items: center;
-	width: fit-content;
-	height: fit-content;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin: 5px;
-	border-radius: 3rem;
-	color: $color-grey-dark;
-	background-color: $color-grey;
-	outline: 1px solid $color-border-inactive;
-	cursor: pointer;
-	transition: all 0.2s ease-in-out;
-
-	&:hover {
-	  background-color: $color-button-active;
-	  outline: 2px solid $color-border-active;
-	}
-}
-
-.message{
-	font-size: $font-size-small;
-}
-
-.collectionListContainer{
+.searchContainer{
 	flex:1;
-	display: grid;
-	align-items: center;
-	justify-content: center;
+	width:100%;
 	gap: 10px;
-	border-bottom: 1px solid $color-grey;
-	overflow-x: hidden;
+}
+
+.searchPartContainer{
+	flex:1;
+	width: 100%;
+	display: grid;
+	grid-template-rows: 50px 1fr;
+	font-size: $font-size-large;
 }
 
 .searchListContainer{
-	flex:1;
 	display: grid;
 	align-items: center;
 	justify-content: center;
-	grid-template-columns: repeat(auto-fill, minmax(1px, 180px));
+	grid-template-columns: repeat(auto-fill, minmax(1px, 400px));
 	gap: 10px;
 	padding: 20px;
 	padding-top: 40px;
@@ -97,7 +95,7 @@
 }
 
 .dummycard1{
-	height: 200px;
+	height: 185px;
 	background-color: rgb(204, 204, 204);
 	border: 1px solid;
 }

@@ -6,7 +6,7 @@ const Topper = ({ msg }: { msg?: string }) => {
       <button>
         <img src="/icon/expand_left.svg" alt="backward" className={styles.icon} />
       </button>
-      <p>{msg}</p>
+      <b>{msg}</b>
     </section>
   );
   };

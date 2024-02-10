@@ -27,18 +27,22 @@ export default function Page() {
           </div>
           <div className={styles.profileLog}>
             <p>
-              내 지도 모음 <b>10</b>
+              내 컬렉션 <b>10</b>
             </p>
             <p>
-              좋아요한 지도 모음 <b>24</b>
+              좋아요한 컬렉션 <b>24</b>
+            </p>
+            <p>
+              스크랩한 컬렉션 <b>24</b>
             </p>
           </div>
         </div>
       </section>
       <section className={styles.buttonContainer}>
-        <button className={styles.buttons}>내 지도</button>
-        <button className={styles.buttons}>좋아요한 지도</button>
-        <button className={styles.buttons}>+ 장소 추가</button>
+        <button className={styles.buttons}>내 컬렉션</button>
+        <button className={styles.buttons}>좋아요한 컬렉션</button>
+        <button className={styles.buttons}>스크랩한 컬렉션</button>
+        <button className={styles.buttons}>+ 컬렉션 추가</button>
       </section>
       <section className={styles.profileListContainer}>
         <div className={styles.dummycard} />

@@ -5,8 +5,9 @@
   padding-top: 20px;
   padding-bottom: 20px;
   grid-template-columns: 50px 200px 1fr;
-    align-items: center;
-    justify-content: flex-start;
+  align-items: center;
+  justify-content: flex-start;
+  color: $color-grey-dark
 }
 
 .icon{
