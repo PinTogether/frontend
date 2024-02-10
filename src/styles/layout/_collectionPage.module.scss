@@ -1,78 +1,78 @@
 @import "../base/variables";
 
 .container{
-	display: grid;
-	grid-template-rows: 70px 300px 35px 1fr;
-	margin:0;
-	padding:0;
-	min-height: 100vh;
-	transition: all 0.3s ease;
-	padding-left: 7%;
-	padding-right: 7%;
+  display: grid;
+  grid-template-rows: 70px 300px 35px 1fr;
+  margin:0;
+  padding:0;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  padding-left: 7%;
+  padding-right: 7%;
 }
 
 .collectionDataContainer{
-	flex:1;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	padding: 20px;
+  flex:1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
 }
 
 .collectionData{
-	border-bottom: 1px solid $color-grey;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	justify-items: center;
-	place-items: center;
+  border-bottom: 1px solid $color-grey;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  justify-items: center;
+  place-items: center;
 }
 
 .buttonContainer{
     align-items: center;
     justify-content: flex-start;
-	gap: 20px;
-	border-bottom: 1px solid $color-grey;
+  gap: 20px;
+  border-bottom: 1px solid $color-grey;
 }
 
 .buttons{
-	justify-content: center;
-	align-items: center;
-	width: fit-content;
-	height: fit-content;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin: 5px;
-	border-radius: 3rem;
-	color: $color-grey-dark;
-	background-color: $color-grey;
-	outline: 1px solid $color-border-inactive;
-	cursor: pointer;
-	transition: all 0.2s ease-in-out;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 5px;
+  border-radius: 3rem;
+  color: $color-grey-dark;
+  background-color: $color-grey;
+  outline: 1px solid $color-border-inactive;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 
-	&:hover {
-	  background-color: $color-button-active;
-	  outline: 2px solid $color-border-active;
-	}
+  &:hover {
+    background-color: $color-button-active;
+    outline: 2px solid $color-border-active;
+  }
 }
 
 .collectionListContainer{
-	flex:1;
-	display: grid;
-	align-items: center;
-	justify-content: center;
-	grid-template-columns: repeat(auto-fill, minmax(1px, 380px));
-	gap: 30px;
-	padding: 20px;
+  flex:1;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(1px, 380px));
+  gap: 30px;
+  padding: 20px;
 }
 
 .icon{
-	width: 25px;
-	height: 25px;
+  width: 25px;
+  height: 25px;
 }
 
 .dummycard{
-	height: 200px;
-	background-color: bisque;
-	border: 1px solid;
+  height: 200px;
+  background-color: bisque;
+  border: 1px solid;
 }
