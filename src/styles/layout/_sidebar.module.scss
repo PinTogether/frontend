@@ -51,11 +51,10 @@
 .profilebox{
 	margin:0;
 	padding:0;
-	width:60px;
-	height:60px;
+	width:50px;
+	height:50px;
 	border-radius: 70%;
-    overflow: hidden;
-	border : solid 5px $color-primary-light;
+  overflow: hidden;
 }
 
 .profilebox:hover{
@@ -65,5 +64,15 @@
 .profile{
 	width:100%;
 	height:100%;
+	border-radius: 70%;
 	object-fit: cover;
+}
+
+.currPath{
+	background-color: $color-primary-light;
+	outline : solid 10px $color-primary-light;
+}
+
+.currPathProfile{
+	border : solid 3px $color-primary-light;
 }

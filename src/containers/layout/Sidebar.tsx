@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import styles from "@/styles/layout/_sidebar.module.scss";
 import Image from "next/image";
@@ -9,6 +9,13 @@ export default function Sidebar() {
   // Image 의 필수 요소 때문에 width, height 를 지정해 주었지만, 영향을 미치지 않습니다.
   const size = 300;
   const router = useRouter();
+  const pathname = usePathname();
+
+  function currentPath(path:string){
+    if(path == pathname)
+      return true;
+    return false;
+  };
 
   return (
     <section className={styles.container}>
@@ -17,7 +24,7 @@ export default function Sidebar() {
         <Image
           src="/icon/home_plain.svg"
           alt="Home Icon"
-          className={styles.icon}
+          className={`${styles.icon} ${currentPath("/") ? styles.currPath : ''}`}
           width={size}
           height={size}
         />
@@ -52,7 +59,7 @@ export default function Sidebar() {
         <Image
           src="/icon/like_plain.svg"
           alt="like Icon"
-          className={styles.icon}
+          className={`${styles.icon} ${currentPath("/collection") ? styles.currPath : ''}`}
           width={size}
           height={size}
         />
@@ -68,7 +75,7 @@ export default function Sidebar() {
         <Image
           src="/icon/search_plain.svg"
           alt="search Icon"
-          className={styles.icon}
+          className={`${styles.icon} ${currentPath("/search") ? styles.currPath : ''}`}
           width={size}
           height={size}
         />
@@ -102,7 +109,7 @@ export default function Sidebar() {
           <Image
             src="/images/cat_dummy.jpeg"
             alt="profile image"
-            className={styles.profile}
+            className={`${styles.profile} ${currentPath("/profile") ? styles.currPathProfile : ''}`}
             width={size}
             height={size}
           />
