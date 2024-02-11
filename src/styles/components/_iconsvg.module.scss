@@ -1,0 +1,38 @@
+$defaultColor: #33363f;
+$defaultSize: 1.825rem;
+$defaultStrokeWidth: 0.12rem;
+
+%defaultSvg {
+  color: $defaultColor;
+  stroke-width: $defaultStrokeWidth;
+  width: $defaultSize;
+  height: $defaultSize;
+}
+
+.icon {
+  @extend %defaultSvg;
+}
+
+// for test
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  background-color: bisque;
+  width: 100%;
+  height: 100%;
+  li {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.forTest {
+  @extend %defaultSvg;
+  color: greenyellow;
+  // fill: greenyellow;
+  // stroke: greenyellow;
+  stroke-width: $defaultStrokeWidth;
+  width: $defaultSize;
+  height: $defaultSize;
+}
