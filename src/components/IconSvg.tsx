@@ -5,8 +5,8 @@ import styles from "@/styles/components/_iconsvg.module.scss";
 //
 // styles.icon 에서 width, height, color 기본값 설정함
 
-interface IconProps {
-  className?: string;
+interface IconProps extends React.HTMLAttributes<HTMLElement> {
+  // 기타 추가할 커스텀 속성들을 여기에 추가할 수 있습니다.
 }
 
 export {
@@ -138,130 +138,182 @@ export const IconTest = (): JSX.Element => {
 };
 
 import HeartSvg from "/public/icons/heart.svg";
-const HeartIcon = ({ className }: { className?: string }) => {
-  return <HeartSvg className={className ? className : styles.icon} />;
+const HeartIcon = ({ className, ...rest }: IconProps) => {
+  return <HeartSvg className={className ? className : styles.icon} {...rest} />;
 };
 import HeartFillSvg from "/public/icons/heart_filled.svg";
-const HeartFillIcon = ({ className }: { className?: string }) => {
-  return <HeartFillSvg className={className ? className : styles.icon} />;
+const HeartFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <HeartFillSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 
 import BellSvg from "/public/icons/bell.svg";
-const BellIcon = ({ className }: IconProps) => {
-  return <BellSvg className={className ? className : styles.icon} />;
+const BellIcon = ({ className, ...rest }: IconProps) => {
+  return <BellSvg className={className ? className : styles.icon} {...rest} />;
 };
 import BellFillSvg from "/public/icons/bell_filled.svg";
-const BellFillIcon = ({ className }: IconProps) => {
-  return <BellFillSvg className={className ? className : styles.icon} />;
+const BellFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <BellFillSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 
 import LocationSvg from "/public/icons/location.svg";
-const LocationIcon = ({ className }: IconProps) => {
-  return <LocationSvg className={className ? className : styles.icon} />;
+const LocationIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <LocationSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 import LocationFillSvg from "/public/icons/location_filled.svg";
-const LocationFillIcon = ({ className }: IconProps) => {
-  return <LocationFillSvg className={className ? className : styles.icon} />;
+const LocationFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <LocationFillSvg
+      className={className ? className : styles.icon}
+      {...rest}
+    />
+  );
 };
 
 import SearchSvg from "/public/icons/search.svg";
-const SearchIcon = ({ className }: IconProps) => {
-  return <SearchSvg className={className ? className : styles.icon} />;
+const SearchIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <SearchSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 import SearchFillSvg from "/public/icons/search_filled.svg";
-const SearchFillIcon = ({ className }: IconProps) => {
-  return <SearchFillSvg className={className ? className : styles.icon} />;
+const SearchFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <SearchFillSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 
 import MapSvg from "/public/icons/map.svg";
-const MapIcon = ({ className }: IconProps) => {
-  return <MapSvg className={className ? className : styles.icon} />;
+const MapIcon = ({ className, ...rest }: IconProps) => {
+  return <MapSvg className={className ? className : styles.icon} {...rest} />;
 };
 import MapFillSvg from "/public/icons/map_filled.svg";
-const MapFillIcon = ({ className }: IconProps) => {
-  return <MapFillSvg className={className ? className : styles.icon} />;
+const MapFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <MapFillSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 
 import HomeSvg from "/public/icons/home.svg";
-const HomeIcon = ({ className }: IconProps) => {
-  return <HomeSvg className={className ? className : styles.icon} />;
+const HomeIcon = ({ className, ...rest }: IconProps) => {
+  return <HomeSvg className={className ? className : styles.icon} {...rest} />;
 };
 import HomeFillSvg from "/public/icons/home_filled.svg";
-const HomeFillIcon = ({ className }: IconProps) => {
-  return <HomeFillSvg className={className ? className : styles.icon} />;
+const HomeFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <HomeFillSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 
 import BookMarkSvg from "/public/icons/bookmark.svg";
-const BookMarkIcon = ({ className }: IconProps) => {
-  return <BookMarkSvg className={className ? className : styles.icon} />;
+const BookMarkIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <BookMarkSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 import BookMarkFillSvg from "/public/icons/bookmark_filled.svg";
-const BookMarkFillIcon = ({ className }: IconProps) => {
-  return <BookMarkFillSvg className={className ? className : styles.icon} />;
+const BookMarkFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <BookMarkFillSvg
+      className={className ? className : styles.icon}
+      {...rest}
+    />
+  );
 };
 
 import LinkSvg from "/public/icons/link.svg";
-const LinkIcon = ({ className }: IconProps) => {
-  return <LinkSvg className={className ? className : styles.icon} />;
+const LinkIcon = ({ className, ...rest }: IconProps) => {
+  return <LinkSvg className={className ? className : styles.icon} {...rest} />;
 };
 
 import SettingSvg from "/public/icons/setting.svg";
-const SettingIcon = ({ className }: IconProps) => {
-  return <SettingSvg className={className ? className : styles.icon} />;
+const SettingIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <SettingSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 import SettingFillSvg from "/public/icons/setting_filled.svg";
-const SettingFillIcon = ({ className }: IconProps) => {
-  return <SettingFillSvg className={className ? className : styles.icon} />;
+const SettingFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <SettingFillSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 
 import PinSvg from "/public/icons/pin.svg";
-const PinIcon = ({ className }: IconProps) => {
-  return <PinSvg className={className ? className : styles.icon} />;
+const PinIcon = ({ className, ...rest }: IconProps) => {
+  return <PinSvg className={className ? className : styles.icon} {...rest} />;
 };
 import PinFillSvg from "/public/icons/pin_filled.svg";
-const PinFillIcon = ({ className }: IconProps) => {
-  return <PinFillSvg className={className ? className : styles.icon} />;
+const PinFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <PinFillSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 
 import AddSquareSvg from "/public/icons/add_square.svg";
-const AddSquareIcon = ({ className }: IconProps) => {
-  return <AddSquareSvg className={className ? className : styles.icon} />;
+const AddSquareIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <AddSquareSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 import AddSquareFillSvg from "/public/icons/add_square_filled.svg";
-const AddSquareFillIcon = ({ className }: IconProps) => {
-  return <AddSquareFillSvg className={className ? className : styles.icon} />;
+const AddSquareFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <AddSquareFillSvg
+      className={className ? className : styles.icon}
+      {...rest}
+    />
+  );
 };
 
 import EditSvg from "/public/icons/edit.svg";
-const EditIcon = ({ className }: IconProps) => {
-  return <EditSvg className={className ? className : styles.icon} />;
+const EditIcon = ({ className, ...rest }: IconProps) => {
+  return <EditSvg className={className ? className : styles.icon} {...rest} />;
 };
 
 import SignInSquareSvg from "/public/icons/sign_in_square.svg";
-const SignInSquareIcon = ({ className }: IconProps) => {
-  return <SignInSquareSvg className={className ? className : styles.icon} />;
+const SignInSquareIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <SignInSquareSvg
+      className={className ? className : styles.icon}
+      {...rest}
+    />
+  );
 };
 
 import RefreshSvg from "/public/icons/refresh.svg";
-const RefreshIcon = ({ className }: IconProps) => {
-  return <RefreshSvg className={className ? className : styles.icon} />;
+const RefreshIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <RefreshSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 
 import UserBoxSvg from "/public/icons/user_box.svg";
-const UserBoxIcon = ({ className }: IconProps) => {
-  return <UserBoxSvg className={className ? className : styles.icon} />;
+const UserBoxIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <UserBoxSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
 import UserBoxFill from "/public/icons/user_box_filled.svg";
-const UserBoxFillIcon = ({ className }: IconProps) => {
-  return <UserBoxFill className={className ? className : styles.icon} />;
+const UserBoxFillIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <UserBoxFill className={className ? className : styles.icon} {...rest} />
+  );
 };
 
 import FlashSvg from "/public/icons/flash.svg";
-const FlashIcon = ({ className }: IconProps) => {
-  return <FlashSvg className={className ? className : styles.icon} />;
+const FlashIcon = ({ className, ...rest }: IconProps) => {
+  return <FlashSvg className={className ? className : styles.icon} {...rest} />;
 };
 
 import ImgLoadBoxSvg from "/public/icons/img_load_box.svg";
-const ImgLoadIcon = ({ className }: IconProps) => {
-  return <ImgLoadBoxSvg className={className ? className : styles.icon} />;
+const ImgLoadIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <ImgLoadBoxSvg className={className ? className : styles.icon} {...rest} />
+  );
 };
