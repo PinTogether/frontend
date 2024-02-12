@@ -8,9 +8,26 @@ import { useState } from "react";
 export default function ProfileSettingPage() {
   const size = 300;
   const [inputNickname, setInputNickname] = useState("");
+  const [imgSrc, setImgSrc] = useState("/images/cat_dummy.jpeg");
 
   const onChangeNickname = (e: any) => {
     setInputNickname(e.target.value);
+  }
+
+  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = (e) => {
+      if(typeof e.target?.result === "string"){
+        setImgSrc(e.target?.result);
+      }
+    }
+  }
+
+  const resetImgSrc = () => {
+    setImgSrc("/images/cat_dummy.jpeg");
   }
 
   return (
@@ -22,17 +39,26 @@ export default function ProfileSettingPage() {
       <section className={styles.avartarChangeContainer}>
         <div>
         </div>
-          <button>
+        <div>
+          <input
+            type = "file"
+            accept='image/jpg,image/png,image/jpeg'
+            id = "file"
+            style={{display: 'none'}}
+            onChange={handleImage}
+          />
+          <label htmlFor='file'>
             <Image
-                src="/images/cat_dummy.jpeg"
-                alt="profile image"
-                className={styles.avartar}
-                width={size}
-                height={size}
-              />
-          </button>
+              src={imgSrc}
+              alt="profile image"
+              className={styles.avartar}
+              width={size}
+              height={size}
+            />
+          </label>
+        </div>
         <div className={styles.cancelButtonBox}>
-          <button className={styles.cancelButton}>
+          <button className={styles.cancelButton} onClick={resetImgSrc}>
             X
           </button>
         </div>
