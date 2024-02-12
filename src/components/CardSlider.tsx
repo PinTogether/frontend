@@ -34,8 +34,8 @@ export default function CardSlider({
   const [isLastCard, setIsLastCard] = useState(false);
 
   const withStyle = {
-    width: width,
-    height: height,
+    width: width ? width : "100%",
+    height: height ? height : "100%",
   };
 
   const handleLeftClick = () => {

@@ -1,8 +1,9 @@
 "use client";
 
-import PinCard from "@/components/PinCard";
+import PinCard, { LocationCard } from "@/components/PinCard";
 import styles from "@/styles/components/_pincard.module.scss";
 import CollectionCard from "@/components/CollectionCard";
+import Comment from "@/components/Comment";
 import ICollection from "@/types/ICollection";
 import IPin from "@/types/IPin";
 import IComment from "@/types/IComment";
@@ -12,9 +13,9 @@ const collection: ICollection = {
   title: "강릉 주민 맛집",
   ownerId: 1,
   ownerNickname: "잠자는_짱구의_콧털",
-  thumbnail: "/images/cat_dummy.jpeg",
-  detail: "강릉 주민들이 자주 가는 맛집",
-  likeCnt: 10,
+  thumbnail: "https://picsum.photos/id/326/300",
+  detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
+  likeCnt: 12,
   pinCnt: 5,
 };
 
@@ -50,7 +51,7 @@ const commentData: IComment = {
 
 const commentList: IComment[] = [
   {
-    id: 1,
+    id: 2,
     userId: 1,
     userNickname: "잠자는_짱구의_콧털",
     comment: `포카리스웨트 강남역점은
@@ -61,7 +62,7 @@ const commentList: IComment[] = [
     commentImages: {},
   },
   {
-    id: 2,
+    id: 3,
     userId: 2,
     userNickname: "잠자는_짱구의_콧털",
     comment: `포카리스웨트 강남역점은
@@ -72,7 +73,7 @@ const commentList: IComment[] = [
     commentImages: {},
   },
   {
-    id: 2,
+    id: 4,
     userId: 2,
     userNickname: "잠자는_짱구의_콧털",
     comment: `포카리스웨트 강남역점은
@@ -83,7 +84,7 @@ const commentList: IComment[] = [
     commentImages: {},
   },
   {
-    id: 2,
+    id: 5,
     userId: 2,
     userNickname: "잠자는_짱구의_콧털",
     comment: `포카리스웨트 강남역점은
@@ -94,7 +95,7 @@ const commentList: IComment[] = [
     commentImages: {},
   },
   {
-    id: 2,
+    id: 6,
     userId: 2,
     userNickname: "잠자는_짱구의_콧털",
     comment: `포카리스웨트 강남역점은
@@ -121,16 +122,36 @@ export default function Page() {
       <CollectionCard collectionData={collection} horizontal={true} />
       <br />
 
+      <p>4. collectioncard detail</p>
+      <CollectionCard collectionData={collection} detail={true} />
+      <br />
+
+      <p>1. Locationcard </p>
+      <LocationCard locationData={pinData} />
+      <br />
+
       <p>1. pincard simple</p>
       <PinCard pinData={pinData} />
       <br />
 
       <p>2. pincard with comment</p>
-      <PinCard pinData={pinData} commentData={commentData} />
+      <PinCard pinData={pinData}>
+        <Comment commentData={commentData} />
+      </PinCard>
       <br />
 
       <p>3. pincard with comment list</p>
-      <PinCard pinData={pinData} commentList={commentList} />
+      <PinCard pinData={pinData}>
+        {commentList && (
+          <>
+            {commentList.map((comment) => (
+              <li key={comment.id}>
+                <Comment commentData={comment} />
+              </li>
+            ))}
+          </>
+        )}
+      </PinCard>
       <br />
     </div>
   );

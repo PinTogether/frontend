@@ -20,7 +20,7 @@ export default function Comment({
       />
       <p
         className={styles.userNick}
-      >{`${commentData.userNickname}님의 코멘트`}</p>
+      >{`${commentData.userNickname}님의 리뷰`}</p>
       <p className={styles.text}>{`${commentData.comment}`}</p>
       <div className={styles.content}>
         <Image
@@ -44,6 +44,7 @@ export default function Comment({
             {`"개포 맛집" 컬렉션 보러가기`}
           </button>
         )}
+        <br />
       </div>
     </article>
   );
