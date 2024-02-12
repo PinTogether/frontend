@@ -38,103 +38,15 @@ export {
   UserBoxFillIcon,
   FlashIcon,
   ImgLoadIcon,
-};
-
-export const IconTest = (): JSX.Element => {
-  return (
-    <ul className={styles.container}>
-      <li>
-        <HeartIcon />
-        <HeartIcon className={styles.forTest} />
-        <HeartFillIcon />
-        <HeartFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <BellIcon />
-        <BellIcon className={styles.forTest} />
-        <BellFillIcon />
-        <BellFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <LocationIcon />
-        <LocationIcon className={styles.forTest} />
-        <LocationFillIcon />
-        <LocationFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <SearchIcon />
-        <SearchIcon className={styles.forTest} />
-        <SearchFillIcon />
-        <SearchFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <MapIcon />
-        <MapIcon className={styles.forTest} />
-        <MapFillIcon />
-        <MapFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <HomeIcon />
-        <HomeIcon className={styles.forTest} />
-        <HomeFillIcon />
-        <HomeFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <BookMarkIcon />
-        <BookMarkIcon className={styles.forTest} />
-        <BookMarkFillIcon />
-        <BookMarkFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <LinkIcon />
-        <LinkIcon className={styles.forTest} />
-      </li>
-      <li>
-        <SettingIcon />
-        <SettingIcon className={styles.forTest} />
-        <SettingFillIcon />
-        <SettingFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <PinIcon />
-        <PinIcon className={styles.forTest} />
-        <PinFillIcon />
-        <PinFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <AddSquareIcon />
-        <AddSquareIcon className={styles.forTest} />
-        <AddSquareFillIcon />
-        <AddSquareFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <EditIcon />
-        <EditIcon className={styles.forTest} />
-      </li>
-      <li>
-        <SignInSquareIcon />
-        <SignInSquareIcon className={styles.forTest} />
-      </li>
-      <li>
-        <RefreshIcon />
-        <RefreshIcon className={styles.forTest} />
-      </li>
-      <li>
-        <UserBoxIcon />
-        <UserBoxIcon className={styles.forTest} />
-        <UserBoxFillIcon />
-        <UserBoxFillIcon className={styles.forTest} />
-      </li>
-      <li>
-        <FlashIcon />
-        <FlashIcon className={styles.forTest} />
-      </li>
-      <li>
-        <ImgLoadIcon />
-        <ImgLoadIcon className={styles.forTest} />
-      </li>
-    </ul>
-  );
+  ExpandLeftIcon,
+  ExpandRightIcon,
+  ArrowDropDownIcon,
+  ArrowDropUpIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  CloseRoundIcon,
+  AddRoundIcon,
+  CommentIcon,
 };
 
 import HeartSvg from "/public/icons/heart.svg";
@@ -315,5 +227,124 @@ import ImgLoadBoxSvg from "/public/icons/img_load_box.svg";
 const ImgLoadIcon = ({ className, ...rest }: IconProps) => {
   return (
     <ImgLoadBoxSvg className={className ? className : styles.icon} {...rest} />
+  );
+};
+
+import ExpandLeftSvg from "/public/icons/expand_left.svg";
+const ExpandLeftIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <ExpandLeftSvg className={className ? className : styles.icon} {...rest} />
+  );
+};
+import ExpandRightSvg from "/public/icons/expand_right.svg";
+const ExpandRightIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <ExpandRightSvg className={className ? className : styles.icon} {...rest} />
+  );
+};
+
+import ArrowDropDownSvg from "/public/icons/arrow_drop_down.svg";
+const ArrowDropDownIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <ArrowDropDownSvg
+      className={className ? className : styles.icon}
+      {...rest}
+    />
+  );
+};
+import ArrowDropUpSvg from "/public/icons/arrow_drop_up.svg";
+const ArrowDropUpIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <ArrowDropUpSvg className={className ? className : styles.icon} {...rest} />
+  );
+};
+import ArrowLeftSvg from "/public/icons/arrow_drop_left.svg";
+const ArrowLeftIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <ArrowLeftSvg className={className ? className : styles.icon} {...rest} />
+  );
+};
+import ArrowRightSvg from "/public/icons/arrow_drop_right.svg";
+const ArrowRightIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <ArrowRightSvg className={className ? className : styles.icon} {...rest} />
+  );
+};
+
+import CloseRoundSvg from "/public/icons/close_round.svg";
+const CloseRoundIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <CloseRoundSvg className={className ? className : styles.icon} {...rest} />
+  );
+};
+
+import AddRoundSvg from "/public/icons/add_round.svg";
+import { createElement } from "react";
+const AddRoundIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <AddRoundSvg className={className ? className : styles.icon} {...rest} />
+  );
+};
+
+import CommentSvg from "/public/icons/comment.svg";
+const CommentIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <CommentSvg className={className ? className : styles.icon} {...rest} />
+  );
+};
+
+/* for test */
+const icons = [
+  { component: HeartIcon, name: "HeartIcon" },
+  { component: HeartFillIcon, name: "HeartFillIcon" },
+  { component: BellIcon, name: "BellIcon" },
+  { component: BellFillIcon, name: "BellFillIcon" },
+  { component: LocationIcon, name: "LocationIcon" },
+  { component: LocationFillIcon, name: "LocationFillIcon" },
+  { component: SearchIcon, name: "SearchIcon" },
+  { component: SearchFillIcon, name: "SearchFillIcon" },
+  { component: MapIcon, name: "MapIcon" },
+  { component: MapFillIcon, name: "MapFillIcon" },
+  { component: HomeIcon, name: "HomeIcon" },
+  { component: HomeFillIcon, name: "HomeFillIcon" },
+  { component: BookMarkIcon, name: "BookMarkIcon" },
+  { component: BookMarkFillIcon, name: "BookMarkFillIcon" },
+  { component: LinkIcon, name: "LinkIcon" },
+  { component: SettingIcon, name: "SettingIcon" },
+  { component: SettingFillIcon, name: "SettingFillIcon" },
+  { component: PinIcon, name: "PinIcon" },
+  { component: PinFillIcon, name: "PinFillIcon" },
+  { component: AddSquareIcon, name: "AddSquareIcon" },
+  { component: AddSquareFillIcon, name: "AddSquareFillIcon" },
+  { component: EditIcon, name: "EditIcon" },
+  { component: SignInSquareIcon, name: "SignInSquareIcon" },
+  { component: RefreshIcon, name: "RefreshIcon" },
+  { component: UserBoxIcon, name: "UserBoxIcon" },
+  { component: UserBoxFillIcon, name: "UserBoxFillIcon" },
+  { component: FlashIcon, name: "FlashIcon" },
+  { component: ImgLoadIcon, name: "ImgLoadIcon" },
+  { component: ExpandLeftIcon, name: "ExpandLeftIcon" },
+  { component: ExpandRightIcon, name: "ExpandRightIcon" },
+  { component: ArrowDropDownIcon, name: "ArrowDropDownIcon" },
+  { component: ArrowDropUpIcon, name: "ArrowDropUpIcon" },
+  { component: ArrowLeftIcon, name: "ArrowLeftIcon" },
+  { component: ArrowRightIcon, name: "ArrowRightIcon" },
+  { component: CloseRoundIcon, name: "CloseRoundIcon" },
+  { component: AddRoundIcon, name: "AddRoundIcon" },
+  { component: CommentIcon, name: "CommentIcon" },
+];
+
+export const IconTest = () => {
+  return (
+    <ul className={styles.container}>
+      {icons.map((icon, index) => (
+        <li key={index}>
+          {createElement(icon.component, { className: styles.icon })}
+          {createElement(icon.component, { className: styles.forTest })}
+          {createElement(icon.component, { className: "" })}
+          <span>{icon.name}</span>
+        </li>
+      ))}
+    </ul>
   );
 };
