@@ -1,8 +1,9 @@
 "use client";
 
-import PinCard from "@/components/PinCard";
+import PinCard, { LocationCard } from "@/components/PinCard";
 import styles from "@/styles/components/_pincard.module.scss";
 import CollectionCard from "@/components/CollectionCard";
+import Comment from "@/components/Comment";
 import ICollection from "@/types/ICollection";
 import IPin from "@/types/IPin";
 import IComment from "@/types/IComment";
@@ -125,16 +126,32 @@ export default function Page() {
       <CollectionCard collectionData={collection} detail={true} />
       <br />
 
+      <p>1. Locationcard </p>
+      <LocationCard locationData={pinData} />
+      <br />
+
       <p>1. pincard simple</p>
       <PinCard pinData={pinData} />
       <br />
 
       <p>2. pincard with comment</p>
-      <PinCard pinData={pinData} commentData={commentData} />
+      <PinCard pinData={pinData}>
+        <Comment commentData={commentData} />
+      </PinCard>
       <br />
 
       <p>3. pincard with comment list</p>
-      <PinCard pinData={pinData} commentList={commentList} />
+      <PinCard pinData={pinData}>
+        {commentList && (
+          <>
+            {commentList.map((comment) => (
+              <li key={comment.id}>
+                <Comment commentData={comment} />
+              </li>
+            ))}
+          </>
+        )}
+      </PinCard>
       <br />
     </div>
   );
