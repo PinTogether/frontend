@@ -1,8 +1,9 @@
-import styles from "@/styles/layout/_collectionPage.module.scss"
+import styles from "@/styles/layout/_collectionPage.module.scss";
 import PinCard from "@/components/PinCard";
 import Topper from "@/components/SubTopper";
 import IPin from "@/types/IPin";
 import IComment from "@/types/IComment";
+import Comment from "@/components/Comment";
 
 const pinData: IPin = {
   id: 1,
@@ -93,10 +94,9 @@ const commentList: IComment[] = [
 ];
 
 export default function Page() {
-
   return (
     <section className={styles.container}>
-      <Topper msg={"컬렉션(장소모음) 조회"}/>
+      <Topper msg={"컬렉션(장소모음) 조회"} />
       <section className={styles.collectionDataContainer}>
         <div className={styles.collectionData}>
           <div style={{ width: "380px" }}>asd</div>
@@ -108,13 +108,27 @@ export default function Page() {
         <button className={styles.buttons}>+ 장소 추가</button>
       </section>
       <section className={styles.collectionListContainer}>
-        <PinCard pinData={pinData} commentData={commentData} />
-        <PinCard pinData={pinData} commentData={commentData} />
-        <PinCard pinData={pinData} commentData={commentData} />
-        <PinCard pinData={pinData} commentData={commentData} />
-        <PinCard pinData={pinData} commentData={commentData} />
-        <PinCard pinData={pinData} commentData={commentData} />
-        <PinCard pinData={pinData} commentData={commentData} />
+        <PinCard pinData={pinData}>
+          <Comment commentData={commentData} />
+        </PinCard>
+        <PinCard pinData={pinData}>
+          <Comment commentData={commentData} />
+        </PinCard>
+        <PinCard pinData={pinData}>
+          <Comment commentData={commentData} />
+        </PinCard>
+        <PinCard pinData={pinData}>
+          <Comment commentData={commentData} />
+        </PinCard>
+        <PinCard pinData={pinData}>
+          <Comment commentData={commentData} />
+        </PinCard>
+        <PinCard pinData={pinData}>
+          <Comment commentData={commentData} />
+        </PinCard>
+        <PinCard pinData={pinData}>
+          <Comment commentData={commentData} />
+        </PinCard>
       </section>
     </section>
   );

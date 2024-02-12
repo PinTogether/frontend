@@ -8,7 +8,7 @@ import CardSlider from "@/components/CardSlider";
 export default function Page() {
   return (
     <div className={styles.page}>
-      <CardSlider width={500} scrollCardNumber={3}>
+      <CardSlider scrollCardNumber={3}>
         <Image
           src="https://picsum.photos/200/300"
           alt="image"
