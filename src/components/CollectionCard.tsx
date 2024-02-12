@@ -8,6 +8,7 @@ import {
   LinkIcon,
   BookMarkIcon,
   BookMarkFillIcon,
+  CommentIcon,
 } from "@/components/IconSvg";
 import ICollection from "@/types/ICollection";
 import { useState } from "react";
@@ -153,7 +154,7 @@ const SimpleCollectionCard = ({
         href={`/collection/${collectionData.id}`}
         className={styles.textContainer}
       >
-        <h2>{collectionData.title}</h2>
+        <h2 className={styles.title}>{collectionData.title}</h2>
       </Link>
     </article>
   );
@@ -206,7 +207,7 @@ const HorizontalDetailCard = ({
   collectionData: ICollection;
 }) => {
   return (
-    <article className={styles.horizontalCollectionCard}>
+    <article className={styles.detailCollectionCard}>
       <Link
         href={`/collection/${collectionData.id}`}
         className={styles.imgContainer}
@@ -237,7 +238,13 @@ const HorizontalDetailCard = ({
         <ShareButton collectionId={collectionData.id} />
         <LikedButton likeCnt={collectionData.likeCnt} />
       </div>
+      <div className={styles.tagContainer}>
+        <span>맛집</span>
+        <span>강릉</span>
+        <span>로컬맛집</span>
+      </div>
       <div className={styles.detailContainer}>
+        <CommentIcon />
         <p>{collectionData.detail}</p>
       </div>
     </article>

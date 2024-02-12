@@ -3,7 +3,7 @@
 
 $default-size: 12rem;
 $simple-size: 8rem;
-$horizontal-size: 24rem;
+$horizontal-size: 22rem;
 $container-padding: 0.5rem;
 
 /* use bookmarkContainer with BookMarkIcon */
@@ -60,11 +60,22 @@ $container-padding: 0.5rem;
   }
 }
 
+/* utils */
 .nickname {
+  width: 100%;
   color: $color-text-caption;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   &:hover {
     color: $color-primary;
   }
+}
+.title {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* DefaultCollectionCard */
@@ -91,7 +102,7 @@ $container-padding: 0.5rem;
     grid-template-rows: 1fr 1fr;
     gap: 0.3rem;
     align-items: center;
-    justify-items: start;
+    justify-items: flex-start;
 
     .profile {
       grid-row: 1 / -1;
@@ -149,10 +160,9 @@ $container-padding: 0.5rem;
     height: $simple-size / 3;
     padding: 0 $container-padding;
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-    h2 {
+    text-align: center;
+    .title {
+      align-self: center;
       font-size: $font-size-medium;
       line-height: 1;
       font-weight: 600;
@@ -226,17 +236,26 @@ $container-padding: 0.5rem;
       }
     }
   }
-  .detailContainer {;
-    display: flex;
-    justify-content: center;
+  .tagContainer {
     grid-column: 1 / -1;
+    @extend %pt-tagContainer;
+  }
+  .detailContainer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.25rem;
+    flex-direction: row;
+    align-items: space-between;
     width: 100%;
-    height: 1.5rem;
+    height: fit-content;
 
     margin: 0;
     padding: 0;
     box-shadow: none;
     border-radius: 0;
+    color: $color-text-default;
 
     p {
       height: 100%;
@@ -245,8 +264,11 @@ $container-padding: 0.5rem;
       text-overflow: ellipsis;
       font-size: $font-size-small;
     }
-
-    color: $color-text-caption;
+    svg {
+      width: 1.125rem;
+      color: $color-text-caption;
+    }
+    // color: $color-text-caption;
   }
 }
 
@@ -255,6 +277,12 @@ $container-padding: 0.5rem;
 }
 
 /* CollectionDetailCard */
-.detailContainer {
+.detailCollectionCard {
   @extend %horizontalCollectionCard;
+
+  .buttonContainer {
+    // grid-column: 1 / -1;
+    margin: 0;
+    padding: 0;
+  }
 }
