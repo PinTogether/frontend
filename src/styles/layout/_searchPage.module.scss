@@ -2,7 +2,7 @@
 
 .container{
 	display: grid;
-	grid-template-rows: 70px 70px 25px 100px 1fr;
+	grid-template-rows: 70px 70px 25px 70px 1fr;
 	margin:0;
 	padding:0;
 	min-height: 100vh;
@@ -12,8 +12,15 @@
 }
 
 .searchLogBanner{
-	align-items:center;
-	justify-content: flex-start;
+	display: grid;
+	align-items: end;
+  justify-items: start;
+	gap: 5px;
+}
+
+.searchLogExtend{
+	color:$color-grey-dark;
+	font-size: $font-size-small;
 }
 
 .searchLogContainer{
@@ -31,6 +38,10 @@
 	justify-content: flex-start;
 	font-size: $font-size-medium;
 	gap: 3px;
+}
+
+.searchLog:hover{
+	color:$color-primary;
 }
 
 .searchCategory{

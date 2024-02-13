@@ -2,6 +2,7 @@
 import styles from "@/styles/layout/_profilePage.module.scss";
 import Topper from "@/components/SubTopper";
 import { useRouter } from "next/navigation";
+import { SettingIcon } from "@/components/IconSvg";
 
 export default function Page() {
   const router = useRouter();
@@ -19,24 +20,22 @@ export default function Page() {
             <div></div>
             <p>잠자는_짱구의_콧털</p>
             <button onClick={() => router.push("/profile/setting")}>
-              <img
-                src="/icon/edit_plain.svg"
-                alt="edit icon"
-                className={styles.icon}
-                style={{ paddingLeft: "5px" }}
-              />
+              <SettingIcon className={styles.icon}/>
             </button>
           </div>
           <div className={styles.profileLog}>
-            <p>
-              내 컬렉션 <b>10</b>
-            </p>
-            <p>
-              좋아요한 컬렉션 <b>24</b>
-            </p>
-            <p>
-              스크랩한 컬렉션 <b>24</b>
-            </p>
+            <div className={styles.profileLogBox}>
+              <b>10</b>
+              <p>내 컬렉션</p>
+            </div>
+            <div className={styles.profileLogBox}>
+              <b>24</b>
+              <p>좋아요한 컬렉션</p>
+            </div>
+            <div className={styles.profileLogBox}>
+              <b>24</b>
+              <p>스크랩한 컬렉션</p>
+            </div>
           </div>
         </div>
       </section>

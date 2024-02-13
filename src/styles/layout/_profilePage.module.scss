@@ -44,12 +44,18 @@
 	align-items: center;
   justify-content: center;
 	font-size: $font-size-largest;
+	gap: 15px;
 }
 
 .profileLog{
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	gap:20px;
+}
+
+.prifileLogBox{
+	display: grid;
+	grid-template-rows: 1fr 1fr;
 }
 
 .buttonContainer{
@@ -95,6 +101,10 @@
 .icon{
 	width: 25px;
 	height: 25px;
+	color: $color-grey-dark;
+}
+.icon:hover{
+	color:$color-primary;
 }
 
 .dummycard{

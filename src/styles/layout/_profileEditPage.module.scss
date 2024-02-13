@@ -1,0 +1,105 @@
+@import "../base/variables";
+
+.container{
+	display: grid;
+	grid-template-rows: 70px 10px 250px 200px 100px;
+	margin:0;
+	padding:0;
+	min-height: 100vh;
+	transition: all 0.3s ease;
+	padding-left: 7%;
+	padding-right: 7%;
+}
+
+.message{
+  padding: 10px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.avartarChangeContainer{
+	display: grid;
+  grid-template-columns: 25px 150px 25px;
+  align-items: center;
+  justify-content: center;
+  place-items: center;
+  border-bottom: 1px solid $color_grey;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.avartar{
+  align-items: end;
+  justify-items: start;
+	width:150px;
+	height:150px;
+	border-radius: 70%;
+	object-fit: cover;
+  cursor: pointer;
+}
+
+.cancelButtonBox{
+  display: grid;
+  width:100%;
+  height:100%;
+}
+
+.cancelButton{
+  display: grid;
+  align-items: end;
+  justify-items: start;
+}
+
+.confirmButton{
+  width: 100%;
+  height: 35px;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 5px;
+  border-radius: 3rem;
+  outline: 1px solid $color-border-inactive;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: $color-button-active;
+    outline: 2px solid $color-border-active;
+  }
+}
+
+.nicknameChangeContainer{
+  display: grid;
+  grid-template-rows: 90px 55px 55px ;
+  width: 100%;
+  align-items: end;
+  justify-items: start;
+  border-bottom: 1px solid $color_grey;
+  padding: 10px;
+}
+
+.nicknameInput{
+  font-size: $font-size-large;
+	width: 100%;
+  border-radius: 5px;
+	outline: 1px solid $color-border-inactive;
+  box-shadow: 0px 0px 5px $color-grey;
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.nicknameCheckMessage{
+  position: absolute;
+  font-size: $font-size-medium;
+  color: $color-primary;
+	width: 100%;
+}
+
+.buttonContainer{
+  padding-top: 50px;
+  flex:1;
+  align-items: center;
+  justify-content: center;
+  place-items: center;
+}
