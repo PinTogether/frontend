@@ -1,3 +1,5 @@
+"use client"
+
 import styles from "@/styles/layout/_collectionPage.module.scss";
 import PinCard from "@/components/PinCard";
 import Topper from "@/components/SubTopper";
@@ -6,6 +8,7 @@ import IComment from "@/types/IComment";
 import ICollection from "@/types/ICollection";
 import Comment from "@/components/Comment";
 import CollectionCard from "@/components/CollectionCard";
+import { useState } from "react";
 
 const collection: ICollection = {
   id: 1,
@@ -107,6 +110,17 @@ const commentList: IComment[] = [
 ];
 
 export default function Page() {
+  const [showState, setShowState] = useState(0);
+
+  function onChangeShowState(state:number){
+    if (state == showState){
+      setShowState(0);
+    }
+    else{
+      setShowState(state);
+    }
+  };
+
   return (
     <section className={styles.container}>
       <Topper msg={"컬렉션(장소모음) 조회"} />
@@ -116,9 +130,9 @@ export default function Page() {
         </div>
       </section>
       <section className={styles.buttonContainer}>
-        <button className={styles.buttons}>핀 보기</button>
-        <button className={styles.buttons}>핀 코멘트 같이 보기</button>
-        <button className={styles.buttons}>컬렉션 댓글 보기</button>
+        <button className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ''}`} onClick={() => onChangeShowState(1)}>핀 보기</button>
+        <button className={`${styles.buttons} ${showState == 2 ? styles.clickedButtons : ''}`} onClick={() => onChangeShowState(2)}>핀 코멘트 같이 보기</button>
+        <button className={`${styles.buttons} ${showState == 3 ? styles.clickedButtons : ''}`} onClick={() => onChangeShowState(3)}>컬렉션 댓글 보기</button>
         <button className={styles.buttons}>+ 핀 추가</button>
       </section>
       <section className={styles.collectionListContainer}>

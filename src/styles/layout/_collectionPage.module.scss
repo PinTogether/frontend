@@ -55,6 +55,11 @@ border-bottom: 1px solid $color-grey;
   }
 }
 
+.clickedButtons{
+  background-color: $color-primary-light;
+  outline: 2px solid $color-border-active;
+}
+
 .collectionListContainer{
   flex:1;
   display: grid;

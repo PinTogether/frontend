@@ -3,9 +3,19 @@ import styles from "@/styles/layout/_profilePage.module.scss";
 import Topper from "@/components/SubTopper";
 import { useRouter } from "next/navigation";
 import { SettingIcon } from "@/components/IconSvg";
+import { useState } from "react";
 
 export default function Page() {
   const router = useRouter();
+  const [showState, setShowState] = useState(0);
+  function onChangeShowState(state:number){
+    if (state == showState){
+      setShowState(0);
+    }
+    else{
+      setShowState(state);
+    }
+  };
   return (
     <section className={styles.container}>
       <Topper msg={"내 프로필"} />
@@ -40,9 +50,9 @@ export default function Page() {
         </div>
       </section>
       <section className={styles.buttonContainer}>
-        <button className={styles.buttons}>내 컬렉션</button>
-        <button className={styles.buttons}>좋아요한 컬렉션</button>
-        <button className={styles.buttons}>스크랩한 컬렉션</button>
+        <button className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ''}`} onClick={() => onChangeShowState(1)}>내 컬렉션</button>
+        <button className={`${styles.buttons} ${showState == 2 ? styles.clickedButtons : ''}`} onClick={() => onChangeShowState(2)}>좋아요한 컬렉션</button>
+        <button className={`${styles.buttons} ${showState == 3 ? styles.clickedButtons : ''}`} onClick={() => onChangeShowState(3)}>스크랩한 컬렉션</button>
         <button className={styles.buttons}>+ 컬렉션 추가</button>
       </section>
       <section className={styles.profileListContainer}>

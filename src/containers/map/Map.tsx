@@ -2,7 +2,7 @@
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useEffect, useRef, useState } from "react";
-import { GetGeoCodingAuth, ReverseGeoCoding } from "@/utils/GeoCoding";
+import { getGeoCodingAuth, reverseGeoCoding } from "@/utils/GeoCoding";
 import { emdongByAmount, sggByAmount, sidoByAmount, latByAmount, lngByAmount } from "@/redux/locationSlice";
 
 
@@ -23,7 +23,7 @@ const MapNaverDefault = () => {
     try {
       if (process.env.NEXT_PUBLIC_SGIS_KEY != undefined && process.env.NEXT_PUBLIC_SGIS_ID != undefined)
       {
-        const result = await GetGeoCodingAuth({
+        const result = await getGeoCodingAuth({
           consumer_key: process.env.NEXT_PUBLIC_SGIS_ID,
           consumer_secret: process.env.NEXT_PUBLIC_SGIS_KEY,
         });
@@ -41,7 +41,7 @@ const MapNaverDefault = () => {
     try {
       if (geoApiAuth != "")
       {
-        const data = await ReverseGeoCoding({
+        const data = await reverseGeoCoding({
           accessToken: geoApiAuth,
           x_coor: X,
           y_coor: Y,
