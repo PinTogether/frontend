@@ -1,4 +1,4 @@
-import ProfileSettingPage from "@/components/ProfileSettingPage";
+import ProfileSettingPage from "@/containers/profile/ProfileSettingPage";
 
 export default function Page() {
   return (

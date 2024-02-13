@@ -1,7 +1,7 @@
 "use client";
 
-import { ExpandRightIcon } from "./IconSvg";
-import Topper from "./SubTopper";
+import { ExpandRightIcon } from "../../components/IconSvg";
+import Topper from "../../components/SubTopper";
 import styles from "@/styles/layout/_profileSettingPage.module.scss";
 import { useRouter } from "next/navigation";
 

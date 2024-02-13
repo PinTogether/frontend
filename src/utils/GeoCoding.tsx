@@ -1,5 +1,5 @@
 
-const GetGeoCodingAuth = ({
+const getGeoCodingAuth = ({
   consumer_key,
   consumer_secret,
   }: {
@@ -23,7 +23,7 @@ const GetGeoCodingAuth = ({
     });
   };
 
-const GeoCoding = ({
+const geoCoding = ({
   accessToken,
   address,
   pagenum,
@@ -51,7 +51,7 @@ const GeoCoding = ({
     });
   };
 
-  const ReverseGeoCoding = ({
+  const reverseGeoCoding = ({
   accessToken,
   x_coor,
   y_coor,
@@ -79,4 +79,4 @@ const GeoCoding = ({
     });
   };
 
-export {GetGeoCodingAuth, GeoCoding, ReverseGeoCoding}
+export {getGeoCodingAuth, geoCoding, reverseGeoCoding}

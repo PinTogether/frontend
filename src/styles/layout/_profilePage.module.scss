@@ -88,6 +88,11 @@
 	}
 }
 
+.clickedButtons{
+  background-color: $color-primary-light;
+  outline: 2px solid $color-border-active;
+}
+
 .profileListContainer{
 	flex:1;
 	display: grid;
