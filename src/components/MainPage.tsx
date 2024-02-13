@@ -39,7 +39,10 @@ export default function MainPage() {
           </select>
         </div>
       </section>
-      <section className={styles.gradationBox}>asd</section>
+      <section className={styles.gradationBox}>
+        <p>내가 좋아하는 <b>장소</b>에 <b>핀</b>을 찍고<br />
+        <b>컬렉션</b>을 만들고, 친구들과 공유해보세요!</p>
+      </section>
       <section className={styles.recommendCard}>
         <CardSlider scrollCardNumber={2}>
           <img src="https://picsum.photos/500/300" alt="image" />

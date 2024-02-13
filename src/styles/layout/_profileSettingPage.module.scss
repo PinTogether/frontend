@@ -1,39 +1,55 @@
 @import "../base/variables";
 
-.container{
-	display: grid;
-	grid-template-rows: 70px 600px;
-	margin:0;
-	padding:0;
-	min-height: 100vh;
-	transition: all 0.3s ease;
-	padding-left: 7%;
-	padding-right: 7%;
+.container {
+  display: grid;
+  grid-template-rows: 70px 600px;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  padding-left: 7%;
+  padding-right: 7%;
 }
 
-.innerContainer{
-	display: grid;
-	grid-template-rows: 250px 350px;
+.innerContainer {
+  display: grid;
+  grid-template-rows: 250px 350px;
 }
 
-.categoryMsg{
-	font-size: $font-size-small;
-	color: $color-grey-dark;
-	padding-left: 15px;
-	padding-top: 15px;
+.categoryMsg {
+  font-size: $font-size-small;
+  color: $color-grey-dark;
+  padding-left: 15px;
+  padding-top: 15px;
 }
 
-.button{
-	display: grid;
-	grid-template-columns: 1fr 25px;
-	width:100%;
-	border-bottom: 1px solid $color-grey;
+.button {
+  display: grid;
+  grid-template-columns: 1fr 70px;
+  width: 100%;
+  border-bottom: 1px solid $color-grey;
   align-items: end;
   justify-items: start;
-	padding-left: 15px;
-	padding: 10px;
-	font-size: $font-size-large;
+  padding-left: 15px;
+  padding: 10px;
+  font-size: $font-size-large;
 }
-.button:hover{
-	background-color: $color-primary-light;
+.button:hover {
+  background-color: $color-primary-light;
+}
+
+.expandButton {
+  width: 30px;
+  height: 30px;
+  align-items: end;
+  justify-items: end;
+}
+
+.logoutButton {
+  font-size: $font-size-small;
+  background-color: $color-grey;
+  border-radius: 5px;
+  padding: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
