@@ -1,8 +1,11 @@
 "use client";
 import styles from "@/styles/layout/_profilePage.module.scss";
 import Topper from "@/components/SubTopper";
+import { useRouter } from "next/navigation";
+import { SettingIcon } from "@/components/IconSvg";
 
 export default function Page() {
+  const router = useRouter();
   return (
     <section className={styles.container}>
       <Topper msg={"내 프로필"} />
@@ -16,29 +19,31 @@ export default function Page() {
           <div className={styles.profileName}>
             <div></div>
             <p>잠자는_짱구의_콧털</p>
-            <button>
-              <img
-                src="/icon/edit_plain.svg"
-                alt="edit icon"
-                className={styles.icon}
-                style={{ paddingLeft: "5px" }}
-              />
+            <button onClick={() => router.push("/profile/setting")}>
+              <SettingIcon className={styles.icon}/>
             </button>
           </div>
           <div className={styles.profileLog}>
-            <p>
-              내 지도 모음 <b>10</b>
-            </p>
-            <p>
-              좋아요한 지도 모음 <b>24</b>
-            </p>
+            <div className={styles.profileLogBox}>
+              <b>10</b>
+              <p>내 컬렉션</p>
+            </div>
+            <div className={styles.profileLogBox}>
+              <b>24</b>
+              <p>좋아요한 컬렉션</p>
+            </div>
+            <div className={styles.profileLogBox}>
+              <b>24</b>
+              <p>스크랩한 컬렉션</p>
+            </div>
           </div>
         </div>
       </section>
       <section className={styles.buttonContainer}>
-        <button className={styles.buttons}>내 지도</button>
-        <button className={styles.buttons}>좋아요한 지도</button>
-        <button className={styles.buttons}>+ 장소 추가</button>
+        <button className={styles.buttons}>내 컬렉션</button>
+        <button className={styles.buttons}>좋아요한 컬렉션</button>
+        <button className={styles.buttons}>스크랩한 컬렉션</button>
+        <button className={styles.buttons}>+ 컬렉션 추가</button>
       </section>
       <section className={styles.profileListContainer}>
         <div className={styles.dummycard} />

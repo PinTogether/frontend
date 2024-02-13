@@ -32,15 +32,19 @@ export default function MainPage() {
             placeholder="다른 사람의 컬렉션을 검색해 보세요 !  추천 키워드  :  강릉, 맛집,  디저트 ... !"
           />
           <select>
+            <option value="0">전체 검색</option>
             <option value="1">컬렉션 검색</option>
             <option value="2">핀 검색</option>
             <option value="3">장소 검색</option>
           </select>
         </div>
       </section>
-      <section className={styles.gradationBox}>asd</section>
+      <section className={styles.gradationBox}>
+        <p>내가 좋아하는 <b>장소</b>에 <b>핀</b>을 찍고<br />
+        <b>컬렉션</b>을 만들고, 친구들과 공유해보세요!</p>
+      </section>
       <section className={styles.recommendCard}>
-        <CardSlider width={1200} scrollCardNumber={2}>
+        <CardSlider scrollCardNumber={2}>
           <img src="https://picsum.photos/500/300" alt="image" />
           <img src="https://picsum.photos/500/300" alt="image" />
           <img src="https://picsum.photos/500/300" alt="image" />
@@ -55,7 +59,7 @@ export default function MainPage() {
       <section className={styles.recommendListContainer}>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
-          <CardSlider width={1200} scrollCardNumber={5}>
+          <CardSlider scrollCardNumber={5}>
             <img src="https://picsum.photos/170/200" alt="image" />
             <img src="https://picsum.photos/170/200" alt="image" />
             <img src="https://picsum.photos/170/200" alt="image" />
@@ -67,7 +71,7 @@ export default function MainPage() {
         </section>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>별로 안 추천 컬렉션 TOP10</p>
-          <CardSlider width={1200} scrollCardNumber={5}>
+          <CardSlider scrollCardNumber={5}>
             <img src="https://picsum.photos/170/200" alt="image" />
             <img src="https://picsum.photos/170/200" alt="image" />
             <img src="https://picsum.photos/170/200" alt="image" />
@@ -79,7 +83,7 @@ export default function MainPage() {
         </section>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>적당히 추천 컬렉션 TOP10</p>
-          <CardSlider width={1200} scrollCardNumber={5}>
+          <CardSlider scrollCardNumber={5}>
             <img src="https://picsum.photos/170/200" alt="image" />
             <img src="https://picsum.photos/170/200" alt="image" />
             <img src="https://picsum.photos/170/200" alt="image" />

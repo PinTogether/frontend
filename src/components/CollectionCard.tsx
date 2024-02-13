@@ -1,3 +1,5 @@
+"use client"
+
 import styles from "@/styles/components/_collectioncard.module.scss";
 import Image from "next/image";
 // import { HeartIcon } from "@/components/Icons";

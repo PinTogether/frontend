@@ -1,0 +1,56 @@
+@import "../base/variables";
+
+.container {
+  display: grid;
+  grid-template-rows: 70px 600px;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  padding-left: 7%;
+  padding-right: 7%;
+}
+
+.innerContainer {
+  display: grid;
+  grid-template-rows: 250px 350px;
+}
+
+.categoryMsg {
+  font-size: $font-size-small;
+  color: $color-grey-dark;
+  padding-left: 15px;
+  padding-top: 15px;
+}
+
+.button {
+  display: grid;
+  grid-template-columns: 1fr 80px;
+  width: 100%;
+  border-bottom: 1px solid $color-grey;
+  align-items: center;
+  justify-items: start;
+  padding-left: 15px;
+  padding: 10px;
+  font-size: $font-size-large;
+}
+.button:hover {
+  background-color: $color-primary-light;
+}
+
+.expandButton {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  align-self: center;
+  justify-self: end;
+}
+
+.logoutButton {
+  font-size: $font-size-small;
+  background-color: $color-grey;
+  border-radius: 15px;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}

@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 export default function Overlay(){
   const [isCardSliderOn, setIsCardSliderOn] = useState(1);
-  const [cardSliderBtnMsg, setCardSliderBtnMsg] = useState("지도 목록 숨기기 ∨");
+  const [cardSliderBtnMsg, setCardSliderBtnMsg] = useState("컬렉션 숨기기 v");
   const sidoName = useAppSelector((state) => state.location.sido);
   const sggName = useAppSelector((state) => state.location.sgg);
   const emdongName = useAppSelector((state) => state.location.emdong);
@@ -17,11 +17,11 @@ export default function Overlay(){
       if (prevState === 1) return 0;
       return 1;
     });
-    if(cardSliderBtnMsg === "지도 목록 숨기기 v"){
-      setCardSliderBtnMsg("지도 목록 보이기 ∧");
+    if(cardSliderBtnMsg === "컬렉션 숨기기 v"){
+      setCardSliderBtnMsg("컬렉션 보이기 ∧");
     }
     else{
-      setCardSliderBtnMsg("지도 목록 숨기기 v");
+      setCardSliderBtnMsg("컬렉션 숨기기 v");
     }
     };
   return(
@@ -61,9 +61,9 @@ export default function Overlay(){
           </CardSlider>
         </div>
         <div className={styles.buttonBox}>
-          <button className={styles.bottomButton}>내 지도</button>
-          <button className={styles.bottomButton}>좋아요한 지도</button>
-          <button className={styles.bottomButton}>새지도 만들기 +</button>
+          <button className={styles.bottomButton}>내 컬렉션</button>
+          <button className={styles.bottomButton}>좋아요한 컬렉션</button>
+          <button className={styles.bottomButton}>새컬렉션 만들기 +</button>
           <button className={styles.bottomButton} onClick={toggleCardSlider}>{cardSliderBtnMsg}</button>
         </div>
       </div>
