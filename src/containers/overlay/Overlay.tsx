@@ -4,13 +4,23 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import styles from '@/styles/layout/_overlay.module.scss'
 import CardSlider from '@/components/CardSlider'
 import { useState } from 'react';
+import { latByAmount, lngByAmount } from "@/redux/locationSlice";
 
 export default function Overlay(){
+  const dispatch = useAppDispatch();
+
   const [isCardSliderOn, setIsCardSliderOn] = useState(1);
   const [cardSliderBtnMsg, setCardSliderBtnMsg] = useState("컬렉션 숨기기 v");
   const sidoName = useAppSelector((state) => state.location.sido);
   const sggName = useAppSelector((state) => state.location.sgg);
   const emdongName = useAppSelector((state) => state.location.emdong);
+
+  function getLocation(){
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      dispatch(latByAmount(pos.coords.latitude));
+      dispatch(lngByAmount(pos.coords.longitude));
+    });
+  };
 
   const toggleCardSlider = () => {
     setIsCardSliderOn((prevState) => {
@@ -38,7 +48,7 @@ export default function Overlay(){
             {emdongName}
           </div>
         </div>
-        <button className={styles.topButton}>
+        <button className={styles.topButton} onClick={getLocation}>
           <img src="/icon/location_plain.svg" alt="location button" className={styles.icon}></img>
         </button>
       </div>
