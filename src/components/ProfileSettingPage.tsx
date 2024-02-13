@@ -13,10 +13,10 @@ export default function ProfileSettingPage() {
       <section className={styles.innerContainer}>
         <section>
           <p className={styles.categoryMsg}>계정관리</p>
-          <button className={styles.button}>
+          <div className={styles.button}>
             <p>카카오 계정 회원</p>
             <button className={styles.logoutButton}>로그아웃</button>
-          </button>
+          </div>
           <button className={styles.button}>
             <p>내 정보 관리</p>
             <ExpandRightIcon className={styles.expandButton} />
