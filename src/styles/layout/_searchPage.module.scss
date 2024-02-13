@@ -12,8 +12,8 @@
 }
 
 .searchLogBanner{
-	display: grid;
-	align-items: end;
+	display: flex;
+	align-items: flex-end;
   justify-items: start;
 	gap: 5px;
 }

@@ -1,4 +1,4 @@
-import ProfileEditPage from "@/components/ProfileEditPage";
+import ProfileEditPage from "@/containers/profile/ProfileEditPage";
 
 export default function Page() {
   return (

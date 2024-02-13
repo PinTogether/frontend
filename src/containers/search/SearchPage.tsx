@@ -3,8 +3,8 @@
 import styles from "@/styles/layout/_searchPage.module.scss"
 import { useState } from "react";
 import Topper from "@/components/SubTopper";
-import { SearchLog } from "./SearchLog";
-import { SearchIcon } from "./IconSvg";
+import { SearchLog } from "../../components/SearchLog";
+import { SearchIcon } from "../../components/IconSvg";
 
 export default function Page() {
   const [inputCollectionSearch, setInputCollectionSearch] = useState("");

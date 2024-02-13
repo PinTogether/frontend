@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import MainPage from "@/components/MainPage";
+import MainPage from "@/containers/main/MainPage";
 
 export const metadata: Metadata = {
   title: "pintogether",
