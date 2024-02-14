@@ -3,7 +3,7 @@
 
 .container{
 	display: grid;
-	grid-template-rows: 70px 10px 210px 200px 100px;
+	grid-template-rows: 70px 30px 210px 30px 150px 100px;
 	margin:0;
 	padding:0;
 	min-height: 100vh;
@@ -13,9 +13,12 @@
 }
 
 .message{
+  display: flex;
   padding: 10px;
+  padding-top: 30px;
   align-items: center;
   justify-content: flex-start;
+  gap: 5px;
 }
 
 .avartarChangeContainer{
@@ -71,7 +74,7 @@
 
 .nicknameChangeContainer{
   display: grid;
-  grid-template-rows: 90px 55px 55px ;
+  grid-template-rows: 1fr 55px ;
   width: 100%;
   align-items: end;
   justify-items: start;

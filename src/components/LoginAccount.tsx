@@ -11,25 +11,25 @@ const LoginAccount = ({
   if (isLogin === 1) {
     if (RouteState === 1) {
       return (
-        <p className={styles.loginRoute}>
+        <div className={styles.loginRoute}>
           <div className={styles.loginImgContainerKakao}>
             <Image width={20} height={20} src={"/logo/kakao.svg"} alt="kakao" />
           </div>
           카카오 계정 회원
-        </p>
+        </div>
       );
     } else if (RouteState === 2) {
       return (
-        <p className={styles.loginRoute}>
+        <div className={styles.loginRoute}>
           <div className={styles.loginImgContainerNaver}>
             <Image width={20} height={20} src={"/logo/naver.svg"} alt="naver" />
           </div>
           네이버 계정 회원
-        </p>
+        </div>
       );
     } else if (RouteState === 3) {
       return (
-        <p className={styles.loginRoute}>
+        <div className={styles.loginRoute}>
           <div className={styles.loginImgContainerGoogle}>
             <Image
               width={20}
@@ -39,11 +39,11 @@ const LoginAccount = ({
             />
           </div>
           구글 계정 회원
-        </p>
+        </div>
       );
     }
   } else {
-    return <p className={styles.loginRoute}>로그인 하기</p>;
+    return <div className={styles.loginRoute}>로그인 하기</div>;
   }
 };
 

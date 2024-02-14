@@ -4,7 +4,6 @@ import Image from "next/image";
 import styles from "@/styles/layout/_profileEditPage.module.scss";
 import Topper from "@/components/SubTopper";
 import { useState } from "react";
-import { EditIcon, ImgLoadIcon } from "@/components/IconSvg";
 
 export default function ProfileEditPage() {
   const size = 300;
@@ -35,7 +34,6 @@ export default function ProfileEditPage() {
     <section className={styles.container}>
       <Topper msg={"프로필 수정"} />
       <p className={styles.message}>
-          <ImgLoadIcon style={{ width: "23px", height: "23px"}}/>
           프로필 사진 변경
       </p>
       <section className={styles.avartarChangeContainer}>
@@ -65,11 +63,10 @@ export default function ProfileEditPage() {
           </button>
         </div>
       </section>
-      <p className={styles.message}>
-            <EditIcon style={{ width: "23px", height: "23px"}}/>
-            닉네임 변경
-      </p>
       <section className={styles.nicknameChangeContainer}>
+        <p>
+            닉네임 변경
+        </p>
         <input className={styles.nicknameInput} onChange={onChangeNickname} value={inputNickname} placeholder="김고양"/>
         <p className={styles.nicknameCheckMessage}>
           닉네임 중복 확인
