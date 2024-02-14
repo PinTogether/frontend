@@ -1,17 +1,28 @@
 "use client"
 
 import Image from "next/image";
-import styles from "@/styles/layout/_profileEditPage.module.scss";
+import styles from "@/styles/layout/_collectionEditPage.module.scss";
 import Topper from "@/components/SubTopper";
 import { useState } from "react";
+import { ImgLoadIcon, EditIcon } from "@/components/IconSvg";
 
-export default function ProfileEditPage() {
+export default function CollectionEditPage() {
   const size = 300;
-  const [inputNickname, setInputNickname] = useState("");
-  const [imgSrc, setImgSrc] = useState("/images/cat_dummy.jpeg");
+  const [inputCollectionName, setInputCollectionName] = useState("");
+  const [inputTag, setInputTag] = useState([""]);
+  const [inputDescription, setInputDescription] = useState("");
+  const [imgSrc, setImgSrc] = useState("https://picsum.photos/id/326/300");
 
   const onChangeNickname = (e: any) => {
-    setInputNickname(e.target.value);
+    setInputCollectionName(e.target.value);
+  }
+
+  const onChangeDescription = (e: any) => {
+    setInputDescription(e.target.value);
+  }
+
+  const onChangeTag = (e: any) => {
+    setInputTag(e.target.value);
   }
 
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,16 +38,17 @@ export default function ProfileEditPage() {
   }
 
   const resetImgSrc = () => {
-    setImgSrc("/images/cat_dummy.jpeg");
+    setImgSrc("https://picsum.photos/id/326/300");
   }
 
   return (
     <section className={styles.container}>
-      <Topper msg={"프로필 수정"} />
+      <Topper msg={"컬렉션 생성 및 수정"} />
       <p className={styles.message}>
+          <ImgLoadIcon style={{ width: "23px", height: "23px"}}/>
           프로필 사진 변경
       </p>
-      <section className={styles.avartarChangeContainer}>
+      <section className={styles.collectionChangeContainer}>
         <div>
         </div>
         <div>
@@ -51,7 +63,7 @@ export default function ProfileEditPage() {
             <Image
               src={imgSrc}
               alt="profile image"
-              className={styles.avartar}
+              className={styles.mainImage}
               width={size}
               height={size}
             />
@@ -63,18 +75,33 @@ export default function ProfileEditPage() {
           </button>
         </div>
       </section>
-      <section className={styles.nicknameChangeContainer}>
-        <p>
-            닉네임 변경
+      <p className={styles.message}>
+          <EditIcon style={{ width: "23px", height: "23px"}}/>
+          제목 수정
+      </p>
+      <section className={styles.changeContainerWithChecker}>
+        <input className={styles.nameInput} onChange={onChangeNickname} value={inputCollectionName} placeholder="강릉 주민 맛집"/>
+        <p className={styles.nameCheckMessage}>
+          컬렉션 중복 확인
         </p>
-        <input className={styles.nicknameInput} onChange={onChangeNickname} value={inputNickname} placeholder="김고양"/>
-        <p className={styles.nicknameCheckMessage}>
-          닉네임 중복 확인
-        </p>
+      </section>
+      <p className={styles.message}>
+          <EditIcon style={{ width: "23px", height: "23px"}}/>
+          태그 추가
+      </p>
+      <section className={styles.changeContainer}>
+        <input className={styles.tagInput} onChange={onChangeTag} value={inputTag} placeholder="맛집"/>
+      </section>
+      <p className={styles.message}>
+          <EditIcon style={{ width: "23px", height: "23px"}}/>
+          설명 수정
+      </p>
+      <section className={styles.changeContainer}>
+        <textarea className={styles.descriptionInput} onChange={onChangeDescription} value={inputDescription} placeholder=""/>
       </section>
       <section className={styles.buttonContainer}>
         <button className={styles.confirmButton}>
-          완료
+          생성(수정) 완료
         </button>
       </section>
     </section>
