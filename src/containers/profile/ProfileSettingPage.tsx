@@ -4,9 +4,13 @@ import { ExpandRightIcon } from "../../components/IconSvg";
 import Topper from "../../components/SubTopper";
 import styles from "@/styles/layout/_profileSettingPage.module.scss";
 import { useRouter } from "next/navigation";
+import LoginAccount from "@/components/LoginAccount";
 
 export default function ProfileSettingPage() {
   const router = useRouter();
+  const loginRoute = 1; // 카카오 1, 네이버 2, 구글 3
+  const isLogin = 1; // 로그인은 1 로그아웃인 0
+
   return (
     <section className={styles.container}>
       <Topper msg={"설정"} />
@@ -14,16 +18,19 @@ export default function ProfileSettingPage() {
         <section>
           <p className={styles.categoryMsg}>계정관리</p>
           <div className={styles.button}>
-            <p>카카오 계정 회원</p>
-            <button className={styles.logoutButton}>로그아웃</button>
+            <LoginAccount isLogin={isLogin} RouteState={loginRoute}/>
+            { isLogin === 1 && <button className={styles.logoutButton}>로그아웃</button> }
           </div>
-          <button className={styles.button}>
+          <button
+            className={styles.button}
+            onClick={() => router.push("/profile/setting/myinfo")}
+          >
             <p>내 정보 관리</p>
             <ExpandRightIcon className={styles.expandButton} />
           </button>
           <button
             className={styles.button}
-            onClick={() => router.push("/profile/edit")}
+            onClick={() => router.push("/profile/setting/edit")}
           >
             <p>프로필 수정</p>
             <ExpandRightIcon className={styles.expandButton} />

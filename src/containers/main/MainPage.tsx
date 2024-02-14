@@ -5,8 +5,6 @@ import styles from "@/styles/layout/_mainPage.module.scss";
 import { useState } from "react";
 import CardSlider from "@/components/CardSlider";
 
-// 카드슬라이드 크기설정을 창 크기에따라 할 수 있게 변경해야함
-
 export default function MainPage() {
   const [inputCollectionSearch, setInputCollectionSearch] = useState("");
   const onChangeCollection = (e: any) => {

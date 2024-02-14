@@ -38,6 +38,11 @@
   background-color: $color-primary-light;
 }
 
+.loginRoute{
+  display: flex;
+  gap: 10px;
+}
+
 .expandButton {
   display: grid;
   width: 30px;
@@ -53,4 +58,40 @@
   padding: 5px;
   padding-left: 15px;
   padding-right: 15px;
+}
+
+.loginImgContainerKakao{
+  align-self: center;
+  justify-self: center;
+	width:25px;
+	height:25px;
+  padding: 5px;
+	border-radius: 70%;
+	object-fit: cover;
+  background-Color: #fee500 ;
+  padding: 5px;
+}
+
+.loginImgContainerNaver{
+  align-self: center;
+  justify-self: center;
+	width:25px;
+	height:25px;
+  padding: 5px;
+	border-radius: 70%;
+	object-fit: cover;
+  background-Color: #03c75a ;
+  padding: 5px;
+}
+
+.loginImgContainerGoogle{
+  align-self: center;
+  justify-self: center;
+	width:25px;
+	height:25px;
+  padding: 5px;
+	border-radius: 70%;
+	object-fit: cover;
+  background-Color: #ffffff ;
+  padding: 5px;
 }

@@ -7,6 +7,7 @@ interface CounterState {
   sido: string;
   lat: number;
   lng: number;
+  mainContentWidth: string;
 }
 
 const initialState: CounterState = {
@@ -15,8 +16,9 @@ const initialState: CounterState = {
   sido: "서울특별시",
   //lat: 37.488243,
   //lng: 127.064865,
-  lat:37.5012,
-  lng:127.0659,
+  lat: 37.5012,
+  lng: 127.0659,
+  mainContentWidth: "500px",
 };
 
 export const locationSlice = createSlice({
@@ -40,10 +42,20 @@ export const locationSlice = createSlice({
     lngByAmount: (state, action: PayloadAction<number>) => {
       state.lng = action.payload;
     },
+    mainContentWidthByAmount: (state, action: PayloadAction<string>) => {
+      state.mainContentWidth = action.payload;
+    },
   },
 });
 
-export const { emdongByAmount, sggByAmount, sidoByAmount, latByAmount, lngByAmount } = locationSlice.actions;
+export const {
+  emdongByAmount,
+  sggByAmount,
+  sidoByAmount,
+  latByAmount,
+  lngByAmount,
+  mainContentWidthByAmount,
+} = locationSlice.actions;
 
 export const selectLocation = (state: RootState) => state.counter.value;
 

@@ -126,7 +126,7 @@ export default function CollectionPage() {
       <Topper msg={"컬렉션(장소모음) 조회"} />
       <section className={styles.collectionDataContainer}>
         <div className={styles.collectionData}>
-          <CollectionCard collectionData={collection} />
+          <CollectionCard collectionData={collection} detail={true} />
         </div>
       </section>
       <section className={styles.buttonContainer}>
