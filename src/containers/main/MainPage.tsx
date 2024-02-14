@@ -31,7 +31,7 @@ export default function MainPage() {
             value={inputCollectionSearch}
             placeholder="다른 사람의 컬렉션을 검색해 보세요 !  추천 키워드  :  강릉, 맛집,  디저트 ... !"
           />
-          <select>
+          <select className={styles.selectSearchType}>
             <option value="0">전체 검색</option>
             <option value="1">컬렉션 검색</option>
             <option value="2">핀 검색</option>
@@ -40,8 +40,11 @@ export default function MainPage() {
         </div>
       </section>
       <section className={styles.gradationBox}>
-        <p>내가 좋아하는 <b>장소</b>에 <b>핀</b>을 찍고<br />
-        <b>컬렉션</b>을 만들고, 친구들과 공유해보세요!</p>
+        <p>
+          내가 좋아하는 <b>장소</b>에 <b>핀</b>을 찍고
+          <br />
+          <b>컬렉션</b>을 만들고, 친구들과 공유해보세요!
+        </p>
       </section>
       <section className={styles.recommendCard}>
         <CardSlider scrollCardNumber={2}>
