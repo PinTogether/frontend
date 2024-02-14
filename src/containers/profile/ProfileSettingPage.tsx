@@ -8,6 +8,8 @@ import LoginAccount from "@/components/LoginAccount";
 
 export default function ProfileSettingPage() {
   const router = useRouter();
+  const loginRoute = 1; // 카카오 1, 네이버 2, 구글 3
+  const isLogin = 1; // 로그인은 1 로그아웃인 0
 
   return (
     <section className={styles.container}>
@@ -16,8 +18,8 @@ export default function ProfileSettingPage() {
         <section>
           <p className={styles.categoryMsg}>계정관리</p>
           <div className={styles.button}>
-            <LoginAccount RouteState={3}/>
-            <button className={styles.logoutButton}>로그아웃</button>
+            <LoginAccount isLogin={isLogin} RouteState={loginRoute}/>
+            { isLogin === 1 && <button className={styles.logoutButton}>로그아웃</button> }
           </div>
           <button
             className={styles.button}
