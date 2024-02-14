@@ -17,7 +17,10 @@ export default function ProfileSettingPage() {
             <p>카카오 계정 회원</p>
             <button className={styles.logoutButton}>로그아웃</button>
           </div>
-          <button className={styles.button}>
+          <button
+            className={styles.button}
+            onClick={() => router.push("/profile/manage")}
+          >
             <p>내 정보 관리</p>
             <ExpandRightIcon className={styles.expandButton} />
           </button>
