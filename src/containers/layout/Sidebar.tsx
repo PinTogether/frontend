@@ -1,15 +1,25 @@
 "use client";
 
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { mainContentWidthByAmount } from "@/redux/locationSlice";
 import { useRouter, usePathname } from "next/navigation";
-import { AddSquareFillIcon, AddSquareIcon, BellFillIcon, BellIcon, HeartFillIcon, HeartIcon, HomeFillIcon, HomeIcon, MapFillIcon, MapIcon, SearchFillIcon, SearchIcon } from "@/components/IconSvg";
+import { AddSquareFillIcon, AddSquareIcon, BellFillIcon, BellIcon, HomeFillIcon, HomeIcon, MapFillIcon, MapIcon, SearchFillIcon, SearchIcon } from "@/components/IconSvg";
 import styles from "@/styles/layout/_sidebar.module.scss";
 import Image from "next/image";
 
 export default function Sidebar() {
-  // Image 의 필수 요소 때문에 width, height 를 지정해 주었지만, 영향을 미치지 않습니다.
   const size = 300;
   const router = useRouter();
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
+  const FlexbarWidth = useAppSelector((state) => state.location.mainContentWidth);
+
+  function moveURL(url:string){
+    if(FlexbarWidth == "0px"){
+      dispatch(mainContentWidthByAmount("500px"));
+    }
+    router.push(url);
+  }
 
   function currentPath(path:string){
     if(path == pathname)
@@ -20,7 +30,7 @@ export default function Sidebar() {
   return (
     <section className={styles.container}>
       <div></div>
-      <button className={styles.button} onClick={() => router.push("/")}>
+      <button className={styles.button} onClick={() => moveURL("/")}>
         <HomeIcon className={`${styles.icon} ${currentPath("/") ? styles.currPath : ''}`}/>
         <HomeFillIcon className={styles.hoveredIcon}/>
       </button>
@@ -28,11 +38,11 @@ export default function Sidebar() {
         <MapIcon className={styles.icon}/>
         <MapFillIcon className={styles.hoveredIcon}/>
       </button>
-      <button className={styles.button} onClick={() => router.push("/search")}>
+      <button className={styles.button} onClick={() => moveURL("/search")}>
         <SearchIcon className={`${styles.icon} ${currentPath("/search") ? styles.currPath : ''}`}/>
         <SearchFillIcon className={styles.hoveredIcon}/>
       </button>
-      <button className={styles.button} onClick={() => router.push("/collection")}>
+      <button className={styles.button} onClick={() => moveURL("/collection")}>
         <AddSquareIcon className={`${styles.icon} ${currentPath("/collection") ? styles.currPath : ''}`}/>
         <AddSquareFillIcon className={styles.hoveredIcon}/>
       </button>
@@ -41,7 +51,7 @@ export default function Sidebar() {
         <BellIcon className={styles.icon}/>
         <BellFillIcon className={styles.hoveredIcon}/>
       </button>
-      <button className={styles.button} onClick={() => router.push("/profile")}>
+      <button className={styles.button} onClick={() => moveURL("/profile")}>
         <div className={styles.profilebox}>
           <Image
             src="/images/cat_dummy.jpeg"
