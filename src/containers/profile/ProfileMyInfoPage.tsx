@@ -5,7 +5,7 @@ import Topper from "../../components/SubTopper";
 import styles from "@/styles/layout/_profileSettingPage.module.scss";
 import { useRouter } from "next/navigation";
 
-export default function ProfileManagePage() {
+export default function ProfileMyInfoPage() {
   const router = useRouter();
   return (
     <section className={styles.container}>

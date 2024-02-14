@@ -4,9 +4,11 @@ import { ExpandRightIcon } from "../../components/IconSvg";
 import Topper from "../../components/SubTopper";
 import styles from "@/styles/layout/_profileSettingPage.module.scss";
 import { useRouter } from "next/navigation";
+import LoginAccount from "@/components/LoginAccount";
 
 export default function ProfileSettingPage() {
   const router = useRouter();
+
   return (
     <section className={styles.container}>
       <Topper msg={"설정"} />
@@ -14,19 +16,19 @@ export default function ProfileSettingPage() {
         <section>
           <p className={styles.categoryMsg}>계정관리</p>
           <div className={styles.button}>
-            <p>카카오 계정 회원</p>
+            <LoginAccount RouteState={3}/>
             <button className={styles.logoutButton}>로그아웃</button>
           </div>
           <button
             className={styles.button}
-            onClick={() => router.push("/profile/manage")}
+            onClick={() => router.push("/profile/setting/myinfo")}
           >
             <p>내 정보 관리</p>
             <ExpandRightIcon className={styles.expandButton} />
           </button>
           <button
             className={styles.button}
-            onClick={() => router.push("/profile/edit")}
+            onClick={() => router.push("/profile/setting/edit")}
           >
             <p>프로필 수정</p>
             <ExpandRightIcon className={styles.expandButton} />
