@@ -18,7 +18,12 @@
 	transition: all 0.2s ease;
 	overflow-y: scroll;
 	pointer-events: auto;
-  }
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.maincontent::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
 
 
 .mainButton{
