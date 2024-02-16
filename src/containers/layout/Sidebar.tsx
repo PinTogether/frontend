@@ -39,11 +39,11 @@ export default function Sidebar() {
         <MapFillIcon className={styles.hoveredIcon}/>
       </button>
       <button className={styles.button} onClick={() => moveURL("/search")}>
-        <SearchIcon className={`${styles.icon} ${currentPath("/search") ? styles.currPath : ''}`}/>
+        <SearchIcon className={`${styles.icon} ${usePathname().startsWith("/search") ? styles.currPath : ''}`}/>
         <SearchFillIcon className={styles.hoveredIcon}/>
       </button>
-      <button className={styles.button} onClick={() => moveURL("/collection")}>
-        <AddSquareIcon className={`${styles.icon} ${currentPath("/collection") ? styles.currPath : ''}`}/>
+      <button className={styles.button} onClick={() => moveURL("/collection/edit")}>
+        <AddSquareIcon className={`${styles.icon} ${usePathname().startsWith("/collection") ? styles.currPath : ''}`}/>
         <AddSquareFillIcon className={styles.hoveredIcon}/>
       </button>
       <div></div>
@@ -56,7 +56,7 @@ export default function Sidebar() {
           <Image
             src="/images/cat_dummy.jpeg"
             alt="profile image"
-            className={`${styles.profile} ${currentPath("/profile") ? styles.currPathProfile : ''}`}
+            className={`${styles.profile} ${usePathname().startsWith("/profile") ? styles.currPathProfile : ''}`}
             width={size}
             height={size}
           />

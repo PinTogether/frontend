@@ -122,7 +122,7 @@ export default function CollectionEditPage() {
       <section className={styles.changeContainerWithChecker}>
         <input className={styles.nameInput} onChange={onChangeNickname} value={inputCollectionName} placeholder="강릉 주민 맛집"/>
         <p className={styles.nameCheckMessage}>
-          컬렉션 중복 확인
+          컬렉션 제목 중복 확인
         </p>
       </section>
       <p className={styles.message}>
