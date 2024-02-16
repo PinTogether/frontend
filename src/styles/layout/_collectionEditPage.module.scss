@@ -132,9 +132,14 @@
   outline: 1px solid $color-border-inactive;
   background-color: $color-grey;
   color:$color-grey-dark;
+  cursor: pointer;
   padding: 3px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.tagBox:hover{
+  background-color: #FFE2E2;
 }
 
 .tagInput{
