@@ -9,9 +9,36 @@ import { ImgLoadIcon, EditIcon } from "@/components/IconSvg";
 export default function CollectionEditPage() {
   const size = 300;
   const [inputCollectionName, setInputCollectionName] = useState("");
-  const [inputTag, setInputTag] = useState([""]);
+  const [inputTag, setInputTag] = useState("");
   const [inputDescription, setInputDescription] = useState("");
   const [imgSrc, setImgSrc] = useState("https://picsum.photos/id/326/300");
+  const [TagList, setTagList] = useState<string[]>([]);
+
+  const TagListRenderer = () => {
+    return (
+      <section className={styles.tagBoxContainer}>
+        {TagList.map((tag, index) => (
+          <div key={index} className={styles.tagBox}>{tag}</div>
+        ))}
+      </section>
+    );
+  };
+
+  const setTag = () => {
+    if(TagList.includes(inputTag) === false){
+      const newList = TagList;
+      newList.push(inputTag);
+      setTagList(newList);
+      setInputTag("");
+    }
+    else{
+      const index = TagList.indexOf(inputTag);
+      const newList =  TagList;
+      newList.splice(index, 1);
+      setTagList(newList);
+      setInputTag("");
+    }
+  }
 
   const onChangeNickname = (e: any) => {
     setInputCollectionName(e.target.value);
@@ -22,7 +49,20 @@ export default function CollectionEditPage() {
   }
 
   const onChangeTag = (e: any) => {
-    setInputTag(e.target.value);
+    const checkString = e.target.value;
+    if(checkString[checkString.length - 1] != ' ')
+    {
+      setInputTag(checkString);
+    }
+    else{
+      setInputTag(checkString.substring(0, checkString.length - 1));
+    }
+  }
+
+  const enterAtTag = (e:any) => {
+    if(e.key === 'Enter' && !e.nativeEvent.isComposing){
+      setTag();
+    }
   }
 
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +130,10 @@ export default function CollectionEditPage() {
           태그 추가
       </p>
       <section className={styles.changeContainer}>
-        <input className={styles.tagInput} onChange={onChangeTag} value={inputTag} placeholder="맛집"/>
+        <div className={styles.tagInputContainer}>
+            <TagListRenderer />
+          <input className={styles.tagInput} onChange={onChangeTag} onKeyDown={enterAtTag} value={inputTag} maxLength={5} placeholder="태그를 입력하세요: 맛집, 휴식, 데이트 ..."/>
+        </div>
       </section>
       <p className={styles.message}>
           <EditIcon style={{ width: "23px", height: "23px"}}/>
