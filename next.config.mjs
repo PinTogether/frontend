@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["picsum.photos"],
+    domains: [
+      "picsum.photos",
+      "pintogether-img.s3.ap-northeast-2.amazonaws.com",
+    ],
   },
   webpack(config) {
     config.module.rules.push({
