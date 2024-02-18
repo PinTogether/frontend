@@ -1,7 +1,7 @@
 "use client"
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import styles from '@/styles/layout/_overlay.module.scss'
+import styles from '@/styles/containers/overlay/_overlay.module.scss'
 import CardSlider from '@/components/CardSlider'
 import { useState } from 'react';
 import { latByAmount, lngByAmount } from "@/redux/locationSlice";

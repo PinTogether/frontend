@@ -1,0 +1,41 @@
+@import "../base/variables";
+@import "../base/placeholders";
+
+.infoListLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  height: fit-content;
+}
+
+.categoryTitle {
+  font-size: $font-size-small;
+  color: $color-grey-dark;
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+
+.list,
+.clickableList {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid $color-grey;
+  align-items: center;
+  justify-items: start;
+  padding: 0.625rem 1rem;
+  font-size: $font-size-medium;
+}
+.clickableList:hover {
+  cursor: pointer;
+  background-color: $color-primary-light;
+}
+
+.expandButton {
+  display: grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  align-self: center;
+  justify-self: end;
+  color: $color-grey-dark;
+}

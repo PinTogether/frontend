@@ -1,10 +1,9 @@
 "use client";
 
-import { ExpandRightIcon } from "../../components/IconSvg";
-import Topper from "../../components/SubTopper";
-import styles from "@/styles/layout/_profileSettingPage.module.scss";
+import styles from "@/styles/containers/profile/_profileSettingPage.module.scss";
 import { useRouter } from "next/navigation";
-import LoginAccount from "@/components/LoginAccount";
+import LoginAccount from "@/containers/profile/LoginAccount";
+import InfoListLayout, { UlWrapper, LiWrapper } from "../layout/InfoListLayout";
 
 export default function ProfileSettingPage() {
   const router = useRouter();
@@ -12,50 +11,27 @@ export default function ProfileSettingPage() {
   const isLogin = 1; // 로그인은 1 로그아웃인 0
 
   return (
-    <section className={styles.container}>
-      <Topper msg={"설정"} />
-      <section className={styles.innerContainer}>
-        <section>
-          <p className={styles.categoryMsg}>계정관리</p>
-          <div className={styles.button}>
-            <LoginAccount isLogin={isLogin} RouteState={loginRoute}/>
-            { isLogin === 1 && <button className={styles.logoutButton}>로그아웃</button> }
-          </div>
-          <button
-            className={styles.button}
-            onClick={() => router.push("/profile/setting/myinfo")}
-          >
-            <p>내 정보 관리</p>
-            <ExpandRightIcon className={styles.expandButton} />
-          </button>
-          <button
-            className={styles.button}
-            onClick={() => router.push("/profile/setting/edit")}
-          >
-            <p>프로필 수정</p>
-            <ExpandRightIcon className={styles.expandButton} />
-          </button>
-        </section>
-        <section>
-          <p className={styles.categoryMsg}>서비스 안내</p>
-          <button className={styles.button}>
-            <p>서비스 이용약관</p>
-            <ExpandRightIcon className={styles.expandButton} />
-          </button>
-          <button className={styles.button}>
-            <p>개인정보 처리방침</p>
-            <ExpandRightIcon className={styles.expandButton} />
-          </button>
-          <button className={styles.button}>
-            <p>오픈소스 라이선스</p>
-            <ExpandRightIcon className={styles.expandButton} />
-          </button>
-          <button className={styles.button}>
-            <p>버전정보 1.1.0</p>
-            <ExpandRightIcon className={styles.expandButton} />
-          </button>
-        </section>
-      </section>
-    </section>
+    <InfoListLayout>
+      <UlWrapper categoryTitle="계정관리">
+        <LiWrapper>
+          <LoginAccount isLogin={isLogin} RouteState={loginRoute} />
+          {isLogin === 1 && (
+            <button className={styles.logoutButton}>로그아웃</button>
+          )}
+        </LiWrapper>
+        <LiWrapper onClick={() => router.push("/profile/setting/myinfo")}>
+          내 정보 관리
+        </LiWrapper>
+        <LiWrapper onClick={() => router.push("/profile/setting/edit")}>
+          프로필 수정
+        </LiWrapper>
+      </UlWrapper>
+      <UlWrapper categoryTitle="서비스 안내">
+        <LiWrapper>서비스 이용약관</LiWrapper>
+        <LiWrapper>개인정보 처리방침</LiWrapper>
+        <LiWrapper>오픈소스 라이선스</LiWrapper>
+        <LiWrapper>버전정보 1.1.0</LiWrapper>
+      </UlWrapper>
+    </InfoListLayout>
   );
 }

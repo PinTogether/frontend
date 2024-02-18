@@ -1,4 +1,4 @@
-import styles from "@/styles/layout/_searchPage.module.scss"
+import styles from "@/styles/containers/search/_searchPage.module.scss"
 
 interface SearchData{
   searchString: string,

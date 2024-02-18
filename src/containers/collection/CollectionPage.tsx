@@ -1,6 +1,6 @@
 "use client"
 
-import styles from "@/styles/layout/_collectionPage.module.scss";
+import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import PinCard from "@/components/PinCard";
 import Topper from "@/components/SubTopper";
 import IPin from "@/types/IPin";

@@ -1,10 +1,10 @@
-import LoginPage from "@/containers/login/LoginPage";
 import SubPageLayout from "@/containers/layout/SubPageLayout";
+import NotifyPage from "@/containers/notify/NotifyPage";
 
 export default function Page() {
   return (
-    <SubPageLayout topperMsg="로그인">
-      <LoginPage />
+    <SubPageLayout topperMsg="알림">
+      <NotifyPage />
     </SubPageLayout>
   );
 }

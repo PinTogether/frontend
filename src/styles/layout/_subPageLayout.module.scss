@@ -1,0 +1,12 @@
+.subPageLayout {
+  display: grid;
+  grid-template-rows: 70px auto;
+  grid-template-columns: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  transition: all 0.3s ease; // for what?
+  padding-left: 7%;
+  padding-right: 7%;
+  padding-bottom: 3rem;
+}

@@ -1,0 +1,56 @@
+@import "../../base/variables";
+@import "../../base/placeholders";
+
+/* ProfileSettingPage.tsx */
+.logoutButton {
+  @extend %pt-button;
+  font-size: $font-size-small;
+  background-color: $color-grey-light;
+  border-radius: 15px;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* LoginAccount.tsx */
+.loginRoute {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.loginImgContainerKakao {
+  align-self: center;
+  justify-self: center;
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  border-radius: 70%;
+  object-fit: cover;
+  background-color: #fee500;
+  padding: 5px;
+}
+
+.loginImgContainerNaver {
+  align-self: center;
+  justify-self: center;
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  border-radius: 70%;
+  object-fit: cover;
+  background-color: #03c75a;
+  padding: 5px;
+}
+
+.loginImgContainerGoogle {
+  align-self: center;
+  justify-self: center;
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  border-radius: 70%;
+  object-fit: cover;
+  background-color: #ffffff;
+  padding: 5px;
+}

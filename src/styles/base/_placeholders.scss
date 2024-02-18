@@ -1,6 +1,6 @@
 @import "variables";
 
-// extend 모음
+// @extend %placeholder
 
 %pt-page {
   display: flex;
@@ -15,7 +15,7 @@
   font-family: $font-family;
   font-size: 1rem;
   line-height: 1.5;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 %pt-button {
@@ -36,46 +36,12 @@
   background-color: $color-button-inactive;
   outline: 1px solid $color-border-inactive;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
 
   &:hover {
     background-color: $color-button-active;
     outline: 2px solid $color-border-active;
   }
-}
-
-%pt-input {
-  width: fit-content;
-  height: fit-content;
-
-  max-width: 100%;
-  max-height: 3.125rem;
-  padding: 0.2rem 1rem;
-
-  border-radius: 0.4rem;
-  //   border: 1px solid $color-border-inactive;
-  font-size: $font-size-medium;
-  transition: all 0.2s ease-in-out;
-
-  &:focus {
-    outline: none;
-    outline: 2px solid $color-border-active;
-  }
-
-  &:active {
-    border: 1px solid $color-border-active;
-  }
-
-  &::placeholder {
-    color: $color-text-caption;
-  }
-
-  //   &:disabled {
-  // 	background-color: $color-grey-light;
-  // 	border: 1px solid $color-grey;
-  // 	color: $color-text-caption;
-  // 	cursor: not-allowed;
-  //   }
 }
 
 %pt-card {
@@ -101,63 +67,26 @@
   }
 }
 
-%pt-newInput{
+/* for Edit Page */
+%pt-input {
   font-size: $font-size-large;
   width: 100%;
   border-radius: 5px;
   outline: 1px solid $color-border-inactive;
   box-shadow: 0px 0px 5px $color-grey;
   padding: 5px;
-  padding-left: 20px;
+  padding-left: 1rem;
   padding-right: 20px;
+  font-size: $font-size-medium;
+
+  &:focus {
+    outline: none;
+    outline: 2px solid $color-border-active;
+  }
 }
 
-// %pt-textarea {
-//   @extend %pt-input;
-//   width: unset;
-//   height: unset;
-//   max-height: 100%;
-//   resize: both;
-//   transition: all 0s;
-//   //   resize: unset;
-// }
-
-// %pt-select {
-//   width: 100%;
-//   height: 3.125rem;
-//   border-radius: 0.3125rem;
-//   border: 1px solid $color-border-inactive;
-//   font-size: 1rem;
-//   padding: 0 1rem;
-//   transition: all 0.2s ease-in-out;
-
-//   &:focus {
-//     border: 1px solid $color-border-active;
-//   }
-// }
-
-// %pt-checkbox {
-//   width: 1.25rem;
-//   height: 1.25rem;
-//   border-radius: 0.3125rem;
-//   border: 1px solid $color-border-inactive;
-//   transition: all 0.2s ease-in-out;
-
-//   &:checked {
-//     background-color: $color-primary;
-//     border: 1px solid $color-primary;
-//   }
-// }
-
-// %pt-radio {
-//   width: 1.25rem;
-//   height: 1.25rem;
-//   border-radius: 50%;
-//   border: 1px solid $color-border-inactive;
-//   transition: all 0.2s ease-in-out;
-
-//   &:checked {
-//     background-color: $color-primary;
-//     border: 1px solid $color-primary;
-//   }
-// }
+%pt-editPageSubmitButton {
+  @extend %pt-button;
+  width: 100%;
+  height: 2rem;
+}

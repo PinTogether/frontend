@@ -18,6 +18,7 @@
   @extend %pt-card;
   padding: 12px;
   min-width: 20rem;
+  height: fit-content;
 
   .mainInfo {
     display: grid;

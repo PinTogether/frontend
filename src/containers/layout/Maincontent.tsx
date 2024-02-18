@@ -5,21 +5,25 @@ import styles from "@/styles/layout/_maincontent.module.scss";
 import Overlay from "../overlay/Overlay";
 import { mainContentWidthByAmount } from "@/redux/locationSlice";
 
-export default function Sidebar({ children }: { children: React.ReactNode }) {
+export default function MainContent({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const dispatch = useAppDispatch();
-  const FlexbarWidth = useAppSelector((state) => state.location.mainContentWidth);
+  const FlexbarWidth = useAppSelector(
+    (state) => state.location.mainContentWidth
+  );
 
-  function toggleFlexBarWidth(){
-    if(FlexbarWidth === '0px'){
+  function toggleFlexBarWidth() {
+    if (FlexbarWidth === "0px") {
       dispatch(mainContentWidthByAmount("500px"));
-    }
-    else if(FlexbarWidth === "500px"){
+    } else if (FlexbarWidth === "500px") {
       dispatch(mainContentWidthByAmount("95%"));
-    }
-    else{
+    } else {
       dispatch(mainContentWidthByAmount("0px"));
     }
-  };
+  }
 
   function ButtonImg() {
     if (FlexbarWidth == "95%") {
@@ -46,7 +50,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         className={`${styles.maincontent} ${FlexbarWidth != "0px" ? styles.visible : ""}`}
         style={{ width: FlexbarWidth }}
       >
-        <main>{children}</main>
+        {children}
       </div>
       <div>
         <button onClick={toggleFlexBarWidth} className={styles.mainButton}>
