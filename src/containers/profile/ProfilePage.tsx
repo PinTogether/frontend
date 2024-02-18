@@ -17,7 +17,6 @@ export default function ProfilePage() {
   }
   return (
     <>
-      {/* <Topper msg={"내 프로필"} /> */}
       <section className={styles.profileDataContainer}>
         <div className={styles.profileData}>
           <img
