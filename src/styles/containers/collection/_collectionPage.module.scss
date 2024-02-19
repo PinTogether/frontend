@@ -120,7 +120,7 @@
 .replyButton{
   display: grid;
   align-self: start;
-  justify-self: start;
+  justify-self: end;
   color:$color-grey-dark;
   font-size: $font-size-small;
 }

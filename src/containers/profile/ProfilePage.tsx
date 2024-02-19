@@ -1,16 +1,29 @@
 "use client";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
-import Topper from "@/components/SubTopper";
 import { useRouter } from "next/navigation";
 import { SettingIcon } from "@/components/IconSvg";
 import { useState } from "react";
+import IProfile from "@/types/IProfile";
+
+const profiles: IProfile = {
+  userNickname: "김고양",
+  userId: 1,
+  registrationSource: "KAKAO",
+  role: "ROLE_MEMBER",
+  avatar: "/images/cat_dummy.jpeg",
+  collectionCnt: 5,
+  scrappedCollectionCnt: 3,
+  likedCollectionCnt: 7,
+};
 
 export default function ProfilePage() {
   const router = useRouter();
-  const [showState, setShowState] = useState(0);
+  const [showState, setShowState] = useState(1);
+  const myUserId = 1; // localStorage의 userId와 비교하는것으로 바꾸기 or boolean으로 내꺼인지 반환해주는 함수 만들기
+
   function onChangeShowState(state: number) {
     if (state == showState) {
-      setShowState(0);
+      setShowState(1);
     } else {
       setShowState(state);
     }
@@ -20,28 +33,30 @@ export default function ProfilePage() {
       <section className={styles.profileDataContainer}>
         <div className={styles.profileData}>
           <img
-            src="/images/cat_dummy.jpeg"
+            src={profiles.avatar}
             alt="profile img"
             className={styles.profileImage}
           />
           <div className={styles.profileName}>
             <div></div>
-            <p>잠자는_짱구의_콧털</p>
-            <button onClick={() => router.push("/profile/setting")}>
-              <SettingIcon className={styles.icon} />
-            </button>
+            <p>{profiles.userNickname}</p>
+            {myUserId === profiles.userId && (
+              <button onClick={() => router.push("/profile/setting")}>
+                <SettingIcon className={styles.icon} />
+              </button>
+            )}
           </div>
           <div className={styles.profileLog}>
             <div className={styles.profileLogBox}>
-              <b>10</b>
+              <b>{profiles.collectionCnt}</b>
               <p>내 컬렉션</p>
             </div>
             <div className={styles.profileLogBox}>
-              <b>24</b>
+              <b>{profiles.likedCollectionCnt}</b>
               <p>좋아요한 컬렉션</p>
             </div>
             <div className={styles.profileLogBox}>
-              <b>24</b>
+              <b>{profiles.scrappedCollectionCnt}</b>
               <p>스크랩한 컬렉션</p>
             </div>
           </div>
@@ -66,7 +81,9 @@ export default function ProfilePage() {
         >
           스크랩한 컬렉션
         </button>
-        <button className={styles.buttons}>+ 컬렉션 추가</button>
+        {myUserId === profiles.userId && (
+          <button className={styles.buttons}>+ 컬렉션 추가</button>
+        )}
       </section>
       <section className={styles.profileListContainer}>
         <div className={styles.dummycard} />

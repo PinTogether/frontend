@@ -1,10 +1,12 @@
 import ICollectionReply from "@/types/ICollectionReply";
+import { CloseRoundIcon } from "../IconSvg";
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import Image from "next/image";
 
 function ReplyContent({ data }: { data: ICollectionReply }) {
   const size = 100;
-  //내 id와 작성자 id 비교해서 신고 또는 x, 수정 버튼 나오도록하기
+  const myId = 101;
+
   return (
     <section className={styles.replyContainer}>
       <Image
@@ -19,10 +21,19 @@ function ReplyContent({ data }: { data: ICollectionReply }) {
         <div>
           <span>{data.comment}</span>
           <span> </span>
-          <span className={styles.replyName}>{data.createdAt.slice(0, 10)}</span>
+          <span className={styles.replyName}>
+            {data.createdAt.slice(0, 10)}
+          </span>
         </div>
       </section>
-      <button className={styles.replyButton}>신고</button>
+      {myId === data.userId && (
+        <button className={styles.replyButton}>
+          <CloseRoundIcon style={{ width: "20px", height: "20px" }} />
+        </button>
+      )}
+      {myId !== data.userId && (
+        <button className={styles.replyButton}>신고</button>
+      )}
     </section>
   );
 }
@@ -32,6 +43,7 @@ export default function CollectionWithReply({
 }: {
   replys: ICollectionReply[];
 }) {
+  const myId = 101; // 나중에 localStorage 같은곳에 있는 내 id와 비교하는걸로 변경
   return (
     <section className={styles.collectionReplyContainer}>
       {replys.map((reply, index) => (
