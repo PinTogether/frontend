@@ -1,0 +1,44 @@
+@import "../../base/variables";
+@import "../../base/placeholders";
+
+.avartar {
+  align-items: end;
+  justify-items: start;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.avartarChangeContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.cancelButton {
+  width: fit-content;
+  height: fit-content;
+  align-items: end;
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+.submitButton {
+  @extend %pt-editPageSubmitButton;
+}
+
+.nicknameInput {
+  @extend %pt-input;
+}
+
+.nicknameCheckMessage {
+  position: absolute;
+  bottom: -1.75rem;
+  font-size: $font-size-medium;
+  color: $color-primary;
+  width: 100%;
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import styles from "@/styles/layout/_collectionEditPage.module.scss";
+import styles from "@/styles/containers/collection/_collectionEditPage.module.scss";
 import Topper from "@/components/SubTopper";
 import { useState, useEffect } from "react";
 import { ImgLoadIcon, EditIcon } from "@/components/IconSvg";

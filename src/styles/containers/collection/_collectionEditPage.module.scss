@@ -1,5 +1,5 @@
-@import "../base/variables";
-@import "../base/placeholders";
+@import "../../base/variables";
+@import "../../base/placeholders";
 
 .container{
 	display: grid;
@@ -100,7 +100,7 @@
 }
 
 .nameInput{
-  @extend %pt-newInput;
+  @extend %pt-input;
 }
 
 .tagInputContainer{
@@ -149,7 +149,7 @@
 }
 
 .descriptionInput{
-  @extend %pt-newInput;
+  @extend %pt-input;
   height: 100px;
 }
 

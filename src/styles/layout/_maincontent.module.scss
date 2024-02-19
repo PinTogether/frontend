@@ -1,60 +1,74 @@
 @import "../base/variables";
 
-.container{
-	display: flex;
-	height: 100vh;
-	pointer-events: none;
-	min-height: 410px;
-	align-items: center;
-	transition: all 0.2s ease;
+.container {
+  display: flex;
+  height: 100vh;
+  pointer-events: none;
+  min-height: 410px;
+  align-items: center;
+  transition: all 0.2s ease;
 }
 
-.maincontent{
-	opacity: 0;
-	height: 100vh;
-	min-height: 410px;
-	background-color: $color-white;
-	position: relative;
-	transition: all 0.2s ease;
-	overflow-y: scroll;
-	pointer-events: auto;
+.maincontent {
+  opacity: 0;
+  height: 100vh;
+
+  min-height: 410px;
+  background-color: $color-white;
+  // background-color: aqua;
+  width: 100%;
+
+  position: relative;
+  transition: all 0.2s ease;
+  overflow-y: scroll;
+  pointer-events: auto;
   -ms-overflow-style: none; /* IE, Edge */
   scrollbar-width: none; /* Firefox */
+
+  // .container {
+  // display: grid;
+  // grid-template-rows: 70px 600px;
+  // margin: 0;
+  // padding: 0;
+  // min-height: 100vh;
+  // transition: all 0.3s ease;
+  // padding-left: 7%;
+  // padding-right: 7%;
+  // // // }
 }
 .maincontent::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera*/
 }
 
-
-.mainButton{
-	display: flex;
-	width:20px;
-	height:100px;
-	background-color: $color-grey;
-	pointer-events: auto;
-	align-items: center;
-	place-items: center;
-	cursor:pointer;
-	border-radius: 0px 5px 5px 0px;
+.mainButton {
+  display: flex;
+  width: 20px;
+  height: 100px;
+  background-color: $color-grey;
+  pointer-events: auto;
+  align-items: center;
+  place-items: center;
+  cursor: pointer;
+  border-radius: 0px 5px 5px 0px;
 }
 
-.mainButton:hover{
-	background-color: $color-button-active;
+.mainButton:hover {
+  background-color: $color-button-active;
 }
 
-.overlay{
-	overflow:hidden;
-	flex:1; /* 나머지 너비를 차지합니다. */
-	transition: all 0.2s ease;
+.overlay {
+  overflow: hidden;
+  flex: 1; /* 나머지 너비를 차지합니다. */
+  transition: all 0.2s ease;
 }
 
-.icon{
-	align-items: center;
-	place-items: center;
-	width: 40px;
-	height: 40px;
+.icon {
+  align-items: center;
+  place-items: center;
+  width: 40px;
+  height: 40px;
 }
 
-.visible{
-	opacity: 1;
+.visible {
+  opacity: 1;
 }

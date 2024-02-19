@@ -1,18 +1,6 @@
 import styles from "@/styles/components/_pincard.module.scss";
-import {
-  AddRoundIcon,
-  AddSquareIcon,
-  LinkIcon,
-  LocationFillIcon,
-  LocationIcon,
-  MapFillIcon,
-  MapIcon,
-  PinFillIcon,
-  PinIcon,
-} from "@/components/IconSvg";
-import Comment from "@/components/Comment";
+import { AddRoundIcon, LocationIcon, PinIcon } from "@/components/IconSvg";
 import IPin from "@/types/IPin";
-import IComment from "@/types/IComment";
 
 export default function PinCard({
   pinData,
@@ -55,7 +43,13 @@ export default function PinCard({
   );
 }
 
-export function LocationCard({ locationData }: { locationData: IPin }) {
+export function LocationCard({
+  locationData,
+  simple = false,
+}: {
+  locationData: IPin;
+  simple?: boolean;
+}) {
   return (
     <article className={styles.locationCard}>
       <div className={styles.mainInfo}>
@@ -65,16 +59,18 @@ export function LocationCard({ locationData }: { locationData: IPin }) {
           <p>{locationData.category}</p>
         </button>
         <address>{locationData.roadNameAddress}</address>
-        <div className={styles.subContainer}>
-          <button>
-            {`내 컬렉션에 추가하기`}
-            <LocationIcon />
-          </button>
-          <button>
-            {`지도에서 보기`}
-            <LocationIcon />
-          </button>
-        </div>
+        {!simple && (
+          <div className={styles.subContainer}>
+            <button>
+              {`내 컬렉션에 추가하기`}
+              <LocationIcon />
+            </button>
+            <button>
+              {`지도에서 보기`}
+              <LocationIcon />
+            </button>
+          </div>
+        )}
       </div>
     </article>
   );

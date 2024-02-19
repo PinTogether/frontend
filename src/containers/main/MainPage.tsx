@@ -1,7 +1,7 @@
 "use client";
 
 import { LogoHorizontal } from "../../components/LogoSvg";
-import styles from "@/styles/layout/_mainPage.module.scss";
+import styles from "@/styles/containers/main/_mainPage.module.scss";
 import { useState } from "react";
 import CardSlider from "@/components/CardSlider";
 

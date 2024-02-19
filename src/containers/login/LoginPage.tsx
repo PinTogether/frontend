@@ -5,7 +5,7 @@ import styles from "@/styles/containers/login/_login.module.scss";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
-export default function Login() {
+export default function LoginPage() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
 
   useEffect(() => {
@@ -51,21 +51,21 @@ export default function Login() {
           className={styles.naverButton}
         >
           <Image width={16} height={16} src={"/logo/naver.svg"} alt="naver" />
-          <label>네이버 로그인</label>
+          <span>네이버 로그인</span>
         </button>
         <button
           onClick={() => handleClick({ loginType: "kakao" })}
           className={styles.kakaoButton}
         >
           <Image width={20} height={20} src={"/logo/kakao.svg"} alt="kakao" />
-          <label>카카오 로그인</label>
+          <span>카카오 로그인</span>
         </button>
         <button
           onClick={() => handleClick({ loginType: "google" })}
           className={styles.googleButton}
         >
           <Image width={18} height={18} src={"/logo/google.svg"} alt="google" />
-          <label>구글 로그인</label>
+          <span>구글 로그인</span>
         </button>
       </div>
       <footer>

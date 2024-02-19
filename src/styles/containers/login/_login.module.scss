@@ -22,7 +22,12 @@ $color-naver: #03c75a;
       outline: none;
       gap: 1rem;
 
-      label {
+
+      span {
+        display: flex;
+        align-items: flex-end;
+        line-height: 1;
+        height: 1.5rem;
         color: rgba(0, 0, 0, 0.85);
       }
       &:hover {

@@ -1,10 +1,14 @@
-"use client"
+"use client";
 
 import Image from "next/image";
-import styles from "@/styles/layout/_profileEditPage.module.scss";
-import Topper from "@/components/SubTopper";
+import styles from "@/styles/containers/profile/_profileEditPage.module.scss";
 import { useState } from "react";
-import { EditIcon, ImgLoadIcon } from "@/components/IconSvg";
+import { EditIcon, ImgLoadIcon, CloseRoundIcon } from "@/components/IconSvg";
+import EditPageLayout, {
+  H3Wrapper,
+  Line,
+  SectionWrapper,
+} from "@/containers/layout/EditPageLayout";
 
 export default function ProfileEditPage() {
   const size = 300;
@@ -13,7 +17,7 @@ export default function ProfileEditPage() {
 
   const onChangeNickname = (e: any) => {
     setInputNickname(e.target.value);
-  }
+  };
 
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -21,35 +25,32 @@ export default function ProfileEditPage() {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
     fileReader.onload = (e) => {
-      if(typeof e.target?.result === "string"){
+      if (typeof e.target?.result === "string") {
         setImgSrc(e.target?.result);
       }
-    }
-  }
+    };
+  };
 
   const resetImgSrc = () => {
     setImgSrc("/images/cat_dummy.jpeg");
-  }
+  };
 
   return (
-    <section className={styles.container}>
-      <Topper msg={"프로필 수정"} />
-      <p className={styles.message}>
-          <ImgLoadIcon style={{ width: "23px", height: "23px"}}/>
+    <EditPageLayout>
+      <SectionWrapper>
+        <H3Wrapper>
+          <ImgLoadIcon />
           프로필 사진 변경
-      </p>
-      <section className={styles.avartarChangeContainer}>
-        <div>
-        </div>
-        <div>
+        </H3Wrapper>
+        <div className={styles.avartarChangeContainer}>
           <input
-            type = "file"
-            accept='image/jpg,image/png,image/jpeg'
-            id = "file"
-            style={{display: 'none'}}
+            type="file"
+            accept="image/jpg,image/png,image/jpeg"
+            id="file"
+            style={{ display: "none" }}
             onChange={handleImage}
           />
-          <label htmlFor='file'>
+          <label htmlFor="file">
             <Image
               src={imgSrc}
               alt="profile image"
@@ -58,28 +59,29 @@ export default function ProfileEditPage() {
               height={size}
             />
           </label>
-        </div>
-        <div className={styles.cancelButtonBox}>
           <button className={styles.cancelButton} onClick={resetImgSrc}>
-            X
+            <CloseRoundIcon />
           </button>
         </div>
-      </section>
-      <p className={styles.message}>
-            <EditIcon style={{ width: "23px", height: "23px"}}/>
-            닉네임 변경
-      </p>
-      <section className={styles.nicknameChangeContainer}>
-        <input className={styles.nicknameInput} onChange={onChangeNickname} value={inputNickname} placeholder="김고양"/>
-        <p className={styles.nicknameCheckMessage}>
-          닉네임 중복 확인
-        </p>
-      </section>
-      <section className={styles.buttonContainer}>
-        <button className={styles.confirmButton}>
-          완료
-        </button>
-      </section>
-    </section>
+      </SectionWrapper>
+      <Line />
+      <SectionWrapper>
+        <H3Wrapper>
+          <EditIcon />
+          닉네임 변경
+        </H3Wrapper>
+        <input
+          className={styles.nicknameInput}
+          onChange={onChangeNickname}
+          value={inputNickname}
+          placeholder="김고양"
+        />
+        <span className={styles.nicknameCheckMessage}>닉네임 중복 확인</span>
+      </SectionWrapper>
+      <Line />
+      <SectionWrapper>
+        <button className={styles.submitButton}>프로필 수정하기</button>
+      </SectionWrapper>
+    </EditPageLayout>
   );
 }

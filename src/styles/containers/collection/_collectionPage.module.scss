@@ -1,40 +1,42 @@
-@import "../base/variables";
+@import "../../base/variables";
+@import "../../base/placeholders";
 
-.container{
+.container {
   display: grid;
   grid-template-rows: 70px 250px 80px 1fr;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
   transition: all 0.3s ease;
   padding-left: 7%;
   padding-right: 7%;
 }
 
-.collectionDataContainer{
-  flex:1;
+.collectionDataContainer {
+  flex: 1;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding: 20px;
 }
 
-.collectionData{
+.collectionData {
   border-bottom: 1px solid $color-grey;
   padding: 10px;
   align-items: center;
   justify-content: center;
 }
 
-.buttonContainer{
+.buttonContainer {
   align-items: center;
   justify-content: flex-start;
   align-self: center;
-gap: 20px;
-border-bottom: 1px solid $color-grey;
+  gap: 20px;
+  border-bottom: 1px solid $color-grey;
 }
 
-.buttons{
+.buttons {
+  // @extend %pt-button;
   justify-content: center;
   align-items: center;
   width: fit-content;
@@ -47,7 +49,7 @@ border-bottom: 1px solid $color-grey;
   background-color: $color-grey;
   outline: 1px solid $color-border-inactive;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
 
   &:hover {
     background-color: $color-button-active;
@@ -55,13 +57,13 @@ border-bottom: 1px solid $color-grey;
   }
 }
 
-.clickedButtons{
+.clickedButtons {
   background-color: $color-primary-light;
   outline: 2px solid $color-border-active;
 }
 
-.collectionListContainer{
-  flex:1;
+.collectionListContainer {
+  flex: 1;
   display: grid;
   align-items: center;
   justify-content: center;
@@ -70,12 +72,12 @@ border-bottom: 1px solid $color-grey;
   padding: 20px;
 }
 
-.icon{
+.icon {
   width: 25px;
   height: 25px;
 }
 
-.dummycard{
+.dummycard {
   height: 200px;
   background-color: bisque;
   border: 1px solid;

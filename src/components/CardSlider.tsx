@@ -26,12 +26,18 @@ export default function CardSlider({
   height?: number;
 }) {
   const defaultScrollSize = 500;
-  const cardContainerRef = useRef<HTMLDivElement>(null);
-  const firstCardRef = useRef<HTMLDivElement>(null);
-  const lastCardRef = useRef<HTMLDivElement>(null);
 
   const [isFirstCard, setIsFirstCard] = useState(true);
   const [isLastCard, setIsLastCard] = useState(false);
+
+  const cardContainerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef(
+    Array(children.length)
+      .fill(null)
+      .map(() => useRef<HTMLDivElement>(null))
+  );
+  const firstCardRef = cardRefs.current[0];
+  const lastCardRef = cardRefs.current[cardRefs.current.length - 1];
 
   const withStyle = {
     width: width ? width : "100%",
@@ -122,6 +128,20 @@ export default function CardSlider({
 
   return (
     <section style={withStyle} className={styles.cardSlider}>
+      {/* Card Container */}
+      <div className={styles.cardContainer} ref={cardContainerRef}>
+        {children?.map((child, index) => {
+          return (
+            <article
+              key={index}
+              className={styles.card}
+              ref={cardRefs.current[index]}
+            >
+              {child}
+            </article>
+          );
+        })}
+      </div>
       {/* Left Button */}
       {!isFirstCard && (
         <button className={styles.leftButton} onClick={handleLeftClick}>
@@ -140,29 +160,6 @@ export default function CardSlider({
           </svg>
         </button>
       )}
-      {/* Card Container */}
-      <div className={styles.cardContainer} ref={cardContainerRef}>
-        {children?.map((child, index) => {
-          if (index === 0) {
-            return (
-              <article key={index} className={styles.card} ref={firstCardRef}>
-                {child}
-              </article>
-            );
-          } else if (index === children.length - 1) {
-            return (
-              <article key={index} className={styles.card} ref={lastCardRef}>
-                {child}
-              </article>
-            );
-          }
-          return (
-            <article key={index} className={styles.card}>
-              {child}
-            </article>
-          );
-        })}
-      </div>
       {/* Right Button */}
       {!isLastCard && (
         <button className={styles.rightButton} onClick={handleRightClick}>
