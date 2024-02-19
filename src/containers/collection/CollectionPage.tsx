@@ -8,9 +8,9 @@ import ICollection from "@/types/ICollection";
 import ICollectionReply from "@/types/ICollectionReply";
 import CollectionCard from "@/components/CollectionCard";
 import { useState } from "react";
-import CollectionWithPinCommentRenderer from "@/components/Collection/CollecionWithPinCommentRenderer";
-import CollectionWithPinRenderer from "@/components/Collection/CollectionWithPinRenderer";
-import CollectionWithReply from "@/components/Collection/CollectionWithReply";
+import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionWithPinCommentRenderer";
+import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPinRenderer";
+import CollectionWithReply from "@/containers/collection/CollectionWithReply";
 
 const collection: ICollection = {
   id: 1,

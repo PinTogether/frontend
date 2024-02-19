@@ -1,5 +1,7 @@
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
-import PinCard from "../PinCard";
+import PinCard from "../../components/PinCard";
+import Comment from "../../components/Comment";
+import IComment from "@/types/IComment";
 import IPin from "@/types/IPin";
 
 /*
@@ -65,11 +67,12 @@ import IPin from "@/types/IPin";
 }
 */
 
-export default function CollectionWithPinRenderer({pins}:{pins: IPin[]}) {
+export default function CollectionWithPinCommentRenderer({data, pin}:{data: IComment[], pin: IPin}) {
   return (
     <section className={styles.collectionListContainer}>
-      {pins.map((pinComment, index) => (
-          <PinCard key={index} pinData={pinComment}>
+      {data.map((pinComment, index) => (
+          <PinCard key={index} pinData={pin}>
+          <Comment commentData={pinComment} />
             </PinCard>
       ))}
     </section>

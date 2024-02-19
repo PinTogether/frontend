@@ -1,5 +1,5 @@
 import ICollectionReply from "@/types/ICollectionReply";
-import { CloseRoundIcon } from "../IconSvg";
+import { CloseRoundIcon } from "../../components/IconSvg";
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import Image from "next/image";
 
