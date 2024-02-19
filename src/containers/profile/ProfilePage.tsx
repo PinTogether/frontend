@@ -186,9 +186,15 @@ export default function ProfilePage() {
           <button className={styles.buttons}>+ 컬렉션 추가</button>
         )}
       </section>
-      {showState===1 && <ProfileCollectionRenderer collectionList={myCollections}/>}
-      {showState===2 && <ProfileCollectionRenderer collectionList={LikedCollections}/>}
-      {showState===3 && <ProfileCollectionRenderer collectionList={scrappedCollections}/>}
+      {showState === 1 && (
+        <ProfileCollectionRenderer collectionList={myCollections} />
+      )}
+      {showState === 2 && (
+        <ProfileCollectionRenderer collectionList={LikedCollections} />
+      )}
+      {showState === 3 && (
+        <ProfileCollectionRenderer collectionList={scrappedCollections} />
+      )}
     </>
   );
 }
