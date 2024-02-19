@@ -34,7 +34,7 @@ export default function Sidebar() {
         <HomeIcon className={`${styles.icon} ${currentPath("/") ? styles.currPath : ''}`}/>
         <HomeFillIcon className={styles.hoveredIcon}/>
       </button>
-      <button className={styles.button}>
+      <button className={styles.button} onClick={() => dispatch(mainContentWidthByAmount("0px"))}>
         <MapIcon className={styles.icon}/>
         <MapFillIcon className={styles.hoveredIcon}/>
       </button>
