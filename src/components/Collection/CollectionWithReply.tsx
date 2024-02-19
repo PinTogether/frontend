@@ -4,8 +4,9 @@ import Image from "next/image";
 
 function ReplyContent({ data }: { data: ICollectionReply }) {
   const size = 100;
+  //내 id와 작성자 id 비교해서 신고 또는 x, 수정 버튼 나오도록하기
   return (
-    <div className={styles.replyContainer}>
+    <section className={styles.replyContainer}>
       <Image
         src={data.userAvatar}
         alt="profile image"
@@ -13,14 +14,16 @@ function ReplyContent({ data }: { data: ICollectionReply }) {
         height={size}
         className={styles.replyAvatar}
       />
-      <div className={styles.replyBox}>
-        <p className={styles.replyName}>{data.userNickname}</p>
-        <p>
-          {data.comment} {data.createdAt.slice(0, 10)}
-        </p>
-      </div>
+      <section className={styles.replyBox}>
+        <div className={styles.replyName}>{data.userNickname}</div>
+        <div>
+          <span>{data.comment}</span>
+          <span> </span>
+          <span className={styles.replyName}>{data.createdAt.slice(0, 10)}</span>
+        </div>
+      </section>
       <button className={styles.replyButton}>신고</button>
-    </div>
+    </section>
   );
 }
 
