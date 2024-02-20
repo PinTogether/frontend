@@ -205,7 +205,6 @@ const replyList:ICollectionReply[] = [
 export default function CollectionPage({id}:{id:number}) {
   const [showState, setShowState] = useState(1);
   const userId = id; // 나중에 localStorage 같은곳에 있는 내 id와 비교하는걸로 변경
-  console.log(id);
   function onChangeShowState(state: number) {
     if (state == showState) {
       setShowState(0);
