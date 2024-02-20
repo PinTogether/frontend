@@ -51,10 +51,10 @@
 
 %pt-tag {
   // border: 1px solid $color-secondary-dark;
+  font-size:$font-size-small;
   border-radius: 25px;
   width: fit-content;
   height: fit-content;
-  outline: 1px solid $color-border-inactive;
   background-color: $color-secondary-light;
   color:$color-secondary-dark;
   cursor: pointer;
@@ -62,7 +62,6 @@
   padding-left: 10px;
   padding-right: 10px;
 }
-
 %pt-tagContainer {
   display: flex;
   flex-direction: row;
