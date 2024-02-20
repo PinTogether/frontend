@@ -15,7 +15,7 @@ const profiles: IProfile = {
   avatar: "/images/cat_dummy.jpeg",
   collectionCnt: 5,
   scrappedCollectionCnt: 3,
-  likedCollectionCnt: 7,
+  followerCnt: 7,
 };
 
 const scrappedCollections: ICollection[] = [
@@ -41,7 +41,7 @@ const scrappedCollections: ICollection[] = [
   },
 ];
 
-const LikedCollections: ICollection[] = [
+const followCollections: ICollection[] = [
   {
     id: 1,
     title: "강릉 주민 맛집",
@@ -117,11 +117,9 @@ const myCollections: ICollection[] = [
   },
 ];
 
-export default function ProfilePage() {
+export default function ProfilePage({id}:{id:number}) {
   const router = useRouter();
   const [showState, setShowState] = useState(1);
-  const myUserId = 1; // localStorage의 userId와 비교하는것으로 바꾸기 or boolean으로 내꺼인지 반환해주는 함수 만들기
-
   function onChangeShowState(state: number) {
     if (state == showState) {
       setShowState(1);
@@ -141,7 +139,7 @@ export default function ProfilePage() {
           <div className={styles.profileName}>
             <div></div>
             <p>{profiles.userNickname}</p>
-            {myUserId === profiles.userId && (
+            {id == profiles.userId && (
               <button onClick={() => router.push("/profile/setting")}>
                 <SettingIcon className={styles.icon} />
               </button>
@@ -153,12 +151,12 @@ export default function ProfilePage() {
               <p>내 컬렉션</p>
             </div>
             <div className={styles.profileLogBox}>
-              <b>{profiles.likedCollectionCnt}</b>
-              <p>좋아요한 컬렉션</p>
+              <b>{profiles.followerCnt}</b>
+              <p>스크랩한 컬렉션</p>
             </div>
             <div className={styles.profileLogBox}>
               <b>{profiles.scrappedCollectionCnt}</b>
-              <p>스크랩한 컬렉션</p>
+              <p>팔로워 수</p>
             </div>
           </div>
         </div>
@@ -174,23 +172,23 @@ export default function ProfilePage() {
           className={`${styles.buttons} ${showState == 2 ? styles.clickedButtons : ""}`}
           onClick={() => onChangeShowState(2)}
         >
-          좋아요한 컬렉션
+          스크랩한 컬렉션
         </button>
         <button
           className={`${styles.buttons} ${showState == 3 ? styles.clickedButtons : ""}`}
           onClick={() => onChangeShowState(3)}
         >
-          스크랩한 컬렉션
+          팔로우한 컬렉션
         </button>
-        {myUserId === profiles.userId && (
-          <button className={styles.buttons}>+ 컬렉션 추가</button>
+        {id == profiles.userId && (
+          <button className={styles.buttons} onClick={() => router.push("/collection/edit")}>+ 컬렉션 추가</button>
         )}
       </section>
       {showState === 1 && (
         <ProfileCollectionRenderer collectionList={myCollections} />
       )}
       {showState === 2 && (
-        <ProfileCollectionRenderer collectionList={LikedCollections} />
+        <ProfileCollectionRenderer collectionList={followCollections} />
       )}
       {showState === 3 && (
         <ProfileCollectionRenderer collectionList={scrappedCollections} />
