@@ -80,9 +80,10 @@ const commentList: IComment[] = [
   },
 ];
 
-export default function PinPage() {
+export default function PinPage({ pinId }: { pinId?: string }) {
   return (
     <>
+      {pinId}
       <PinCard pinData={pinData}>
         {commentList && (
           <>
