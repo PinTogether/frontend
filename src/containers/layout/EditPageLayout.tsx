@@ -37,11 +37,16 @@ export const H3Wrapper = ({ children }: { children?: React.ReactNode }) => {
 
 export const SectionWrapper = ({
   children,
+  className,
 }: {
   children?: React.ReactNode;
   className?: string;
 }) => {
-  return <section className={styles.sectionWrapper}>{children}</section>;
+  return (
+    <section className={`${styles.sectionWrapper} ${className}`}>
+      {children}
+    </section>
+  );
 };
 
 export const Line = () => {

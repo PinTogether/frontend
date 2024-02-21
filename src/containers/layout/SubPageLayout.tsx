@@ -12,7 +12,7 @@ export default function SubPageLayout({
   return (
     <section className={styles.subPageLayout}>
       <Topper msg={topperMsg} />
-      {children}
+      <div className={styles.subPage}>{children}</div>
     </section>
   );
 }
