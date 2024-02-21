@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import styles from "@/styles/components/_collectioncard.module.scss";
 import Image from "next/image";
@@ -21,20 +21,34 @@ export default function CollectionCard({
   horizontal = false,
   simple = false,
   detail = false,
+  linkDisabled = false,
 }: {
   collectionData: ICollection;
   horizontal?: boolean;
   simple?: boolean;
   detail?: boolean;
+  linkDisabled?: boolean;
 }) {
   return simple ? (
-    <SimpleCollectionCard collectionData={collectionData} />
+    <SimpleCollectionCard
+      collectionData={collectionData}
+      linkDisabled={linkDisabled}
+    />
   ) : horizontal ? (
-    <HorizontalCollectionCard collectionData={collectionData} />
+    <HorizontalCollectionCard
+      collectionData={collectionData}
+      linkDisabled={linkDisabled}
+    />
   ) : detail ? (
-    <HorizontalDetailCard collectionData={collectionData} />
+    <HorizontalDetailCard
+      collectionData={collectionData}
+      linkDisabled={linkDisabled}
+    />
   ) : (
-    <DefaultCollectionCard collectionData={collectionData} />
+    <DefaultCollectionCard
+      collectionData={collectionData}
+      linkDisabled={linkDisabled}
+    />
   );
 }
 
@@ -51,31 +65,49 @@ const BookMark = () => {
   );
 };
 
-const LikedButton = ({ likeCnt }: { likeCnt: number }) => {
+const LikedButton = ({
+  likeCnt,
+  linkDisabled = false,
+}: {
+  likeCnt: number;
+  linkDisabled: boolean;
+}) => {
   const [isLiked, setIsLiked] = useState(false);
   const handleLike = () => {
     setIsLiked(!isLiked);
   };
   return (
-    <button onClick={handleLike}>
+    <button onClick={linkDisabled ? undefined : handleLike}>
       {isLiked ? <HeartFillIcon className={styles.liked} /> : <HeartIcon />}
       <p> {`${likeCnt}개 좋아요`}</p>
     </button>
   );
 };
 
-const ShareButton = ({ collectionId }: { collectionId: number }) => {
+const ShareButton = ({
+  collectionId,
+  linkDisabled = false,
+}: {
+  collectionId: number;
+  linkDisabled: boolean;
+}) => {
   return (
-    <button>
+    <button disabled={linkDisabled}>
       <LinkIcon />
       <p>공유하기</p>
     </button>
   );
 };
 
-const PinButton = ({ pinCnt }: { pinCnt: number }) => {
+const PinButton = ({
+  pinCnt,
+  linkDisabled = false,
+}: {
+  pinCnt: number;
+  linkDisabled: boolean;
+}) => {
   return (
-    <button>
+    <button disabled={linkDisabled}>
       <PinIcon />
       <p>{`${pinCnt}개 핀`}</p>
     </button>
@@ -85,13 +117,18 @@ const PinButton = ({ pinCnt }: { pinCnt: number }) => {
 /* components */
 const DefaultCollectionCard = ({
   collectionData,
+  linkDisabled = false,
 }: {
   collectionData: ICollection;
+  linkDisabled?: boolean;
 }) => {
   return (
     <article className={styles.collectionCard}>
       <div className={styles.imgContainer}>
-        <Link href={`/collection/${collectionData.id}`}>
+        <Link
+          href={`/collection/${collectionData.id}`}
+          aria-disabled={linkDisabled}
+        >
           <Image
             src={collectionData.thumbnail}
             alt="collection thumbnail"
@@ -106,6 +143,7 @@ const DefaultCollectionCard = ({
         <Link
           href={`/profile/${collectionData.ownerId}`}
           className={styles.profile}
+          aria-disabled={linkDisabled}
         >
           <Image
             src="/images/cat_dummy.jpeg"
@@ -121,13 +159,17 @@ const DefaultCollectionCard = ({
         <Link
           href={`/collection/${collectionData.id}`}
           className={styles.title}
+          aria-disabled={linkDisabled}
         >
           {collectionData.title}
         </Link>
       </div>
       <div className={styles.buttonContainer}>
-        <PinButton pinCnt={collectionData.pinCnt} />
-        <LikedButton likeCnt={collectionData.likeCnt} />
+        <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
+        <LikedButton
+          likeCnt={collectionData.likeCnt}
+          linkDisabled={linkDisabled}
+        />
       </div>
     </article>
   );
@@ -135,13 +177,18 @@ const DefaultCollectionCard = ({
 
 const SimpleCollectionCard = ({
   collectionData,
+  linkDisabled = false,
 }: {
   collectionData: ICollection;
+  linkDisabled?: boolean;
 }) => {
   return (
     <article className={styles.simpleCollectionCard}>
       <div className={styles.imgContainer}>
-        <Link href={`/collection/${collectionData.id}`}>
+        <Link
+          href={`/collection/${collectionData.id}`}
+          aria-disabled={linkDisabled}
+        >
           <Image
             src={collectionData.thumbnail}
             alt="collection thumbnail"
@@ -155,6 +202,7 @@ const SimpleCollectionCard = ({
       <Link
         href={`/collection/${collectionData.id}`}
         className={styles.textContainer}
+        aria-disabled={linkDisabled}
       >
         <h2 className={styles.title}>{collectionData.title}</h2>
       </Link>
@@ -164,14 +212,17 @@ const SimpleCollectionCard = ({
 
 const HorizontalCollectionCard = ({
   collectionData,
+  linkDisabled = false,
 }: {
   collectionData: ICollection;
+  linkDisabled?: boolean;
 }) => {
   return (
     <article className={styles.horizontalCollectionCard}>
       <Link
         href={`/collection/${collectionData.id}`}
         className={styles.imgContainer}
+        aria-disabled={linkDisabled}
       >
         <Image
           src={collectionData.thumbnail}
@@ -185,19 +236,27 @@ const HorizontalCollectionCard = ({
         <Link
           href={`/collection/${collectionData.id}`}
           className={styles.title}
+          aria-disabled={linkDisabled}
         >
           {collectionData.title}
         </Link>
         <Link
           href={`/profile/${collectionData.ownerId}`}
           className={styles.nickname}
+          aria-disabled={linkDisabled}
         >{`by ${collectionData.ownerNickname}`}</Link>
         <BookMark />
       </div>
       <div className={styles.buttonContainer}>
-        <PinButton pinCnt={collectionData.pinCnt} />
-        <ShareButton collectionId={collectionData.id} />
-        <LikedButton likeCnt={collectionData.likeCnt} />
+        <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
+        <ShareButton
+          collectionId={collectionData.id}
+          linkDisabled={linkDisabled}
+        />
+        <LikedButton
+          likeCnt={collectionData.likeCnt}
+          linkDisabled={linkDisabled}
+        />
       </div>
     </article>
   );
@@ -205,14 +264,17 @@ const HorizontalCollectionCard = ({
 
 const HorizontalDetailCard = ({
   collectionData,
+  linkDisabled = false,
 }: {
   collectionData: ICollection;
+  linkDisabled?: boolean;
 }) => {
   return (
     <article className={styles.detailCollectionCard}>
       <Link
         href={`/collection/${collectionData.id}`}
         className={styles.imgContainer}
+        aria-disabled={linkDisabled}
       >
         <Image
           src={collectionData.thumbnail}
@@ -226,19 +288,27 @@ const HorizontalDetailCard = ({
         <Link
           href={`/collection/${collectionData.id}`}
           className={styles.title}
+          aria-disabled={linkDisabled}
         >
           {collectionData.title}
         </Link>
         <Link
           href={`/profile/${collectionData.ownerId}`}
           className={styles.nickname}
+          aria-disabled={linkDisabled}
         >{`by ${collectionData.ownerNickname}`}</Link>
         <BookMark />
       </div>
       <div className={styles.buttonContainer}>
-        <PinButton pinCnt={collectionData.pinCnt} />
-        <ShareButton collectionId={collectionData.id} />
-        <LikedButton likeCnt={collectionData.likeCnt} />
+        <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
+        <ShareButton
+          collectionId={collectionData.id}
+          linkDisabled={linkDisabled}
+        />
+        <LikedButton
+          likeCnt={collectionData.likeCnt}
+          linkDisabled={linkDisabled}
+        />
       </div>
       <div className={styles.tagContainer}>
         <span>맛집</span>
