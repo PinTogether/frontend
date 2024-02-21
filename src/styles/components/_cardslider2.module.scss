@@ -1,0 +1,116 @@
+@import "../base/variables";
+
+$card-width: 48rem;
+
+.cardSlider {
+  height: 100%;
+  width: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow-x: auto;
+
+  .cardContainer {
+    position: absolute;
+    // left: 30%;
+    // left: 3rem; //
+    // transform: translateX(-($card-width / 2));
+    transition: transform 0.2s;
+    transition-timing-function: ease-in-out;
+    // overflow: scroll;
+    overflow-y: hidden;
+    overflow-x: scroll;
+
+    // scroll bar hide
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
+
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    // gap
+    padding: 0px 1rem;
+
+    gap: 1rem;
+
+    .activeCard {
+      flex-shrink: 0;
+      transition: transform 1s;
+      // transform: scale(1);
+      & > * {
+        border: 3px solid $color-primary;
+        // border-image : linear-gradient(90deg, #ff8a00, #e52e71);
+      }
+      opacity: 1;
+    }
+
+    .deactiveCard {
+      // transform: scale(0.8);
+      opacity: 0.5;
+    }
+  }
+
+  %sliderButton {
+    position: absolute;
+    z-index: 10;
+    background-color: white;
+    border-radius: 999px;
+    width: 2rem;
+    height: 2rem;
+    background-color: white;
+    border: 1px solid $color-primary;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      color: $color-primary;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  // .leftButton {
+  //   @extend %sliderButton;
+  //   left: 50%;
+  //   transform: translateX(-($card-width / 2) - 1.5rem);
+  //   svg {
+  //     margin-right: 2px;
+  //   }
+  // }
+
+  // .rightButton {
+  //   @extend %sliderButton;
+  //   right: 50%;
+  //   transform: translateX(+($card-width / 2) + 1.5rem);
+  //   svg {
+  //     margin-left: 2px;
+  //   }
+  // }
+
+  .leftButton {
+    @extend %sliderButton;
+    left: 0px;
+    svg {
+      margin-right: 2px;
+    }
+  }
+
+  .rightButton {
+    @extend %sliderButton;
+    right: 0px;
+    svg {
+      margin-left: 2px;
+    }
+  }
+}
