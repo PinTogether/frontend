@@ -17,7 +17,6 @@ const MapNaverDefault = () => {
 
   const dispatch = useAppDispatch();
 
-  const [errCount, setErrCount] = useState(0);
   const [geoApiAuth, setgeoApiAuth] = useState("");
   const Lat = useAppSelector((state) => state.location.lat);
   const Lng = useAppSelector((state) => state.location.lng);
@@ -64,14 +63,7 @@ const MapNaverDefault = () => {
           dispatch(sidoByAmount("위치정보없음"));
         }
       } else {
-        console.error("INVALID geoApiAuth", errCount);
-        const errCnt = errCount + 1;
-        setErrCount(errCnt);
-        if (errCount >= 5) {
-          setErrCount(0);
-          console.log("getAuth");
-          handleGetAuth();
-        }
+        console.error("INVALID geoApiAuth");
       }
     } catch (error) {
       console.error(error);

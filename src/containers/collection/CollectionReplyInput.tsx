@@ -28,13 +28,13 @@ export default function ReplyInputContent() {
         <textarea
           className={styles.replyInput}
           onChange={onChange}
-          maxLength={250}
+          maxLength={200}
           placeholder="댓글을 작성하세요"
         />
       </section>
       <section className={styles.replyInputButtonBox}>
         <button className={styles.replySendButton}>등록</button>
-        <p className={styles.replyInputCounter}>{inputText.length}/250</p>
+        <p className={styles.replyInputCounter}>{inputText.length}/200</p>
       </section>
     </section>
   );
