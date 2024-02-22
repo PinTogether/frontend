@@ -23,6 +23,10 @@
 	font-size: $font-size-small;
 }
 
+.searchLogExtend:hover{
+	color:$color-primary;
+}
+
 .searchLogContainer{
 	display: grid;
 	align-items:center;
