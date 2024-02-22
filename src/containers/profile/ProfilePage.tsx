@@ -5,7 +5,9 @@ import { SettingIcon } from "@/components/IconSvg";
 import { useState } from "react";
 import IProfile from "@/types/IProfile";
 import ICollection from "@/types/ICollection";
+import IBookmark from "@/types/IBookmark";
 import ProfileCollectionRenderer from "./ProfileCollectionRenderer";
+import ProfileBookmarkRenderer from "./ProfileBookmarkRenderer";
 
 const profiles: IProfile = {
   userNickname: "김고양",
@@ -17,6 +19,58 @@ const profiles: IProfile = {
   scrappedCollectionCnt: 3,
   followerCnt: 7,
 };
+
+const bookmarksList: IBookmark[] = [
+  {
+    id: 1,
+    address: "서울특별시 강남구 개포로 302-1",
+    name: "김첨지네 설렁탕",
+    category: "FOOD",
+    created_at: "2023-12-04T00:00:00Z",
+  },
+  {
+    id: 2,
+    address: "서울특별시 강남구 언주로 17-3",
+    name: "치킨치킨",
+    category: "FOOD",
+    created_at: "2022-01-07T00:00:00Z",
+  },
+  {
+    id: 3,
+    address: "서울특별시 강남구 중앙대로 11",
+    name: "피자피자피자피자",
+    category: "FOOD",
+    created_at: "2024-01-07T00:00:00Z",
+  },
+  {
+    id: 3,
+    address: "서울특별시 강남구 중앙대로 11",
+    name: "피자피자",
+    category: "FOOD",
+    created_at: "2024-01-07T00:00:00Z",
+  },
+  {
+    id: 3,
+    address: "서울특별시 강남구 중앙대로 11",
+    name: "피자피자",
+    category: "FOOD",
+    created_at: "2024-01-07T00:00:00Z",
+  },
+  {
+    id: 3,
+    address: "서울특별시 강남구 중앙대로 11",
+    name: "피자피자",
+    category: "FOOD",
+    created_at: "2024-01-07T00:00:00Z",
+  },
+  {
+    id: 3,
+    address: "서울특별시 강남구 중앙대로 11",
+    name: "피자피자",
+    category: "FOOD",
+    created_at: "2024-01-07T00:00:00Z",
+  },
+];
 
 const scrappedCollections: ICollection[] = [
   {
@@ -117,7 +171,7 @@ const myCollections: ICollection[] = [
   },
 ];
 
-export default function ProfilePage({id}:{id:number}) {
+export default function ProfilePage({ id }: { id: number }) {
   const router = useRouter();
   const [showState, setShowState] = useState(1);
   function onChangeShowState(state: number) {
@@ -181,7 +235,20 @@ export default function ProfilePage({id}:{id:number}) {
           팔로우한 컬렉션
         </button>
         {id == profiles.userId && (
-          <button className={styles.buttons} onClick={() => router.push("/collection/edit")}>+ 컬렉션 추가</button>
+          <button
+            className={`${styles.buttons} ${showState == 4 ? styles.clickedButtons : ""}`}
+            onClick={() => onChangeShowState(4)}
+          >
+            찜 목록 보기
+          </button>
+        )}
+        {id == profiles.userId && (
+          <button
+            className={styles.buttons}
+            onClick={() => router.push("/collection/edit")}
+          >
+            + 컬렉션 추가
+          </button>
         )}
       </section>
       {showState === 1 && (
@@ -192,6 +259,9 @@ export default function ProfilePage({id}:{id:number}) {
       )}
       {showState === 3 && (
         <ProfileCollectionRenderer collectionList={scrappedCollections} />
+      )}
+      {showState === 4 && (
+        <ProfileBookmarkRenderer bookmarks={bookmarksList} />
       )}
     </>
   );
