@@ -2,29 +2,7 @@ import ICollectionReply from "@/types/ICollectionReply";
 import { CloseRoundIcon } from "../../components/IconSvg";
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import Image from "next/image";
-
-function ReplyInputContent(){
-  const size = 100;
-  const myAvatar = "/images/cat_dummy.jpeg";
-  const myNickname= "김고양";
-
-  return (
-    <section className={styles.replyInputContainer}>
-      <Image
-        src={myAvatar}
-        alt="profile image"
-        width={size}
-        height={size}
-        className={styles.replyAvatar}
-      />
-      <section className={styles.replyBox}>
-        <div className={styles.replyName}>{myNickname}</div>
-        <textarea className={styles.replyInput} placeholder="댓글을 작성하세요"/>
-      </section>
-      <button className={styles.replySendButton}>등록</button>
-    </section>
-  );
-}
+import ReplyInputContent from "./CollectionReplyInput";
 
 function ReplyContent({ data }: { data: ICollectionReply }) {
   const size = 100;

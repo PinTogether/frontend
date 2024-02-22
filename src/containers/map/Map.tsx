@@ -37,6 +37,7 @@ const MapNaverDefault = () => {
         console.log(result);
         if (result.errMsg == "Success") {
           setgeoApiAuth(result.result.accessToken);
+          console.log(result.result.accessToken);
         }
       }
     } catch (error) {
@@ -63,10 +64,12 @@ const MapNaverDefault = () => {
           dispatch(sidoByAmount("위치정보없음"));
         }
       } else {
-        console.error("INVALID geoApiAuth");
-        setErrCount(errCount + 1);
+        console.error("INVALID geoApiAuth", errCount);
+        const errCnt = errCount + 1;
+        setErrCount(errCnt);
         if (errCount >= 5) {
           setErrCount(0);
+          console.log("getAuth");
           handleGetAuth();
         }
       }
