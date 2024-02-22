@@ -22,7 +22,7 @@ export default function SearchCollectionRender({ collectiondatas }: { collection
         <p>컬렉션 검색</p>
         <button className={styles.searchLogExtend} onClick={onChangeCollection}>더보기</button>
       </div>
-      <section className={styles.searchListContainer}>
+      <section className={styles.searchListContainerCollection}>
         {collectiondatas.map((collectiondata, index) => (
           index <= repeatCount && <CollectionCard key={index} collectionData={collectiondata} detail={true} />
         ))}
