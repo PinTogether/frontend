@@ -1,11 +1,25 @@
-export default interface ICollectionReply {
+// 특정 콜렉션의 모든 댓글 조회
+// 요청사항
+// - “writer”  추가
+export default interface CollectionReply {
   id: number;
-  userId: number;
-  userNickname: string;
-  userAvatar: string;
-  comment: string;
+  writerId: number;
+  writer: string;
+  writerAvatar: string;
+  contents: string;
   createdAt: string;
 }
+
+interface ERDCollectionComment {
+  id: number;
+  collection_id: number;
+  writer_id: number; //
+  contents: string;
+  created_at: string;
+}
+
+// 특정 콜렉션의 모든 댓글 조회 -> writer 추가 요청
+
 /*
 [
   {
