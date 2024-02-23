@@ -1,4 +1,5 @@
 "use client";
+"use client";
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useEffect, useRef, useState } from "react";
@@ -18,7 +19,6 @@ const MapNaverDefault = () => {
 
   const dispatch = useAppDispatch();
 
-  const [errCount, setErrCount] = useState(0);
   const [geoApiAuth, setgeoApiAuth] = useState("");
   const Lat = useAppSelector((state) => state.location.lat);
   const Lng = useAppSelector((state) => state.location.lng);
@@ -40,6 +40,7 @@ const MapNaverDefault = () => {
         console.log(result);
         if (result.errMsg == "Success") {
           setgeoApiAuth(result.result.accessToken);
+          console.log(result.result.accessToken);
         }
       }
     } catch (error) {
@@ -67,11 +68,6 @@ const MapNaverDefault = () => {
         }
       } else {
         console.error("INVALID geoApiAuth");
-        setErrCount(errCount + 1);
-        if (errCount >= 5) {
-          setErrCount(0);
-          handleGetAuth();
-        }
       }
     } catch (error) {
       console.error(error);
@@ -122,10 +118,10 @@ const MapNaverDefault = () => {
       const center = map.getCenter();
       handleGetAddress(center.x, center.y);
     });
-    return () => {
+    return() => {
       map.destroy();
-    };
-  }, [isScriptLoaded, Lat, Lng]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
+    }
+    }, [Lat, Lng]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
 
   return (
     <>

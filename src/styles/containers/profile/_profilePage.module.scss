@@ -1,120 +1,147 @@
 @import "../../base/variables";
+@import "../../base/placeholders";
 
-.container{
-	display: grid;
-	grid-template-rows: 70px 300px 75px 1fr;
-	margin:0;
-	padding:0;
-	min-height: 100vh;
-	transition: all 0.3s ease;
-	padding-left: 7%;
-	padding-right: 7%;
+.container {
+  display: grid;
+  grid-template-rows: 70px 300px 75px 1fr;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  padding-left: 7%;
+  padding-right: 7%;
 }
 
-.profileDataContainer{
-	flex:1;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	padding: 20px;
-}
-
-.profileData{
-	display: grid;
-	grid-template-rows: 1fr 100px 50px;
-	border-bottom: 1px solid $color-grey;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	justify-items: center;
-	place-items: center;
-}
-
-.profileImage{
-	width:125px;
-	height:125px;
-	border-radius: 70%;
-  overflow: hidden;
-		object-fit: cover;
-}
-
-.profileName{
-	display: grid;
-	grid-template-columns: 25px 1fr 25px;
-	flex-direction: columns;
-	align-items: center;
+.profileDataContainer {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-	font-size: $font-size-largest;
-	gap: 15px;
+  padding: 20px;
 }
 
-.profileLog{
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	gap:20px;
+.profileData {
+  display: grid;
+  grid-template-rows: 1fr 100px 50px;
+  border-bottom: 1px solid $color-grey;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  justify-items: center;
+  place-items: center;
 }
 
-.prifileLogBox{
-	display: grid;
-	grid-template-rows: 1fr 1fr;
+.profileImage {
+  width: 125px;
+  height: 125px;
+  border-radius: 70%;
+  overflow: hidden;
+  object-fit: cover;
 }
 
-.buttonContainer{
-    align-items: center;
-    justify-content: flex-start;
-		align-self: center;
-	gap: 20px;
-	border-bottom: 1px solid $color-grey;
+.profileName {
+  display: grid;
+  grid-template-columns: 25px 1fr 25px;
+  flex-direction: columns;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-largest;
+  gap: 15px;
 }
 
-.buttons{
-	justify-content: center;
-	align-items: center;
-	width: fit-content;
-	height: fit-content;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin: 5px;
-	border-radius: 3rem;
-	color: $color-grey-dark;
-	background-color: $color-grey;
-	outline: 1px solid $color-border-inactive;
-	cursor: pointer;
-	transition: all 0.2s ease-in-out;
-
-	&:hover {
-	  background-color: $color-button-active;
-	  outline: 2px solid $color-border-active;
-	}
+.profileLog {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
 }
 
-.clickedButtons{
+.prifileLogBox {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.buttonContainer {
+  align-items: center;
+  justify-content: flex-start;
+  align-self: center;
+  gap: 20px;
+  border-bottom: 1px solid $color-grey;
+}
+
+.buttons {
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 5px;
+  border-radius: 3rem;
+  color: $color-grey-dark;
+  background-color: $color-grey;
+  outline: 1px solid $color-border-inactive;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: $color-button-active;
+    outline: 2px solid $color-border-active;
+  }
+}
+
+.clickedButtons {
   background-color: $color-primary-light;
   outline: 2px solid $color-border-active;
 }
 
-.profileListContainer{
-	flex:1;
-	display: grid;
-	align-items: center;
-	justify-content: center;
-	grid-template-columns: repeat(auto-fill, minmax(1px, 180px));
-	gap: 10px;
-	padding: 20px;
-	padding-top: 40px;
+.profileListContainer {
+  flex: 1;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(1px, 190px));
+  gap: 10px;
+  padding: 20px;
+  padding-top: 40px;
 }
 
-.icon{
-	width: 25px;
-	height: 25px;
-	color: $color-grey-dark;
-}
-.icon:hover{
-	color:$color-primary;
+.profileBookmarkContainer {
+  flex: 1;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(1px, 350px));
+  gap: 20px;
+  padding-top: 20px;
 }
 
-.dummycard{
-	height: 200px;
-	background-color: rgb(140, 203, 226);
-	border: 1px solid;
+.bookmarkContainer {
+  @extend %pt-card;
+  padding: 10px;
+  gap: 10px;
+  display: grid;
+  grid-template-columns: 25px 1fr;
+  cursor: pointer;
+}
+
+.bookmarkContainer:hover {
+  background-color: $color-grey-light;
+}
+
+.bookmarkData {
+  grid-template-rows: 1fr 0.5fr 0.5fr;
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+  color: $color-grey-dark;
+}
+.icon:hover {
+  color: $color-primary;
+}
+
+.dummycard {
+  height: 200px;
+  background-color: rgb(140, 203, 226);
+  border: 1px solid;
 }
