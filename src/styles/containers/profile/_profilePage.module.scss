@@ -104,6 +104,38 @@
   padding-top: 40px;
 }
 
+.bookmarkOuterContainer{
+  display: grid;
+  grid-template-rows: 40px 1fr;
+}
+
+.bookmarkButtonContainer{
+  align-items: center;
+  justify-content: flex-start;
+  align-self: center;
+  padding: 10px;
+  gap: 20px;
+}
+
+.bookmarkButton{
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 5px;
+  border-radius: 0.5rem;
+  color: $color-grey-dark;
+  background-color: $color-primary-light;
+  outline: 1px solid $color-border-inactive;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: $color-grey-light;
+  }
+}
+
 .profileBookmarkContainer {
   flex: 1;
   display: grid;
@@ -127,6 +159,13 @@
   background-color: $color-grey-light;
 }
 
+.bookmarkContainerClicked{
+  background-color: $color-primary-light;
+}
+.bookmarkContainerClicked:hover{
+  background-color: $color-red-light;
+}
+
 .bookmarkData {
   grid-template-rows: 1fr 0.5fr 0.5fr;
 }
@@ -138,10 +177,4 @@
 }
 .icon:hover {
   color: $color-primary;
-}
-
-.dummycard {
-  height: 200px;
-  background-color: rgb(140, 203, 226);
-  border: 1px solid;
 }

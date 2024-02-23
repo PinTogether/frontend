@@ -157,7 +157,7 @@
 }
 
 .tagBox:hover{
-  background-color: #FFE2E2;
+  background-color: $color-red-light;
 }
 
 .tagInput{
@@ -168,6 +168,7 @@
 
 .descriptionInput{
   @extend %pt-input;
+  resize: none;
   height: 100px;
 }
 
