@@ -23,6 +23,10 @@
 	font-size: $font-size-small;
 }
 
+.searchLogExtend:hover{
+	color:$color-primary;
+}
+
 .searchLogContainer{
 	display: grid;
 	align-items:center;
@@ -95,6 +99,16 @@
 	align-items: center;
 	justify-content: center;
 	grid-template-columns: repeat(auto-fill, minmax(1px, 400px));
+	gap: 10px;
+	padding: 20px;
+	padding-top: 40px;
+}
+
+.searchListContainerCollection{
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	grid-template-columns: repeat(auto-fill, minmax(1px, 362px));
 	gap: 10px;
 	padding: 20px;
 	padding-top: 40px;

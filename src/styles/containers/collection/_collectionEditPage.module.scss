@@ -126,16 +126,8 @@
 }
 
 .tagBox{
-  border-radius: 25px;
-  width: fit-content;
-  height: fit-content;
-  outline: 1px solid $color-border-inactive;
-  background-color: $color-grey;
-  color:$color-grey-dark;
-  cursor: pointer;
-  padding: 3px;
-  padding-left: 10px;
-  padding-right: 10px;
+  @extend %pt-tag;
+  font-size: $font-size-medium;
 }
 
 .tagBox:hover{
