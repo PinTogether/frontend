@@ -11,7 +11,7 @@ import IComment from "@/types/IComment";
 const collection: ICollection = {
   id: 1,
   title: "강릉 주민 맛집",
-  ownerId: 1,
+  writer: 1,
   ownerNickname: "잠자는_짱구의_콧털",
   thumbnail: "https://picsum.photos/id/326/300",
   detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -127,7 +127,11 @@ export default function Page() {
       <br />
 
       <p>1. Locationcard </p>
-      <LocationCard locationData={pinData} />
+      <LocationCard
+        placeName={pinData.placeName}
+        category={pinData.category}
+        roadNameAddress={pinData.roadNameAddress}
+      />
       <br />
 
       <p>1. pincard simple</p>

@@ -15,7 +15,7 @@ import CollectionWithReply from "@/containers/collection/CollectionWithReply";
 const collection: ICollection = {
   id: 1,
   title: "강릉 주민 맛집",
-  ownerId: 1,
+  writer: 1,
   ownerNickname: "잠자는_짱구의_콧털",
   thumbnail: "https://picsum.photos/id/326/300",
   detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -240,7 +240,7 @@ export default function CollectionPage({id}:{id:number}) {
         >
           컬렉션 댓글 보기
         </button>
-        {userId == collection.ownerId && <button className={styles.buttons}>+ 핀 추가</button>}
+        {userId == collection.writer && <button className={styles.buttons}>+ 핀 추가</button>}
       </section>
       {showState === 1 && <CollectionWithPinRenderer pins={pinDataList} />}
       {showState === 2 && (

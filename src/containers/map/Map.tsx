@@ -10,6 +10,7 @@ import {
   latByAmount,
   lngByAmount,
 } from "@/redux/locationSlice";
+import Script from "next/script";
 
 const MapNaverDefault = () => {
   const [newMap, setNewMap] = useState<naver.maps.Map | null>(null);
@@ -20,6 +21,8 @@ const MapNaverDefault = () => {
   const [geoApiAuth, setgeoApiAuth] = useState("");
   const Lat = useAppSelector((state) => state.location.lat);
   const Lng = useAppSelector((state) => state.location.lng);
+
+  const isScriptLoaded = useScriptLoaded();
 
   let map: naver.maps.Map;
 
@@ -36,7 +39,6 @@ const MapNaverDefault = () => {
         console.log(result);
         if (result.errMsg == "Success") {
           setgeoApiAuth(result.result.accessToken);
-          console.log(result.result.accessToken);
         }
       }
     } catch (error) {
@@ -114,14 +116,42 @@ const MapNaverDefault = () => {
       const center = map.getCenter();
       handleGetAddress(center.x, center.y);
     });
-    return () => {
-      if (map) {
-        map.destroy();
-      }
-    };
-  }, [Lat, Lng]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
+    return() => {
+      map.destroy();
+    }
+    }, [Lat, Lng]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
 
-  return <div id="map" ref={mapElement} style={{ minHeight: "100vh" }}></div>;
+  return (
+    <>
+      <Script
+        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}
+        // strategy="beforeInteractive"// 왜 ?
+        strategy="afterInteractive"
+      />
+      <div id="map" ref={mapElement} style={{ minHeight: "100vh" }}></div>
+    </>
+  );
 };
 
 export default MapNaverDefault;
+
+// Utils
+function useScriptLoaded() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const checkNaver = () => {
+      console.log("checkNaver");
+      if (window.naver) {
+        console.log("naver loaded");
+        setIsLoaded(true);
+      } else {
+        console.log("naver not loaded");
+        setTimeout(checkNaver, 100); // 100ms 후에 다시 확인
+      }
+    };
+    checkNaver();
+  }, []);
+
+  return isLoaded;
+}
