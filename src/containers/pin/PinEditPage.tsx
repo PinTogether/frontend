@@ -11,8 +11,8 @@ import { EditIcon, SearchIcon } from "@/components/IconSvg";
 import CardSlider2 from "@/components/CardSlider2";
 import CollectionCard from "@/components/CollectionCard";
 import PinBox from "@/containers/pin/PinBox";
-import IPin from "@/types/IPin";
-import ICollection from "@/types/ICollection";
+import Pin from "@/types/Pin";
+import Collection from "@/types/Collection";
 import { LocationCard } from "@/components/PinCard";
 
 interface Place {
@@ -31,9 +31,9 @@ export interface NewPinData extends Place {
 const myId = 1;
 
 export default function PinEditPage({ pinId }: { pinId?: string }) {
-  const [collectionList, setCollectionList] = useState<ICollection[]>([]);
+  const [collectionList, setCollectionList] = useState<Collection[]>([]);
   const [searchedCollectionList, setSearchedCollectionList] = useState<
-    ICollection[]
+    Collection[]
   >([]); // selectedCollection
   const collectionSearchInputRef = useRef<HTMLInputElement>(null);
   const pinSearchInputRef = useRef<HTMLInputElement>(null);
@@ -166,14 +166,15 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
         >
           {[
             ...searchedCollectionList.map((collection) => (
-              <CollectionCard
-                data-cardId={collection.id}
-                key={collection.id}
-                collectionData={collection}
-                horizontal={true}
-                linkDisabled={true}
-                onClick={() => setSelectedCollectionId(collection.id)}
-              />
+              // <CollectionCard
+              //   data-cardId={collection.id}
+              //   key={collection.id}
+              //   collectionData={collection}
+              //   horizontal={true}
+              //   linkDisabled={true}
+              //   onClick={() => setSelectedCollectionId(collection.id)}
+              // />
+              <></>
             )),
           ]}
         </CardSlider2>

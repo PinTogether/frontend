@@ -1,6 +1,6 @@
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import PinCard from "../../components/PinCard";
-import IPin from "@/types/IPin";
+import Pin from "@/types/Pin";
 
 /*
 {
@@ -65,7 +65,7 @@ import IPin from "@/types/IPin";
 }
 */
 
-export default function CollectionWithPinRenderer({pins}:{pins: IPin[]}) {
+export default function CollectionWithPinRenderer({pins}:{pins: Pin[]}) {
   return (
     <section className={styles.collectionListContainer}>
       {pins.map((pinComment, index) => (

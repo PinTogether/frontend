@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import IPin from "@/types/IPin";
+import Pin from "@/types/Pin";
 import PinCard from "@/components/PinCard";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
 
-export default function SearchPinRender({ pindatas }: { pindatas: IPin[] }) {
+export default function SearchPinRender({ pindatas }: { pindatas: Pin[] }) {
   const [repeatCount, setRepeatCount] = useState(2);
 
   const onChangeCollection = (e: any) => {
