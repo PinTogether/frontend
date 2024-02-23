@@ -153,7 +153,7 @@ const DefaultCollectionCard = ({
       </div>
       <div className={styles.textContainer}>
         <Link
-          href={`/profile/${collectionData.writer}`}
+          href={`/profile/${collectionData.ownerNickname}`}
           className={styles.profile}
           aria-disabled={linkDisabled}
         >
@@ -165,7 +165,7 @@ const DefaultCollectionCard = ({
             className={styles.userAvatar}
           />
         </Link>
-        <p className={styles.nickname}>{`by ${collectionData.writer}`}</p>
+        <p className={styles.nickname}>{`by ${collectionData.ownerNickname}`}</p>
         <Link
           href={`/collection/${collectionData.id}`}
           className={styles.title}
@@ -253,10 +253,10 @@ const HorizontalCollectionCard = ({
           {collectionData.title}
         </Link>
         <Link
-          href={`/profile/${collectionData.writer}`}
+          href={`/profile/${collectionData.ownerNickname}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
-        >{`by ${collectionData.writer}`}</Link>
+        >{`by ${collectionData.ownerNickname}`}</Link>
         <BookMark />
       </div>
       <div className={styles.buttonContainer}>
@@ -306,10 +306,10 @@ const HorizontalDetailCard = ({
           {collectionData.title}
         </Link>
         <Link
-          href={`/profile/${collectionData.writer}`}
+          href={`/profile/${collectionData.ownerNickname}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
-        >{`by ${collectionData.writer}`}</Link>
+        >{`by ${collectionData.ownerNickname}`}</Link>
         <BookMark />
       </div>
       <div className={styles.buttonContainer}>
