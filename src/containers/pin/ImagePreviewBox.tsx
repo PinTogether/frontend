@@ -3,7 +3,7 @@ import styles from "@/styles/containers/pin/_imagePreviewBox.module.scss";
 import Image from "next/image";
 import { ReactNode, MouseEventHandler } from "react";
 
-export default ({
+const ImagePreviewBox = ({
   imagePreviews,
   children,
   handleClickClose,
@@ -37,3 +37,5 @@ export default ({
     </div>
   );
 };
+
+export default ImagePreviewBox;

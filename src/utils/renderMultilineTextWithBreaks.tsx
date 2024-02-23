@@ -1,4 +1,4 @@
-export default (review: string) => {
+const renderMultilineTextWithBreaks = (review: string) => {
   return (
     <>
       {review.split("\n").map((line, index) => (
@@ -10,3 +10,5 @@ export default (review: string) => {
     </>
   );
 };
+
+export default renderMultilineTextWithBreaks;
