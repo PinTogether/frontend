@@ -1,12 +1,12 @@
 import styles from "@/styles/components/_pincard.module.scss";
 import { AddRoundIcon, LocationIcon, PinIcon } from "@/components/IconSvg";
-import IPin from "@/types/IPin";
+import Pin from "@/types/Pin";
 
 export default function PinCard({
   pinData,
   children,
 }: {
-  pinData: IPin;
+  pinData: Pin;
   children?: React.ReactNode;
 }) {
   return (
@@ -17,7 +17,7 @@ export default function PinCard({
           <h3>{pinData.placeName}</h3>
           <p>{pinData.category}</p>
         </button>
-        <address>{pinData.roadNameAddress}</address>
+        <address>{pinData.address}</address>
         <div className={styles.tagContainer}>
           <span>맛집</span>
           <span>강릉</span>

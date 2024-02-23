@@ -1,12 +1,13 @@
 import Image from "next/image";
 import styles from "@/styles/components/_comment.module.scss";
-import IComment from "@/types/IComment";
+// import PinReview from "@/types/PinReview";
+import { PinForPlace } from "@/types/Pin";
 
 export default function Comment({
   commentData,
   activeGoCollectionBtn = true,
 }: {
-  commentData: IComment;
+  commentData: PinForPlace;
   activeGoCollectionBtn?: boolean;
 }) {
   return (
@@ -18,10 +19,8 @@ export default function Comment({
         height={100}
         className={styles.userAvatar}
       />
-      <p
-        className={styles.userNick}
-      >{`${commentData.userNickname}님의 리뷰`}</p>
-      <p className={styles.text}>{`${commentData.comment}`}</p>
+      <p className={styles.userNick}>{`${commentData.writer}님의 리뷰`}</p>
+      <p className={styles.text}>{`${commentData.review}`}</p>
       <div className={styles.content}>
         <Image
           src="/images/food_dummy2.jpg"

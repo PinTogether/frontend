@@ -3,14 +3,14 @@ import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { useRouter } from "next/navigation";
 import { SettingIcon } from "@/components/IconSvg";
 import { useState } from "react";
-import IProfile from "@/types/IProfile";
-import ICollection from "@/types/ICollection";
-import IBookmark from "@/types/IBookmark";
+import { ProfileMine } from "@/types/Profile";
+import { CollectionDetail } from "@/types/Collection";
+import { PlaceStared } from "@/types/Place";
 import ProfileCollectionRenderer from "./ProfileCollectionRenderer";
 import ProfileBookmarkRenderer from "./ProfileBookmarkRenderer";
 
-const profiles: IProfile = {
-  userNickname: "김고양",
+const profiles: ProfileMine = {
+  nickname: "김고양",
   userId: 1,
   registrationSource: "KAKAO",
   role: "ROLE_MEMBER",
@@ -18,9 +18,10 @@ const profiles: IProfile = {
   collectionCnt: 5,
   scrappedCollectionCnt: 3,
   followerCnt: 7,
+  followingCnt: 3,
 };
 
-const bookmarksList: IBookmark[] = [
+const bookmarksList: PlaceStared[] = [
   {
     id: 1,
     address: "서울특별시 강남구 개포로 302-1",
@@ -72,104 +73,59 @@ const bookmarksList: IBookmark[] = [
   },
 ];
 
-const scrappedCollections: ICollection[] = [
+const scrappedCollections: CollectionDetail[] = [
+  {
+    id: 1,
+    title: "서울의 숨은 맛집",
+    writerId: 100,
+    writer: "FoodieKim",
+    thumbnail: "https://picsum.photos/200",
+    likeCnt: 150,
+    pinCnt: 5,
+    scrapCnt: 75,
+    isScrapped: false,
+    isLiked: true,
+    details:
+      "서울 곳곳의 숨은 맛집을 소개합니다. 각종 매체에 소개되지 않은, 현지인만 아는 그런 곳들이죠.",
+    tags: ["맛집", "서울", "현지인추천"],
+    commentCnt: 45,
+  },
+  {
+    id: 2,
+    title: "주말 가볼만한 곳",
+    writerId: 101,
+    writer: "TravelPark",
+    thumbnail: "https://picsum.photos/200",
+    likeCnt: 200,
+    pinCnt: 8,
+    scrapCnt: 50,
+    isScrapped: true,
+    isLiked: false,
+    details:
+      "주말에 친구, 연인, 가족과 함께 가볼 만한 곳들을 모아봤습니다. 자연에서의 힐링, 문화생활을 즐길 수 있는 곳 등 다양합니다.",
+    tags: ["주말", "여행", "가족여행"],
+    commentCnt: 30,
+  },
   {
     id: 3,
-    title: "강릉 주민 맛집",
-    writer: 11,
-    ownerNickname: "이고양",
-    thumbnail: "https://picsum.photos/id/326/300",
-    detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
-    likeCnt: 12,
-    pinCnt: 5,
-  },
-  {
-    id: 19,
-    title: "강릉 주민 맛집",
-    writer: 112,
-    ownerNickname: "잠자는_짱구의_콧털",
-    thumbnail: "https://picsum.photos/id/326/300",
-    detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
-    likeCnt: 12,
-    pinCnt: 5,
+    title: "해외 여행지 추천",
+    writerId: 102,
+    writer: "GlobeTrotter",
+    thumbnail: "https://picsum.photos/200",
+    likeCnt: 300,
+    pinCnt: 12,
+    scrapCnt: 120,
+    isScrapped: true,
+    isLiked: true,
+    details:
+      "코로나 이후 다시 떠나고 싶은 해외 여행지들을 추천합니다. 아시아, 유럽, 아메리카 등 다양한 대륙의 숨겨진 보석 같은 곳들을 소개해요.",
+    tags: ["해외여행", "여행지추천", "바캉스"],
+    commentCnt: 60,
   },
 ];
 
-const followCollections: ICollection[] = [
-  {
-    id: 1,
-    title: "강릉 주민 맛집",
-    writer: 123,
-    ownerNickname: "김개",
-    thumbnail: "https://picsum.photos/id/326/300",
-    detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
-    likeCnt: 12,
-    pinCnt: 5,
-  },
-  {
-    id: 1,
-    title: "부산 주민 맛집",
-    writer: 123,
-    ownerNickname: "김개",
-    thumbnail: "https://picsum.photos/id/326/300",
-    detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
-    likeCnt: 12,
-    pinCnt: 5,
-  },
-  {
-    id: 2233,
-    title: "강릉 안주민 맛집",
-    writer: 175,
-    ownerNickname: "최개",
-    thumbnail: "https://picsum.photos/id/326/300",
-    detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
-    likeCnt: 12,
-    pinCnt: 5,
-  },
-  {
-    id: 1124,
-    title: "아마존 원주민 맛집",
-    writer: 144,
-    ownerNickname: "이개",
-    thumbnail: "https://picsum.photos/id/326/300",
-    detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
-    likeCnt: 12,
-    pinCnt: 5,
-  },
-];
-
-const myCollections: ICollection[] = [
-  {
-    id: 1,
-    title: "강릉 주민 맛집",
-    writer: 1,
-    ownerNickname: "김고양",
-    thumbnail: "https://picsum.photos/id/326/300",
-    detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
-    likeCnt: 12,
-    pinCnt: 5,
-  },
-  {
-    id: 1,
-    title: "강릉 주민 맛집",
-    writer: 1,
-    ownerNickname: "김고양",
-    thumbnail: "https://picsum.photos/id/326/300",
-    detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
-    likeCnt: 12,
-    pinCnt: 5,
-  },
-  {
-    id: 1,
-    title: "강릉 주민 맛집",
-    writer: 1,
-    ownerNickname: "김고양",
-    thumbnail: "https://picsum.photos/id/326/300",
-    detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
-    likeCnt: 12,
-    pinCnt: 5,
-  },
-];
+const followCollections = scrappedCollections;
+const myCollections = scrappedCollections;
 
 export default function ProfilePage({ id }: { id: number }) {
   const router = useRouter();
@@ -192,7 +148,7 @@ export default function ProfilePage({ id }: { id: number }) {
           />
           <div className={styles.profileName}>
             <div></div>
-            <p>{profiles.userNickname}</p>
+            <p>{profiles.nickname}</p>
             {id == profiles.userId && (
               <button onClick={() => router.push("/profile/setting")}>
                 <SettingIcon className={styles.icon} />

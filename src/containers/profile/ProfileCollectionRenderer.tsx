@@ -1,13 +1,17 @@
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
-import ICollection from "@/types/ICollection";
+import Collection, { CollectionDetail } from "@/types/Collection";
 import CollectionCard from "@/components/CollectionCard";
 
-export default function ProfileCollectionRenderer({collectionList}:{collectionList:ICollection[]}){
-  return(
+export default function ProfileCollectionRenderer({
+  collectionList,
+}: {
+  collectionList: CollectionDetail[];
+}) {
+  return (
     <section className={styles.profileListContainer}>
-            {collectionList.map((collection, index) => (
-          <CollectionCard key={index} collectionData={collection} />
+      {collectionList.map((collection, index) => (
+        <CollectionCard key={index} collectionData={collection} />
       ))}
-  </section>
+    </section>
   );
 }

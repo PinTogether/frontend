@@ -11,12 +11,12 @@ import {
   BookMarkFillIcon,
   CommentIcon,
 } from "@/components/IconSvg";
-import ICollection from "@/types/ICollection";
+import Collection, { CollectionDetail } from "@/types/Collection";
 import { useState, HTMLAttributes } from "react";
 import Link from "next/link";
 
 interface CollectionCardProps extends HTMLAttributes<HTMLButtonElement> {
-  collectionData: ICollection;
+  collectionData: CollectionDetail;
   horizontal?: boolean;
   simple?: boolean;
   detail?: boolean;
@@ -24,7 +24,7 @@ interface CollectionCardProps extends HTMLAttributes<HTMLButtonElement> {
 }
 
 interface CardProps extends HTMLAttributes<HTMLButtonElement> {
-  collectionData: ICollection;
+  collectionData: CollectionDetail;
   linkDisabled?: boolean;
 }
 
@@ -132,10 +132,7 @@ const DefaultCollectionCard = ({
   ...props
 }: CardProps) => {
   return (
-    <article
-      className={styles.collectionCard}
-      {...props}
-    >
+    <article className={styles.collectionCard} {...props}>
       <div className={styles.imgContainer}>
         <Link
           href={`/collection/${collectionData.id}`}
@@ -153,7 +150,7 @@ const DefaultCollectionCard = ({
       </div>
       <div className={styles.textContainer}>
         <Link
-          href={`/profile/${collectionData.ownerNickname}`}
+          href={`/profile/${collectionData.writerId}`}
           className={styles.profile}
           aria-disabled={linkDisabled}
         >
@@ -165,7 +162,7 @@ const DefaultCollectionCard = ({
             className={styles.userAvatar}
           />
         </Link>
-        <p className={styles.nickname}>{`by ${collectionData.ownerNickname}`}</p>
+        <p className={styles.nickname}>{`by ${collectionData.writerId}`}</p>
         <Link
           href={`/collection/${collectionData.id}`}
           className={styles.title}
@@ -191,10 +188,7 @@ const SimpleCollectionCard = ({
   ...props
 }: CardProps) => {
   return (
-    <article
-      className={styles.simpleCollectionCard}
-      {...props}
-    >
+    <article className={styles.simpleCollectionCard} {...props}>
       <div className={styles.imgContainer}>
         <Link
           href={`/collection/${collectionData.id}`}
@@ -227,10 +221,7 @@ const HorizontalCollectionCard = ({
   ...props
 }: CardProps) => {
   return (
-    <article
-      className={styles.horizontalCollectionCard}
-      {...props}
-    >
+    <article className={styles.horizontalCollectionCard} {...props}>
       <Link
         href={`/collection/${collectionData.id}`}
         className={styles.imgContainer}
@@ -253,10 +244,10 @@ const HorizontalCollectionCard = ({
           {collectionData.title}
         </Link>
         <Link
-          href={`/profile/${collectionData.ownerNickname}`}
+          href={`/profile/${collectionData.writerId}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
-        >{`by ${collectionData.ownerNickname}`}</Link>
+        >{`by ${collectionData.writerId}`}</Link>
         <BookMark />
       </div>
       <div className={styles.buttonContainer}>
@@ -280,10 +271,7 @@ const HorizontalDetailCard = ({
   ...props
 }: CardProps) => {
   return (
-    <article
-      className={styles.detailCollectionCard}
-      {...props}
-    >
+    <article className={styles.detailCollectionCard} {...props}>
       <Link
         href={`/collection/${collectionData.id}`}
         className={styles.imgContainer}
@@ -306,10 +294,10 @@ const HorizontalDetailCard = ({
           {collectionData.title}
         </Link>
         <Link
-          href={`/profile/${collectionData.ownerNickname}`}
+          href={`/profile/${collectionData.writerId}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
-        >{`by ${collectionData.ownerNickname}`}</Link>
+        >{`by ${collectionData.writerId}`}</Link>
         <BookMark />
       </div>
       <div className={styles.buttonContainer}>
@@ -330,7 +318,7 @@ const HorizontalDetailCard = ({
       </div>
       <div className={styles.detailContainer}>
         <CommentIcon />
-        <p>{collectionData.detail}</p>
+        <p>{collectionData.details}</p>
       </div>
     </article>
   );

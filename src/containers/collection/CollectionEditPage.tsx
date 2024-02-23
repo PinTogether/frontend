@@ -5,7 +5,7 @@ import styles from "@/styles/containers/collection/_collectionEditPage.module.sc
 import Topper from "@/components/SubTopper";
 import { useState, useEffect } from "react";
 import { ImgLoadIcon, EditIcon } from "@/components/IconSvg";
-import ICollection from "@/types/ICollection";
+import Collection from "@/types/Collection";
 
 export default function CollectionEditPage({id}:{id?:number}) {
   const size = 300;

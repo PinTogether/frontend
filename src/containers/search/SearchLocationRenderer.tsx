@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import IPin from "@/types/IPin";
+import Pin from "@/types/Pin";
 import { LocationCard } from "@/components/PinCard";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
 
 export default function SearchLocationRender({
   pindatas,
 }: {
-  pindatas: IPin[];
+  pindatas: Pin[];
 }) {
   const [repeatCount, setRepeatCount] = useState(2);
 
@@ -35,7 +35,7 @@ export default function SearchLocationRender({
               <LocationCard
                 key={index}
                 placeName={pinData.placeName}
-                roadNameAddress={pinData.roadNameAddress}
+                roadNameAddress={pinData.address}
                 category={pinData.category}
               />
             )

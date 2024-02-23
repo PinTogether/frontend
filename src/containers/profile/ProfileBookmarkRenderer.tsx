@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import IBookmark from "@/types/IBookmark";
+import { PlaceStared } from "@/types/Place";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { PinIcon } from "@/components/IconSvg";
 
 export default function ProfileBookmarkRenderer({
   bookmarks,
 }: {
-  bookmarks: IBookmark[];
+  bookmarks: PlaceStared[];
 }) {
   function onChangeClickedBookmark(id: number) {
     const newList = [...clickedBookmarks];
