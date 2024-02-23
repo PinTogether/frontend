@@ -1,21 +1,29 @@
 "use client";
 
 // import styles from "@/styles/components/Cardslider.module.scss";
+import {
+  useState,
+  useRef,
+  ReactNode,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import styles from "@/styles/components/_cardslider2.module.scss";
-
-import { useState, useRef, ReactNode, useEffect } from "react";
+import pxToRem from "@/utils/pxToRem";
 
 export default function CardSlider2({
   children,
   width,
   height,
+  selectedCardId,
+  // setSelectedCardId,
 }: {
   children: ReactNode[];
-  scrollSize?: number;
-  scrollCardNumber?: number;
-  gap?: number;
   width?: number;
   height?: number;
+  selectedCardId?: number;
+  // setSelectedCardId?: Dispatch<SetStateAction<number>>;
 }) {
   const [isFirstCard, setIsFirstCard] = useState(true);
   const [isLastCard, setIsLastCard] = useState(false);
@@ -24,15 +32,12 @@ export default function CardSlider2({
 
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  useEffect(() => {
+    showSlide(selectedCardId || 0);
+  }, [selectedCardId]);
+
   // cardRefs를 초기화하고, children 배열의 변화에 따라 업데이트합니다.
   useEffect(() => {
-    function pxToRem(px: number) {
-      const rootFontSize = parseFloat(
-        getComputedStyle(document.documentElement).fontSize
-      );
-      return px / rootFontSize;
-    }
-
     cardRefs.current = children.map(
       (_, index) => cardRefs.current[index] || null
     );
@@ -48,8 +53,8 @@ export default function CardSlider2({
       "cardRefs.current[0]?.clientWidth",
       cardRefs.current[0]?.clientWidth
     );
-    showSlide(0);
-  }, [children]);
+    showSlide(selectedCardId || 0);
+  }, [selectedCardId, children.length]);
 
   const [widthStyle, setWidthStyle] = useState({
     width: width ? width : "100%",
@@ -58,7 +63,6 @@ export default function CardSlider2({
 
   const cardWidth = 4; // rem
   const defaultgap = 1;
-  // const defaultScrollSize = cardWidth + defaultgap;
   const [defaultScrollSize, setDefaultScrollSize] = useState(
     cardWidth + defaultgap
   );
@@ -66,30 +70,46 @@ export default function CardSlider2({
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const showSlide = (slideIndex: number) => {
-    cardRefs.current.forEach((cardRef, index) => {
-      if (index === slideIndex) {
-        cardRef?.classList.add(styles.activeCard);
-        cardRef?.classList.remove(styles.deactiveCard);
-      } else {
-        cardRef?.classList.remove(styles.activeCard);
-        cardRef?.classList.add(styles.deactiveCard);
-      }
-    });
+    {
+      cardRefs.current.forEach((cardRef, index) => {
+        if (index === slideIndex) {
+          cardRef?.classList.add(styles.activeCard);
+          cardRef?.classList.remove(styles.deactiveCard);
+        } else {
+          cardRef?.classList.remove(styles.activeCard);
+          cardRef?.classList.add(styles.deactiveCard);
+        }
+      });
+      setCurrentSlide(slideIndex);
+      const rootFontSize = parseFloat(
+        getComputedStyle(document.documentElement).fontSize
+      );
+      let currentScrollSizePx = defaultScrollSize * slideIndex * rootFontSize;
+      cardContainerRef.current!.scrollLeft = currentScrollSizePx;
 
-    setCurrentSlide(slideIndex);
-    // let currentScrollSize = cardWidth / 2 + defaultScrollSize * slideIndex;
-    // cardContainerRef.current!.style.transform = `translateX(-${currentScrollSize}rem)`;
+      if (slideIndex <= 0) setIsFirstCard(true);
+      else setIsFirstCard(false);
+      if (slideIndex >= children.length - 1) setIsLastCard(true);
+      else setIsLastCard(false);
+    }
 
-    const rootFontSize = parseFloat(
-      getComputedStyle(document.documentElement).fontSize
-    );
-    let currentScrollSizePx = defaultScrollSize * slideIndex * rootFontSize;
-    cardContainerRef.current!.scrollLeft = currentScrollSizePx;
+    // console.log("aa", selectedCardId, slideIndex);
+    // cardId 설정
+    // const element = cardRefs?.current[slideIndex];
+    // element?.firstChild instanceof HTMLElement
+    //   ? element?.firstChild?.click()
+    //   : null;
 
-    if (slideIndex <= 0) setIsFirstCard(true);
-    else setIsFirstCard(false);
-    if (slideIndex >= children.length - 1) setIsLastCard(true);
-    else setIsLastCard(false);
+    // if (selectedCardId !== slideIndex) {
+    //   const element = cardRefs?.current[slideIndex];
+    //   const cardId =
+    //     element?.firstChild instanceof Element
+    //       ? element.firstChild?.getAttribute("data-cardid")
+    //       : null;
+    //   console.log("currentSlide", element);
+    //   console.log("currentSlide", cardId);
+    //   if (setSelectedCardId && cardId) setSelectedCardId(Number(cardId));
+    // }
   };
 
   const handleLeftClick = () => {
@@ -102,8 +122,9 @@ export default function CardSlider2({
     showSlide(currentSlide + 1);
   };
 
-  const handleOnClick = (index: number) => {
+  const handleOnClick = (index: number, test: any) => {
     showSlide(index);
+    console.log(test);
   };
 
   return (
@@ -118,7 +139,7 @@ export default function CardSlider2({
                 className={styles.activeCard}
                 // ref={cardRefs.current[index]}
                 ref={(el) => (cardRefs.current[index] = el as HTMLDivElement)}
-                onClick={() => handleOnClick(index)}
+                onClick={() => handleOnClick(index, child)}
               >
                 {child}
               </article>
@@ -130,7 +151,7 @@ export default function CardSlider2({
               className={styles.deactiveCard}
               // ref={cardRefs.current[index]}
               ref={(el) => (cardRefs.current[index] = el as HTMLDivElement)}
-              onClick={() => handleOnClick(index)}
+              onClick={() => handleOnClick(index, child)}
             >
               {child}
             </article>

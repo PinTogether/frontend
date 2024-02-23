@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "서울_비밀_맛집",
+    "writerId": 101,
+    "writer": "도시탐험가",
+    "thumbnail": "https://picsum.photos/200",
+    "likeCnt": 150,
+    "pinCnt": 30,
+    "scrapCnt": 25,
+    "isScrapped": false,
+    "isLiked": true
+  },
+  {
+    "id": 2,
+    "title": "부산_핫플_모음",
+    "writerId": 102,
+    "writer": "바다사랑",
+    "thumbnail": "https://picsum.photos/200",
+    "likeCnt": 180,
+    "pinCnt": 50,
+    "scrapCnt": 30,
+    "isScrapped": true,
+    "isLiked": false
+  },
+  {
+    "id": 3,
+    "title": "강릉_주민_맛집",
+    "writerId": 103,
+    "writer": "잠자는_짱구의_콧털",
+    "thumbnail": "https://picsum.photos/200",
+    "likeCnt": 200,
+    "pinCnt": 70,
+    "scrapCnt": 40,
+    "isScrapped": true,
+    "isLiked": true
+  },
+  {
+    "id": 4,
+    "title": "제주도_맛집_산책",
+    "writerId": 104,
+    "writer": "자연인",
+    "thumbnail": "/images/cat_dummy.jpeg",
+    "likeCnt": 220,
+    "pinCnt": 60,
+    "scrapCnt": 35,
+    "isScrapped": false,
+    "isLiked": true
+  },
+  {
+    "id": 5,
+    "title": "경주_역사여행_코스",
+    "writerId": 105,
+    "writer": "역사해설사",
+    "thumbnail": "https://picsum.photos/200",
+    "likeCnt": 170,
+    "pinCnt": 40,
+    "scrapCnt": 20,
+    "isScrapped": true,
+    "isLiked": false
+  }
+]

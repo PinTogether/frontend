@@ -9,65 +9,41 @@
   @extend %pt-input;
 }
 
-.reviewTextArea {
-  @extend %pt-input;
-}
-
-.pinSection {
-  @extend %pt-card;
-  box-shadow: none;
-  background-color: $color-grey-light;
-  padding: 1rem;
+.searchBox {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  height: auto;
+  align-items: center;
+
+  .searchButton {
+    @extend %pt-button;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+    width: fit-content;
+    color: $color-grey-dark;
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: $color-grey-dark;
+    }
+    &:hover{
+      background-color: unset;
+      outline: none;
+      color: $color-primary-dark;
+      svg {
+        color: $color-primary-dark;
+      }
+    }
+  }
 }
 
+.selectedPin {
+  background-color: $color-primary-light;
+  border-radius: $border-radius;
+}
 
-.imageUploadBox {
-  .inputFile {
-    display: none;
-  }
-  .inputLabel {
-
-  }
-  .imgBox {
-    display: flex;
-    flex-direction: row;
-    overflow: auto;
-    gap: 1rem;
-
-    
-    textarea {
-      @extend %pt-input;
-      width: 100%;
-      resize: vertical;
-    }
-
-    & > * {
-      flex-shrink: 0;
-      display: flex;
-  
-      justify-content: center;
-      align-items: center;      
-      background-color: $color-grey;
-      border: $border-radius;
-      min-width: 5rem;
-      min-height: 5rem;
-      object-fit: cover;
-      border-radius: 0.2rem;
-      svg {
-        color: $color-grey-light;
-      }
-      img {
-        // flex-shrink: 2;
-        // border-radius: $border-radius;
-        // $border-radius: 1.2rem;
-        object-fit: cover;
-        padding: 0;
-        margin: 0;
-      }
-    }
-  }
+.unSelectedPin {
+  // background-color: $color-grey-light;
+  border-radius: $border-radius;
 }

@@ -99,9 +99,7 @@ const MapNaverDefault = () => {
   useEffect(() => {
     const { naver } = window;
 
-    console.log("a", mapElement.current, "", naver);
     if (!mapElement.current || !naver) return;
-    console.log("b", mapElement.current, naver);
     const center = new naver.maps.LatLng(Lat, Lng);
     // 지도 생성할 옵션
     const mapOptions: naver.maps.MapOptions = {

@@ -44,21 +44,27 @@ export default function PinCard({
 }
 
 export function LocationCard({
-  locationData,
+  // locationData,
   simple = false,
+  placeName,
+  category,
+  roadNameAddress,
 }: {
-  locationData: IPin;
+  // locationData: IPin;
   simple?: boolean;
+  placeName: string;
+  category: string;
+  roadNameAddress: string;
 }) {
   return (
     <article className={styles.locationCard}>
       <div className={styles.mainInfo}>
         <LocationIcon className={styles.pinIcon} />
         <button className={styles.title}>
-          <h3>{locationData.placeName}</h3>
-          <p>{locationData.category}</p>
+          <h3>{placeName}</h3>
+          <p>{category}</p>
         </button>
-        <address>{locationData.roadNameAddress}</address>
+        <address>{roadNameAddress}</address>
         {!simple && (
           <div className={styles.subContainer}>
             <button>

@@ -2,7 +2,6 @@
 
 import styles from "@/styles/components/_collectioncard.module.scss";
 import Image from "next/image";
-// import { HeartIcon } from "@/components/Icons";
 import {
   HeartIcon,
   HeartFillIcon,
@@ -13,8 +12,21 @@ import {
   CommentIcon,
 } from "@/components/IconSvg";
 import ICollection from "@/types/ICollection";
-import { useState } from "react";
+import { useState, HTMLAttributes } from "react";
 import Link from "next/link";
+
+interface CollectionCardProps extends HTMLAttributes<HTMLButtonElement> {
+  collectionData: ICollection;
+  horizontal?: boolean;
+  simple?: boolean;
+  detail?: boolean;
+  linkDisabled?: boolean;
+}
+
+interface CardProps extends HTMLAttributes<HTMLButtonElement> {
+  collectionData: ICollection;
+  linkDisabled?: boolean;
+}
 
 export default function CollectionCard({
   collectionData,
@@ -22,32 +34,31 @@ export default function CollectionCard({
   simple = false,
   detail = false,
   linkDisabled = false,
-}: {
-  collectionData: ICollection;
-  horizontal?: boolean;
-  simple?: boolean;
-  detail?: boolean;
-  linkDisabled?: boolean;
-}) {
+  ...props
+}: CollectionCardProps) {
   return simple ? (
     <SimpleCollectionCard
       collectionData={collectionData}
       linkDisabled={linkDisabled}
+      {...props}
     />
   ) : horizontal ? (
     <HorizontalCollectionCard
       collectionData={collectionData}
       linkDisabled={linkDisabled}
+      {...props}
     />
   ) : detail ? (
     <HorizontalDetailCard
       collectionData={collectionData}
       linkDisabled={linkDisabled}
+      {...props}
     />
   ) : (
     <DefaultCollectionCard
       collectionData={collectionData}
       linkDisabled={linkDisabled}
+      {...props}
     />
   );
 }
@@ -118,12 +129,13 @@ const PinButton = ({
 const DefaultCollectionCard = ({
   collectionData,
   linkDisabled = false,
-}: {
-  collectionData: ICollection;
-  linkDisabled?: boolean;
-}) => {
+  ...props
+}: CardProps) => {
   return (
-    <article className={styles.collectionCard}>
+    <article
+      className={styles.collectionCard}
+      {...props}
+    >
       <div className={styles.imgContainer}>
         <Link
           href={`/collection/${collectionData.id}`}
@@ -141,7 +153,7 @@ const DefaultCollectionCard = ({
       </div>
       <div className={styles.textContainer}>
         <Link
-          href={`/profile/${collectionData.ownerId}`}
+          href={`/profile/${collectionData.writer}`}
           className={styles.profile}
           aria-disabled={linkDisabled}
         >
@@ -153,9 +165,7 @@ const DefaultCollectionCard = ({
             className={styles.userAvatar}
           />
         </Link>
-        <p className={styles.nickname}>
-          {`by ${collectionData.ownerNickname}`}
-        </p>
+        <p className={styles.nickname}>{`by ${collectionData.writer}`}</p>
         <Link
           href={`/collection/${collectionData.id}`}
           className={styles.title}
@@ -178,12 +188,13 @@ const DefaultCollectionCard = ({
 const SimpleCollectionCard = ({
   collectionData,
   linkDisabled = false,
-}: {
-  collectionData: ICollection;
-  linkDisabled?: boolean;
-}) => {
+  ...props
+}: CardProps) => {
   return (
-    <article className={styles.simpleCollectionCard}>
+    <article
+      className={styles.simpleCollectionCard}
+      {...props}
+    >
       <div className={styles.imgContainer}>
         <Link
           href={`/collection/${collectionData.id}`}
@@ -213,12 +224,13 @@ const SimpleCollectionCard = ({
 const HorizontalCollectionCard = ({
   collectionData,
   linkDisabled = false,
-}: {
-  collectionData: ICollection;
-  linkDisabled?: boolean;
-}) => {
+  ...props
+}: CardProps) => {
   return (
-    <article className={styles.horizontalCollectionCard}>
+    <article
+      className={styles.horizontalCollectionCard}
+      {...props}
+    >
       <Link
         href={`/collection/${collectionData.id}`}
         className={styles.imgContainer}
@@ -241,10 +253,10 @@ const HorizontalCollectionCard = ({
           {collectionData.title}
         </Link>
         <Link
-          href={`/profile/${collectionData.ownerId}`}
+          href={`/profile/${collectionData.writer}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
-        >{`by ${collectionData.ownerNickname}`}</Link>
+        >{`by ${collectionData.writer}`}</Link>
         <BookMark />
       </div>
       <div className={styles.buttonContainer}>
@@ -265,12 +277,13 @@ const HorizontalCollectionCard = ({
 const HorizontalDetailCard = ({
   collectionData,
   linkDisabled = false,
-}: {
-  collectionData: ICollection;
-  linkDisabled?: boolean;
-}) => {
+  ...props
+}: CardProps) => {
   return (
-    <article className={styles.detailCollectionCard}>
+    <article
+      className={styles.detailCollectionCard}
+      {...props}
+    >
       <Link
         href={`/collection/${collectionData.id}`}
         className={styles.imgContainer}
@@ -293,10 +306,10 @@ const HorizontalDetailCard = ({
           {collectionData.title}
         </Link>
         <Link
-          href={`/profile/${collectionData.ownerId}`}
+          href={`/profile/${collectionData.writer}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
-        >{`by ${collectionData.ownerNickname}`}</Link>
+        >{`by ${collectionData.writer}`}</Link>
         <BookMark />
       </div>
       <div className={styles.buttonContainer}>

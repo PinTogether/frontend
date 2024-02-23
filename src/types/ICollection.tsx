@@ -1,7 +1,7 @@
 export default interface ICollection {
   id: number;
   title: string;
-  ownerId: number;
+  writer: number;
   ownerNickname: string;
   thumbnail: string;
   detail: string;
