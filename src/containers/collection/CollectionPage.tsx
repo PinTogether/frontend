@@ -240,7 +240,7 @@ export default function CollectionPage({id}:{id:number}) {
         >
           컬렉션 댓글 보기
         </button>
-        {userId == collection.ownerId && <button className={styles.buttons}>+ 핀 추가</button>}
+        {userId == collection.writer && <button className={styles.buttons}>+ 핀 추가</button>}
       </section>
       {showState === 1 && <CollectionWithPinRenderer pins={pinDataList} />}
       {showState === 2 && (

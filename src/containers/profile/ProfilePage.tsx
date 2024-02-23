@@ -76,7 +76,7 @@ const scrappedCollections: ICollection[] = [
   {
     id: 3,
     title: "강릉 주민 맛집",
-    ownerId: 11,
+    writer: 11,
     ownerNickname: "이고양",
     thumbnail: "https://picsum.photos/id/326/300",
     detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -86,7 +86,7 @@ const scrappedCollections: ICollection[] = [
   {
     id: 19,
     title: "강릉 주민 맛집",
-    ownerId: 112,
+    writer: 112,
     ownerNickname: "잠자는_짱구의_콧털",
     thumbnail: "https://picsum.photos/id/326/300",
     detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -99,7 +99,7 @@ const followCollections: ICollection[] = [
   {
     id: 1,
     title: "강릉 주민 맛집",
-    ownerId: 123,
+    writer: 123,
     ownerNickname: "김개",
     thumbnail: "https://picsum.photos/id/326/300",
     detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -109,7 +109,7 @@ const followCollections: ICollection[] = [
   {
     id: 1,
     title: "부산 주민 맛집",
-    ownerId: 123,
+    writer: 123,
     ownerNickname: "김개",
     thumbnail: "https://picsum.photos/id/326/300",
     detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -119,7 +119,7 @@ const followCollections: ICollection[] = [
   {
     id: 2233,
     title: "강릉 안주민 맛집",
-    ownerId: 175,
+    writer: 175,
     ownerNickname: "최개",
     thumbnail: "https://picsum.photos/id/326/300",
     detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -129,7 +129,7 @@ const followCollections: ICollection[] = [
   {
     id: 1124,
     title: "아마존 원주민 맛집",
-    ownerId: 144,
+    writer: 144,
     ownerNickname: "이개",
     thumbnail: "https://picsum.photos/id/326/300",
     detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -142,7 +142,7 @@ const myCollections: ICollection[] = [
   {
     id: 1,
     title: "강릉 주민 맛집",
-    ownerId: 1,
+    writer: 1,
     ownerNickname: "김고양",
     thumbnail: "https://picsum.photos/id/326/300",
     detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -152,7 +152,7 @@ const myCollections: ICollection[] = [
   {
     id: 1,
     title: "강릉 주민 맛집",
-    ownerId: 1,
+    writer: 1,
     ownerNickname: "김고양",
     thumbnail: "https://picsum.photos/id/326/300",
     detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -162,7 +162,7 @@ const myCollections: ICollection[] = [
   {
     id: 1,
     title: "강릉 주민 맛집",
-    ownerId: 1,
+    writer: 1,
     ownerNickname: "김고양",
     thumbnail: "https://picsum.photos/id/326/300",
     detail: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
@@ -260,9 +260,7 @@ export default function ProfilePage({ id }: { id: number }) {
       {showState === 3 && (
         <ProfileCollectionRenderer collectionList={scrappedCollections} />
       )}
-      {showState === 4 && (
-        <ProfileBookmarkRenderer bookmarks={bookmarksList} />
-      )}
+      {showState === 4 && <ProfileBookmarkRenderer bookmarks={bookmarksList} />}
     </>
   );
 }

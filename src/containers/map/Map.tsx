@@ -40,7 +40,6 @@ const MapNaverDefault = () => {
         console.log(result);
         if (result.errMsg == "Success") {
           setgeoApiAuth(result.result.accessToken);
-          console.log(result.result.accessToken);
         }
       }
     } catch (error) {
