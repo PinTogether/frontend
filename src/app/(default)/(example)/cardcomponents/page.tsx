@@ -58,9 +58,9 @@ const commentData: PinForPlace = {
   tags: ["coffee", "cozy", "wifi"],
   collectionTitle: "Favorite Spots",
   imagePaths: [
-    "https://example.com/image1.jpg",
-    "https://example.com/image2.jpg",
-    "https://example.com/image3.jpg",
+    "https://picsum.photos/200",
+    "https://picsum.photos/200",
+    "https://picsum.photos/200",
   ],
   phoneNumber: "123-456-7890",
 };
@@ -82,7 +82,7 @@ const commentList: PinForPlace[] = [
     category: "카페",
     tags: ["커피", "디저트", "휴식"],
     collectionTitle: "서울 핫플레이스",
-    imagePaths: ["image_path1.jpg", "image_path2.jpg", "image_path3.jpg"],
+    imagePaths: ["https://picsum.photos/200", "https://picsum.photos/200", "https://picsum.photos/200"],
     phoneNumber: "02-123-4567",
   },
   {
@@ -101,7 +101,7 @@ const commentList: PinForPlace[] = [
     category: "북카페",
     tags: ["책", "커피", "조용함"],
     collectionTitle: "서울의 숨겨진 보석",
-    imagePaths: ["image_path4.jpg", "image_path5.jpg"],
+    imagePaths: ["https://picsum.photos/200", "https://picsum.photos/200"],
     phoneNumber: "02-654-3210",
   },
   {
@@ -120,7 +120,7 @@ const commentList: PinForPlace[] = [
     category: "레스토랑",
     tags: ["전망", "고급", "스테이크"],
     collectionTitle: "서울 미식 탐방",
-    imagePaths: ["image_path6.jpg", "image_path7.jpg", "image_path8.jpg"],
+    imagePaths: ["https://picsum.photos/200", "https://picsum.photos/200"],
     phoneNumber: "02-987-6543",
   },
 ];

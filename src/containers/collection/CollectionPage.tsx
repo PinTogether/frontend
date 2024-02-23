@@ -18,7 +18,7 @@ const collection: CollectionDetail = {
   title: "서울의 숨은 맛집",
   writerId: 100,
   writer: "FoodieKim",
-  thumbnail: "thumbnail1.jpg",
+  thumbnail: "https://picsum.photos/200",
   likeCnt: 150,
   pinCnt: 5,
   scrapCnt: 75,
