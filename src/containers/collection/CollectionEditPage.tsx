@@ -39,7 +39,7 @@ export default function CollectionEditPage({id}:{id?:number}) {
   };
 
   const setTag = () => {
-    if (TagList.includes(inputTag) === false && TagList.length <= 9) {
+    if (TagList.includes(inputTag) === false && TagList.length <= 4) {
       const newList = [...TagList];
       newList.push(inputTag);
       setTagList(newList);
@@ -151,7 +151,7 @@ export default function CollectionEditPage({id}:{id?:number}) {
             onChange={onChangeTag}
             onKeyDown={enterAtTag}
             value={inputTag}
-            maxLength={5}
+            maxLength={10}
             placeholder="태그를 입력하세요: 맛집, 휴식, 데이트 ..."
           />
         </div>
