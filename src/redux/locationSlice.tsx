@@ -14,10 +14,8 @@ const initialState: CounterState = {
   emdong: "개포2동",
   sgg: "강남구",
   sido: "서울특별시",
-  //lat: 37.488243,
-  //lng: 127.064865,
-  lat: 37.5012,
-  lng: 127.0659,
+  lat: 37.488243,
+  lng: 127.064865,
   mainContentWidth: "500px",
 };
 

@@ -9,6 +9,7 @@ import Image from "next/image";
 
 export default function Sidebar() {
   const size = 300;
+  const userId= 1; // 나중에 수정해야함
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useAppDispatch();
@@ -51,7 +52,7 @@ export default function Sidebar() {
         <BellIcon className={styles.icon}/>
         <BellFillIcon className={styles.hoveredIcon}/>
       </button>
-      <button className={styles.button} onClick={() => moveURL("/profile")}>
+      <button className={styles.button} onClick={() => moveURL(`/profile/${userId}`)}>
         <div className={styles.profilebox}>
           <Image
             src="/images/cat_dummy.jpeg"

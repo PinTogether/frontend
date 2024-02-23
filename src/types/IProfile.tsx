@@ -6,5 +6,5 @@ export default interface IProfile {
   avatar: string;
   collectionCnt: number;
   scrappedCollectionCnt: number;
-  likedCollectionCnt: number;
+  followerCnt: number;
 }

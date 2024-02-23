@@ -202,10 +202,9 @@ const replyList:ICollectionReply[] = [
     },
 ];
 
-export default function CollectionPage() {
+export default function CollectionPage({id}:{id:number}) {
   const [showState, setShowState] = useState(1);
-  const userId = 1; // 나중에 localStorage 같은곳에 있는 내 id와 비교하는걸로 변경
-
+  const userId = id; // 나중에 localStorage 같은곳에 있는 내 id와 비교하는걸로 변경
   function onChangeShowState(state: number) {
     if (state == showState) {
       setShowState(0);
@@ -233,7 +232,7 @@ export default function CollectionPage() {
           className={`${styles.buttons} ${showState == 2 ? styles.clickedButtons : ""}`}
           onClick={() => onChangeShowState(2)}
         >
-          핀 코멘트 같이 보기
+          핀 리뷰 같이 보기
         </button>
         <button
           className={`${styles.buttons} ${showState == 3 ? styles.clickedButtons : ""}`}
@@ -241,7 +240,7 @@ export default function CollectionPage() {
         >
           컬렉션 댓글 보기
         </button>
-        {userId === collection.ownerId && <button className={styles.buttons}>+ 핀 추가</button>}
+        {userId == collection.ownerId && <button className={styles.buttons}>+ 핀 추가</button>}
       </section>
       {showState === 1 && <CollectionWithPinRenderer pins={pinDataList} />}
       {showState === 2 && (

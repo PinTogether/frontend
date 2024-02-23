@@ -5,8 +5,9 @@ import styles from "@/styles/containers/collection/_collectionEditPage.module.sc
 import Topper from "@/components/SubTopper";
 import { useState, useEffect } from "react";
 import { ImgLoadIcon, EditIcon } from "@/components/IconSvg";
+import ICollection from "@/types/ICollection";
 
-export default function CollectionEditPage() {
+export default function CollectionEditPage({id}:{id?:number}) {
   const size = 300;
   const [inputCollectionName, setInputCollectionName] = useState("");
   const [inputTag, setInputTag] = useState("");
@@ -38,12 +39,12 @@ export default function CollectionEditPage() {
   };
 
   const setTag = () => {
-    if (TagList.includes(inputTag) === false) {
+    if (TagList.includes(inputTag) === false && TagList.length <= 4) {
       const newList = [...TagList];
       newList.push(inputTag);
       setTagList(newList);
       setInputTag("");
-    } else {
+    } else if (TagList.includes(inputTag) === true) {
       const index = TagList.indexOf(inputTag);
       const newList = [...TagList];
       newList.splice(index, 1);
@@ -93,7 +94,8 @@ export default function CollectionEditPage() {
 
   return (
     <section className={styles.container}>
-      <Topper msg={"컬렉션 생성 및 수정"} />
+      {id && <Topper msg={"컬렉션 수정"} />}
+      {!id && <Topper msg={"컬렉션 생성"} />}
       <p className={styles.message}>
         <ImgLoadIcon style={{ width: "23px", height: "23px" }} />
         프로필 사진 변경
@@ -149,7 +151,7 @@ export default function CollectionEditPage() {
             onChange={onChangeTag}
             onKeyDown={enterAtTag}
             value={inputTag}
-            maxLength={5}
+            maxLength={10}
             placeholder="태그를 입력하세요: 맛집, 휴식, 데이트 ..."
           />
         </div>
@@ -167,7 +169,8 @@ export default function CollectionEditPage() {
         />
       </section>
       <section className={styles.buttonContainer}>
-        <button className={styles.confirmButton}>생성(수정) 완료</button>
+      {id && <button className={styles.confirmButton}>수정 완료</button>}
+      {!id && <button className={styles.confirmButton}>생성 완료</button>}
       </section>
     </section>
   );

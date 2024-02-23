@@ -2,6 +2,7 @@ import ICollectionReply from "@/types/ICollectionReply";
 import { CloseRoundIcon } from "../../components/IconSvg";
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import Image from "next/image";
+import ReplyInputContent from "./CollectionReplyInput";
 
 function ReplyContent({ data }: { data: ICollectionReply }) {
   const size = 100;
@@ -46,6 +47,7 @@ export default function CollectionWithReply({
   const myId = 101; // 나중에 localStorage 같은곳에 있는 내 id와 비교하는걸로 변경
   return (
     <section className={styles.collectionReplyContainer}>
+      <ReplyInputContent />
       {replys.map((reply, index) => (
         <ReplyContent key={index} data={reply} />
       ))}
