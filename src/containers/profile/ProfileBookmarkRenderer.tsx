@@ -11,31 +11,37 @@ export default function ProfileBookmarkRenderer({
   bookmarks: PlaceStared[];
 }) {
   function onChangeClickedBookmark(id: number) {
-    const newList = [...clickedBookmarks];
-    if (newList.includes(id)) {
-      const i = newList.indexOf(id);
-      newList.splice(i, 1);
-    } else {
-      newList.push(id);
+    if (selectMode) {
+      const newList = [...clickedBookmarks];
+      if (newList.includes(id)) {
+        const i = newList.indexOf(id);
+        newList.splice(i, 1);
+      } else {
+        newList.push(id);
+      }
+      setClickedBookmarks(newList);
+      console.log(clickedBookmarks);
     }
-    setClickedBookmarks(newList);
-    console.log(clickedBookmarks);
   }
 
+  const [isButtonPressed, setIsButtonPressed] = useState(false);
   const [clickedBookmarks, setClickedBookmarks] = useState<number[]>([]);
   const [selectMode, setSelectMode] = useState(false);
 
-  function changeSelectMode() {
-    if (selectMode) {
-      setSelectMode(false);
-    } else {
-      setSelectMode(true);
+  const handleMouseDown = () => {
+    if (!selectMode) {
+      const intervalId = setTimeout(() => {
+        setSelectMode(true);
+        setClickedBookmarks([]);
+      }, 1000);
+      setIsButtonPressed(true);
+      const handleMouseUp = () => {
+        clearTimeout(intervalId);
+        setIsButtonPressed(false);
+      };
+      document.addEventListener("mouseup", handleMouseUp);
     }
-  }
-
-  function onLongClick() {
-    const timer = setTimeout(changeSelectMode, 1500);
-  }
+  };
 
   return (
     <section className={styles.bookmarkOuterContainer}>
@@ -46,17 +52,25 @@ export default function ProfileBookmarkRenderer({
             <button className={styles.bookmarkButton}>
               선택 찜 컬렉션에 추가
             </button>
-            <button className={styles.bookmarkButton}>선택모드 취소</button>
+            <button
+              className={styles.bookmarkButton}
+              onClick={() => {
+                setSelectMode(false), setClickedBookmarks([])
+              }}
+            >
+              선택모드 취소
+            </button>
           </>
         )}
       </div>
       <section className={styles.profileBookmarkContainer}>
         {bookmarks.map((bookmark, index) => (
           <button
-            /*onClick={() => {
+            onClick={() => {
               onChangeClickedBookmark(bookmark.id);
-            }}*/
-            onMouseDown={()=>{onLongClick()}}
+            }}
+            onMouseDown={handleMouseDown}
+            onMouseUp={() => setIsButtonPressed(false)}
             key={index}
             className={`${styles.bookmarkContainer} ${clickedBookmarks.includes(bookmark.id) ? styles.bookmarkContainerClicked : ""}`}
           >
