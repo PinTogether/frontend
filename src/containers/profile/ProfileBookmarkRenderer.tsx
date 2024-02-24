@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { PlaceStared } from "@/types/Place";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { PinIcon } from "@/components/IconSvg";
@@ -21,26 +22,25 @@ export default function ProfileBookmarkRenderer({
       }
       setClickedBookmarks(newList);
       console.log(clickedBookmarks);
+    } else {
     }
   }
-
+  const router = useRouter();
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const [clickedBookmarks, setClickedBookmarks] = useState<number[]>([]);
   const [selectMode, setSelectMode] = useState(false);
 
   const handleMouseDown = () => {
-    if (!selectMode) {
-      const intervalId = setTimeout(() => {
-        setSelectMode(true);
-        setClickedBookmarks([]);
-      }, 1000);
-      setIsButtonPressed(true);
-      const handleMouseUp = () => {
-        clearTimeout(intervalId);
-        setIsButtonPressed(false);
-      };
-      document.addEventListener("mouseup", handleMouseUp);
-    }
+    const intervalId = setTimeout(() => {
+      setSelectMode(true);
+      setClickedBookmarks([]);
+    }, 1000);
+    setIsButtonPressed(true);
+    const handleMouseUp = () => {
+      clearTimeout(intervalId);
+      setIsButtonPressed(false);
+    };
+    document.addEventListener("mouseup", handleMouseUp);
   };
 
   return (
@@ -55,7 +55,7 @@ export default function ProfileBookmarkRenderer({
             <button
               className={styles.bookmarkButton}
               onClick={() => {
-                setSelectMode(false), setClickedBookmarks([])
+                setSelectMode(false), setClickedBookmarks([]);
               }}
             >
               선택모드 취소
@@ -66,8 +66,9 @@ export default function ProfileBookmarkRenderer({
       <section className={styles.profileBookmarkContainer}>
         {bookmarks.map((bookmark, index) => (
           <button
-            onClick={() => {
-              onChangeClickedBookmark(bookmark.id);
+            onClick={() => {selectMode &&
+              onChangeClickedBookmark(bookmark.id) ||
+              !selectMode && router.push(`/pin/${bookmark.id}`)
             }}
             onMouseDown={handleMouseDown}
             onMouseUp={() => setIsButtonPressed(false)}
