@@ -6,6 +6,7 @@ import { PlaceStared } from "@/types/Place";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { PinIcon } from "@/components/IconSvg";
 
+
 export default function ProfileBookmarkRenderer({
   bookmarks,
 }: {
@@ -62,20 +63,20 @@ export default function ProfileBookmarkRenderer({
             </button>
           </>
         )}
+        {!selectMode && <b className={styles.bookmarkMessage}>찜 장소를 길게 누르면 선택할 수 있습니다.</b>}
       </div>
       <section className={styles.profileBookmarkContainer}>
         {bookmarks.map((bookmark, index) => (
           <button
-            onClick={() => {selectMode &&
-              onChangeClickedBookmark(bookmark.id) ||
-              !selectMode && router.push(`/pin/${bookmark.id}`)
+            onClick={() => {
+              (selectMode && onChangeClickedBookmark(bookmark.id)) ||
+                (!selectMode && router.push(`/pin/${bookmark.id}`));
             }}
             onMouseDown={handleMouseDown}
             onMouseUp={() => setIsButtonPressed(false)}
             key={index}
             className={`${styles.bookmarkContainer} ${clickedBookmarks.includes(bookmark.id) ? styles.bookmarkContainerClicked : ""}`}
           >
-            <PinIcon style={{ width: "25px", height: "25px" }} />
             <section className={styles.bookmarkData}>
               <b>{bookmark.name}</b>
               <div>{bookmark.category}</div>

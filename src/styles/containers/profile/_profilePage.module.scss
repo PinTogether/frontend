@@ -104,20 +104,20 @@
   padding-top: 40px;
 }
 
-.bookmarkOuterContainer{
+.bookmarkOuterContainer {
   display: grid;
   grid-template-rows: 40px 1fr;
 }
 
-.bookmarkButtonContainer{
+.bookmarkButtonContainer {
   align-items: center;
   justify-content: flex-start;
   align-self: center;
-  padding: 10px;
+  padding: 20px;
   gap: 20px;
 }
 
-.bookmarkButton{
+.bookmarkButton {
   justify-content: center;
   align-items: center;
   width: fit-content;
@@ -151,19 +151,29 @@
   padding: 10px;
   gap: 10px;
   display: grid;
-  grid-template-columns: 25px 1fr;
+  grid-template-columns: 1fr;
   cursor: pointer;
 }
 
 .bookmarkContainer:hover {
   background-color: $color-grey-light;
 }
-
-.bookmarkContainerClicked{
+.bookmarkContainer:active {
+  background-color: $color-grey;
+}
+.bookmarkContainerClicked {
   background-color: $color-primary-light;
 }
-.bookmarkContainerClicked:hover{
+.bookmarkContainerClicked:hover {
   background-color: $color-red-light;
+}
+.bookmarkContainerClicked:active {
+  background-color: $color-grey;
+}
+
+.bookmarkMessage{
+  color: $color-grey-dark;
+  font-size: $font-size-small;
 }
 
 .bookmarkData {
