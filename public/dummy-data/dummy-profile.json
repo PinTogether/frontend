@@ -1,0 +1,48 @@
+[
+  {
+    "userId": 1,
+    "nickname": "사용자1",
+    "avatar": "/avatars/user1.png",
+    "collectionCnt": 10,
+    "scrappedCollectionCnt": 2,
+    "followerCnt": 200,
+    "followingCnt": 150,
+    "registrationSource": "KAKAO",
+    "role": "ROLE_MEMBER",
+    "isFollowed": true
+  },
+  {
+    "userId": 2,
+    "nickname": "사용자2",
+    "avatar": "/avatars/user2.png",
+    "collectionCnt": 15,
+    "scrappedCollectionCnt": 5,
+    "followerCnt": 100,
+    "followingCnt": 50,
+    "registrationSource": "NAVER",
+    "role": "ROLE_ADMIN",
+    "isFollowed": false
+  },
+  {
+    "userId": 3,
+    "nickname": "사용자3",
+    "avatar": "/avatars/user3.png",
+    "collectionCnt": 5,
+    "scrappedCollectionCnt": 1,
+    "followerCnt": 50,
+    "followingCnt": 25,
+    "registrationSource": "GOOGLE",
+    "role": "ROLE_MEMBER",
+    "isFollowed": true
+  },
+  {
+    "userId": 4,
+    "nickname": "사용자4",
+    "avatar": "/avatars/user4.png",
+    "collectionCnt": 20,
+    "scrappedCollectionCnt": 10,
+    "followerCnt": 300,
+    "followingCnt": 200,
+    "isFollowed": false
+  }
+]
