@@ -119,7 +119,10 @@ const SelectCollectionPage = () => {
             // 	key={collection.id}
             // 	collectionData={collection}
             // 	/>
-            <HorizontalSimpleCollectionCard collectionData={collection} />
+            <HorizontalSimpleCollectionCard
+              key={1}
+              collectionData={collection}
+            />
           )),
         ]}
       </SectionWrapper>
