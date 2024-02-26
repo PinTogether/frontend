@@ -15,7 +15,7 @@ export default function PinCard({
         <PinIcon className={styles.pinIcon} />
         <button className={styles.title}>
           <h3>{pinData.placeName}</h3>
-          <p>{pinData.category}</p>
+          <span>{pinData.category}</span>
         </button>
         <address>{pinData.address}</address>
         <div className={styles.tagContainer}>
@@ -38,46 +38,10 @@ export default function PinCard({
           </button>
         </div>
       </div>
-      {children && <ul className={styles.commentList}>{children}</ul>}
-    </article>
-  );
-}
-
-export function LocationCard({
-  // locationData,
-  simple = false,
-  placeName,
-  category,
-  roadNameAddress,
-}: {
-  // locationData: IPin;
-  simple?: boolean;
-  placeName: string;
-  category: string;
-  roadNameAddress: string;
-}) {
-  return (
-    <article className={styles.locationCard}>
-      <div className={styles.mainInfo}>
-        <LocationIcon className={styles.pinIcon} />
-        <button className={styles.title}>
-          <h3>{placeName}</h3>
-          <p>{category}</p>
-        </button>
-        <address>{roadNameAddress}</address>
-        {!simple && (
-          <div className={styles.subContainer}>
-            <button>
-              {`내 컬렉션에 추가하기`}
-              <LocationIcon />
-            </button>
-            <button>
-              {`지도에서 보기`}
-              <LocationIcon />
-            </button>
-          </div>
-        )}
-      </div>
+      <ul className={styles.commentList}>
+        <li></li>
+      </ul>
+      {/* {children && <ul className={styles.commentList}>{children}</ul>} */}
     </article>
   );
 }

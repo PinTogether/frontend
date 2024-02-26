@@ -276,6 +276,30 @@ $container-padding: 0.5rem;
   @extend %horizontalCollectionCard;
 }
 
+.horizontalSimpleCollectionCard {
+  @extend %horizontalCollectionCard;
+  width: 100%;
+  height: 5rem;
+  .imgContainer {
+    width : 100%;
+    height: 100%;
+  .thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: $border-radius;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: $border-radius;
+    }
+  }
+}
+
+}
+
+
 /* CollectionDetailCard */
 .detailCollectionCard {
   @extend %horizontalCollectionCard;
