@@ -5,7 +5,7 @@ import { SettingIcon } from "@/components/IconSvg";
 import { useState } from "react";
 import { ProfileMine } from "@/types/Profile";
 import { CollectionDetail } from "@/types/Collection";
-import { PlaceStared } from "@/types/Place";
+import { PlaceStarred } from "@/types/Place";
 import ProfileCollectionRenderer from "./ProfileCollectionRenderer";
 import ProfileBookmarkRenderer from "./ProfileBookmarkRenderer";
 
@@ -21,7 +21,7 @@ const profiles: ProfileMine = {
   followingCnt: 3,
 };
 
-const bookmarksList: PlaceStared[] = [
+const bookmarksList: PlaceStarred[] = [
   {
     id: 1,
     address: "서울특별시 강남구 개포로 302-1",
