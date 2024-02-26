@@ -40,7 +40,7 @@
         font-weight: 600;
         line-height: 1;
       }
-      p {
+      span {
         padding-left: 0.4rem;
         font-size: $font-size-small;
         line-height: 1;
@@ -51,6 +51,12 @@
       grid-column: 2 / -1;
       font-style: normal;
       font-size: $font-size-medium;
+      color: $color-text-caption;
+    }
+
+    .phoneNum {
+      grid-column: 2 / -1;
+      font-size: $font-size-small;
       color: $color-text-caption;
     }
   }
@@ -110,9 +116,11 @@
   @extend %card;
 }
 
+
+// PlaceCard
 .locationCard {
   @extend %card;
-
+  // position: relative;
   .subContainer {
     display: flex;
     & > * {
@@ -120,5 +128,35 @@
       display: flex;
       justify-content: flex-end;
     }
+  }
+}
+
+.starredContainer {
+  position: relative;
+  svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: 0.2rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    background-color: rgba($color: white, $alpha: 0.9);
+    box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.4);
+    color: $color-text-caption;
+
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover {
+      background-color: $color-primary;
+      path {
+        stroke: white;
+        fill: $color-primary;
+      }
+    }
+  }
+  .starred {
+    color: $color-primary;
   }
 }

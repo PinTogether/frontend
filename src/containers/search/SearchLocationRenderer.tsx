@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Pin from "@/types/Pin";
-import { LocationCard } from "@/components/PinCard";
+// import { LocationCard } from "@/components/PinCard";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
 
 export default function SearchLocationRender({
@@ -29,7 +29,7 @@ export default function SearchLocationRender({
         </button>
       </div>
       <section className={styles.searchListContainer}>
-        {pindatas.map(
+        {/* {pindatas.map(
           (pinData, index) =>
             index <= repeatCount && (
               <LocationCard
@@ -39,7 +39,7 @@ export default function SearchLocationRender({
                 category={pinData.category}
               />
             )
-        )}
+        )} */}
       </section>
     </section>
   );

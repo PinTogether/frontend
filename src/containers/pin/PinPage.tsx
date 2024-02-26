@@ -1,5 +1,5 @@
 import PinCard from "@/components/PinCard";
-import Comment from "@/components/Comment";
+import Review from "@/components/Review";
 // import PinReview from "@/types/PinReview";
 import Pin, { PinForPlace } from "@/types/Pin";
 
@@ -96,7 +96,7 @@ export default function PinPage({ pinId }: { pinId?: string }) {
           <>
             {commentList.map((comment) => (
               <li key={comment.id}>
-                <Comment commentData={comment} />
+                <Review reviewData={comment} />
               </li>
             ))}
           </>

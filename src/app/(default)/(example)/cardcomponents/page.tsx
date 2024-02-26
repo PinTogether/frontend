@@ -1,11 +1,12 @@
 "use client";
 
-import PinCard, { LocationCard } from "@/components/PinCard";
+import PinCard from "@/components/PinCard";
 import styles from "@/styles/components/_pincard.module.scss";
 import CollectionCard from "@/components/CollectionCard";
-import Comment from "@/components/Comment";
+import Review from "@/components/Review";
 import Collection, { CollectionDetail } from "@/types/Collection";
 import Pin, { PinForPlace } from "@/types/Pin";
+// import PlaceCard from "@/components/PlaceCard";
 // import PinReview from "@/types/PinReview";
 
 const collection: CollectionDetail = {
@@ -41,7 +42,7 @@ const pinData: Pin = {
   tags: ["포카리스웨트", "강남역점"],
 };
 
-const commentData: PinForPlace = {
+const reviewData: PinForPlace = {
   id: 1,
   collectionId: 2,
   writer: "JaneDoe",
@@ -82,7 +83,11 @@ const commentList: PinForPlace[] = [
     category: "카페",
     tags: ["커피", "디저트", "휴식"],
     collectionTitle: "서울 핫플레이스",
-    imagePaths: ["https://picsum.photos/200", "https://picsum.photos/200", "https://picsum.photos/200"],
+    imagePaths: [
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+    ],
     phoneNumber: "02-123-4567",
   },
   {
@@ -144,12 +149,8 @@ export default function Page() {
       <CollectionCard collectionData={collection} detail={true} />
       <br />
 
-      <p>1. Locationcard </p>
-      <LocationCard
-        placeName={pinData.placeName}
-        category={pinData.category}
-        roadNameAddress={pinData.address}
-      />
+      <p>1. PlaceCard (전 LocationCard)</p>
+      {/* <PlaceCard pinData={pinData} /> */}
       <br />
 
       <p>1. pincard simple</p>
@@ -158,7 +159,7 @@ export default function Page() {
 
       <p>2. pincard with comment</p>
       <PinCard pinData={pinData}>
-        <Comment commentData={commentData} />
+        <Review reviewData={reviewData} />
       </PinCard>
       <br />
 
@@ -168,7 +169,7 @@ export default function Page() {
           <>
             {commentList.map((comment) => (
               <li key={comment.id}>
-                <Comment commentData={comment} />
+                <Review reviewData={comment} />
               </li>
             ))}
           </>

@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "name": "건강한 삶 요가 센터",
+    "address": "서울시 강남구 역삼동",
+    "category": "HEALTH",
+    "xPos": 37.500622,
+    "yPos": 127.036102,
+    "phoneNumber": "02-1234-5678",
+    "starred": true,
+    "created_at": "2023-01-15"
+  },
+  {
+    "id": 2,
+    "name": "해피펫 동물 병원",
+    "address": "서울시 마포구 합정동",
+    "category": "ANIMALS",
+    "xPos": 37.549991,
+    "yPos": 126.913924,
+    "phoneNumber": "02-9876-5432",
+    "starred": false,
+    "created_at": "2023-02-20"
+  },
+  {
+    "id": 3,
+    "name": "맛있는 한식당",
+    "address": "서울시 종로구 인사동",
+    "category": "FOOD",
+    "xPos": 37.5743,
+    "yPos": 126.9827,
+    "phoneNumber": "02-1111-2222",
+    "starred": true,
+    "created_at": "2023-03-05"
+  },
+  {
+    "id": 4,
+    "name": "전통 문화 체험관",
+    "address": "서울시 중구 명동",
+    "category": "CULTURE",
+    "xPos": 37.563656,
+    "yPos": 126.985022,
+    "phoneNumber": "02-3333-4444",
+    "starred": false,
+    "created_at": "2023-04-10"
+  },
+  {
+    "id": 5,
+    "name": "일상의 향기 카페",
+    "address": "서울시 강서구 화곡동",
+    "category": "LIFESTYLE",
+    "xPos": 37.541,
+    "yPos": 126.835,
+    "phoneNumber": "02-5555-6666",
+    "starred": true,
+    "created_at": "2023-05-21"
+  },
+  {
+    "id": 6,
+    "name": "숲속 쉼터 공원",
+    "address": "경기도 고양시 일산동구",
+    "category": "ENVIRONMENTAL_RESOURCES",
+    "xPos": 37.658359,
+    "yPos": 126.7716,
+    "phoneNumber": "031-7777-8888",
+    "starred": false,
+    "created_at": "2023-06-15"
+  },
+  {
+    "id": 7,
+    "name": "다용도 공간 라운지",
+    "address": "서울시 용산구 한남동",
+    "category": "ETC",
+    "xPos": 37.5347,
+    "yPos": 127.008,
+    "phoneNumber": "02-9999-0000",
+    "starred": true,
+    "created_at": "2023-07-03"
+  },
+  {
+    "id": 8,
+    "name": "스포츠 열정 체육관",
+    "address": "부산시 해운대구 우동",
+    "category": "LIFESTYLE",
+    "xPos": 35.158699,
+    "yPos": 129.160384,
+    "phoneNumber": "051-1234-5678",
+    "starred": true,
+    "created_at": "2023-08-12"
+  },
+  {
+    "id": 9,
+    "name": "도시 속 정원",
+    "address": "서울시 서초구 반포동",
+    "category": "ENVIRONMENTAL_RESOURCES",
+    "xPos": 37.4979,
+    "yPos": 127.0276,
+    "phoneNumber": "02-2222-3333",
+    "starred": false,
+    "created_at": "2023-09-20"
+  },
+  {
+    "id": 10,
+    "name": "힐링 아트 갤러리",
+    "address": "서울시 종로구 광화문",
+    "category": "CULTURE",
+    "xPos": 37.572,
+    "yPos": 126.976,
+    "phoneNumber": "02-4444-5555",
+    "starred": true,
+    "created_at": "2023-10-05"
+  }
+]

@@ -1,10 +1,10 @@
 import SubPageLayout from "@/containers/layout/SubPageLayout";
-import PinPage from "@/containers/pin/PinPage";
+import PlacePage from "@/containers/place/PlacePage";
 
 export default function Page({ params }: { params: { id: string } }) {
   return (
-    <SubPageLayout topperMsg="핀 조회">
-      <PinPage pinId={params.id} />
+    <SubPageLayout topperMsg="장소 조회">
+      <PlacePage placeId={params.id} />
     </SubPageLayout>
   );
 }
