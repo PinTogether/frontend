@@ -35,7 +35,7 @@ export default function ProfileBookmarkRenderer({
     const intervalId = setTimeout(() => {
       setSelectMode(true);
       setClickedBookmarks([]);
-    }, 1000);
+    }, 300);
     setIsButtonPressed(true);
     const handleMouseUp = () => {
       clearTimeout(intervalId);

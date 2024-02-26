@@ -5,6 +5,7 @@ import Topper from "@/components/SubTopper";
 import Pin from "@/types/Pin";
 // import PinReview from "@/types/PinReview";
 import { PinForPlace } from "@/types/Pin";
+import { CollectionPins } from "@/types/Pin";
 import Collection, { CollectionDetail } from "@/types/Collection";
 import CollectionReply from "@/types/CollectionReply";
 import CollectionCard from "@/components/CollectionCard";
@@ -50,6 +51,60 @@ const pinData: PinForPlace = {
   phoneNumber: "02-123-4567",
 };
 
+const newPinDataList: CollectionPins = {
+  centerPin:
+  {
+    id: 1,
+    collectionId: 1,
+    writer: "user123",
+    review: "아름다운 경치와 맛있는 음식",
+    createdAt: "2023-02-15T12:34:56",
+    saveCnt: 25,
+    address: "서울특별시 강남구 개포로82길 13-15",
+    placeName: "스텔라 떡볶이 개포점",
+    image: "image_path.jpg",
+    xPos: 37.488832,
+    yPos: 127.068301,
+    starred: true,
+    category: "음식점",
+    tags: ["커피", "디저트", "휴식"],
+  },
+  pins: [
+  {
+    id: 2,
+    collectionId: 2,
+    writer: "user456",
+    review: "편안한 분위기에서 즐기는 최고의 커피",
+    createdAt: "2023-03-01T15:20:30",
+    saveCnt: 40,
+    address: "서울특별시 강남구 개포동 186-17번지 113호 개포종합상가 지상1층",
+    placeName: "연스시",
+    image: "image_path2.jpg",
+    xPos: 37.489334,
+    yPos: 127.068756,
+    starred: false,
+    category: "음식점",
+    tags: ["책", "커피", "조용함"],
+  },
+  {
+    id: 3,
+    collectionId: 3,
+    writer: "user789",
+    review: "경치가 뛰어나고 음식도 훌륭한 곳",
+    createdAt: "2023-04-10T18:45:00",
+    saveCnt: 55,
+    address: "서울특별시 강남구 개포로82길 13-9",
+    placeName: "메가MGC커피 개포동역점",
+    image: "image_path3.jpg",
+    xPos: 37.488641,
+    yPos: 127.067717,
+    starred: true,
+    category: "카페",
+    tags: ["전망", "고급", "스테이크"],
+  }
+  ]
+};
+
 const pinDataList: PinForPlace[] = [
   {
     id: 1,
@@ -58,13 +113,13 @@ const pinDataList: PinForPlace[] = [
     review: "아름다운 경치와 맛있는 음식",
     createdAt: "2023-02-15T12:34:56",
     saveCnt: 25,
-    address: "서울특별시 강남구 어딘가",
-    placeName: "멋진 카페",
+    address: "서울특별시 강남구 개포로82길 13-15",
+    placeName: "스텔라 떡볶이 개포점",
     image: "image_path.jpg",
-    xPos: 37.1234,
-    yPos: 127.1234,
+    xPos: 37.488832,
+    yPos: 127.068301,
     starred: true,
-    category: "카페",
+    category: "음식점",
     tags: ["커피", "디저트", "휴식"],
     collectionTitle: "서울 핫플레이스",
     imagePaths: ["image_path1.jpg", "image_path2.jpg", "image_path3.jpg"],
@@ -77,13 +132,13 @@ const pinDataList: PinForPlace[] = [
     review: "편안한 분위기에서 즐기는 최고의 커피",
     createdAt: "2023-03-01T15:20:30",
     saveCnt: 40,
-    address: "서울특별시 종로구 다른 곳",
-    placeName: "조용한 북카페",
+    address: "서울특별시 강남구 개포동 186-17번지 113호 개포종합상가 지상1층",
+    placeName: "연스시",
     image: "image_path2.jpg",
-    xPos: 37.5759,
-    yPos: 126.9769,
+    xPos: 37.489334,
+    yPos: 127.068756,
     starred: false,
-    category: "북카페",
+    category: "음식점",
     tags: ["책", "커피", "조용함"],
     collectionTitle: "서울의 숨겨진 보석",
     imagePaths: ["image_path4.jpg", "image_path5.jpg"],
@@ -96,13 +151,13 @@ const pinDataList: PinForPlace[] = [
     review: "경치가 뛰어나고 음식도 훌륭한 곳",
     createdAt: "2023-04-10T18:45:00",
     saveCnt: 55,
-    address: "서울특별시 용산구 또 다른 곳",
-    placeName: "전망 좋은 레스토랑",
+    address: "서울특별시 강남구 개포로82길 13-9",
+    placeName: "메가MGC커피 개포동역점",
     image: "image_path3.jpg",
-    xPos: 37.5283,
-    yPos: 126.9827,
+    xPos: 37.488641,
+    yPos: 127.067717,
     starred: true,
-    category: "레스토랑",
+    category: "카페",
     tags: ["전망", "고급", "스테이크"],
     collectionTitle: "서울 미식 탐방",
     imagePaths: ["image_path6.jpg", "image_path7.jpg", "image_path8.jpg"],
