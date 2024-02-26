@@ -130,22 +130,23 @@ export default function CollectionEditPage({id}:{id?:number}) {
         <EditIcon style={{ width: "23px", height: "23px" }} />
         제목 수정
       </p>
-      <section className={styles.changeContainerWithChecker}>
+      <section className={styles.changeContainer}>
         <input
           className={styles.nameInput}
           onChange={onChangeNickname}
           value={inputCollectionName}
+          maxLength={100}
           placeholder="강릉 주민 맛집"
         />
-        <p className={styles.nameCheckMessage}>컬렉션 제목 중복 확인</p>
+        <p className={styles.lengthCounter}>{inputCollectionName.length}/100</p>
       </section>
       <p className={styles.message}>
         <EditIcon style={{ width: "23px", height: "23px" }} />
         태그 추가
       </p>
-      <section className={styles.changeContainer}>
+      <section className={styles.tagContainer}>
+        <TagListRenderer />
         <div className={styles.tagInputContainer}>
-          <TagListRenderer />
           <input
             className={styles.tagInput}
             onChange={onChangeTag}
@@ -155,18 +156,21 @@ export default function CollectionEditPage({id}:{id?:number}) {
             placeholder="태그를 입력하세요: 맛집, 휴식, 데이트 ..."
           />
         </div>
+        <p className={styles.lengthCounter}>{inputTag.length}/10</p>
       </section>
       <p className={styles.message}>
         <EditIcon style={{ width: "23px", height: "23px" }} />
         설명 수정
       </p>
-      <section className={styles.changeContainer}>
+      <section className={styles.inputContainer}>
         <textarea
           className={styles.descriptionInput}
           onChange={onChangeDescription}
           value={inputDescription}
+          maxLength={250}
           placeholder=""
         />
+        <p className={styles.lengthCounter}>{inputDescription.length}/250</p>
       </section>
       <section className={styles.buttonContainer}>
       {id && <button className={styles.confirmButton}>수정 완료</button>}

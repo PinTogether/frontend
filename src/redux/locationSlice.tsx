@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "@/redux/store";
+import MarkerData from "@/types/Pin"
 
 interface CounterState {
   emdong: string;
@@ -8,15 +9,19 @@ interface CounterState {
   lat: number;
   lng: number;
   mainContentWidth: string;
+  markerData: MarkerData[];
 }
 
 const initialState: CounterState = {
   emdong: "개포2동",
   sgg: "강남구",
   sido: "서울특별시",
-  lat: 37.488243,
-  lng: 127.064865,
+  //lat: 37.488243,
+  //lng: 127.064865,
+  lat: 37.494585,
+  lng: 127.063450,
   mainContentWidth: "500px",
+  markerData: [],
 };
 
 export const locationSlice = createSlice({
@@ -43,6 +48,9 @@ export const locationSlice = createSlice({
     mainContentWidthByAmount: (state, action: PayloadAction<string>) => {
       state.mainContentWidth = action.payload;
     },
+    markerDataByAmount: (state, action:PayloadAction<MarkerData[]>) => {
+      state.markerData = action.payload;
+    }
   },
 });
 
@@ -53,6 +61,7 @@ export const {
   latByAmount,
   lngByAmount,
   mainContentWidthByAmount,
+  markerDataByAmount,
 } = locationSlice.actions;
 
 export const selectLocation = (state: RootState) => state.counter.value;
