@@ -13,7 +13,7 @@ import CollectionCard from "@/components/CollectionCard";
 import PinBox from "@/containers/pin/PinBox";
 import Pin from "@/types/Pin";
 import Collection from "@/types/Collection";
-import { LocationCard } from "@/components/PinCard";
+// import { LocationCard } from "@/components/PinCard";
 
 interface Place {
   id: number;
@@ -238,11 +238,11 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
                     });
                   }}
                 >
-                  <LocationCard
+                  {/* <LocationCard
                     placeName={pinData.name}
                     category={pinData.category}
                     roadNameAddress={pinData.address}
-                  />
+                  /> */}
                 </div>
               ))}
           </>

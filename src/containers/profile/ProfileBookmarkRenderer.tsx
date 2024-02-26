@@ -1,11 +1,11 @@
-import { PlaceStared } from "@/types/Place";
+import { PlaceStarred } from "@/types/Place";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { PinIcon } from "@/components/IconSvg";
 
 export default function ProfileBookmarkRenderer({
   bookmarks,
 }: {
-  bookmarks: PlaceStared[];
+  bookmarks: PlaceStarred[];
 }) {
   return (
     <section className={styles.profileBookmarkContainer}>

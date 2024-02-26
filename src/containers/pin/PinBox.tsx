@@ -7,7 +7,7 @@ import {
   EditIcon,
 } from "@/components/IconSvg";
 import ImagePreviewBox from "@/containers/pin/ImagePreviewBox";
-import { LocationCard } from "@/components/PinCard";
+// import { LocationCard } from "@/components/PinCard";
 import renderMultilineTextWithBreaks from "@/utils/renderMultilineTextWithBreaks";
 import checkFileValid from "@/utils/checkFileValid";
 import { NewPinData } from "./PinEditPage";
@@ -88,12 +88,12 @@ const PinBox = ({
       // onSubmit={handleSubmit}
       // style={{ display: "none" }}
     >
-      <LocationCard
+      {/* <LocationCard
         placeName={pinData.name}
         category={pinData.category}
         roadNameAddress={pinData.address}
         simple={true}
-      />
+      /> */}
       <button className={styles.deletePinButton} onClick={handleDeletePin}>
         <CloseRoundIcon />
       </button>

@@ -21,7 +21,7 @@ export interface PlaceDetail extends Place {
 }
 
 // 찜한 모든 장소 조회
-export interface PlaceStared extends Place {
+export interface PlaceStarred extends Place {
   created_at: string;
 }
 
