@@ -1,0 +1,11 @@
+{
+  "id": 123,
+  "xPos": 37.5665,
+  "yPos": 126.9780,
+  "name": "Queenstown",
+  "address": "123 Queen Street, Queenstown, New Zealand",
+  "phoneNumber": "+123-456-7890",
+	"category": "HEALTH",
+	"starred": true
+}
+
