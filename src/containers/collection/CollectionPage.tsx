@@ -9,7 +9,14 @@ import { CollectionPins } from "@/types/Pin";
 import Collection, { CollectionDetail } from "@/types/Collection";
 import CollectionReply from "@/types/CollectionReply";
 import CollectionCard from "@/components/CollectionCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAppDispatch } from "@/redux/hooks";
+import {
+  markerDataByAmount,
+  latByAmount,
+  lngByAmount,
+} from "@/redux/locationSlice";
+import MarkerData from "@/types/Marker";
 import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionWithPinCommentRenderer";
 import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPinRenderer";
 import CollectionWithReply from "@/containers/collection/CollectionWithReply";
@@ -51,9 +58,61 @@ const pinData: PinForPlace = {
   phoneNumber: "02-123-4567",
 };
 
-const newPinDataList: CollectionPins = {
-  centerPin:
-  {
+const newPinDataList2: CollectionPins = {
+  centerPin: {
+    id: 1,
+    collectionId: 1,
+    writer: "user123",
+    review: "아름다운 경치와 맛있는 음식",
+    createdAt: "2023-02-15T12:34:56",
+    saveCnt: 25,
+    address: "서울특별시 마포구 독막로6길 14",
+    placeName: "오레노라멘 본점",
+    image: "image_path.jpg",
+    xPos: 37.547447,
+    yPos: 126.917295,
+    starred: true,
+    category: "음식점",
+    tags: ["커피", "디저트", "휴식"],
+  },
+  pins: [
+    {
+      id: 2,
+      collectionId: 2,
+      writer: "user456",
+      review: "편안한 분위기에서 즐기는 최고의 커피",
+      createdAt: "2023-03-01T15:20:30",
+      saveCnt: 40,
+      address: "서울특별시 마포구 성지길 39 빌딩 1층",
+      placeName: "교다이야",
+      image: "image_path2.jpg",
+      xPos: 37.546811,
+      yPos: 126.913180,
+      starred: false,
+      category: "음식점",
+      tags: ["책", "커피", "조용함"],
+    },
+    {
+      id: 3,
+      collectionId: 3,
+      writer: "user789",
+      review: "경치가 뛰어나고 음식도 훌륭한 곳",
+      createdAt: "2023-04-10T18:45:00",
+      saveCnt: 55,
+      address: "서울특별시 마포구 독막로9길 8 2층",
+      placeName: "델리인디아",
+      image: "image_path3.jpg",
+      xPos: 37.548689,
+      yPos: 126.919761,
+      starred: true,
+      category: "카페",
+      tags: ["전망", "고급", "스테이크"],
+    },
+  ],
+};
+
+const newPinDataList1: CollectionPins = {
+  centerPin: {
     id: 1,
     collectionId: 1,
     writer: "user123",
@@ -70,39 +129,39 @@ const newPinDataList: CollectionPins = {
     tags: ["커피", "디저트", "휴식"],
   },
   pins: [
-  {
-    id: 2,
-    collectionId: 2,
-    writer: "user456",
-    review: "편안한 분위기에서 즐기는 최고의 커피",
-    createdAt: "2023-03-01T15:20:30",
-    saveCnt: 40,
-    address: "서울특별시 강남구 개포동 186-17번지 113호 개포종합상가 지상1층",
-    placeName: "연스시",
-    image: "image_path2.jpg",
-    xPos: 37.489334,
-    yPos: 127.068756,
-    starred: false,
-    category: "음식점",
-    tags: ["책", "커피", "조용함"],
-  },
-  {
-    id: 3,
-    collectionId: 3,
-    writer: "user789",
-    review: "경치가 뛰어나고 음식도 훌륭한 곳",
-    createdAt: "2023-04-10T18:45:00",
-    saveCnt: 55,
-    address: "서울특별시 강남구 개포로82길 13-9",
-    placeName: "메가MGC커피 개포동역점",
-    image: "image_path3.jpg",
-    xPos: 37.488641,
-    yPos: 127.067717,
-    starred: true,
-    category: "카페",
-    tags: ["전망", "고급", "스테이크"],
-  }
-  ]
+    {
+      id: 2,
+      collectionId: 2,
+      writer: "user456",
+      review: "편안한 분위기에서 즐기는 최고의 커피",
+      createdAt: "2023-03-01T15:20:30",
+      saveCnt: 40,
+      address: "서울특별시 강남구 개포동 186-17번지 113호 개포종합상가 지상1층",
+      placeName: "연스시",
+      image: "image_path2.jpg",
+      xPos: 37.489334,
+      yPos: 127.068756,
+      starred: false,
+      category: "음식점",
+      tags: ["책", "커피", "조용함"],
+    },
+    {
+      id: 3,
+      collectionId: 3,
+      writer: "user789",
+      review: "경치가 뛰어나고 음식도 훌륭한 곳",
+      createdAt: "2023-04-10T18:45:00",
+      saveCnt: 55,
+      address: "서울특별시 강남구 개포로82길 13-9",
+      placeName: "메가MGC커피 개포동역점",
+      image: "image_path3.jpg",
+      xPos: 37.488641,
+      yPos: 127.067717,
+      starred: true,
+      category: "카페",
+      tags: ["전망", "고급", "스테이크"],
+    },
+  ],
 };
 
 const pinDataList: PinForPlace[] = [
@@ -197,12 +256,47 @@ const replyList: CollectionReply[] = [
 export default function CollectionPage({ id }: { id: number }) {
   const [showState, setShowState] = useState(1);
   const userId = id; // 나중에 localStorage 같은곳에 있는 내 id와 비교하는걸로 변경
+  const dispatch = useAppDispatch();
+
   function onChangeShowState(state: number) {
     if (state == showState) {
       setShowState(0);
     } else {
       setShowState(state);
     }
+  }
+
+  useEffect(() => {
+    makeMarker();
+  }, []);
+
+  function makeMarker() { // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
+    console.log(id);
+    let pinDataList;
+    if (id == 1) {
+      pinDataList = newPinDataList1;
+    } else {
+      pinDataList = newPinDataList2;
+    }
+    const markerList: MarkerData[] = [];
+    markerList.push({
+      id: pinDataList.centerPin.id,
+      placeName: pinDataList.centerPin.placeName,
+      xPos: pinDataList.centerPin.xPos,
+      yPos: pinDataList.centerPin.yPos,
+    });
+    for (let i = 0; i < pinDataList.pins.length; i++) {
+      markerList.push({
+        id: pinDataList.pins[i].id,
+        placeName: pinDataList.pins[i].placeName,
+        xPos: pinDataList.pins[i].xPos,
+        yPos: pinDataList.pins[i].yPos,
+      });
+    }
+    console.log(markerList);
+    dispatch(markerDataByAmount(markerList));
+    dispatch(latByAmount(markerList[0].xPos)); // 센터핀으로 좌표 이동
+    dispatch(lngByAmount(markerList[0].yPos));
   }
 
   return (
