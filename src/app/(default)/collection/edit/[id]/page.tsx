@@ -1,11 +1,14 @@
 import CollectionEditPage from "@/containers/collection/CollectionEditPage";
+import SubPageLayout from "@/containers/layout/SubPageLayout";
 
-type PageParams ={
+type PageParams = {
   id: number;
-}
+};
 
-export default function Page({ params }:{params:PageParams}) {
+export default function Page({ params }: { params: PageParams }) {
   return (
-    <CollectionEditPage id={params.id} />
+    // <SubPageLayout topperMsg="컬렉션 수정">
+    <CollectionEditPage topperMsg="컬렉션 수정" />
+    // </SubPageLayout>
   );
 }
