@@ -1,0 +1,42 @@
+@import "../base/placeholders";
+@import "../base/variables";
+
+.slideMenuLayout {
+	// position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.menuList {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	position: relative;
+	padding: 1rem 0;
+	.menuCategory {
+		color: $color-text-caption;
+		&:hover {
+			background-color: $color-grey-light;
+		}
+	}
+	.active {
+		color: black;
+	}
+	.menuSelectLine {
+		position: absolute;
+		height: 0.2rem;
+		width: 25%;
+		bottom: 0;
+		background-color: $color-primary;
+		border-radius: $border-radius;
+		margin-right: 0.5rem;	
+		transition-property: transform;
+		transition-duration: 0.3s;
+		// 특정 컬럼 지정을 위한 클래스
+		// &Column1 { transform: translateX(0px); }
+	}
+}
+
+.slideMenuLayoutInnerPage {
+	position: relative;
+}
