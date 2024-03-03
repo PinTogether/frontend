@@ -36,6 +36,7 @@ const EditPageLayout = forwardRef<HTMLElement, EditPageLayoutProps>(
     );
   }
 );
+EditPageLayout.displayName = "EditPageLayout";
 export default EditPageLayout;
 
 interface SectionProps extends HTMLAttributes<HTMLDivElement> {

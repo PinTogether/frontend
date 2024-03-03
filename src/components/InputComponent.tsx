@@ -5,8 +5,6 @@ import React, {
   useRef,
   useState,
   forwardRef,
-  use,
-  useEffect,
 } from "react";
 import styles from "@/styles/components/_inputComponent.module.scss";
 
@@ -56,6 +54,8 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+InputComponent.displayName = 'InputComponent';
+
 
 // Textarea
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -102,3 +102,4 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     );
   }
 );
+TextareaComponent.displayName = 'TextareaComponent';

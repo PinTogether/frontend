@@ -20,4 +20,5 @@ const SubPageLayout = forwardRef<HTMLDivElement, SubPageLayoutProps>(
     );
   }
 );
+SubPageLayout.displayName = "SubPageLayout";
 export default SubPageLayout;
