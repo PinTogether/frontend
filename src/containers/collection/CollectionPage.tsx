@@ -311,8 +311,6 @@ export default function CollectionPage({ id }: { id: number }) {
     }
     console.log(markerList);
     dispatch(markerDataByAmount(markerList));
-    //dispatch(latByAmount(markerList[0].xPos)); // 센터핀으로 좌표 이동
-    //dispatch(lngByAmount(markerList[0].yPos));
   }
 
   return (

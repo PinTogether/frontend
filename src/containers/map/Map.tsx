@@ -32,18 +32,14 @@ const MapNaverDefault = () => {
 
   let map: naver.maps.Map;
 
-  const showMarker = (
-    map: naver.maps.Map,
-    marker: naver.maps.Marker,
-    index: number
-  ) => {
+  const showMarker = (map: naver.maps.Map, marker: naver.maps.Marker) => {
     // 지도에 표시되어있는지 확인
     if (marker.getMap()) return;
     // 표시되어있지 않다면 마커를 지도에 추가
     marker.setMap(map);
   };
 
-  const hideMarker = (marker: naver.maps.Marker, index: number) => {
+  const hideMarker = (marker: naver.maps.Marker) => {
     // 지도에 표시되어있는지 확인
     if (!marker.getMap()) return;
     // 표시되어있다면 마커를 지도에서 삭제
@@ -68,10 +64,10 @@ const MapNaverDefault = () => {
       // mapBounds와 비교하며 마커가 현재 화면에 보이는 영역에 있는지 확인
       if (mapBounds.hasPoint(position)) {
         // 보이는 영역에 있다면 마커 표시
-        showMarker(map, marker, i);
+        showMarker(map, marker);
       } else {
         // 숨겨진 영역에 있다면 마커 숨김
-        hideMarker(marker, i);
+        hideMarker(marker);
       }
     }
   };
@@ -143,12 +139,6 @@ const MapNaverDefault = () => {
     handleGetAddress(Lng, Lat);
   }, [Lat, Lng, geoApiAuth]);
 
-  useEffect(() => {
-    if (markerDatas[0]) {
-      handleGetAddress(markerDatas[0].xPos, markerDatas[0].yPos);
-    }
-  }, [markerDatas]); // 그려야할 마커가 있다면 센터핀 기준 주소 찾기
-
   // 첫 렌더링시 현재 내 위치 불러오고 api키 받아오기
   useEffect(() => {
     if (!markerDatas[0]) {
@@ -174,8 +164,6 @@ const MapNaverDefault = () => {
       },
     };
 
-    //설정해놓은 옵션을 바탕으로 지도 생성
-    map = new naver.maps.Map(mapElement.current, mapOptions);
     // 마커 생성 및 bounds 계산
     if (markerDatas[0]) {
       var centerBounds = new naver.maps.LatLng(
@@ -199,7 +187,6 @@ const MapNaverDefault = () => {
             size: new naver.maps.Size(30, 50),
             anchor: new naver.maps.Point(0, 0),
           },
-          map: map,
           animation: naver.maps.Animation.DROP,
           title: markerDatas[i].placeName,
         });
@@ -208,13 +195,22 @@ const MapNaverDefault = () => {
             new naver.maps.LatLng(markerDatas[i].xPos, markerDatas[i].yPos)
           );
         }
+        marker.setMap(map);
         //마커 클릭시 해당 Pin 정보조회로 이동
         naver.maps.Event.addListener(marker, "click", () =>
           router.push(`/pin/${markerDatas[i].id}`)
         );
         createMarkerList.push(marker);
       }
-      map.fitBounds(bounds);
+      //설정해놓은 옵션을 바탕으로 지도 생성
+      map = new naver.maps.Map(mapElement.current, mapOptions);
+      map.fitBounds(bounds, { top: 10, right: 10, bottom: 10, left: 10 });
+      const center = map.getCenter();
+      handleGetAddress(center.x, center.y);
+      updateMarkers(map, createMarkerList);
+    }
+    else{
+      map = new naver.maps.Map(mapElement.current, mapOptions);
     }
     //드래그로 지도 이동시 지도 중앙좌표 받아와서 주소로 변환
     naver.maps.Event.addListener(map, "dragend", function (e) {
