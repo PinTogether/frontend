@@ -14,185 +14,12 @@ import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionW
 import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPinRenderer";
 import CollectionWithReply from "@/containers/collection/CollectionWithReply";
 
-const collection: CollectionDetail = {
-  id: 1,
-  title: "서울의 숨은 맛집",
-  writerId: 100,
-  writer: "FoodieKim",
-  thumbnail: "https://picsum.photos/200",
-  likeCnt: 150,
-  pinCnt: 5,
-  scrapCnt: 75,
-  isScrapped: false,
-  isLiked: true,
-  details:
-    "서울 곳곳의 숨은 맛집을 소개합니다. 각종 매체에 소개되지 않은, 현지인만 아는 그런 곳들이죠.",
-  tags: ["맛집", "서울", "현지인추천"],
-  commentCnt: 45,
-};
-
-const pinData: PinForPlace = {
-  id: 1,
-  collectionId: 1,
-  writer: "user123",
-  review: "아름다운 경치와 맛있는 음식",
-  createdAt: "2023-02-15T12:34:56",
-  saveCnt: 25,
-  address: "서울특별시 강남구 어딘가",
-  placeName: "멋진 카페",
-  image: "image_path.jpg",
-  xPos: 37.1234,
-  yPos: 127.1234,
-  starred: true,
-  category: "카페",
-  tags: ["커피", "디저트", "휴식"],
-  collectionTitle: "서울 핫플레이스",
-  imagePaths: ["image_path1.jpg", "image_path2.jpg", "image_path3.jpg"],
-  phoneNumber: "02-123-4567",
-};
-
-const newPinDataList: CollectionPins = {
-  centerPin:
-  {
-    id: 1,
-    collectionId: 1,
-    writer: "user123",
-    review: "아름다운 경치와 맛있는 음식",
-    createdAt: "2023-02-15T12:34:56",
-    saveCnt: 25,
-    address: "서울특별시 강남구 개포로82길 13-15",
-    placeName: "스텔라 떡볶이 개포점",
-    image: "image_path.jpg",
-    xPos: 37.488832,
-    yPos: 127.068301,
-    starred: true,
-    category: "음식점",
-    tags: ["커피", "디저트", "휴식"],
-  },
-  pins: [
-  {
-    id: 2,
-    collectionId: 2,
-    writer: "user456",
-    review: "편안한 분위기에서 즐기는 최고의 커피",
-    createdAt: "2023-03-01T15:20:30",
-    saveCnt: 40,
-    address: "서울특별시 강남구 개포동 186-17번지 113호 개포종합상가 지상1층",
-    placeName: "연스시",
-    image: "image_path2.jpg",
-    xPos: 37.489334,
-    yPos: 127.068756,
-    starred: false,
-    category: "음식점",
-    tags: ["책", "커피", "조용함"],
-  },
-  {
-    id: 3,
-    collectionId: 3,
-    writer: "user789",
-    review: "경치가 뛰어나고 음식도 훌륭한 곳",
-    createdAt: "2023-04-10T18:45:00",
-    saveCnt: 55,
-    address: "서울특별시 강남구 개포로82길 13-9",
-    placeName: "메가MGC커피 개포동역점",
-    image: "image_path3.jpg",
-    xPos: 37.488641,
-    yPos: 127.067717,
-    starred: true,
-    category: "카페",
-    tags: ["전망", "고급", "스테이크"],
-  }
-  ]
-};
-
-const pinDataList: PinForPlace[] = [
-  {
-    id: 1,
-    collectionId: 1,
-    writer: "user123",
-    review: "아름다운 경치와 맛있는 음식",
-    createdAt: "2023-02-15T12:34:56",
-    saveCnt: 25,
-    address: "서울특별시 강남구 개포로82길 13-15",
-    placeName: "스텔라 떡볶이 개포점",
-    image: "image_path.jpg",
-    xPos: 37.488832,
-    yPos: 127.068301,
-    starred: true,
-    category: "음식점",
-    tags: ["커피", "디저트", "휴식"],
-    collectionTitle: "서울 핫플레이스",
-    imagePaths: ["image_path1.jpg", "image_path2.jpg", "image_path3.jpg"],
-    phoneNumber: "02-123-4567",
-  },
-  {
-    id: 2,
-    collectionId: 2,
-    writer: "user456",
-    review: "편안한 분위기에서 즐기는 최고의 커피",
-    createdAt: "2023-03-01T15:20:30",
-    saveCnt: 40,
-    address: "서울특별시 강남구 개포동 186-17번지 113호 개포종합상가 지상1층",
-    placeName: "연스시",
-    image: "image_path2.jpg",
-    xPos: 37.489334,
-    yPos: 127.068756,
-    starred: false,
-    category: "음식점",
-    tags: ["책", "커피", "조용함"],
-    collectionTitle: "서울의 숨겨진 보석",
-    imagePaths: ["image_path4.jpg", "image_path5.jpg"],
-    phoneNumber: "02-654-3210",
-  },
-  {
-    id: 3,
-    collectionId: 3,
-    writer: "user789",
-    review: "경치가 뛰어나고 음식도 훌륭한 곳",
-    createdAt: "2023-04-10T18:45:00",
-    saveCnt: 55,
-    address: "서울특별시 강남구 개포로82길 13-9",
-    placeName: "메가MGC커피 개포동역점",
-    image: "image_path3.jpg",
-    xPos: 37.488641,
-    yPos: 127.067717,
-    starred: true,
-    category: "카페",
-    tags: ["전망", "고급", "스테이크"],
-    collectionTitle: "서울 미식 탐방",
-    imagePaths: ["image_path6.jpg", "image_path7.jpg", "image_path8.jpg"],
-    phoneNumber: "02-987-6543",
-  },
-];
-
+import collectionData from "@/../../public/dummy-data/dummy-collection.json";
+import pinData from "@/../../public/dummy-data/dummy-pin.json";
+import newPinData from "@/../../public/dummy-data/dummy-pin.json";
+import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
 const commentList = pinDataList;
-
-const replyList: CollectionReply[] = [
-  {
-    id: 1,
-    writerId: 101,
-    writer: "Alice Johnson",
-    writerAvatar: "/images/avatars/jane-doe.jpg",
-    contents: "Exploring the city's hidden gems today!",
-    createdAt: "2024-02-13T12:00:00Z",
-  },
-  {
-    id: 2,
-    writerId: 102,
-    writer: "John Smith",
-    writerAvatar: "/images/avatars/john-smith.jpg",
-    contents: "Had an amazing time at the beach with friends.",
-    createdAt: "2024-02-14T12:00:00Z",
-  },
-  {
-    id: 3,
-    writerId: 103,
-    writer: "Alex Taylor",
-    writerAvatar: "/images/avatars/alex-taylor.jpg",
-    contents: "Nothing beats a quiet walk in the park.",
-    createdAt: "2024-02-15T12:00:00Z",
-  },
-];
+import replyList from "@/../../public/dummy-data/dummy-collection-reply.json";
 
 export default function CollectionPage({ id }: { id: number }) {
   const [showState, setShowState] = useState(1);
@@ -210,7 +37,7 @@ export default function CollectionPage({ id }: { id: number }) {
       <Topper msg={"컬렉션(장소모음) 조회"} />
       <section className={styles.collectionDataContainer}>
         <div className={styles.collectionData}>
-          <CollectionCard collectionData={collection} detail={true} />
+          <CollectionCard collectionData={collectionData[0]} detail={true} />
         </div>
       </section>
       <section className={styles.buttonContainer}>
@@ -232,13 +59,13 @@ export default function CollectionPage({ id }: { id: number }) {
         >
           컬렉션 댓글 보기
         </button>
-        {userId == collection.writerId && (
+        {userId == collectionData[0].writerId && (
           <button className={styles.buttons}>+ 핀 추가</button>
         )}
       </section>
       {showState === 1 && <CollectionWithPinRenderer pins={pinDataList} />}
       {showState === 2 && (
-        <CollectionWithPinCommentRenderer data={commentList} pin={pinData} />
+        <CollectionWithPinCommentRenderer data={commentList} pin={pinData[0]} />
       )}
       {showState === 3 && <CollectionWithReply replys={replyList} />}
     </section>
