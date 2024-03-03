@@ -4,7 +4,7 @@ import { LogoHorizontal } from "@/components/LogoSvg";
 import styles from "@/styles/containers/login/_login.module.scss";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
