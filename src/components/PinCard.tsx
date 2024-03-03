@@ -3,7 +3,7 @@
 import styles from "@/styles/components/_pincard.module.scss";
 import { AddRoundIcon, EditIcon, PinIcon } from "@/components/IconSvg";
 import Pin from "@/types/Pin";
-import { ReviewCard, MyReviewCard } from "./Review";
+import { ReviewCard, MyReviewCard } from "./ReviewCard";
 import { HTMLAttributes, use, useRef, useState } from "react";
 import Link from "next/link";
 
