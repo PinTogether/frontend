@@ -5,9 +5,9 @@ import styles from "@/styles/containers/profile/_profileEditPage.module.scss";
 import { useState } from "react";
 import { EditIcon, ImgLoadIcon, CloseRoundIcon } from "@/components/IconSvg";
 import EditPageLayout, {
-  H3Wrapper,
+  SectionTitle,
   Line,
-  SectionWrapper,
+  Section,
 } from "@/containers/layout/EditPageLayout";
 
 export default function ProfileEditPage() {
@@ -37,11 +37,11 @@ export default function ProfileEditPage() {
 
   return (
     <EditPageLayout>
-      <SectionWrapper>
-        <H3Wrapper>
+      <Section>
+        <SectionTitle>
           <ImgLoadIcon />
           프로필 사진 변경
-        </H3Wrapper>
+        </SectionTitle>
         <div className={styles.avartarChangeContainer}>
           <input
             type="file"
@@ -63,13 +63,13 @@ export default function ProfileEditPage() {
             <CloseRoundIcon />
           </button>
         </div>
-      </SectionWrapper>
+      </Section>
       <Line />
-      <SectionWrapper>
-        <H3Wrapper>
+      <Section>
+        <SectionTitle>
           <EditIcon />
           닉네임 변경
-        </H3Wrapper>
+        </SectionTitle>
         <input
           className={styles.nicknameInput}
           onChange={onChangeNickname}
@@ -77,11 +77,11 @@ export default function ProfileEditPage() {
           placeholder="김고양"
         />
         <span className={styles.nicknameCheckMessage}>닉네임 중복 확인</span>
-      </SectionWrapper>
+      </Section>
       <Line />
-      <SectionWrapper>
+      <Section>
         <button className={styles.submitButton}>프로필 수정하기</button>
-      </SectionWrapper>
+      </Section>
     </EditPageLayout>
   );
 }
