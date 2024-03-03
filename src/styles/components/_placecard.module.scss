@@ -82,18 +82,64 @@
 
 .simplePinCard {
   @extend %card;
-  .mainInfo{
-    grid-template-rows: 1fr;
+  display: flex;
+  flex-direction: column;
+}
+
+
+// PlaceCard
+.placeCard {
+  @extend %card;
+  // position: relative;
+  .buttonContainer {
+
+    .pinCnt:hover {
+      color: $color-text-caption;
+      svg {
+        color: $color-text-caption;
+      }
+    }
   }
-  overflow: hidden;
-  .reviewContainer {
-    overflow: hidden;
-    height: 0;
-  }
-  .reviewContainer.show {
-    height: fit-content;
-  }
-  position: relative;
+}
+
+.simpleBoxPlaceCard {
+  padding: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  row-gap: 0.5rem;
+    .pinIcon {
+      color: $color-text-caption;
+    }
+    .titleContainer {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: flex-end;
+      line-height: 1;
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      .placeName {
+        font-size: $font-size-large;
+        font-weight: 600;
+      }
+      .category {
+        flex-shrink: 1;
+        font-size: $font-size-small;
+        color: $color-text-caption;
+      }
+    }
+    .address {
+      grid-column: 1 / 2;
+      font-size: $font-size-medium;
+      color: $color-text-caption;
+    }
+    .pinCnt {
+      grid-column: 2 / -1;
+      justify-self: end;
+      font-size: $font-size-small;
+      color: $color-text-caption;
+    }
 }
 
 .starredContainer {
