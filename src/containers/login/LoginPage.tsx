@@ -4,15 +4,20 @@ import { LogoHorizontal } from "@/components/LogoSvg";
 import styles from "@/styles/containers/login/_login.module.scss";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function LoginPage() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       console.log("e " + event);
       if (event.data === "success") {
+        console.log("success");
+        router.push("/");
       } else if (event.data === "failed") {
+        console.log("failed");
       }
     };
     externalPopup?.addEventListener("message", handleMessage);
