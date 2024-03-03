@@ -86,8 +86,8 @@ const newPinDataList2: CollectionPins = {
       address: "서울특별시 마포구 성지길 39 빌딩 1층",
       placeName: "교다이야",
       image: "image_path2.jpg",
-      xPos: 37.546811,
-      yPos: 126.913180,
+      xPos: 37.546908,
+      yPos: 126.913189,
       starred: false,
       category: "음식점",
       tags: ["책", "커피", "조용함"],
@@ -104,6 +104,22 @@ const newPinDataList2: CollectionPins = {
       image: "image_path3.jpg",
       xPos: 37.548689,
       yPos: 126.919761,
+      starred: true,
+      category: "카페",
+      tags: ["전망", "고급", "스테이크"],
+    },
+    {
+      id: 4,
+      collectionId: 4,
+      writer: "user123442",
+      review: "경치가 뛰어나고 음식도 훌륭한 곳",
+      createdAt: "2023-04-10T18:45:00",
+      saveCnt: 50,
+      address: "서울특별시 마포구 양화로7길 44-10",
+      placeName: "옥동식",
+      image: "image_path3.jpg",
+      xPos: 37.552651,
+      yPos: 126.914491,
       starred: true,
       category: "카페",
       tags: ["전망", "고급", "스테이크"],
@@ -273,7 +289,7 @@ export default function CollectionPage({ id }: { id: number }) {
   function makeMarker() { // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
     console.log(id);
     let pinDataList;
-    if (id == 1) {
+    if (id == 1) { // 이 부분을 api로 받아온 pinData를 사용하는 식으로 변경
       pinDataList = newPinDataList1;
     } else {
       pinDataList = newPinDataList2;
@@ -295,8 +311,8 @@ export default function CollectionPage({ id }: { id: number }) {
     }
     console.log(markerList);
     dispatch(markerDataByAmount(markerList));
-    dispatch(latByAmount(markerList[0].xPos)); // 센터핀으로 좌표 이동
-    dispatch(lngByAmount(markerList[0].yPos));
+    //dispatch(latByAmount(markerList[0].xPos)); // 센터핀으로 좌표 이동
+    //dispatch(lngByAmount(markerList[0].yPos));
   }
 
   return (
