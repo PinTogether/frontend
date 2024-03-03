@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import EditPageLayout, {
-  H3Wrapper,
-  SectionWrapper,
+  SectionTitle,
+  Section,
   Line,
 } from "../layout/EditPageLayout";
 import styles from "@/styles/containers/pin/_pinEditPage.module.scss";
@@ -135,11 +135,11 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
   return (
     <EditPageLayout>
       {/* Collection 선택 */}
-      <SectionWrapper>
-        <H3Wrapper>
+      <Section>
+        <SectionTitle>
           <EditIcon />
           <span>핀을 추가할 컬렉션</span>
-        </H3Wrapper>
+        </SectionTitle>
         <form
           onSubmit={handleSubmitCollectionSearch}
           className={styles.searchBox}
@@ -178,15 +178,15 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
             )),
           ]}
         </CardSlider2>
-      </SectionWrapper>
+      </Section>
       <Line />
 
       {/* Pin 추가 */}
-      <SectionWrapper>
-        <H3Wrapper>
+      <Section>
+        <SectionTitle>
           <EditIcon />
           {`"${collectionList.find((collection) => collection.id === selectedCollectionId)?.title}"에 추가할 핀`}
-        </H3Wrapper>
+        </SectionTitle>
         <form onSubmit={handleSubmitPinSearch} className={styles.searchBox}>
           <input
             className={styles.searchInput}
@@ -247,13 +247,13 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
               ))}
           </>
         )}
-      </SectionWrapper>
+      </Section>
       <Line />
-      <SectionWrapper>
+      <Section>
         <button
           className={styles.submitButton}
         >{`${likedPinList.length}개의 핀 추가 하기`}</button>
-      </SectionWrapper>
+      </Section>
     </EditPageLayout>
   );
 }
