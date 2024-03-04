@@ -124,6 +124,22 @@ const newPinDataList2: CollectionPins = {
       category: "카페",
       tags: ["전망", "고급", "스테이크"],
     },
+    {
+      id: 5,
+      collectionId: 5,
+      writer: "user123442",
+      review: "경치가 뛰어나고 음식도 훌륭한 곳",
+      createdAt: "2023-04-10T18:45:00",
+      saveCnt: 50,
+      address: "서울특별시 마포구 월드컵로13길 73 1층",
+      placeName: "어글리 베이커리",
+      image: "image_path3.jpg",
+      xPos: 37.555016,
+      yPos: 126.906040,
+      starred: true,
+      category: "카페",
+      tags: ["전망", "고급", "스테이크"],
+    },
   ],
 };
 

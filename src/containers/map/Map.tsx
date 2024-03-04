@@ -12,7 +12,6 @@ import {
   lngByAmount,
   markerDataByAmount,
 } from "@/redux/locationSlice";
-import styles from "@/styles/containers/map/_map.module.scss";
 import Script from "next/script";
 
 const MapNaverDefault = () => {
@@ -22,7 +21,6 @@ const MapNaverDefault = () => {
 
   const [geoApiAuth, setgeoApiAuth] = useState("");
   const createMarkerList: naver.maps.Marker[] = [];
-  const createInfoWindowList: naver.maps.InfoWindow[] = [];
 
   const Lat = useAppSelector((state) => state.location.lat);
   const Lng = useAppSelector((state) => state.location.lng);
@@ -141,14 +139,13 @@ const MapNaverDefault = () => {
 
   // 첫 렌더링시 현재 내 위치 불러오고 api키 받아오기
   useEffect(() => {
-    if (!markerDatas[0]) {
-      getLocation();
-    }
+    getLocation();
     handleGetAuth();
   }, []);
 
   // 지도 만드는 부분
   useEffect(() => {
+    console.log("지도 만들기");
     const { naver } = window;
 
     if (!mapElement.current || !naver) return;
@@ -164,7 +161,7 @@ const MapNaverDefault = () => {
       },
     };
 
-    // 마커 생성 및 bounds 계산
+    // 마커 생성 및 bounds 계산 / 분리하기
     if (markerDatas[0]) {
       var centerBounds = new naver.maps.LatLng(
         markerDatas[0].xPos,
@@ -210,8 +207,10 @@ const MapNaverDefault = () => {
       updateMarkers(map, createMarkerList);
     }
     else{
+      //마커 없을때 지도생성
       map = new naver.maps.Map(mapElement.current, mapOptions);
     }
+
     //드래그로 지도 이동시 지도 중앙좌표 받아와서 주소로 변환
     naver.maps.Event.addListener(map, "dragend", function (e) {
       const center = map.getCenter();
@@ -223,12 +222,14 @@ const MapNaverDefault = () => {
       handleGetAddress(center.x, center.y);
       updateMarkers(map, createMarkerList); // 마커 위치 확인 후 그릴지 안그릴지 결정
     });
+
     return () => {
       map.destroy();
       createMarkerList.splice(0, createMarkerList.length);
-      createInfoWindowList.splice(0, createInfoWindowList.length);
     };
   }, [Lat, Lng, markerDatas, isScriptLoaded]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
+
+  // 지도 생성부분, 마커 생성부분, 내 위치 불러와서 새롭게 그려지는부분, 새 마커 리스트 불러와지는 부분 분리하기
 
   return (
     <>
