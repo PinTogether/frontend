@@ -2,56 +2,38 @@
 
 import Image from "next/image";
 import styles from "@/styles/containers/collection/_collectionEditPage.module.scss";
-import Topper from "@/components/SubTopper";
-import { useState, useEffect } from "react";
-import { ImgLoadIcon, EditIcon } from "@/components/IconSvg";
-import Collection from "@/types/Collection";
+import { useState, useRef } from "react";
+import {
+  ImgLoadIcon,
+  EditIcon,
+  CloseRoundIcon,
+  PinIcon,
+  ExpendUpIcon,
+} from "@/components/IconSvg";
+import EditPageLayout, {
+  SectionTitle,
+  Section,
+  Line,
+} from "@/containers/layout/EditPageLayout";
+import SubPageLayout from "@/containers/layout/SubPageLayout";
+import { InputComponent, TextareaComponent } from "@/components/InputComponent";
+import { SimplePinCard } from "@/components/PinCard";
+import TagEditor from "@/components/TagEditor";
+import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
+import Link from "next/link";
 
-export default function CollectionEditPage({id}:{id?:number}) {
+export default function CollectionEditPage({
+  id,
+  topperMsg,
+}: {
+  id?: number;
+  topperMsg: string;
+}) {
   const size = 300;
   const [inputCollectionName, setInputCollectionName] = useState("");
-  const [inputTag, setInputTag] = useState("");
   const [inputDescription, setInputDescription] = useState("");
   const [imgSrc, setImgSrc] = useState("https://picsum.photos/id/326/300");
-  const [TagList, setTagList] = useState<string[]>([]);
-
-  const deleteTag = (tag: string) => {
-    const index = TagList.indexOf(tag);
-    const newList = [...TagList];
-    newList.splice(index, 1);
-    setTagList(newList);
-  };
-
-  const TagListRenderer = () => {
-    return (
-      <section className={styles.tagBoxContainer}>
-        {TagList.map((tag, index) => (
-          <button
-            key={index}
-            className={styles.tagBox}
-            onClick={() => deleteTag(tag)}
-          >
-            {tag}
-          </button>
-        ))}
-      </section>
-    );
-  };
-
-  const setTag = () => {
-    if (TagList.includes(inputTag) === false && TagList.length <= 4) {
-      const newList = [...TagList];
-      newList.push(inputTag);
-      setTagList(newList);
-      setInputTag("");
-    } else if (TagList.includes(inputTag) === true) {
-      const index = TagList.indexOf(inputTag);
-      const newList = [...TagList];
-      newList.splice(index, 1);
-      setTagList(newList);
-      setInputTag("");
-    }
-  };
+  const [tagList, setTagList] = useState<string[]>([]);
 
   const onChangeNickname = (e: any) => {
     setInputCollectionName(e.target.value);
@@ -59,21 +41,6 @@ export default function CollectionEditPage({id}:{id?:number}) {
 
   const onChangeDescription = (e: any) => {
     setInputDescription(e.target.value);
-  };
-
-  const onChangeTag = (e: any) => {
-    const checkString = e.target.value;
-    if (checkString[checkString.length - 1] != " ") {
-      setInputTag(checkString);
-    } else {
-      setInputTag(checkString.substring(0, checkString.length - 1));
-    }
-  };
-
-  const enterAtTag = (e: any) => {
-    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-      setTag();
-    }
   };
 
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,90 +59,134 @@ export default function CollectionEditPage({id}:{id?:number}) {
     setImgSrc("https://picsum.photos/id/326/300");
   };
 
+  const [selectedPin, setSelectedPin] = useState<number[]>([]);
+  const onClickPin = (index: number) => {
+    if (selectedPin.includes(index)) {
+      const newSelectedPin = selectedPin.filter((i) => i !== index);
+      setSelectedPin(newSelectedPin);
+    } else {
+      const newSelectedPin = [...selectedPin, index];
+      setSelectedPin(newSelectedPin);
+    }
+  };
+
+  const pageRef = useRef<HTMLDivElement>(null);
+  const scrollTop = () => {
+    console.log(pageRef.current);
+    pageRef.current?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <section className={styles.container}>
-      {id && <Topper msg={"컬렉션 수정"} />}
-      {!id && <Topper msg={"컬렉션 생성"} />}
-      <p className={styles.message}>
-        <ImgLoadIcon style={{ width: "23px", height: "23px" }} />
-        프로필 사진 변경
-      </p>
-      <section className={styles.collectionChangeContainer}>
-        <div></div>
-        <div>
-          <input
-            type="file"
-            accept="image/jpg,image/png,image/jpeg"
-            id="file"
-            style={{ display: "none" }}
-            onChange={handleImage}
+    <SubPageLayout topperMsg={topperMsg} ref={pageRef}>
+      <EditPageLayout>
+        <Section>
+          <SectionTitle>
+            <ImgLoadIcon />
+            프로필 사진 변경
+          </SectionTitle>
+          <section className={styles.collectionChangeContainer}>
+            <div className={styles.mainImage}>
+              <InputComponent
+                type="file"
+                accept="image/jpg,image/png,image/jpeg"
+                id="file"
+                style={{ display: "none" }}
+                onChange={handleImage}
+              />
+              <label htmlFor="file">
+                <Image
+                  src={imgSrc}
+                  alt="profile image"
+                  width={size}
+                  height={size}
+                />
+              </label>
+            </div>
+            <div className={styles.cancelButtonBox}>
+              <button className={styles.cancelButton} onClick={resetImgSrc}>
+                <CloseRoundIcon />
+              </button>
+            </div>
+          </section>
+        </Section>
+        <Line />
+
+        <Section>
+          <SectionTitle>
+            <EditIcon />
+            <p>컬렉션 제목</p>
+          </SectionTitle>
+          <InputComponent
+            onChange={onChangeNickname}
+            value={inputCollectionName}
+            maxLength={15}
+            placeholder="제목을 입력해주세요"
           />
-          <label htmlFor="file">
-            <Image
-              src={imgSrc}
-              alt="profile image"
-              className={styles.mainImage}
-              width={size}
-              height={size}
-            />
-          </label>
-        </div>
-        <div className={styles.cancelButtonBox}>
-          <button className={styles.cancelButton} onClick={resetImgSrc}>
-            X
+          <Line />
+          <SectionTitle>
+            <EditIcon />
+            <p>컬렉션 태그</p>
+          </SectionTitle>
+
+          <TagEditor tagList={tagList} setTagList={setTagList} />
+
+          <Line />
+          <SectionTitle>
+            <EditIcon />
+            컬렉션 설명
+          </SectionTitle>
+          <TextareaComponent
+            rows={6}
+            onChange={onChangeDescription}
+            value={inputDescription}
+            maxLength={250}
+            placeholder="컬렉션 설명을 입력해주세요"
+          />
+          <Line />
+        </Section>
+        <Section>
+          <SectionTitle className={styles.titleContainer}>
+            <PinIcon />
+            <span>핀 리스트</span>
+            <Link href={`/pin/select`} className={styles.pinAddButton}>
+              {"핀 추가하기 >"}
+            </Link>
+          </SectionTitle>
+          {/* List */}
+          <ul
+            className={styles.pinCardContainer}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(e.target);
+            }}
+          >
+            {pinDataList.map((pin, index) => (
+              <SimplePinCard
+                key={index}
+                pinData={pin}
+                onClick={() => onClickPin(index)}
+                showEditButton={true}
+                activeShowDetail={true}
+              />
+            ))}
+          </ul>
+        </Section>
+        <Section className={styles.buttonContainer}>
+          {id && <button className={styles.confirmButton}>수정 완료</button>}
+          {!id && <button className={styles.confirmButton}>생성 완료</button>}
+          <button
+            className={styles.scrollTopButton}
+            onClick={() => {
+              scrollTop();
+            }}
+          >
+            <ExpendUpIcon />
           </button>
-        </div>
-      </section>
-      <p className={styles.message}>
-        <EditIcon style={{ width: "23px", height: "23px" }} />
-        제목 수정
-      </p>
-      <section className={styles.changeContainer}>
-        <input
-          className={styles.nameInput}
-          onChange={onChangeNickname}
-          value={inputCollectionName}
-          maxLength={100}
-          placeholder="강릉 주민 맛집"
-        />
-        <p className={styles.lengthCounter}>{inputCollectionName.length}/100</p>
-      </section>
-      <p className={styles.message}>
-        <EditIcon style={{ width: "23px", height: "23px" }} />
-        태그 추가
-      </p>
-      <section className={styles.tagContainer}>
-        <TagListRenderer />
-        <div className={styles.tagInputContainer}>
-          <input
-            className={styles.tagInput}
-            onChange={onChangeTag}
-            onKeyDown={enterAtTag}
-            value={inputTag}
-            maxLength={10}
-            placeholder="태그를 입력하세요: 맛집, 휴식, 데이트 ..."
-          />
-        </div>
-        <p className={styles.lengthCounter}>{inputTag.length}/10</p>
-      </section>
-      <p className={styles.message}>
-        <EditIcon style={{ width: "23px", height: "23px" }} />
-        설명 수정
-      </p>
-      <section className={styles.inputContainer}>
-        <textarea
-          className={styles.descriptionInput}
-          onChange={onChangeDescription}
-          value={inputDescription}
-          maxLength={250}
-          placeholder=""
-        />
-        <p className={styles.lengthCounter}>{inputDescription.length}/250</p>
-      </section>
-      <section className={styles.buttonContainer}>
-      {id && <button className={styles.confirmButton}>수정 완료</button>}
-      {!id && <button className={styles.confirmButton}>생성 완료</button>}
-      </section>
-    </section>
+        </Section>
+      </EditPageLayout>
+    </SubPageLayout>
   );
 }

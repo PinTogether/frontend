@@ -3,7 +3,7 @@
 import styles from "@/styles/containers/place/_placePage.module.scss";
 import { PinForPlace } from "@/types/Pin";
 import { PlaceDetail } from "@/types/Place";
-import Review from "@/components/Review";
+import ReviewCard from "@/components/ReviewCard";
 import PlaceCard from "@/components/PlaceCard";
 
 import dummyPinList from "@/../../public/dummy-data/dummy-pin.json";
@@ -52,7 +52,7 @@ const PlacePage = ({ placeId }: { placeId?: string }) => {
       <ul className={styles.commentList}>
         {pinData.map((pin) => (
           <li key={pin.id}>
-            <Review reviewData={pin} />
+            <ReviewCard reviewData={pin} />
           </li>
         ))}
       </ul>

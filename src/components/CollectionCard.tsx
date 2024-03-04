@@ -34,6 +34,7 @@ export {
   HorizontalCollectionCard,
   HorizontalSimpleCollectionCard,
   HorizontalDetailCollectionCard,
+  SimpleBoxCollectionCard,
 };
 
 export default function CollectionCard({
@@ -199,10 +200,8 @@ const SimpleCollectionCard = ({
   return (
     <article className={styles.simpleCollectionCard} {...props}>
       <div className={styles.imgContainer}>
-        <Link
-          href={`/collection/${collectionData.id}`}
-          aria-disabled={linkDisabled}
-        >
+        {/* href={`/collection/${collectionData.id}`} */}
+        <div>
           <Image
             src={collectionData.thumbnail}
             alt="collection thumbnail"
@@ -210,13 +209,12 @@ const SimpleCollectionCard = ({
             height={200}
             className={styles.userAvatar}
           />
-        </Link>
+        </div>
         <BookMark />
       </div>
       <Link
         href={`/collection/${collectionData.id}`}
         className={styles.textContainer}
-        aria-disabled={linkDisabled}
       >
         <h2 className={styles.title}>{collectionData.title}</h2>
       </Link>
@@ -376,3 +374,31 @@ const HorizontalDetailCollectionCard = ({
 };
 
 // Collection Card Page
+const SimpleBoxCollectionCard = ({
+  collectionData,
+  linkDisabled = false,
+  ...props
+}: CardProps) => {
+  return (
+    <article className={styles.simpleBoxCollectionCard} {...props}>
+      <div className={styles.imgContainer}>
+        <Image
+          src={collectionData.thumbnail}
+          alt="collection thumbnail"
+          width={200}
+          height={200}
+          className={styles.thumbnail}
+        />
+      </div>
+      <div className={styles.textContainer}>{collectionData.title}</div>
+      <div className={styles.cntContainer}>
+        <span>
+          {`핀 ${collectionData.pinCnt}`}
+          {/* <PinIcon /> */}
+        </span>
+        <span>{`북마크 ${collectionData.scrapCnt}`}</span>
+        <span>{`좋아요 ${collectionData.likeCnt}`}</span>
+      </div>
+    </article>
+  );
+};

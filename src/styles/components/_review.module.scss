@@ -40,6 +40,20 @@
   .text {
     line-height: 1.4;
     grid-column: 2 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    // align-content: start;
+    gap: 0.5rem;
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: $color-text-caption;
+    }
+    span {
+      margin-top: 0.2rem;
+      line-height: 1.2;
+    }
   }
 
   .tags {

@@ -3,9 +3,8 @@
 import PinCard from "@/components/PinCard";
 import styles from "@/styles/components/_pincard.module.scss";
 import CollectionCard from "@/components/CollectionCard";
-import Review from "@/components/Review";
 import Collection, { CollectionDetail } from "@/types/Collection";
-import Pin, { PinForPlace } from "@/types/Pin";
+import Pin from "@/types/Pin";
 // import PlaceCard from "@/components/PlaceCard";
 // import PinReview from "@/types/PinReview";
 
@@ -34,15 +33,20 @@ const pinData: Pin = {
   saveCnt: 3,
   address: "서울특별시 강남구 역삼동 123-45",
   placeName: "포카리스웨트 강남역점",
-  image: "https://picsum.photos/id/326/300",
   xPos: 37.123456,
   yPos: 127.123456,
   starred: true,
   category: "FOOD",
   tags: ["포카리스웨트", "강남역점"],
+  imagePaths: [
+    "https://picsum.photos/200",
+    "https://picsum.photos/200",
+    "https://picsum.photos/200",
+  ],
+  collectionTitle: "강릉 주민 맛집",
 };
 
-const reviewData: PinForPlace = {
+const reviewData: Pin = {
   id: 1,
   collectionId: 2,
   writer: "JaneDoe",
@@ -51,7 +55,6 @@ const reviewData: PinForPlace = {
   saveCnt: 42,
   address: "123 Main St, Anytown, AN",
   placeName: "Coffee Corner",
-  image: "https://example.com/image.jpg",
   xPos: 37.5665,
   yPos: 126.978,
   starred: true,
@@ -63,10 +66,10 @@ const reviewData: PinForPlace = {
     "https://picsum.photos/200",
     "https://picsum.photos/200",
   ],
-  phoneNumber: "123-456-7890",
+  // collectionTitle: "강릉 주민 맛집",
 };
 
-const commentList: PinForPlace[] = [
+const commentList: Pin[] = [
   {
     id: 1,
     collectionId: 1,
@@ -76,7 +79,6 @@ const commentList: PinForPlace[] = [
     saveCnt: 25,
     address: "서울특별시 강남구 어딘가",
     placeName: "멋진 카페",
-    image: "image_path.jpg",
     xPos: 37.1234,
     yPos: 127.1234,
     starred: true,
@@ -88,7 +90,6 @@ const commentList: PinForPlace[] = [
       "https://picsum.photos/200",
       "https://picsum.photos/200",
     ],
-    phoneNumber: "02-123-4567",
   },
   {
     id: 2,
@@ -99,7 +100,6 @@ const commentList: PinForPlace[] = [
     saveCnt: 40,
     address: "서울특별시 종로구 다른 곳",
     placeName: "조용한 북카페",
-    image: "image_path2.jpg",
     xPos: 37.5759,
     yPos: 126.9769,
     starred: false,
@@ -107,7 +107,6 @@ const commentList: PinForPlace[] = [
     tags: ["책", "커피", "조용함"],
     collectionTitle: "서울의 숨겨진 보석",
     imagePaths: ["https://picsum.photos/200", "https://picsum.photos/200"],
-    phoneNumber: "02-654-3210",
   },
   {
     id: 3,
@@ -118,7 +117,6 @@ const commentList: PinForPlace[] = [
     saveCnt: 55,
     address: "서울특별시 용산구 또 다른 곳",
     placeName: "전망 좋은 레스토랑",
-    image: "image_path3.jpg",
     xPos: 37.5283,
     yPos: 126.9827,
     starred: true,
@@ -126,7 +124,6 @@ const commentList: PinForPlace[] = [
     tags: ["전망", "고급", "스테이크"],
     collectionTitle: "서울 미식 탐방",
     imagePaths: ["https://picsum.photos/200", "https://picsum.photos/200"],
-    phoneNumber: "02-987-6543",
   },
 ];
 
@@ -154,12 +151,12 @@ export default function Page() {
       <br />
 
       <p>1. pincard simple</p>
-      <PinCard pinData={pinData} />
+      {/* <PinCard pinData={pinData} />
       <br />
 
       <p>2. pincard with comment</p>
       <PinCard pinData={pinData}>
-        <Review reviewData={reviewData} />
+        <ReviewCard reviewData={reviewData} />
       </PinCard>
       <br />
 
@@ -169,12 +166,12 @@ export default function Page() {
           <>
             {commentList.map((comment) => (
               <li key={comment.id}>
-                <Review reviewData={comment} />
+                <ReviewCard reviewData={comment} />
               </li>
             ))}
           </>
         )}
-      </PinCard>
+      </PinCard> */}
       <br />
     </div>
   );

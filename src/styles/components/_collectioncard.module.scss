@@ -146,6 +146,7 @@ $container-padding: 0.5rem;
   display: flex;
   flex-direction: column;
   width: $simple-size;
+  background-color: white;
 
   .imgContainer {
     @include bookmarkContainer($simple-size);
@@ -153,7 +154,7 @@ $container-padding: 0.5rem;
       width: $simple-size;
       height: $simple-size;
       object-fit: cover;
-      border-radius: $border-radius;
+      border-radius: $border-radius - 0.2rem; //
     }
   }
   .textContainer {
@@ -308,5 +309,39 @@ $container-padding: 0.5rem;
     // grid-column: 1 / -1;
     margin: 0;
     padding: 0;
+  }
+}
+
+/* SimpleBoxCollectionCard */
+.simpleBoxCollectionCard {
+  @extend %pt-card;
+  border-radius: 0;
+  box-shadow: none;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  padding: 0.5rem;
+  align-items: center;
+
+  .imgContainer {
+    grid-row: 1 / -3;
+    margin-right: 0.5rem;
+    img {
+      width: 3.5rem;
+      height: 3.5rem;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+  }
+  .textContainer {
+    font-size: $font-size-medium;
+    line-height: 1;
+    font-weight: 600;
+  }
+  .cntContainer  {
+    display: flex;
+    gap: 0.75rem;
+    font-size: $font-size-small;
+    color: $color-text-caption;
+    stroke: $color-text-caption;
   }
 }

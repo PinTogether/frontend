@@ -7,15 +7,17 @@ export default interface Pin {
   saveCnt: number;
   address: string;
   placeName: string;
-  image: string;
   xPos: number;
   yPos: number;
   starred: boolean;
   category: string;
   tags: string[];
+  //
+  collectionTitle: string;
+  imagePaths: string[];
 }
 
-export default interface MarkerData{
+export default interface MarkerData {
   id: number;
   placeName: string;
   xPos: number;

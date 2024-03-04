@@ -1,0 +1,34 @@
+@import "../base/variables";
+@import "../base/placeholders";
+
+.inputContainer {
+	position: relative;
+}
+.input {
+	@extend %pt-input;
+	padding-right: 4rem;
+	height: 2rem;
+	background-color: $color_grey-light;
+}
+
+.textareaContainer {
+	position: relative;	
+}
+.textarea {
+	@extend %pt-input;
+	padding-right: 4rem;
+	min-height: 2rem;
+	background-color: $color_grey-light;
+	&::placeholder {
+		line-height: 1.5;
+	}
+}
+
+.lengthCounter{
+	position: absolute;
+	right: 0.55rem;
+	bottom: 0.55rem;
+	font-size: $font-size-small;
+	color: $color_grey-dark;
+	margin-left: 0.5rem;
+}

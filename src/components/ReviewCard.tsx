@@ -1,12 +1,15 @@
 import Image from "next/image";
 import styles from "@/styles/components/_review.module.scss";
-import { PinForPlace } from "@/types/Pin";
+import Pin from "@/types/Pin";
+import { CommentIcon } from "./IconSvg";
 
-export default function Review({
+export { ReviewCard, MyReviewCard};
+
+export default function ReviewCard({
   reviewData,
   activeGoCollectionBtn = true,
 }: {
-  reviewData: PinForPlace;
+  reviewData: Pin;
   activeGoCollectionBtn?: boolean;
 }) {
   return (
@@ -56,3 +59,29 @@ export default function Review({
     </article>
   );
 }
+
+const MyReviewCard = ({ reviewData }: { reviewData: Pin }) => {
+  return (
+    <article className={styles.review}>
+      {reviewData.review && (
+        <div className={styles.text}>
+          <CommentIcon />
+          <span>{`${reviewData.review}`}</span>
+        </div>
+      )}
+      {reviewData.imagePaths?.length > 0 && (
+        <div className={styles.content}>
+          {reviewData.imagePaths.map((path, index) => (
+            <Image
+              key={index}
+              src={path}
+              alt="review image"
+              width={100}
+              height={100}
+            />
+          ))}
+        </div>
+      )}
+    </article>
+  );
+};

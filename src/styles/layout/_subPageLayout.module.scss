@@ -6,11 +6,19 @@
   padding: 0;
   min-height: 100vh;
   transition: all 0.3s ease; // for what?
-  padding-left: 7%;
-  padding-right: 7%;
-  padding-bottom: 3rem;
-  // overflow: clip;
+  height: 100%;
+  width: 100%;
+
+
   .subPage {
-    // overflow-y: scroll;
+    height: 100%;
+    width: 100%;
+    
+    // padding: 7%, 0.2rem;
+    padding-bottom: 1rem;
+    padding-top: 0.2rem;
+    padding-left: 7%;
+    padding-right: 7%;
+    overflow: auto;
   }
 }

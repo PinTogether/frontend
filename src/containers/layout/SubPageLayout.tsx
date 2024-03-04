@@ -1,18 +1,24 @@
 import Topper from "@/components/SubTopper";
-import { ReactNode } from "react";
+import { ReactNode, forwardRef } from "react";
 import styles from "@/styles/layout/_subPageLayout.module.scss";
 
-export default function SubPageLayout({
-  children,
-  topperMsg,
-}: {
+interface SubPageLayoutProps {
   children?: ReactNode;
   topperMsg: string;
-}) {
-  return (
-    <section className={styles.subPageLayout}>
-      <Topper msg={topperMsg} />
-      <div className={styles.subPage}>{children}</div>
-    </section>
-  );
+  submitButton?: boolean;
 }
+
+const SubPageLayout = forwardRef<HTMLDivElement, SubPageLayoutProps>(
+  ({ children, topperMsg }: SubPageLayoutProps, ref) => {
+    return (
+      <section className={styles.subPageLayout}>
+        <Topper msg={topperMsg} />
+        <div className={styles.subPage} ref={ref}>
+          {children}
+        </div>
+      </section>
+    );
+  }
+);
+SubPageLayout.displayName = "SubPageLayout";
+export default SubPageLayout;
