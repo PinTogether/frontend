@@ -103,26 +103,21 @@ const MapNaverDefault = () => {
   // 현재 지도의 영역을 확인하고 마커를 그릴지 말지 결정
   const updateMarkers = (markers: naver.maps.Marker[]) => {
     const showMarker = (map: naver.maps.Map, marker: naver.maps.Marker) => {
-      // 지도에 표시되어있는지 확인
       if (marker.getMap()) return;
-      // 표시되어있지 않다면 마커를 지도에 추가
       marker.setMap(map);
     };
 
     const hideMarker = (marker: naver.maps.Marker) => {
-      // 지도에 표시되어있는지 확인
       if (!marker.getMap()) return;
-      // 표시되어있다면 마커를 지도에서 삭제
       marker.setMap(null);
     };
 
     if (newMap) {
-      // 현재 지도의 화면 영역을 mapBounds 변수에 저장
+      // 현재 지도의 화면 영역을 mapBounds에 저장
       let mapBounds = newMap.getBounds();
       let marker: naver.maps.Marker;
       let position;
 
-      // 마커 객체 배열을 순회하며 각 마커의 위치를 position 변수에 저장
       for (var i = 0; i < markers.length; i++) {
         marker = markers[i];
         position = marker.getPosition();
@@ -173,7 +168,7 @@ const MapNaverDefault = () => {
           animation: naver.maps.Animation.DROP,
           title: markerDatas[i].placeName,
         });
-        //마커 클릭시 해당 Pin 정보조회로 이동
+        //마커 클릭시 해당 Pin의 장소조회로 이동 (?)
         naver.maps.Event.addListener(marker, "click", () =>
           router.push(`/place/${markerDatas[i].id}`)
         );
@@ -226,8 +221,8 @@ const MapNaverDefault = () => {
           new naver.maps.LatLng(LatLng.lat, LatLng.lng),
           new naver.maps.LatLng(LatLng.lat, LatLng.lng)
         ),
-        {easing: "easeOutCubic"},
-        { top: 4000, right: 4000, bottom: 4000, left: 4000 }
+        {easing: "easeOutCubic"}, // 애니메이션
+        { top: 4000, right: 4000, bottom: 4000, left: 4000 } // 센터기준 상하좌우에 여유공간 4000px (대충 zoom:16 비슷하게 나옴)
       );
     }
   }, [LatLng]);
