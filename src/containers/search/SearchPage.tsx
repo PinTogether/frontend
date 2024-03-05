@@ -33,7 +33,7 @@ export default function Page() {
 
   const searchPlace = () => {
     fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search?query=${inputCollectionSearch}&page=${page}&size=${size}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/place?query=${inputCollectionSearch}&page=${page}&size=${size}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -43,11 +43,12 @@ export default function Page() {
             return {
               id: place.id,
               name: place.name,
-              address: place.roadNameAddress,
+              roadNameAddress: place.roadNameAddress,
               category: place.category || "ETC",
-              xPos: place.longtitude,
-              yPos: place.latitude,
+              longitude: place.longtitude,
+              latitude: place.latitude,
               starred: place.starred || false,
+              pinCnt: place.pinCnt,
             };
           })
         );
