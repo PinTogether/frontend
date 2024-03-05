@@ -80,7 +80,7 @@ export default function ProfileBookmarkRenderer({
             <section className={styles.bookmarkData}>
               <b>{bookmark.name}</b>
               <div>{bookmark.category}</div>
-              <div>{bookmark.address}</div>
+              <div>{bookmark.roadNameAddress}</div>
             </section>
           </button>
         ))}

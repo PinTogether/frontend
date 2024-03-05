@@ -30,7 +30,7 @@ export default function PinCard({
           <h3 className={styles.placeName}>{pinData.placeName}</h3>
           <span className={styles.category}>{pinData.category}</span>
         </button>
-        <address className={styles.address}>{pinData.address}</address>
+        <address className={styles.address}>{pinData.roadNameAddress}</address>
         <div className={styles.tagContainer}>
           {pinData.tags.map((tag, idx) => (
             <span key={idx}>{tag}</span>
@@ -108,7 +108,7 @@ const SimplePinCard = ({
             disabled={buttonDisabled}
           >
             <h3 className={styles.placeName}>{pinData.placeName}</h3>
-            <address className={styles.address}>{pinData.address}</address>
+            <address className={styles.address}>{pinData.roadNameAddress}</address>
             <span className={styles.category}>{pinData.category}</span>
           </button>
           {showEditButton && <EditButton pinId={pinData.id} />}
@@ -120,7 +120,7 @@ const SimplePinCard = ({
             <h3 className={styles.placeName}>{pinData.placeName}</h3>
             <span className={styles.category}>{pinData.category}</span>
           </button>
-          <address className={styles.address}>{pinData.address}</address>
+          <address className={styles.address}>{pinData.roadNameAddress}</address>
           <div className={styles.tagContainer}>
             {pinData.tags.map((tag, idx) => (
               <span key={idx}>{tag}</span>

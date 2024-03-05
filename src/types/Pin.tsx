@@ -5,14 +5,13 @@ export default interface Pin {
   review: string;
   createdAt: string;
   saveCnt: number;
-  address: string;
+  roadNameAddress: string;
   placeName: string;
-  xPos: number;
-  yPos: number;
+  longtitude: number;
+  latitude: number;
   starred: boolean;
   category: string;
   tags: string[];
-  //
   collectionTitle: string;
   imagePaths: string[];
 }
@@ -20,8 +19,8 @@ export default interface Pin {
 export default interface MarkerData {
   id: number;
   placeName: string;
-  xPos: number;
-  yPos: number;
+  longtitude: number;
+  latitude: number;
 }
 
 // 장소에 대한 모든 핀 조회
