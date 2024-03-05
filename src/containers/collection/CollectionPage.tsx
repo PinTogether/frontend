@@ -19,6 +19,7 @@ import collectionData from "@/../../public/dummy-data/dummy-collection.json";
 import pinData from "@/../../public/dummy-data/dummy-pin.json";
 import newPinData from "@/../../public/dummy-data/dummy-pin.json";
 import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
+import newPinData2 from "@/../../public/dummy-data/dummy-pin2.json";
 const commentList = pinDataList;
 import replyList from "@/../../public/dummy-data/dummy-collection-reply.json";
 
@@ -40,7 +41,13 @@ export default function CollectionPage({ id }: { id: number }) {
   }, []);
 
   function makeMarker() { // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
-    let pinDataList = newPinData;
+    let pinDataList;
+    if(id == 1){
+      pinDataList = newPinData;
+    }
+    else{
+      pinDataList = newPinData2;
+    }
     const markerList: MarkerData[] = [];
     for (let i = 0; i < pinDataList.length; i++) {
       markerList.push({
