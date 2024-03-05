@@ -22,7 +22,6 @@ const MapNaverDefault = () => {
   const dispatch = useAppDispatch();
 
   const [newMap, setNewMap] = useState<naver.maps.Map>();
-  const [myLocationRenderer, setMyLocationRenderer] = useState(false);
   const [createMarkerList, setCreateMarkerList] = useState<naver.maps.Marker[]>(
     []
   );
@@ -284,7 +283,6 @@ const MapNaverDefault = () => {
       setNewMap(map);
       return () => {
         map.destroy();
-        createMarkerList.splice(0, createMarkerList.length);
       };
     }
   }, [isScriptLoaded]);
