@@ -33,7 +33,7 @@ export default function Page() {
 
   const searchPlace = () => {
     fetch(
-      `/api/search?query=${inputCollectionSearch}&page=${page}&size=${size}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search?query=${inputCollectionSearch}&page=${page}&size=${size}`
     )
       .then((res) => res.json())
       .then((data) => {
