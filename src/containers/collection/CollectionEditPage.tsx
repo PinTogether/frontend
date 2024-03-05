@@ -70,17 +70,11 @@ export default function CollectionEditPage({
     }
   };
 
-  const pageRef = useRef<HTMLDivElement>(null);
-  const scrollTop = () => {
-    console.log(pageRef.current);
-    pageRef.current?.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
-    <SubPageLayout topperMsg={topperMsg} ref={pageRef}>
+    <SubPageLayout
+      topperMsg={topperMsg}
+      // ref={pageRef}
+    >
       <EditPageLayout>
         <Section>
           <SectionTitle>
@@ -147,45 +141,40 @@ export default function CollectionEditPage({
           />
           <Line />
         </Section>
-        <Section>
-          <SectionTitle className={styles.titleContainer}>
-            <PinIcon />
-            <span>핀 리스트</span>
-            <Link href={`/pin/select`} className={styles.pinAddButton}>
-              {"핀 추가하기 >"}
-            </Link>
-          </SectionTitle>
-          {/* List */}
-          <ul
-            className={styles.pinCardContainer}
-            onClick={(e) => {
-              e.preventDefault();
-              console.log(e.target);
-            }}
-          >
-            {pinDataList.map((pin, index) => (
-              <SimplePinCard
-                key={index}
-                pinData={pin}
-                onClick={() => onClickPin(index)}
-                showEditButton={true}
-                activeShowDetail={true}
-              />
-            ))}
-          </ul>
-        </Section>
-        <Section className={styles.buttonContainer}>
+        {id && (
+          <Section>
+            <SectionTitle className={styles.titleContainer}>
+              <PinIcon />
+              <span>핀 리스트</span>
+              <Link href={`/pin/select`} className={styles.pinAddButton}>
+                {"핀 추가하기 >"}
+              </Link>
+            </SectionTitle>
+            {/* List */}
+            <ul
+              className={styles.pinCardContainer}
+              onClick={(e) => {
+                e.preventDefault();
+                console.log(e.target);
+              }}
+            >
+              {pinDataList.map((pin, index) => (
+                <SimplePinCard
+                  key={index}
+                  pinData={pin}
+                  onClick={() => onClickPin(index)}
+                  showEditButton={true}
+                  activeShowDetail={true}
+                />
+              ))}
+            </ul>
+            <Line />
+          </Section>
+        )}
+        {/* <Section className={styles.buttonContainer}>
           {id && <button className={styles.confirmButton}>수정 완료</button>}
           {!id && <button className={styles.confirmButton}>생성 완료</button>}
-          <button
-            className={styles.scrollTopButton}
-            onClick={() => {
-              scrollTop();
-            }}
-          >
-            <ExpendUpIcon />
-          </button>
-        </Section>
+        </Section> */}
       </EditPageLayout>
     </SubPageLayout>
   );
