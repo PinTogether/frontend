@@ -1,20 +1,20 @@
 /**
  * ex )
  * <EditPageLayout>
- *    <SectionWrapper>
-        <H3Wrapper>
+ *    <Section>
+        <SectionTitle>
           <EditIcon />
           닉네임 변경
-        </H3Wrapper>
+        </SectionTitle>
         <input
           placeholder="김고양"
         />
         <span>닉네임 중복 확인</span>
-      </SectionWrapper>
+      </Section>
       <Line />
-      <SectionWrapper>
+      <Section>
         <button>완료</button>
-      </SectionWrapper>
+      </Section>
     </EditPageLayout>
  * 
  */
@@ -22,31 +22,39 @@
 "use client";
 
 import styles from "@/styles/layout/_editPageLayout.module.scss";
+import { HTMLAttributes, forwardRef } from "react";
 
-export default function EditPageLayout({
-  children,
-}: {
+interface EditPageLayoutProps extends HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
-}) {
-  return <section className={styles.editPageLayout}>{children}</section>;
 }
+const EditPageLayout = forwardRef<HTMLElement, EditPageLayoutProps>(
+  ({ children, className }: EditPageLayoutProps, ref) => {
+    return (
+      <section ref={ref} className={`${styles.editPageLayout} ${className}`}>
+        {children}
+      </section>
+    );
+  }
+);
+EditPageLayout.displayName = "EditPageLayout";
+export default EditPageLayout;
 
-export const H3Wrapper = ({ children }: { children?: React.ReactNode }) => {
-  return <h3 className={styles.h3Wrapper}>{children}</h3>;
-};
-
-export const SectionWrapper = ({
-  children,
-  className,
-}: {
+interface SectionProps extends HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   className?: string;
-}) => {
+}
+export const Section = ({ children, className }: SectionProps) => {
   return (
-    <section className={`${styles.sectionWrapper} ${className}`}>
-      {children}
-    </section>
+    <section className={`${styles.section} ${className}`}>{children}</section>
   );
+};
+
+interface SectionTitleProps extends HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+  className?: string;
+}
+export const SectionTitle = ({ children, className }: SectionTitleProps) => {
+  return <h3 className={`${styles.sectionTitle} ${className}`}>{children}</h3>;
 };
 
 export const Line = () => {

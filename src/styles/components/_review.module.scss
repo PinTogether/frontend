@@ -1,7 +1,7 @@
 @import "../base/placeholders";
 @import "../base/variables";
 
-.comment {
+.review {
   width: 100%;
   font-size: $font-size-small;
   background-color: $color-grey-light;
@@ -23,12 +23,14 @@
   .userNick {
     grid-column: 2 / -1;
     color: $color-text-caption;
+    font-weight: 600;
   }
   .content {
     display: flex;
     grid-column: 2 / -1;
     gap: 0.2rem;
     padding: 0.2rem;
+    overflow-x: auto;
     img {
       width: 8rem;
       height: 8rem;
@@ -38,16 +40,43 @@
   .text {
     line-height: 1.4;
     grid-column: 2 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    // align-content: start;
+    gap: 0.5rem;
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: $color-text-caption;
+    }
+    span {
+      margin-top: 0.2rem;
+      line-height: 1.2;
+    }
   }
 
-  .buttons {
+  .tags {
+    grid-column: 2 / -1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+
+    .tag {
+      @extend %pt-tag;
+    }
+  }
+
+  .footers {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	gap: 0;
     grid-column: 2 / -1;
     font-size: $font-size-small;
-    .morePhoto {
+
+    .button {
       cursor: pointer;
       font-size: $font-size-small;
 	  color: $color-text-caption;

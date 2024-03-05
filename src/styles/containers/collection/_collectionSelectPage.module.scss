@@ -1,0 +1,72 @@
+@import "../../base/placeholders";
+@import "../../base/variables";
+
+.selectedCollectionCount {
+	font-size: $font-size-medium;
+	margin-bottom: 1rem;
+	color: $color-text-caption;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	// align-content: end;
+	// justify-items: end;
+
+	.subButton {
+		color: $color-text-caption;
+		font-size: $font-size-small;
+		cursor: pointer;
+		display: flex;
+		flex-direction: rows;
+		align-items: flex-end;
+		justify-content: flex-end;
+		& > * {
+			height: fit-content;
+			width: fit-content;
+		}
+		&:hover {
+			color: $color-primary;
+			.expandIcon {
+				color: $color-primary;
+			}
+		}
+		.expandIcon {
+			display: inline;
+			width: 0.9rem;
+			height: 0.9rem;
+			color: $color-text-caption;
+		}
+	}
+}
+
+.listContainer {
+	& > * {
+		border-bottom: 1px solid $color-border-inactive;
+	}
+	.list {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		cursor: pointer;
+		.checkIcon {
+			align-self: center;
+			width: 1.5rem;
+			margin: 0 0.5rem;
+			color: $color-grey;
+		}
+		&:hover {
+			background-color: $color-grey-light;
+			.checkIcon {
+				// color: $color-primary;
+			}
+		}
+	}
+	.active {
+		background-color: $color-grey-light;
+		.checkIcon {
+			color: $color-primary;
+		}
+	}
+}
+
+
+// PinSelectPage.tsx

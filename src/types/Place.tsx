@@ -2,14 +2,14 @@ export default interface Place {
   id: number;
   name: string;
   address: string;
-  category:
-    | "HEALTH" // 건강
-    | "ANIMALS" // 동물
-    | "FOOD" // 음식
-    | "CULTURE" // 문화
-    | "LIFESTYLE" // 생활
-    | "ENVIRONMENTAL_RESOURCES" // 자원
-    | "ETC"; // 기타
+  category: string;
+  // | "HEALTH" // 건강
+  // | "ANIMALS" // 동물
+  // | "FOOD" // 음식
+  // | "CULTURE" // 문화
+  // | "LIFESTYLE" // 생활
+  // | "ENVIRONMENTAL_RESOURCES" // 자원
+  // | "ETC"; // 기타
 }
 
 // 특정 장소 정보 조회
@@ -21,7 +21,7 @@ export interface PlaceDetail extends Place {
 }
 
 // 찜한 모든 장소 조회
-export interface PlaceStared extends Place {
+export interface PlaceStarred extends Place {
   created_at: string;
 }
 

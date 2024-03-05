@@ -1,0 +1,189 @@
+@import "../base/placeholders";
+@import "../base/variables";
+
+%card {
+  @extend %pt-card;
+  padding: 12px;
+  min-width: 20rem;
+  height: fit-content;
+  margin: 0;
+  .mainInfo {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+
+    & > *:not(:first-child) {
+      grid-column: 2 / -1;
+    }
+    .pinIcon {
+      width: 1.725rem;
+      color: $color-text-caption;
+    }
+    .placeNameContainer {
+      display: flex;
+      align-items: flex-end;
+      line-height: 1;
+      gap: 0.5rem;
+      .placeName {
+        font-size: $font-size-large;
+        font-weight: 600;
+      }
+      .category {
+        font-size: $font-size-small;
+        color: $color-text-caption;
+      }
+    }
+    .address {
+      font-size: $font-size-medium;
+      color: $color-text-caption;
+    }
+  }
+  .buttonContainer {
+    margin-top: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: $font-size-small;
+    border-bottom: 1px solid $color-border-inactive;
+    & > * {
+      display: flex;
+      align-items: center;
+      color: $color-text-caption;
+      cursor: pointer;
+      &:hover {
+        color: $color-primary;
+        svg {
+          color: $color-primary;
+        }
+      }
+      svg {
+        width: 1rem;
+        color: $color-text-caption;
+       
+      }
+    }
+  }
+}
+
+.tagContainer {
+  @extend %pt-tagContainer;
+}
+.commentContaier {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pinCard {
+  @extend %card;
+  position: relative;
+}
+
+.simplePinCard {
+  @extend %card;
+  display: flex;
+  flex-direction: column;
+}
+
+
+// PlaceCard
+.placeCard {
+  @extend %card;
+  // position: relative;
+  .buttonContainer {
+
+    .pinCnt:hover {
+      color: $color-text-caption;
+      svg {
+        color: $color-text-caption;
+      }
+    }
+  }
+}
+
+.simpleBoxPlaceCard {
+  padding: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  row-gap: 0.5rem;
+    .pinIcon {
+      color: $color-text-caption;
+    }
+    .titleContainer {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: flex-end;
+      line-height: 1;
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      .placeName {
+        font-size: $font-size-large;
+        font-weight: 600;
+      }
+      .category {
+        flex-shrink: 1;
+        font-size: $font-size-small;
+        color: $color-text-caption;
+      }
+    }
+    .address {
+      grid-column: 1 / 2;
+      font-size: $font-size-medium;
+      color: $color-text-caption;
+    }
+    .pinCnt {
+      grid-column: 2 / -1;
+      justify-self: end;
+      font-size: $font-size-small;
+      color: $color-text-caption;
+    }
+}
+
+.starredContainer {
+  width: 100%;
+  position: relative;
+  svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: 0.2rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 9999px;
+    background-color: rgba($color: white, $alpha: 0.9);
+    // box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.4);
+    color: $color-text-caption;
+    overflow: visible;
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover {
+      background-color: $color-primary;
+      color: white;
+    }
+  }
+  .starred {
+    color: $color-primary;
+  }
+}
+
+.editButton {
+  width: fit-content;
+  height: fit-content;
+  svg {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.2rem;
+    color: $color-text-caption;
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover {
+      // background-color: $color-primary;
+      color: $color-primary;
+    }
+  }
+}

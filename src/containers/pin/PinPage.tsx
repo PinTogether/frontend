@@ -1,9 +1,9 @@
 import PinCard from "@/components/PinCard";
-import Comment from "@/components/Comment";
+import ReviewCard from "@/components/ReviewCard";
 // import PinReview from "@/types/PinReview";
-import Pin, { PinForPlace } from "@/types/Pin";
+import Pin from "@/types/Pin";
 
-const pinData: PinForPlace = {
+const pinData: Pin = {
   id: 1,
   collectionId: 1,
   writer: "잠자는_짱구의_콧털",
@@ -16,7 +16,6 @@ const pinData: PinForPlace = {
   saveCnt: 25,
   address: "서울특별시 강남구 어딘가",
   placeName: "포카리스웨트 강남역점",
-  image: "image_path.jpg",
   xPos: 37.1234,
   yPos: 127.1234,
   starred: true,
@@ -24,10 +23,9 @@ const pinData: PinForPlace = {
   tags: ["커피", "디저트", "휴식"],
   collectionTitle: "서울 핫플레이스",
   imagePaths: ["image_path1.jpg", "image_path2.jpg", "image_path3.jpg"],
-  phoneNumber: "02-123-4567",
 };
 
-const commentList: PinForPlace[] = [
+const commentList: Pin[] = [
   {
     id: 1,
     collectionId: 1,
@@ -37,7 +35,6 @@ const commentList: PinForPlace[] = [
     saveCnt: 25,
     address: "서울특별시 강남구 어딘가",
     placeName: "멋진 카페",
-    image: "image_path.jpg",
     xPos: 37.1234,
     yPos: 127.1234,
     starred: true,
@@ -45,7 +42,6 @@ const commentList: PinForPlace[] = [
     tags: ["커피", "디저트", "휴식"],
     collectionTitle: "서울 핫플레이스",
     imagePaths: ["image_path1.jpg", "image_path2.jpg", "image_path3.jpg"],
-    phoneNumber: "02-123-4567",
   },
   {
     id: 2,
@@ -56,7 +52,6 @@ const commentList: PinForPlace[] = [
     saveCnt: 40,
     address: "서울특별시 종로구 다른 곳",
     placeName: "조용한 북카페",
-    image: "image_path2.jpg",
     xPos: 37.5759,
     yPos: 126.9769,
     starred: false,
@@ -64,7 +59,6 @@ const commentList: PinForPlace[] = [
     tags: ["책", "커피", "조용함"],
     collectionTitle: "서울의 숨겨진 보석",
     imagePaths: ["image_path4.jpg", "image_path5.jpg"],
-    phoneNumber: "02-654-3210",
   },
   {
     id: 3,
@@ -75,7 +69,6 @@ const commentList: PinForPlace[] = [
     saveCnt: 55,
     address: "서울특별시 용산구 또 다른 곳",
     placeName: "전망 좋은 레스토랑",
-    image: "image_path3.jpg",
     xPos: 37.5283,
     yPos: 126.9827,
     starred: true,
@@ -83,7 +76,6 @@ const commentList: PinForPlace[] = [
     tags: ["전망", "고급", "스테이크"],
     collectionTitle: "서울 미식 탐방",
     imagePaths: ["image_path6.jpg", "image_path7.jpg", "image_path8.jpg"],
-    phoneNumber: "02-987-6543",
   },
 ];
 
@@ -96,7 +88,7 @@ export default function PinPage({ pinId }: { pinId?: string }) {
           <>
             {commentList.map((comment) => (
               <li key={comment.id}>
-                <Comment commentData={comment} />
+                <ReviewCard reviewData={comment} />
               </li>
             ))}
           </>

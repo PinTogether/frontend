@@ -227,9 +227,14 @@ const MapNaverDefault = () => {
       map.destroy();
       createMarkerList.splice(0, createMarkerList.length);
     };
-  }, [Lat, Lng, markerDatas, isScriptLoaded]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
+  }, [Lat, Lng, markerDatas, isScriptLoaded, geoApiAuth]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
 
-  // 지도 생성부분, 마커 생성부분, 내 위치 불러와서 새롭게 그려지는부분, 새 마커 리스트 불러와지는 부분 분리하기
+  useEffect(()=>{ // 내 위치 불러오기가 문제
+    console.log("변경");
+    if(map){
+    map.panTo(new naver.maps.LatLng(Lat, Lng));
+    }
+  },[Lat, Lng])
 
   return (
     <>

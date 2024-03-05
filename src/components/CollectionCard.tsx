@@ -24,11 +24,21 @@ interface CollectionCardProps extends HTMLAttributes<HTMLButtonElement> {
 }
 
 interface CardProps extends HTMLAttributes<HTMLButtonElement> {
-  collectionData: CollectionDetail;
+  collectionData: CollectionDetail | Collection;
   linkDisabled?: boolean;
 }
 
+export {
+  DefaultCollectionCard,
+  SimpleCollectionCard,
+  HorizontalCollectionCard,
+  HorizontalSimpleCollectionCard,
+  HorizontalDetailCollectionCard,
+  SimpleBoxCollectionCard,
+};
+
 export default function CollectionCard({
+  // 삭제하기
   collectionData,
   horizontal = false,
   simple = false,
@@ -49,7 +59,7 @@ export default function CollectionCard({
       {...props}
     />
   ) : detail ? (
-    <HorizontalDetailCard
+    <HorizontalDetailCollectionCard
       collectionData={collectionData}
       linkDisabled={linkDisabled}
       {...props}
@@ -190,10 +200,8 @@ const SimpleCollectionCard = ({
   return (
     <article className={styles.simpleCollectionCard} {...props}>
       <div className={styles.imgContainer}>
-        <Link
-          href={`/collection/${collectionData.id}`}
-          aria-disabled={linkDisabled}
-        >
+        {/* href={`/collection/${collectionData.id}`} */}
+        <div>
           <Image
             src={collectionData.thumbnail}
             alt="collection thumbnail"
@@ -201,13 +209,12 @@ const SimpleCollectionCard = ({
             height={200}
             className={styles.userAvatar}
           />
-        </Link>
+        </div>
         <BookMark />
       </div>
       <Link
         href={`/collection/${collectionData.id}`}
         className={styles.textContainer}
-        aria-disabled={linkDisabled}
       >
         <h2 className={styles.title}>{collectionData.title}</h2>
       </Link>
@@ -265,7 +272,45 @@ const HorizontalCollectionCard = ({
   );
 };
 
-const HorizontalDetailCard = ({
+const HorizontalSimpleCollectionCard = ({
+  collectionData,
+  linkDisabled = false,
+  ...props
+}: CardProps) => {
+  return (
+    <article className={styles.horizontalSimpleCollectionCard} {...props}>
+      <Link
+        href={`/collection/${collectionData.id}`}
+        className={styles.imgContainer}
+        aria-disabled={linkDisabled}
+      >
+        <Image
+          src={collectionData.thumbnail}
+          alt="collection thumbnail"
+          width={200}
+          height={200}
+          className={styles.thumbnail}
+        />
+      </Link>
+      <div className={styles.textContainer}>
+        <Link
+          href={`/collection/${collectionData.id}`}
+          className={styles.title}
+          aria-disabled={linkDisabled}
+        >
+          {collectionData.title}
+        </Link>
+      </div>
+      <div className={styles.cntContainer}>
+        {`pinCnt ${collectionData.pinCnt}`}
+        {`likeCnt ${collectionData.likeCnt}`}
+        {`scrapCnt ${collectionData.scrapCnt}`}
+      </div>
+    </article>
+  );
+};
+
+const HorizontalDetailCollectionCard = ({
   collectionData,
   linkDisabled = false,
   ...props
@@ -285,7 +330,7 @@ const HorizontalDetailCard = ({
           className={styles.userAvatar}
         />
       </Link>
-      <div className={styles.textContainer}>
+      <div className={styles.textContainer} title={collectionData.title}>
         <Link
           href={`/collection/${collectionData.id}`}
           className={styles.title}
@@ -312,13 +357,47 @@ const HorizontalDetailCard = ({
         />
       </div>
       <div className={styles.tagContainer}>
-        <span>맛집</span>
+        {"tags" in collectionData &&
+          collectionData.tags.map((tag, index) => (
+            <span key={index}>{tag}</span>
+          ))}
+        {/* <span></span>
         <span>강릉</span>
-        <span>로컬맛집</span>
+        <span>로컬맛집</span> */}
       </div>
       <div className={styles.detailContainer}>
         <CommentIcon />
-        <p>{collectionData.details}</p>
+        {"details" in collectionData && <p>{collectionData.details}</p>}
+      </div>
+    </article>
+  );
+};
+
+// Collection Card Page
+const SimpleBoxCollectionCard = ({
+  collectionData,
+  linkDisabled = false,
+  ...props
+}: CardProps) => {
+  return (
+    <article className={styles.simpleBoxCollectionCard} {...props}>
+      <div className={styles.imgContainer}>
+        <Image
+          src={collectionData.thumbnail}
+          alt="collection thumbnail"
+          width={200}
+          height={200}
+          className={styles.thumbnail}
+        />
+      </div>
+      <div className={styles.textContainer}>{collectionData.title}</div>
+      <div className={styles.cntContainer}>
+        <span>
+          {`핀 ${collectionData.pinCnt}`}
+          {/* <PinIcon /> */}
+        </span>
+        <span>{`북마크 ${collectionData.scrapCnt}`}</span>
+        <span>{`좋아요 ${collectionData.likeCnt}`}</span>
       </div>
     </article>
   );

@@ -1,59 +1,59 @@
 @import "../../base/variables";
 @import "../../base/placeholders";
 
-.container{
-	display: grid;
-	grid-template-rows: 70px 30px 250px 30px 100px 30px 120px 30px 160px 150px;
-	margin:0;
-	padding:0;
-	min-height: 100vh;
-	transition: all 0.3s ease;
-	padding-left: 7%;
-	padding-right: 7%;
-}
-
-.message{
-  display: flex;
-  padding: 5px;
-  padding-top: 20px;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 5px;
-}
-
 .collectionChangeContainer{
 	display: grid;
-  grid-template-columns: 35px 150px 35px;
+  grid-template-columns: 1fr auto auto 1fr;
+  .mainImage{
+    grid-column: 2;
+    img {
+      width:170px;
+      height:170px;
+      border-radius: 15px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  }
+  .cancelButtonBox{
+    align-self: self-end;
+    width: fit-content;
+    height: fit-content;
+  }
+  .cancelButton{
+    display: grid;
+    align-items: end;
+    justify-items: start;
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+}
+
+.nameCheckMessage{
+  position: absolute;
+  font-size: $font-size-medium;
+  color: $color-primary;
+	width: 100%;
+}
+
+.buttonContainer{
+  padding: 5px;
+  padding-top: 50px;
+  flex:1;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   place-items: center;
-  border-bottom: 1px solid $color_grey;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  border-top: 1px solid $color_grey;
+  margin-top: 15px;
 }
 
-.mainImage{
-  align-items: end;
-  justify-items: start;
-	width:170px;
-	height:170px;
-  border-radius: 15px;
-	object-fit: cover;
-  cursor: pointer;
-}
-
-.cancelButtonBox{
-  display: grid;
-  align-items: end;
-  justify-content: center;
-  width:100%;
-  height:100%;
-}
-
-.cancelButton{
-  display: grid;
-  align-items: end;
-  justify-items: start;
+.scrollTopButton {
+  svg {
+    color: $color-grey-dark;
+  }
 }
 
 .confirmButton{
@@ -74,111 +74,23 @@
   }
 }
 
-.changeContainer{
-  display: grid;
-  grid-template-rows: 1fr 20px;
-  width: 100%;
-  align-items: end;
-  justify-items: start;
-  padding: 10px;
-  padding-bottom: 0px;
-  gap: 10px;
-}
 
-.tagContainer{
-  display: grid;
-  grid-template-rows: 40px 50px 20px;
-  width: 100%;
-  align-items: end;
-  justify-items: start;
-  padding: 10px;
-  padding-bottom: 0px;
-  gap: 10px;
-}
-
-.inputContainer{
-  display: grid;
-  grid-template-rows: 1fr 20px;
-  width: 100%;
-  align-items: end;
-  justify-items: start;
-  padding: 10px;
-  padding-bottom: 0px;
-  gap: 10px;
-}
-
-.lengthCounter{
-  display:grid;
-  align-self: end;
-  justify-self: end;
-  font-size: $font-size-small;
-  color: $color-grey-dark;
-}
-
-.nameCheckMessage{
-  position: absolute;
-  font-size: $font-size-medium;
-  color: $color-primary;
-	width: 100%;
-}
-
-.nameInput{
-  @extend %pt-input;
-}
-
-.tagInputContainer{
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  justify-items: center;
-  font-size: $font-size-medium;
-  width: 100%;
-  height: 40px;
-  border-radius: 5px;
-  outline: 1px solid $color-border-inactive;
-  box-shadow: 0px 0px 5px $color-grey;
-  gap: 10px;
-}
-
-.tagBoxContainer{
+.titleContainer {
   display: flex;
-  width: fit-content;
-  height: fit-content;
-  gap:5px;
-  padding: 3px;
+  .pinAddButton {
+    color: $color-text-caption;
+    flex: 1;
+    text-align: end;
+    font-size: $font-size-small;
+    &:hover {
+      color: $color-primary;
+    }
+  }
 }
 
-.tagBox{
-  @extend %pt-tag;
-  max-width: 150px;
-  max-height: 25px;
-  overflow: hidden;
-  font-size: $font-size-medium;
-}
-
-.tagBox:hover{
-  background-color: $color-red-light;
-}
-
-.tagInput{
-  width: 100%;
-  height: 100%;
-  padding: 3px;
-}
-
-.descriptionInput{
-  @extend %pt-input;
-  resize: none;
-  height: 100px;
-}
-
-.buttonContainer{
-  padding: 5px;
-  padding-top: 50px;
-  flex:1;
-  align-items: center;
-  justify-content: center;
-  place-items: center;
-  border-top: 1px solid $color_grey;
-  margin-top: 15px;
+.pinCardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
 }
