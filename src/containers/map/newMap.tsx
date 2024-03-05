@@ -52,7 +52,6 @@ const MapNaverDefault = () => {
     }
 
     navigator.geolocation.getCurrentPosition(success, error);
-    dispatch(locationGetterByAmount(true));
   };
 
   const handleGetAddress = async (X: number, Y: number) => {
@@ -238,7 +237,7 @@ const MapNaverDefault = () => {
     if (window.naver && geoApiAuth != "" && newMap) {
       console.log("내 위치 받아오기 및 발급된 api키로 이벤트 등록");
       if (!createMarkerList[0]) {
-        getLocation();
+        dispatch(locationGetterByAmount(true));
       }
       naver.maps.Event.addListener(newMap, "dragend", function (e) {
         const center = newMap.getCenter();

@@ -57,8 +57,6 @@ export default function Overlay() {
               <div className={styles.ball}></div>
               <div className={styles.ball}></div>
               <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
             </div>
           )}
           {!locationGetter && (
