@@ -6,7 +6,7 @@ import CardSlider from "@/components/CardSlider";
 import CardSlider2 from "@/components/CardSlider2";
 
 import { useState } from "react";
-import { latByAmount, lngByAmount } from "@/redux/locationSlice";
+import { locationGetterByAmount } from "@/redux/locationSlice";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
 
 import collectionDummyData from "@/../../public/dummy-data/dummy-collection.json";
@@ -21,10 +21,7 @@ export default function Overlay() {
   const emdongName = useAppSelector((state) => state.location.emdong);
 
   function getLocation() {
-    navigator.geolocation.getCurrentPosition(function (pos) {
-      dispatch(latByAmount(pos.coords.latitude));
-      dispatch(lngByAmount(pos.coords.longitude));
-    });
+    dispatch(locationGetterByAmount(true));
   }
 
   const toggleCardSlider = () => {

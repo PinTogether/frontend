@@ -4,17 +4,11 @@ import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import Topper from "@/components/SubTopper";
 import Pin from "@/types/Pin";
 // import PinReview from "@/types/PinReview";
-import { PinForPlace } from "@/types/Pin";
-import { CollectionPins } from "@/types/Pin";
-import Collection, { CollectionDetail } from "@/types/Collection";
-import CollectionReply from "@/types/CollectionReply";
 import CollectionCard from "@/components/CollectionCard";
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import {
   markerDataByAmount,
-  latByAmount,
-  lngByAmount,
 } from "@/redux/locationSlice";
 import MarkerData from "@/types/Marker";
 import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionWithPinCommentRenderer";
@@ -57,7 +51,6 @@ export default function CollectionPage({ id }: { id: number }) {
         yPos: pinDataList[i].yPos,
       });
     }
-    console.log(markerList);
     dispatch(markerDataByAmount(markerList));
   }
 

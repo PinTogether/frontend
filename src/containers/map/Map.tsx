@@ -8,10 +8,10 @@ import {
   emdongByAmount,
   sggByAmount,
   sidoByAmount,
-  latByAmount,
-  lngByAmount,
-  markerDataByAmount,
+  latLngByAmount,
+  locationGetterByAmount,
 } from "@/redux/locationSlice";
+import LatLng from "@/types/Map";
 import Script from "next/script";
 
 const MapNaverDefault = () => {
@@ -20,10 +20,11 @@ const MapNaverDefault = () => {
   const dispatch = useAppDispatch();
 
   const [geoApiAuth, setgeoApiAuth] = useState("");
+  const [myLocationRenderer, setMyLocationRenderer] = useState(false);
   const createMarkerList: naver.maps.Marker[] = [];
 
-  const Lat = useAppSelector((state) => state.location.lat);
-  const Lng = useAppSelector((state) => state.location.lng);
+  const LatLng = useAppSelector((state) => state.location.latLng);
+  const locationGetter = useAppSelector((state) => state.location.locationGetter);
   const markerDatas = useAppSelector((state) => state.location.markerData);
 
   const isScriptLoaded = useScriptLoaded();
@@ -119,8 +120,9 @@ const MapNaverDefault = () => {
   };
 
   function success(pos: any) {
-    dispatch(latByAmount(pos.coords.latitude));
-    dispatch(lngByAmount(pos.coords.longitude));
+    const newLocation:LatLng = {lat: pos.coords.latitude, lng: pos.coords.longitude}
+    dispatch(latLngByAmount(newLocation));
+    dispatch(locationGetterByAmount(false));
   }
 
   function error(err: any) {
@@ -134,10 +136,18 @@ const MapNaverDefault = () => {
 
   // 클릭하거나 현재위치 불러오기등으로 좌표가 변경될 시, 처음 api키 받아오기 성공할 시 주소 변환받아와서 오버레이에 전달
   useEffect(() => {
-    handleGetAddress(Lng, Lat);
-  }, [Lat, Lng, geoApiAuth]);
+    handleGetAddress(LatLng.lng, LatLng.lat);
+  }, [LatLng, geoApiAuth]);
 
-  // 첫 렌더링시 현재 내 위치 불러오고 api키 받아오기
+  useEffect(() => {
+    console.log("불러오기", locationGetter);
+    if(locationGetter){
+      getLocation();
+      setMyLocationRenderer(true);
+    }
+  },[locationGetter])
+
+  //api키 받아오기
   useEffect(() => {
     getLocation();
     handleGetAuth();
@@ -145,11 +155,10 @@ const MapNaverDefault = () => {
 
   // 지도 만드는 부분
   useEffect(() => {
-    console.log("지도 만들기");
     const { naver } = window;
 
     if (!mapElement.current || !naver) return;
-    const center = new naver.maps.LatLng(Lat, Lng);
+    const center = new naver.maps.LatLng(LatLng.lat, LatLng.lng);
     // 지도 생성할 옵션
     const mapOptions: naver.maps.MapOptions = {
       center: center,
@@ -201,14 +210,22 @@ const MapNaverDefault = () => {
       }
       //설정해놓은 옵션을 바탕으로 지도 생성
       map = new naver.maps.Map(mapElement.current, mapOptions);
-      map.fitBounds(bounds, { top: 10, right: 10, bottom: 10, left: 10 });
-      const center = map.getCenter();
-      handleGetAddress(center.x, center.y);
+      if(!myLocationRenderer){
+        map.fitBounds(bounds, { top: 10, right: 10, bottom: 10, left: 10 });
+        const center = map.getCenter();
+        handleGetAddress(center.x, center.y);
+      }
+      console.log("false at in");
+      setMyLocationRenderer(false);
+      console.log(myLocationRenderer);
       updateMarkers(map, createMarkerList);
     }
     else{
       //마커 없을때 지도생성
       map = new naver.maps.Map(mapElement.current, mapOptions);
+      console.log("false at out");
+      setMyLocationRenderer(false);
+      console.log(myLocationRenderer);
     }
 
     //드래그로 지도 이동시 지도 중앙좌표 받아와서 주소로 변환
@@ -227,14 +244,7 @@ const MapNaverDefault = () => {
       map.destroy();
       createMarkerList.splice(0, createMarkerList.length);
     };
-  }, [Lat, Lng, markerDatas, isScriptLoaded, geoApiAuth]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
-
-  useEffect(()=>{ // 내 위치 불러오기가 문제
-    console.log("변경");
-    if(map){
-    map.panTo(new naver.maps.LatLng(Lat, Lng));
-    }
-  },[Lat, Lng])
+  }, [LatLng, markerDatas, isScriptLoaded, geoApiAuth]); // 외부 입력으로 좌표가 변경될 시 지도 다시 그려줌
 
   return (
     <>
