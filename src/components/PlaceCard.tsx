@@ -34,7 +34,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
           <h3 className={styles.placeName}>{place.name}</h3>
           <span className={styles.category}>{place.category}</span>
         </button>
-        <address className={styles.address}>{place.address}</address>
+        <address className={styles.address}>{place.roadNameAddress}</address>
         <div className={styles.buttonContainer}>
           <div className={styles.pinCnt}>
             {`52개 핀`}
@@ -69,7 +69,7 @@ const SimpleBoxPlaceCard = ({
         <span className={styles.category}>{place.category}</span>
       </div>
       {/* <div className={styles.subDataContainer}> */}
-      <address className={styles.address}>{place.address}</address>
+      <address className={styles.address}>{place.roadNameAddress}</address>
       <div className={styles.pinCnt}>{`52개 핀`}</div>
       {/* </div> */}
     </article>

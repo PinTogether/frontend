@@ -1,22 +1,15 @@
 export default interface Place {
   id: number;
   name: string;
-  address: string;
+  roadNameAddress: string;
   category: string;
-  // | "HEALTH" // 건강
-  // | "ANIMALS" // 동물
-  // | "FOOD" // 음식
-  // | "CULTURE" // 문화
-  // | "LIFESTYLE" // 생활
-  // | "ENVIRONMENTAL_RESOURCES" // 자원
-  // | "ETC"; // 기타
+  pinCnt?: number;
 }
 
 // 특정 장소 정보 조회
 export interface PlaceDetail extends Place {
-  xPos: number;
-  yPos: number;
-  phoneNumber: string;
+  longtitude: number;
+  latitude: number;
   starred: boolean;
 }
 

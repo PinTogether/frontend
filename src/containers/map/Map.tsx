@@ -121,16 +121,16 @@ const MapNaverDefault = () => {
     //설정해놓은 옵션을 바탕으로 지도 생성
     if (markerDatas[0]) {
       mapOptions.center = new naver.maps.LatLng(
-        markerDatas[0].yPos,
-        markerDatas[0].xPos
+        markerDatas[0].latitude,
+        markerDatas[0].longtitude
       );
       const list: naver.maps.Marker[] = [];
       for (let i = 0; i < markerDatas.length; i++) {
         list.push(
           new naver.maps.Marker({
             position: new naver.maps.LatLng(
-              markerDatas[i].yPos,
-              markerDatas[i].xPos
+              markerDatas[i].latitude,
+              markerDatas[i].longtitude
             ),
             map: map,
           })
