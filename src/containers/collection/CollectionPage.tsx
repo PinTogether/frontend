@@ -46,8 +46,8 @@ export default function CollectionPage({ id }: { id: number }) {
       markerList.push({
         id: pinDataList[i].id,
         placeName: pinDataList[i].placeName,
-        xPos: pinDataList[i].xPos,
-        yPos: pinDataList[i].yPos,
+        xPos: pinDataList[i].longtitude,
+        yPos: pinDataList[i].latitude,
       });
     }
     dispatch(markerDataByAmount(markerList));
