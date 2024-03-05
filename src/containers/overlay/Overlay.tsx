@@ -19,6 +19,9 @@ export default function Overlay() {
   const sidoName = useAppSelector((state) => state.location.sido);
   const sggName = useAppSelector((state) => state.location.sgg);
   const emdongName = useAppSelector((state) => state.location.emdong);
+  const locationGetter = useAppSelector(
+    (state) => state.location.locationGetter
+  );
 
   function getLocation() {
     dispatch(locationGetterByAmount(true));
@@ -44,11 +47,27 @@ export default function Overlay() {
           <div>{emdongName}</div>
         </div>
         <button className={styles.topButton} onClick={getLocation}>
-          <img
-            src="/icon/location_plain.svg"
-            alt="location button"
-            className={styles.icon}
-          ></img>
+          {locationGetter && (
+            <div className={styles.loader}>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+            </div>
+          )}
+          {!locationGetter && (
+            <img
+              src="/icon/location_plain.svg"
+              alt="location button"
+              className={styles.icon}
+            ></img>
+          )}
         </button>
       </div>
       <div></div>

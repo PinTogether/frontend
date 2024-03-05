@@ -48,9 +48,11 @@ const MapNaverDefault = () => {
 
     function error(err: any) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
+      dispatch(locationGetterByAmount(false));
     }
 
     navigator.geolocation.getCurrentPosition(success, error);
+    dispatch(locationGetterByAmount(true));
   };
 
   const handleGetAddress = async (X: number, Y: number) => {
@@ -138,9 +140,20 @@ const MapNaverDefault = () => {
     }
   };
 
+  //기존 마커 삭제
+  function deleteMarker() {
+    if (createMarkerList[0]) {
+      console.log("기존 마커 삭제");
+      for (let i = 0; i < createMarkerList.length; i++) {
+        createMarkerList[i].setMap(null);
+      }
+      setCreateMarkerList([]);
+    }
+  }
+
   function makeMarkerList() {
     if (markerDatas[0] && window.naver) {
-      setCreateMarkerList([]);
+      deleteMarker();
       const newMarkerList: naver.maps.Marker[] = [];
       for (let i = 0; i < markerDatas.length; i++) {
         var marker = new naver.maps.Marker({
@@ -163,7 +176,7 @@ const MapNaverDefault = () => {
         });
         //마커 클릭시 해당 Pin 정보조회로 이동
         naver.maps.Event.addListener(marker, "click", () =>
-          router.push(`/pin/${markerDatas[i].id}`)
+          router.push(`/place/${markerDatas[i].id}`)
         );
         newMarkerList.push(marker);
       }
@@ -173,11 +186,34 @@ const MapNaverDefault = () => {
     }
   }
 
+  //마커 리스트가 있을시 화면의 bounds를 구해 적절한 위치, 줌으로 이동 및 화면에 보이는 마커 표시
+  useEffect(() => {
+    if (window.naver && createMarkerList[0] && !markerDatas[0] && newMap) {
+      console.log(
+        "마커리스트들 화면에 띄우고 적절한 화면으로 이동하거나 주소 불러오기"
+      );
+      var centerBounds = new naver.maps.LatLng(
+        createMarkerList[0].getPosition()
+      );
+      var bounds = new naver.maps.LatLngBounds(centerBounds, centerBounds);
+      for (let i = 0; i < createMarkerList.length; i++) {
+        bounds.extend(createMarkerList[i].getPosition());
+      }
+      if (newMap.getCenter() != bounds.getCenter()) {
+        //geoApiAuth가 없을때 들어올수 있으므로 발급될때는 bounds이동 없이 주소만 새롭게 불러오도록 함
+        newMap.fitBounds(bounds, { top: 10, right: 10, bottom: 10, left: 10 });
+        updateMarkers(createMarkerList);
+      }
+      const center = newMap.getCenter();
+      handleGetAddress(center.x, center.y);
+    }
+  }, [createMarkerList, geoApiAuth]);
+
+  //오버레이의 내 위치로 이동 버튼 눌렀을때
   useEffect(() => {
     if (window.naver && geoApiAuth != "" && newMap && locationGetter) {
       console.log("내 위치 받아오기 버튼 눌러져 내위치 불러오기");
       getLocation();
-      dispatch(locationGetterByAmount(false));
     }
   }, [locationGetter]);
 
@@ -186,7 +222,14 @@ const MapNaverDefault = () => {
     if (window.naver && geoApiAuth != "") {
       console.log("변경된 좌표 주소 받아오기");
       handleGetAddress(LatLng.lng, LatLng.lat);
-      newMap?.panTo(new naver.maps.LatLng(LatLng));
+      newMap?.panToBounds(
+        new naver.maps.LatLngBounds(
+          new naver.maps.LatLng(LatLng.lat, LatLng.lng),
+          new naver.maps.LatLng(LatLng.lat, LatLng.lng)
+        ),
+        {easing: "easeOutCubic"},
+        { top: 4000, right: 4000, bottom: 4000, left: 4000 }
+      );
     }
   }, [LatLng]);
 
@@ -200,12 +243,12 @@ const MapNaverDefault = () => {
       naver.maps.Event.addListener(newMap, "dragend", function (e) {
         const center = newMap.getCenter();
         handleGetAddress(center.x, center.y);
-        //updateMarkers(map, createMarkerList); // 마커 위치 확인 후 그릴지 안그릴지 결정
+        updateMarkers(createMarkerList); // 마커 위치 확인 후 그릴지 안그릴지 결정
       });
       naver.maps.Event.addListener(newMap, "zoom_changed", function (e) {
         const center = newMap.getCenter();
         handleGetAddress(center.x, center.y);
-        //updateMarkers(map, createMarkerList); // 마커 위치 확인 후 그릴지 안그릴지 결정
+        updateMarkers(createMarkerList); // 마커 위치 확인 후 그릴지 안그릴지 결정
       });
     }
   }, [geoApiAuth]);
