@@ -6,26 +6,66 @@ import Topper from "@/components/SubTopper";
 import { SearchLog } from "./SearchLog";
 import { SearchIcon } from "../../components/IconSvg";
 import SearchPinRender from "./SearchPinRenderer";
-import SearchLocationRender from "./SearchLocationRenderer";
+import SearchPlaceRender from "./SearchPlaceRenderer";
 import SearchCollectionRender from "./SearchCollectionRenderer";
 
-import pinDatas from "@/../../public/dummy-data/dummy-pin.json";
-import collectionDatas from "@/../../public/dummy-data/dummy-collection.json";
+import CollectionDatas from "@/../../public/dummy-data/dummy-collection.json";
+import { InputComponent } from "@/components/InputComponent";
+import placeDatas from "@/../../public/dummy-data/dummy-place.json";
+import { PlaceDetail } from "@/types/Place";
 
 export default function Page() {
   const [inputCollectionSearch, setInputCollectionSearch] = useState("");
+  const [placeDatas, setPlaceDatas] = useState<PlaceDetail[]>([]);
+  const page = 1;
+  const size = 10;
 
   const onChangeCollection = (e: any) => {
     setInputCollectionSearch(e.target.value);
   };
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    // console.log("검색");
+
+    searchPlace();
+  };
+
+  const searchPlace = () => {
+    fetch(
+      `/api/search?query=${inputCollectionSearch}&page=${page}&size=${size}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setPlaceDatas(
+          data.map((place: any) => {
+            return {
+              id: place.id,
+              name: place.name,
+              address: place.roadNameAddress,
+              category: place.category || "ETC",
+              xPos: place.longtitude,
+              yPos: place.latitude,
+              starred: place.starred || false,
+            };
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const searchCollection = () => {};
+
   return (
     <section className={styles.container}>
       <Topper msg={"검색"} />
-      <div className={styles.inputContainer}>
-        <button className={styles.inputButton}>
+      <form className={styles.inputContainer} onSubmit={handleSubmit}>
+        <div className={styles.inputButton}>
           <SearchIcon className={styles.icon} />
-        </button>
+        </div>
         <input
           className={styles.input}
           onChange={onChangeCollection}
@@ -35,10 +75,9 @@ export default function Page() {
         <select>
           <option value="0">전체 검색</option>
           <option value="1">컬렉션 검색</option>
-          <option value="2">핀 검색</option>
-          <option value="3">장소 검색</option>
+          <option value="2">장소 검색</option>
         </select>
-      </div>
+      </form>
       <div className={styles.searchLogBanner}>
         <p>최근 검색</p>
       </div>
@@ -73,9 +112,9 @@ export default function Page() {
         <SearchLog searchString="강남맛집" searchCategory="전체 검색" />
       </section>
       <section className={styles.searchContainer}>
-        <SearchLocationRender pindatas={pinDatas} />
-        <SearchPinRender pindatas={pinDatas} />
-        <SearchCollectionRender collectiondatas={collectionDatas} />
+        <SearchPlaceRender placeDatas={placeDatas} />
+        {/* <SearchPinRender pindatas={pinDatas} /> */}
+        <SearchCollectionRender collectiondatas={CollectionDatas} />
       </section>
     </section>
   );
