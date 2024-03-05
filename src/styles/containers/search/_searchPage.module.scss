@@ -16,6 +16,7 @@
 	align-items: flex-end;
   justify-items: start;
 	gap: 5px;
+	line-height: 1.5;
 }
 
 .searchLogExtend{
@@ -42,6 +43,7 @@
 	justify-content: flex-start;
 	font-size: $font-size-medium;
 	gap: 3px;
+	line-height: 1.5;
 }
 
 .searchLog:hover{
@@ -114,9 +116,19 @@
 	padding-top: 40px;
 }
 
-.icon{
-	width: 25px;
-	height: 25px;
+.inputButton {
+	svg {
+  	width: 25px;
+  	height: 25px;
+		color: $color-grey-dark;
+	}
+}
+
+.searchIcon {
+	// color: $color-grey-dark;
+	// background-color: yellow;
+	// width: 25px;
+	// height: 25px;
 }
 
 .dummycard1{
