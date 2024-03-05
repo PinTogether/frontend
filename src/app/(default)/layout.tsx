@@ -4,7 +4,7 @@
 
 import "../globals.css";
 import styles from "@/styles/layout/_layout.module.scss";
-import Map from "@/containers/map/Map";
+import Map from "@/containers/map/newMap";
 import Sidebar from "@/containers/layout/Sidebar";
 import Maincontent from "@/containers/layout/Maincontent";
 import Script from "next/script";
