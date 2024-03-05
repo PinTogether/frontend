@@ -1,20 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import Pin from "@/types/Pin";
-// import { LocationCard } from "@/components/PinCard";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
+import PlaceCard from "@/components/PlaceCard";
 
-export default function SearchLocationRender({
-  pindatas,
+import { PlaceDetail } from "@/types/Place";
+
+export default function SearchPlaceRender({
+  placeDatas,
 }: {
-  pindatas: Pin[];
+  placeDatas: PlaceDetail[];
 }) {
   const [repeatCount, setRepeatCount] = useState(2);
 
   const onChangeCollection = (e: any) => {
     if (repeatCount === 2) {
-      setRepeatCount(pindatas.length);
+      setRepeatCount(placeDatas.length);
     } else {
       setRepeatCount(2);
     }
@@ -29,17 +30,10 @@ export default function SearchLocationRender({
         </button>
       </div>
       <section className={styles.searchListContainer}>
-        {/* {pindatas.map(
-          (pinData, index) =>
-            index <= repeatCount && (
-              <LocationCard
-                key={index}
-                placeName={pinData.placeName}
-                roadNameAddress={pinData.address}
-                category={pinData.category}
-              />
-            )
-        )} */}
+        {placeDatas.map(
+          (data, index) =>
+            index <= repeatCount && <PlaceCard key={index} place={data} />
+        )}
       </section>
     </section>
   );
