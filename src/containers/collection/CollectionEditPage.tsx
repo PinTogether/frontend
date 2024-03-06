@@ -159,9 +159,8 @@ export default function CollectionEditPage({
               }}
             >
               {pinDataList.map((pin, index) => (
-                <div className={styles.pinCard}>
+                <div key={index} className={styles.pinCard}>
                   <SimplePinCard
-                    key={index}
                     pinData={pin}
                     onClick={() => onClickPin(index)}
                     // showEditButton={true}
