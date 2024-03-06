@@ -101,7 +101,7 @@ const MapNaverDefault = () => {
   };
 
   // 현재 지도의 영역을 확인하고 마커를 그릴지 말지 결정
-  const updateMarkers = (markers: naver.maps.Marker[]) => {
+  const updateMarkers = () => {
     const showMarker = (map: naver.maps.Map, marker: naver.maps.Marker) => {
       if (marker.getMap()) return;
       marker.setMap(map);
@@ -113,24 +113,16 @@ const MapNaverDefault = () => {
     };
 
     if (newMap) {
-      // 현재 지도의 화면 영역을 mapBounds에 저장
-      let mapBounds = newMap.getBounds();
-      let marker: naver.maps.Marker;
-      let position;
-
-      for (var i = 0; i < markers.length; i++) {
-        marker = markers[i];
-        position = marker.getPosition();
-
+      createMarkerList.forEach((marker)=>{
         // mapBounds와 비교하며 마커가 현재 화면에 보이는 영역에 있는지 확인
-        if (mapBounds.hasPoint(position)) {
+        if (newMap.getBounds().hasPoint(marker.getPosition())) {
           // 보이는 영역에 있다면 마커 표시
           showMarker(newMap, marker);
         } else {
           // 숨겨진 영역에 있다면 마커 숨김
           hideMarker(marker);
         }
-      }
+      });
     }
   };
 
@@ -138,17 +130,16 @@ const MapNaverDefault = () => {
   function deleteMarker() {
     if (createMarkerList[0]) {
       console.log("기존 마커 삭제");
-      for (let i = 0; i < createMarkerList.length; i++) {
-        createMarkerList[i].setMap(null);
-      }
-      setCreateMarkerList([]);
+      createMarkerList.forEach((marker)=>{
+        marker.setMap(null);
+      })
     }
   }
 
   function markerIconRenderer(markerdata: MarkerData) {
     if (markerdata.pinCount == 1) {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:150px; height:100px;">',
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:80px;">',
         '<img src="/icons/map_pin.svg" alt="" style="width:40px; height:40px;" >',
         '<b style=" font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
         `${markerdata.placeName}`,
@@ -157,83 +148,82 @@ const MapNaverDefault = () => {
       ].join("");
     } else if (markerdata.pinCount <= 99) {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:150px; height:100px; position: relative;">',
-          '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
-          '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
-            `${markerdata.pinCount}`,
-          '</b>',
-          '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
-            `${markerdata.placeName}`,
-          '</b>',
-        '</div>',
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:80px; position: relative;">',
+        '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
+        '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+        `${markerdata.pinCount}`,
+        "</b>",
+        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        `${markerdata.placeName}`,
+        "</b>",
+        "</div>",
       ].join("");
     } else {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:150px; height:100px; position: relative;">',
-          '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
-          '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
-            `99+`,
-          '</b>',
-          '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
-            `${markerdata.placeName}`,
-          '</b>',
-        '</div>',
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:80px; position: relative;">',
+        '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
+        '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+        `99+`,
+        "</b>",
+        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        `${markerdata.placeName}`,
+        "</b>",
+        "</div>",
       ].join("");
     }
   }
 
   function makeMarkerList() {
     if (markerDatas[0] && window.naver) {
-      deleteMarker();
       const newMarkerList: naver.maps.Marker[] = [];
-      for (let i = 0; i < markerDatas.length; i++) {
+      markerDatas.forEach((data)=>{
         var marker = new naver.maps.Marker({
           position: new naver.maps.LatLng(
-            markerDatas[i].xPos,
-            markerDatas[i].yPos
+            data.xPos,
+            data.yPos
           ),
           icon: {
-            content: markerIconRenderer(markerDatas[i]),
+            content: markerIconRenderer(data),
             //마커의 기준위치 지정
-            size: new naver.maps.Size(150, 100),
-            anchor: new naver.maps.Point(75, 40),
+            size: new naver.maps.Size(80, 80),
+            anchor: new naver.maps.Point(40, 40),
           },
           animation: naver.maps.Animation.DROP,
-          title: markerDatas[i].placeName,
+          title: data.placeName,
           shape: {
-            coords: [55, 0, 95, 0, 95, 40, 55, 40],
+            coords: [20, 0, 60, 0, 60, 40, 20, 40],
             type: "poly",
           },
         });
         //마커 클릭시 해당 Pin의 장소조회로 이동 (?)
         naver.maps.Event.addListener(marker, "click", () =>
-          router.push(`/place/${markerDatas[i].id}`)
+          router.push(`/place/${data.id}`)
         );
         newMarkerList.push(marker);
-      }
+      })
       setCreateMarkerList(newMarkerList);
-      console.log("마커데이터", newMarkerList);
-      dispatch(markerDataByAmount([]));
     }
   }
 
   //마커 리스트가 있을시 화면의 bounds를 구해 적절한 위치, 줌으로 이동 및 화면에 보이는 마커 표시
   useEffect(() => {
-    if (window.naver && createMarkerList[0] && !markerDatas[0] && newMap) {
+    if (window.naver && createMarkerList[0] && newMap) {
       console.log(
-        "마커리스트들 화면에 띄우고 적절한 화면으로 이동하거나 주소 불러오기"
+        "마커리스트들 화면에 띄우고 적절한 화면으로 이동하거나 주소 불러오기\n",
       );
       var centerBounds = new naver.maps.LatLng(
         createMarkerList[0].getPosition()
       );
       var bounds = new naver.maps.LatLngBounds(centerBounds, centerBounds);
-      for (let i = 0; i < createMarkerList.length; i++) {
-        bounds.extend(createMarkerList[i].getPosition());
-      }
-      if (newMap.getCenter() != bounds.getCenter()) {
+      createMarkerList.forEach((marker)=>{
+        bounds.extend(marker.getPosition());
+      })
+      if (newMap.getCenter() != bounds.getCenter() && geoApiAuth != "") {
         //geoApiAuth가 없을때 들어올수 있으므로 발급될때는 bounds이동 없이 주소만 새롭게 불러오도록 함
         newMap.fitBounds(bounds, { top: 10, right: 10, bottom: 10, left: 10 });
-        updateMarkers(createMarkerList);
+        createMarkerList.forEach((marker)=>{
+          marker.setMap(newMap);
+        })
       }
       const center = newMap.getCenter();
       handleGetAddress(center.x, center.y);
@@ -271,18 +261,30 @@ const MapNaverDefault = () => {
       if (!createMarkerList[0]) {
         dispatch(locationGetterByAmount(true));
       }
-      naver.maps.Event.addListener(newMap, "dragend", function (e) {
-        const center = newMap.getCenter();
-        handleGetAddress(center.x, center.y);
-        updateMarkers(createMarkerList); // 마커 위치 확인 후 그릴지 안그릴지 결정
-      });
-      naver.maps.Event.addListener(newMap, "zoom_changed", function (e) {
-        const center = newMap.getCenter();
-        handleGetAddress(center.x, center.y);
-        updateMarkers(createMarkerList); // 마커 위치 확인 후 그릴지 안그릴지 결정
-      });
+      const dragevent = naver.maps.Event.addListener(
+        newMap,
+        "dragend",
+        function (e) {
+          const center = newMap.getCenter();
+          handleGetAddress(center.x, center.y);
+          updateMarkers();
+        }
+      );
+      const zoomevent = naver.maps.Event.addListener(
+        newMap,
+        "zoom_changed",
+        function (e) {
+          const center = newMap.getCenter();
+          handleGetAddress(center.x, center.y);
+          updateMarkers();
+        }
+      );
+      return () => {
+        naver.maps.Event.removeListener(dragevent);
+        naver.maps.Event.removeListener(zoomevent);
+      };
     }
-  }, [geoApiAuth]);
+  }, [geoApiAuth, createMarkerList]);
 
   //geocode api 인증키 받아오기
   useEffect(() => {
@@ -294,7 +296,8 @@ const MapNaverDefault = () => {
 
   //마커 목록 생성
   useEffect(() => {
-    if (window.naver) {
+    deleteMarker();
+    if (window.naver && markerDatas[0] && isScriptLoaded) {
       console.log("marker 생성하기");
       makeMarkerList();
     }
