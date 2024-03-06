@@ -6,7 +6,7 @@ import CardSlider from "@/components/CardSlider";
 import CardSlider2 from "@/components/CardSlider2";
 
 import { useState } from "react";
-import { latByAmount, lngByAmount } from "@/redux/locationSlice";
+import { locationGetterByAmount } from "@/redux/locationSlice";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
 
 import collectionDummyData from "@/../../public/dummy-data/dummy-collection.json";
@@ -19,12 +19,12 @@ export default function Overlay() {
   const sidoName = useAppSelector((state) => state.location.sido);
   const sggName = useAppSelector((state) => state.location.sgg);
   const emdongName = useAppSelector((state) => state.location.emdong);
+  const locationGetter = useAppSelector(
+    (state) => state.location.locationGetter
+  );
 
   function getLocation() {
-    navigator.geolocation.getCurrentPosition(function (pos) {
-      dispatch(latByAmount(pos.coords.latitude));
-      dispatch(lngByAmount(pos.coords.longitude));
-    });
+    dispatch(locationGetterByAmount(true));
   }
 
   const toggleCardSlider = () => {
@@ -47,11 +47,25 @@ export default function Overlay() {
           <div>{emdongName}</div>
         </div>
         <button className={styles.topButton} onClick={getLocation}>
-          <img
-            src="/icon/location_plain.svg"
-            alt="location button"
-            className={styles.icon}
-          ></img>
+          {locationGetter && (
+            <div className={styles.loader}>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+            </div>
+          )}
+          {!locationGetter && (
+            <img
+              src="/icon/location_plain.svg"
+              alt="location button"
+              className={styles.icon}
+            ></img>
+          )}
         </button>
       </div>
       <div></div>

@@ -1,3 +1,6 @@
+@import "../base/variables";
+@import "../base/placeholders";
+
 .subPageLayout {
   display: grid;
   grid-template-rows: 70px auto;
@@ -8,17 +11,60 @@
   transition: all 0.3s ease; // for what?
   height: 100%;
   width: 100%;
-
+  position: relative;
 
   .subPage {
     height: 100%;
     width: 100%;
-    
-    // padding: 7%, 0.2rem;
-    padding-bottom: 1rem;
+    padding-bottom: 2.5rem;
     padding-top: 0.2rem;
     padding-left: 7%;
     padding-right: 7%;
     overflow: auto;
+  }
+  .scrollTopButton {
+    position: absolute;
+    opacity: 0.5;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    z-index: 10;
+    background-color: $color-grey;
+    color: $color-white;
+    border: none;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background-color: $color-primary;
+    }
+  }
+}
+
+.topper{
+  display: grid;
+  padding: 1rem;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  justify-content: flex-start;
+  color: $color-grey-dark;
+  gap: 1rem;
+  // background-color: yellow;
+  .icon{
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .completeButton {
+    color: $color-text-caption;
+    &:hover {
+      color: $color-primary;
+    }
+  }
+  .hidden{
+    display: none;
   }
 }
