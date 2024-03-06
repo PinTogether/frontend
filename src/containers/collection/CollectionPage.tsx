@@ -53,6 +53,7 @@ export default function CollectionPage({ id }: { id: number }) {
       markerList.push({
         id: pinDataList[i].id,
         placeName: pinDataList[i].placeName,
+        pinCount: pinDataList[i].saveCnt,
         xPos: pinDataList[i].longtitude,
         yPos: pinDataList[i].latitude,
       });

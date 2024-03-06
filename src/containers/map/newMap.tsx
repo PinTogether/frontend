@@ -13,6 +13,7 @@ import {
   markerDataByAmount,
   geoApiAuthByAmount,
 } from "@/redux/locationSlice";
+import MarkerData from "@/types/Marker";
 import LatLng from "@/types/Map";
 import Script from "next/script";
 
@@ -144,6 +145,43 @@ const MapNaverDefault = () => {
     }
   }
 
+  function markerIconRenderer(markerdata: MarkerData) {
+    if (markerdata.pinCount == 1) {
+      return [
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:150px; height:100px;">',
+        '<img src="/icons/map_pin.svg" alt="" style="width:40px; height:40px;" >',
+        '<b style=" font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
+        `${markerdata.placeName}`,
+        "</b>",
+        "</div>",
+      ].join("");
+    } else if (markerdata.pinCount <= 99) {
+      return [
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:150px; height:100px; position: relative;">',
+          '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
+          '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+            `${markerdata.pinCount}`,
+          '</b>',
+          '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+            `${markerdata.placeName}`,
+          '</b>',
+        '</div>',
+      ].join("");
+    } else {
+      return [
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:150px; height:100px; position: relative;">',
+          '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
+          '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+            `99+`,
+          '</b>',
+          '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+            `${markerdata.placeName}`,
+          '</b>',
+        '</div>',
+      ].join("");
+    }
+  }
+
   function makeMarkerList() {
     if (markerDatas[0] && window.naver) {
       deleteMarker();
@@ -155,20 +193,17 @@ const MapNaverDefault = () => {
             markerDatas[i].yPos
           ),
           icon: {
-            content: [
-            '<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width:200px; height:100px;">',
-              '<img src="/icons/map_pin.svg" alt="" style="width:35px; height:35px;" >',
-              '<span style="text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
-                `${markerDatas[i].placeName}`,
-              '</span>',
-            '</div>',
-            ].join(""),
+            content: markerIconRenderer(markerDatas[i]),
             //마커의 기준위치 지정
-            size: new naver.maps.Size(200, 100),
-            anchor: new naver.maps.Point(100, 50)
+            size: new naver.maps.Size(150, 100),
+            anchor: new naver.maps.Point(75, 40),
           },
           animation: naver.maps.Animation.DROP,
           title: markerDatas[i].placeName,
+          //shape: {
+          //  coords: [55, 0, 95, 0, 95, 40, 55, 40],
+          //  type: "poly",
+          //},
         });
         //마커 클릭시 해당 Pin의 장소조회로 이동 (?)
         naver.maps.Event.addListener(marker, "click", () =>
