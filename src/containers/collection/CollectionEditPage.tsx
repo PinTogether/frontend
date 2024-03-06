@@ -162,14 +162,16 @@ export default function CollectionEditPage({
               }}
             >
               {pinDataList.map((pin, index) => (
-                <div key={index} className={styles.pinCard}>
+                <div key={pin.id} className={styles.pinCard}>
                   <SimplePinCard
                     pinData={pin}
-                    onClick={() => onClickPin(index)}
+                    // onClick={() => onClickPin(index)}
                     // showEditButton={true}
                     activeShowDetail={true}
                   />
-                  <EditIcon className={styles.editButton} />
+                  <Link href={`/pin/edit/${pin.id}`}>
+                    <EditIcon className={styles.editButton} />
+                  </Link>
                   <CloseRoundIcon className={styles.closeButton} />
                 </div>
               ))}
