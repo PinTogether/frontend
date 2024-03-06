@@ -32,7 +32,6 @@ const SubPageLayout = forwardRef<HTMLDivElement, SubPageLayoutProps>(
         const hasVerticalOverflow =
           pageRef.current.scrollHeight > pageRef.current.clientHeight;
         setHasVerticalOverflow(hasVerticalOverflow);
-        console.log("세로 오버플로 여부:", hasVerticalOverflow);
       }
     }, [pageRef.current?.clientHeight]);
 
