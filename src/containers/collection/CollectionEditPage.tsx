@@ -146,7 +146,10 @@ export default function CollectionEditPage({
             <SectionTitle className={styles.titleContainer}>
               <PinIcon />
               <span>핀 리스트</span>
-              <Link href={`/pin/select`} className={styles.pinAddButton}>
+              <Link
+                href={`/pin/select?collectionId=${id}`}
+                className={styles.pinAddButton}
+              >
                 {"핀 추가하기 >"}
               </Link>
             </SectionTitle>
