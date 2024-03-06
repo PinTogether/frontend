@@ -70,7 +70,9 @@ const SimpleBoxPlaceCard = ({
       </div>
       {/* <div className={styles.subDataContainer}> */}
       <address className={styles.address}>{place.roadNameAddress}</address>
-      <div className={styles.pinCnt}>{`52개 핀`}</div>
+      {place.pinCnt ? (
+        <div className={styles.pinCnt}>{`${place.pinCnt}개 핀`}</div>
+      ) : null}
       {/* </div> */}
     </article>
   );

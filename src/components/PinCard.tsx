@@ -101,14 +101,16 @@ const SimplePinCard = ({
       onClick={onClick}
     >
       {!showDetail ? (
-        <div className={styles.mainInfo}>
-          <PinIcon className={styles.pinIcon} />
+        <div className={styles.simpleMainInfo}>
+          {/* <PinIcon className={styles.pinIcon} /> */}
           <button
             className={styles.placeNameContainer}
             disabled={buttonDisabled}
           >
             <h3 className={styles.placeName}>{pinData.placeName}</h3>
-            <address className={styles.address}>{pinData.roadNameAddress}</address>
+            <address className={styles.address}>
+              {pinData.roadNameAddress}
+            </address>
             <span className={styles.category}>{pinData.category}</span>
           </button>
           {showEditButton && <EditButton pinId={pinData.id} />}
@@ -120,7 +122,9 @@ const SimplePinCard = ({
             <h3 className={styles.placeName}>{pinData.placeName}</h3>
             <span className={styles.category}>{pinData.category}</span>
           </button>
-          <address className={styles.address}>{pinData.roadNameAddress}</address>
+          <address className={styles.address}>
+            {pinData.roadNameAddress}
+          </address>
           <div className={styles.tagContainer}>
             {pinData.tags.map((tag, idx) => (
               <span key={idx}>{tag}</span>
