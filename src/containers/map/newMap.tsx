@@ -200,10 +200,10 @@ const MapNaverDefault = () => {
           },
           animation: naver.maps.Animation.DROP,
           title: markerDatas[i].placeName,
-          //shape: {
-          //  coords: [55, 0, 95, 0, 95, 40, 55, 40],
-          //  type: "poly",
-          //},
+          shape: {
+            coords: [55, 0, 95, 0, 95, 40, 55, 40],
+            type: "poly",
+          },
         });
         //마커 클릭시 해당 Pin의 장소조회로 이동 (?)
         naver.maps.Event.addListener(marker, "click", () =>
