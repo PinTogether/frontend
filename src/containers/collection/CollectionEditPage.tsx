@@ -79,7 +79,7 @@ export default function CollectionEditPage({
         <Section>
           <SectionTitle>
             <ImgLoadIcon />
-            프로필 사진 변경
+            컬렉션 대표 이미지
           </SectionTitle>
           <section className={styles.collectionChangeContainer}>
             <div className={styles.mainImage}>
@@ -159,13 +159,17 @@ export default function CollectionEditPage({
               }}
             >
               {pinDataList.map((pin, index) => (
-                <SimplePinCard
-                  key={index}
-                  pinData={pin}
-                  onClick={() => onClickPin(index)}
-                  showEditButton={true}
-                  activeShowDetail={true}
-                />
+                <div className={styles.pinCard}>
+                  <SimplePinCard
+                    key={index}
+                    pinData={pin}
+                    onClick={() => onClickPin(index)}
+                    // showEditButton={true}
+                    activeShowDetail={true}
+                  />
+                  <EditIcon className={styles.editButton} />
+                  <CloseRoundIcon className={styles.closeButton} />
+                </div>
               ))}
             </ul>
             <Line />
