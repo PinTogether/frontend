@@ -156,13 +156,16 @@ const MapNaverDefault = () => {
           ),
           icon: {
             content: [
-              '<div style="background:#e4e1ff; display: table-cell; vertical-align: middle; cursor: pointer; height:30px; border:1px solid; border-radius:15px; padding-left:10px; padding-right:10px">',
-              `${markerDatas[i].placeName}`,
-              "</div>",
+            '<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width:200px; height:100px;">',
+              '<img src="/icons/map_pin.svg" alt="" style="width:35px; height:35px;" >',
+              '<span style="text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
+                `${markerDatas[i].placeName}`,
+              '</span>',
+            '</div>',
             ].join(""),
             //마커의 기준위치 지정
-            size: new naver.maps.Size(30, 50),
-            anchor: new naver.maps.Point(0, 0),
+            size: new naver.maps.Size(200, 100),
+            anchor: new naver.maps.Point(100, 50)
           },
           animation: naver.maps.Animation.DROP,
           title: markerDatas[i].placeName,
@@ -220,7 +223,7 @@ const MapNaverDefault = () => {
           new naver.maps.LatLng(LatLng.lat, LatLng.lng),
           new naver.maps.LatLng(LatLng.lat, LatLng.lng)
         ),
-        {easing: "easeOutCubic"}, // 애니메이션
+        { easing: "easeOutCubic" }, // 애니메이션
         { top: 4000, right: 4000, bottom: 4000, left: 4000 } // 센터기준 상하좌우에 여유공간 4000px (대충 zoom:16 비슷하게 나옴)
       );
     }
