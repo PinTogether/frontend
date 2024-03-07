@@ -220,7 +220,7 @@ const MapNaverDefault = () => {
       })
       if (newMap.getCenter() != bounds.getCenter() && geoApiAuth != "") {
         //geoApiAuth가 없을때 들어올수 있으므로 발급될때는 bounds이동 없이 주소만 새롭게 불러오도록 함
-        newMap.fitBounds(bounds, { top: 10, right: 10, bottom: 10, left: 10 });
+        newMap.fitBounds(bounds, { top: 10, right: 10, bottom: 10, left: 10 , maxZoom: 18 });
         createMarkerList.forEach((marker)=>{
           marker.setMap(newMap);
         })
@@ -259,6 +259,7 @@ const MapNaverDefault = () => {
     if (window.naver && geoApiAuth != "" && newMap) {
       console.log("내 위치 받아오기 및 발급된 api키로 이벤트 등록");
       if (!createMarkerList[0]) {
+        console.log("내 위치 조회");
         dispatch(locationGetterByAmount(true));
       }
       const dragevent = naver.maps.Event.addListener(
