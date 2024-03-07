@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import styles from "@/styles/containers/map/_map.module.scss";
+import styles from "@/styles/components/_loading.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getGeoCodingAuth, reverseGeoCoding } from "@/utils/GeoCoding";
@@ -345,7 +345,7 @@ const MapNaverDefault = () => {
       )}
       {!isScriptLoaded && (
         <div className={styles.baseContainer}>
-          <div className={styles.loader}>
+          <div>
             <div className={styles.ball}></div>
             <div className={styles.ball}></div>
             <div className={styles.ball}></div>

@@ -41,13 +41,6 @@ export default function CollectionPage({ id }: { id: number }) {
   }, []);
 
   function makeMarker() { // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
-    let pinDataList;
-    if(id == 1){
-      pinDataList = newPinData;
-    }
-    else{
-      pinDataList = newPinData2;
-    }
     const markerList: MarkerData[] = [];
     for (let i = 0; i < pinDataList.length; i++) {
       markerList.push({
