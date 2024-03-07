@@ -82,10 +82,20 @@
 
 .simplePinCard {
   @extend %card;
-  .mainInfo{
-    grid-template-rows: 1fr;
-  }
   overflow: hidden;
+  position: relative;
+  width: 100%;
+  .mainInfo{
+  }
+  .simpleMainInfo {
+    @extend .mainInfo;
+    display: flex;
+    // grid-template-rows: 1fr;
+    & > * {
+      overflow: hidden;
+      flex-wrap: wrap;
+    }
+  }
   .reviewContainer {
     overflow: hidden;
     height: 0;
@@ -93,7 +103,6 @@
   .reviewContainer.show {
     height: fit-content;
   }
-  position: relative;
 }
 
 .starredContainer {
