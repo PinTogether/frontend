@@ -1,6 +1,7 @@
 "use client";
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import styles from "@/styles/containers/map/_map.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getGeoCodingAuth, reverseGeoCoding } from "@/utils/GeoCoding";
@@ -113,7 +114,7 @@ const MapNaverDefault = () => {
     };
 
     if (newMap) {
-      createMarkerList.forEach((marker)=>{
+      createMarkerList.forEach((marker) => {
         // mapBounds와 비교하며 마커가 현재 화면에 보이는 영역에 있는지 확인
         if (newMap.getBounds().hasPoint(marker.getPosition())) {
           // 보이는 영역에 있다면 마커 표시
@@ -130,9 +131,9 @@ const MapNaverDefault = () => {
   function deleteMarker() {
     if (createMarkerList[0]) {
       console.log("기존 마커 삭제");
-      createMarkerList.forEach((marker)=>{
+      createMarkerList.forEach((marker) => {
         marker.setMap(null);
-      })
+      });
     }
   }
 
@@ -176,12 +177,9 @@ const MapNaverDefault = () => {
   function makeMarkerList() {
     if (markerDatas[0] && window.naver) {
       const newMarkerList: naver.maps.Marker[] = [];
-      markerDatas.forEach((data)=>{
+      markerDatas.forEach((data) => {
         var marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(
-            data.xPos,
-            data.yPos
-          ),
+          position: new naver.maps.LatLng(data.xPos, data.yPos),
           icon: {
             content: markerIconRenderer(data),
             //마커의 기준위치 지정
@@ -200,7 +198,7 @@ const MapNaverDefault = () => {
           router.push(`/place/${data.id}`)
         );
         newMarkerList.push(marker);
-      })
+      });
       setCreateMarkerList(newMarkerList);
     }
   }
@@ -209,21 +207,27 @@ const MapNaverDefault = () => {
   useEffect(() => {
     if (window.naver && createMarkerList[0] && newMap) {
       console.log(
-        "마커리스트들 화면에 띄우고 적절한 화면으로 이동하거나 주소 불러오기\n",
+        "마커리스트들 화면에 띄우고 적절한 화면으로 이동하거나 주소 불러오기\n"
       );
       var centerBounds = new naver.maps.LatLng(
         createMarkerList[0].getPosition()
       );
       var bounds = new naver.maps.LatLngBounds(centerBounds, centerBounds);
-      createMarkerList.forEach((marker)=>{
+      createMarkerList.forEach((marker) => {
         bounds.extend(marker.getPosition());
-      })
+      });
       if (newMap.getCenter() != bounds.getCenter() && geoApiAuth != "") {
         //geoApiAuth가 없을때 들어올수 있으므로 발급될때는 bounds이동 없이 주소만 새롭게 불러오도록 함
-        newMap.fitBounds(bounds, { top: 10, right: 10, bottom: 10, left: 10 , maxZoom: 18 });
-        createMarkerList.forEach((marker)=>{
+        newMap.fitBounds(bounds, {
+          top: 10,
+          right: 10,
+          bottom: 10,
+          left: 10,
+          maxZoom: 18,
+        });
+        createMarkerList.forEach((marker) => {
           marker.setMap(newMap);
-        })
+        });
       }
       const center = newMap.getCenter();
       handleGetAddress(center.x, center.y);
@@ -336,7 +340,20 @@ const MapNaverDefault = () => {
         //strategy="beforeInteractive"// 왜 ?
         strategy="afterInteractive"
       />
-      <div id="map" ref={mapElement} style={{ minHeight: "100vh" }}></div>
+      {isScriptLoaded && (
+        <div id="map" ref={mapElement} style={{ minHeight: "100vh" }}></div>
+      )}
+      {!isScriptLoaded && (
+        <div className={styles.baseContainer}>
+          <div className={styles.loader}>
+            <div className={styles.ball}></div>
+            <div className={styles.ball}></div>
+            <div className={styles.ball}></div>
+            <div className={styles.ball}></div>
+            <div className={styles.ball}></div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
