@@ -16,7 +16,7 @@ import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
 import CollectionDatas from "@/../../public/dummy-data/dummy-collection.json";
 import { PlaceDetail } from "@/types/Place";
 import { CollectionDetail } from "@/types/Collection";
-import { SubPageLayout, SubPageTopper } from "../layout/SubPageLayout";
+import { SubPageLayout } from "../layout/SubPageLayout";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
