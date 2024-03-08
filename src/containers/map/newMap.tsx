@@ -153,6 +153,7 @@ const MapNaverDefault = () => {
         '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
         '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         `${markerdata.pinCount}`,
+        '<img src="/icons/marker_pin.svg" alt="" style=" stroke-width: 4; position: absolute; width:15px; height:15px;">',
         "</b>",
         '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
