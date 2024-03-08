@@ -3,11 +3,13 @@
 
 .inputContainer {
 	position: relative;
+	.input {
+		padding-right: 4rem;
+	}
 }
 .input {
 	@extend %pt-input;
-	padding-right: 4rem;
-	height: 2rem;
+	min-height: 2rem;
 	background-color: $color_grey-light;
 }
 
