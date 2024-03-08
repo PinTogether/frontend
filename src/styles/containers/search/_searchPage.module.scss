@@ -1,138 +1,154 @@
 @import "../../base/variables";
 
-.container{
-	display: grid;
-	grid-template-rows: 70px 70px 25px 70px 1fr;
-	margin:0;
-	padding:0;
-	min-height: 100vh;
-	transition: all 0.3s ease;
-	padding-left: 7%;
-	padding-right: 7%;
-}
+// #searchPageId{
 
-.searchLogBanner{
+#searchPage{
 	display: flex;
-	align-items: flex-end;
-  justify-items: start;
-	gap: 5px;
-	line-height: 1.5;
-}
-
-.searchLogExtend{
-	color:$color-grey-dark;
-	font-size: $font-size-small;
-}
-
-.searchLogExtend:hover{
-	color:$color-primary;
-}
-
-.searchLogContainer{
-	display: grid;
-	align-items:center;
-	justify-content: flex-start;
-	grid-template-columns: repeat(auto-fill, minmax(1px, 200px));
-	overflow: hidden;
-	padding-bottom: 10px;
-}
-
-.searchLog{
-	display: flex;
-	align-items:baseline;
-	justify-content: flex-start;
-	font-size: $font-size-medium;
-	gap: 3px;
-	line-height: 1.5;
-}
-
-.searchLog:hover{
-	color:$color-primary;
-}
-
-.searchCategory{
-	font-size: $font-size-small;
-	color:$color-grey-dark;
-}
-
-.inputContainer{
-	display: grid;
-	grid-template-columns: 25px 1fr 150px;
-	width: 100%;
-	height: 50px;
-	padding-left: 20px;
-	padding-right: 20px;
-	gap: 10px;
-	border: 1px solid $color-primary;
-	border-radius: 3rem;
-	color: $color-grey-dark;
-	align-items: center;
-	justify-content: center;
-	box-shadow: 0px 0px 7px $color-grey;
-}
-
-.input{
-	font-size: $font-size-medium;
+	flex-direction: column;
 	height: 100%;
-	border-right: 1px solid $color-primary;
-}
-
-.inputButton{
-	width:25px;
-	height: 25px;
-}
-
-.searchContainer{
-	flex:1;
-	width:100%;
-	gap: 10px;
-}
-
-.searchPartContainer{
-	flex:1;
-	width: 100%;
-	display: grid;
-	grid-template-rows: 50px 1fr;
-	font-size: $font-size-large;
-}
-
-.searchListContainer{
-	display: grid;
-	align-items: center;
-	justify-content: center;
-	grid-template-columns: repeat(auto-fill, minmax(1px, 400px));
-	gap: 10px;
-	padding: 20px;
-	padding-top: 40px;
-}
-
-.searchListContainerCollection{
-	display: grid;
-	align-items: center;
-	justify-content: center;
-	grid-template-columns: repeat(auto-fill, minmax(1px, 362px));
-	gap: 10px;
-	padding: 20px;
-	padding-top: 40px;
-}
-
-.inputButton {
-	svg {
-  	width: 25px;
-  	height: 25px;
+	.topper {
+		display: grid;
+		padding: 1rem;
+		grid-template-columns: auto 1fr auto;
+		align-items: center;
+		justify-content: flex-start;
 		color: $color-grey-dark;
+		gap: 0.5rem;
+		.backButton {
+			svg {
+				width: 25px;
+				height: 25px;
+				color: $color-grey-dark;
+			}
+		}
+		.searchForm {
+			width: 100%;
+			input {
+				width: 100%;
+				padding: 0.725rem;
+				border-radius: $border-radius;
+				background-color: $color-grey-light;
+				&:focus-visible {
+					outline: 2px solid $color-primary-light;
+				}
+			}
+		}
+		.searchButton {
+			svg {
+				width: 25px;
+				height: 25px;
+				color: $color-grey-dark;
+			}
+		}
+	}
+	.searchInnerPage {
+    height: 100%;
+    width: 100%;
+    padding-bottom: 2.5rem;
+    padding-top: 0.2rem;
+    padding-left: 7%;
+    padding-right: 7%;
+    overflow: auto;
+	}
+	.scrollTopButton {
+    position: absolute;
+    opacity: 0.5;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    z-index: 10;
+    background-color: $color-grey;
+    color: $color-white;
+    border: none;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background-color: $color-primary;
+    }
+  }
+
+
+/* SearchLog */
+.searchLogContainer {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.5;
+	padding: 0.25rem;
+	.searchLogBanner{
+		display: flex;
+		align-items: flex-end;
+		justify-items: start;
+		gap: 5px;
+		line-height: 2;
+		color: $color-grey-dark;
+	}	
+	.searchLogLists{
+		height: 100%;
+		display: grid;
+		align-items:center;
+		justify-content: flex-start;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		overflow: hidden;
+		padding-bottom: 10px;
 	}
 }
 
-.searchIcon {
-	// color: $color-grey-dark;
-	// background-color: yellow;
-	// width: 25px;
-	// height: 25px;
+/* SearchPlaceRenderer, SearchCollectionRenderer */
+.searchLog{
+	display: flex;
+	align-items: center;
+	// justify-content: flex-start;
+	font-size: $font-size-medium;
+	gap: 3px;
+	line-height: 2;
+	padding: 0 0.5rem;
+	&:hover{
+		background-color: $color-grey-light;
+	}
+	
+	// }
+	.searchIcon {
+		flex-shrink: 0;
+		width: 1.5rem;
+		height: 1.5rem;
+		color: $color-grey-dark;
+		border-radius: 50%;
+		background-color: $color-grey-light;
+		padding: 0.25rem;
+	}
+	.searchString {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.searchCategory{
+		flex-shrink: 0;
+		font-size: $font-size-small;
+		color:$color-grey-dark;
+	}
+}
+.deleteIcon {
+	justify-self: flex-end;
+	align-content: flex-end;
+	width: 1rem;
+	height: 1rem;
+	color: $color-grey-dark;
 }
 
-.dummycard1{
-	height: 185px;
-	background-color: rgb(204, 204, 204);
-	border: 1px solid;
+/* SearchPlaceRenderer, SearchCollectionRenderer */
+.searchListContainer{
+	height: 100%;
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+	gap: 1rem;
+	padding: 0.5rem;
+}
+
 }

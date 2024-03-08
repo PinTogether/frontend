@@ -22,19 +22,11 @@ export default function SearchPlaceRender({
   };
 
   return (
-    <section className={styles.searchPartContainer}>
-      <div className={styles.searchLogBanner}>
-        <p>장소 검색</p>
-        <button className={styles.searchLogExtend} onClick={onChangeCollection}>
-          더보기
-        </button>
-      </div>
-      <section className={styles.searchListContainer}>
-        {placeDatas.map(
-          (data, index) =>
-            index <= repeatCount && <PlaceCard key={index} place={data} />
-        )}
-      </section>
+    <section className={styles.searchListContainer}>
+      {placeDatas.map(
+        (data, index) =>
+          index <= repeatCount && <PlaceCard key={index} place={data} />
+      )}
     </section>
   );
 }

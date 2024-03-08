@@ -15,9 +15,9 @@ export default function LoginPopup() {
     }
     if (oauth) {
       setSuccess(true);
-      opener?.postMessage("success", "http://localhost:3000");
+      opener?.postMessage("success", process.env.NEXT_PUBLIC_FRONTEND_URL);
       window.close();
-    } else opener?.postMessage("failed", "http://localhost:3000");
+    } else opener?.postMessage("failed", process.env.NEXT_PUBLIC_FRONTEND_URL);
   }, []);
 
   return (
