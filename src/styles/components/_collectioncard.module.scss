@@ -84,7 +84,8 @@ $container-padding: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: $default-size;
+  min-width: $default-size;
+  width: 100%;
 
   .imgContainer {
     @include bookmarkContainer($default-size);
@@ -97,6 +98,7 @@ $container-padding: 0.5rem;
   }
   .textContainer {
     padding: 0 $container-padding;
+    // padding-top : 0.5rem;
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: 1fr 1fr;
@@ -174,7 +176,8 @@ $container-padding: 0.5rem;
 /* HorizontalCollectionCard */
 %horizontalCollectionCard {
   @extend %pt-card;
-  width: $horizontal-size;
+  min-width: $horizontal-size;
+  width: 100%;
 
   display: grid;
   grid-template-columns: auto 1fr;
@@ -304,6 +307,7 @@ $container-padding: 0.5rem;
 /* CollectionDetailCard */
 .detailCollectionCard {
   @extend %horizontalCollectionCard;
+  width: 100%;
 
   .buttonContainer {
     // grid-column: 1 / -1;
