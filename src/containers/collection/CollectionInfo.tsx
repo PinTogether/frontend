@@ -17,6 +17,7 @@ const CollectionInfo = ({
   collectionData: CollectionDetail;
 }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   const handleClickLocationButton = () => {
     // 위치 버튼 클릭시
@@ -25,7 +26,7 @@ const CollectionInfo = ({
     // 공유 버튼 클릭시
   };
   const handleClickLikeButton = () => {
-    // 좋아요 버튼 클릭시
+    setIsLiked(!isLiked);
   };
 
   const handleClickBookmarkButton = () => {
@@ -78,8 +79,12 @@ const CollectionInfo = ({
           <div className={styles.text}>공유하기</div>
         </button>
         <button className={styles.button} onClick={handleClickLikeButton}>
-          <HeartIcon />
-          <div className={styles.text}>좋아요</div>
+          <HeartIcon className={`${isLiked ? styles.liked : ""}`} />
+          <div className={styles.text}>
+            {collectionData.likeCnt === 0
+              ? "첫 좋아요"
+              : `${collectionData.likeCnt}개 좋아요`}
+          </div>
         </button>
       </div>
     </section>

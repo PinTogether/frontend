@@ -16,8 +16,7 @@
 
   padding-bottom: 0.5rem;
   border-bottom: 1px solid $color-grey;
-  margin-bottom: 5rem;
-  
+
   .collectionImg {
     min-width: 6rem;
     min-height: 6rem;
@@ -62,8 +61,11 @@
         width: 1.75rem;
         height: 1.75rem;
         color: $color-grey-dark;
-        // border: 1px solid $color-grey;
         border-radius: 50%;
+        &:hover {
+          color: $color-primary;
+          cursor: pointer;
+        }
       }
       .filled {
         color: $color-primary;
@@ -81,7 +83,7 @@
       & > * {
         @extend %pt-tag;
         color: $color-grey-dark;
-        background-color: $color-primary-light;
+        outline: 1px solid $color-grey;
       }
     }
   }
@@ -115,6 +117,11 @@
         & > * {
           color: $color-primary;
         }
+      }
+      .liked {
+        color: red;
+        stroke: none;
+        fill: red;
       }
     }
   }
