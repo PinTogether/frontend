@@ -5,3 +5,7 @@ export default interface MarkerData{
   xPos: number;
   yPos: number;
 }
+
+export default interface MarkerCluster{
+
+}

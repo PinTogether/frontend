@@ -18,6 +18,11 @@ import MarkerData from "@/types/Marker";
 import LatLng from "@/types/Map";
 import Script from "next/script";
 
+interface OverlapData {
+  id: naver.maps.Marker;
+  overlapId: naver.maps.Marker[];
+}
+
 const MapNaverDefault = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
@@ -27,6 +32,10 @@ const MapNaverDefault = () => {
   const [createMarkerList, setCreateMarkerList] = useState<naver.maps.Marker[]>(
     []
   );
+  const [clusteredMarkerList, setClusteredMarkerList] = useState<
+    naver.maps.Marker[]
+  >([]);
+  const [overlapList, setOverlapList] = useState<OverlapData[]>([]);
 
   const geoApiAuth = useAppSelector((state) => state.location.geoApiAuth);
   const LatLng = useAppSelector((state) => state.location.latLng);
@@ -153,7 +162,7 @@ const MapNaverDefault = () => {
         '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
         '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         `${markerdata.pinCount}`,
-        '<img src="/icons/marker_pin.svg" alt="" style=" stroke-width: 4; position: absolute; width:15px; height:15px;">',
+        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:16px; height:16px;">',
         "</b>",
         '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
@@ -166,6 +175,7 @@ const MapNaverDefault = () => {
         '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
         '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         `99+`,
+        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:16px; height:16px;">',
         "</b>",
         '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
@@ -175,8 +185,36 @@ const MapNaverDefault = () => {
     }
   }
 
+  function intersects(marker1: naver.maps.Marker, marker2: naver.maps.Marker) {
+    if (marker1 != marker2 && marker1.getMap() && marker2.getMap()) {
+      var marker1Rect = marker1.getDrawingRect();
+      var marker2Rect = marker2.getDrawingRect();
+      // 두 마커가 겹치는지 여부를 true 또는 false로 반환한다.
+      return marker1Rect.intersects(marker2Rect);
+    }
+    return false;
+  }
+
+  function updateMarkerOverlapList(markerDatas: naver.maps.Marker[]) {
+    const overlapList: OverlapData[] = [];
+    markerDatas.forEach((marker) => {
+      const list: naver.maps.Marker[] = [];
+      markerDatas.forEach((data) => {
+        if (marker != data) {
+          if (intersects(marker, data)) {
+            list.push(data);
+          }
+        }
+      });
+      const overlapData: OverlapData = { id: marker, overlapId: list };
+      overlapList.push(overlapData);
+    });
+    setOverlapList(overlapList);
+  }
+
   function makeMarkerList() {
     if (markerDatas[0] && window.naver) {
+      console.log("마커 만듬");
       const newMarkerList: naver.maps.Marker[] = [];
       markerDatas.forEach((data) => {
         var marker = new naver.maps.Marker({
@@ -189,15 +227,11 @@ const MapNaverDefault = () => {
           },
           animation: naver.maps.Animation.DROP,
           title: data.placeName,
-          shape: {
-            coords: [20, 0, 60, 0, 60, 40, 20, 40],
-            type: "poly",
-          },
+          //shape: {
+          //  coords: [20, 0, 60, 0, 60, 40, 20, 40],
+          //  type: "poly",
+          //},
         });
-        //마커 클릭시 해당 Pin의 장소조회로 이동 (?)
-        naver.maps.Event.addListener(marker, "click", () =>
-          router.push(`/place/${data.id}`)
-        );
         newMarkerList.push(marker);
       });
       setCreateMarkerList(newMarkerList);
@@ -229,6 +263,7 @@ const MapNaverDefault = () => {
         createMarkerList.forEach((marker) => {
           marker.setMap(newMap);
         });
+        updateMarkerOverlapList(createMarkerList);
       }
       const center = newMap.getCenter();
       handleGetAddress(center.x, center.y);
@@ -262,11 +297,13 @@ const MapNaverDefault = () => {
   //내 위치 받아오기
   useEffect(() => {
     if (window.naver && geoApiAuth != "" && newMap) {
+      const eventList:any[] = [];
       console.log("내 위치 받아오기 및 발급된 api키로 이벤트 등록");
       if (!createMarkerList[0]) {
         console.log("내 위치 조회");
         dispatch(locationGetterByAmount(true));
       }
+      //드래그시 이벤트 갱신
       const dragevent = naver.maps.Event.addListener(
         newMap,
         "dragend",
@@ -274,8 +311,10 @@ const MapNaverDefault = () => {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
           updateMarkers();
+          updateMarkerOverlapList(createMarkerList);
         }
       );
+      //줌 변경시 이벤트 갱신
       const zoomevent = naver.maps.Event.addListener(
         newMap,
         "zoom_changed",
@@ -283,14 +322,23 @@ const MapNaverDefault = () => {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
           updateMarkers();
+          updateMarkerOverlapList(createMarkerList);
         }
       );
+      createMarkerList.forEach((data, index) => {
+        eventList.push(data.addListener("click", () => {
+          console.log(overlapList[index]);
+        }))
+      });
       return () => {
+        createMarkerList.forEach((data, index) => {
+          data.removeListener(eventList[index]);
+        });
         naver.maps.Event.removeListener(dragevent);
         naver.maps.Event.removeListener(zoomevent);
       };
     }
-  }, [geoApiAuth, createMarkerList]);
+  }, [geoApiAuth, createMarkerList, overlapList]);
 
   //geocode api 인증키 받아오기
   useEffect(() => {
