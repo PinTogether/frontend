@@ -1,0 +1,121 @@
+@import "../../base/variables";
+@import "../../base/placeholders";
+
+/* CollectionInfo */
+#collectionInfo {
+  height: fit-content;
+  width: 100%;
+  
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 1rem;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid $color-grey;
+  margin-bottom: 5rem;
+  
+  .collectionImg {
+    min-width: 6rem;
+    min-height: 6rem;
+    width: 7rem;
+    height: 7rem;
+    border-radius: $border-radius;
+    object-fit: cover;    
+  }
+  .collectionData {
+    min-width: 15rem;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 0.5rem;
+    .collectionTitle {
+      font-size: $font-size-large;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      .title {
+        margin-right: 0.5rem;
+        line-height: 1.5;
+      }
+      .bookmarkIcon {
+        // margin-left: 0.5rem;
+        padding: 0.1rem;
+        width: 1.75rem;
+        height: 1.75rem;
+        color: $color-grey-dark;
+        // border: 1px solid $color-grey;
+        border-radius: 50%;
+        &:hover {
+          color: $color-primary;
+          // fill: $color-primary;
+          fill: white;
+          background-color: $color-primary;
+          cursor: pointer;
+        }
+      }
+      .editIcon {
+        padding: 0.1rem;
+        width: 1.75rem;
+        height: 1.75rem;
+        color: $color-grey-dark;
+        // border: 1px solid $color-grey;
+        border-radius: 50%;
+      }
+      .filled {
+        color: $color-primary;
+        fill: $color-primary;
+      }
+    }
+    .collectionWriter {
+      font-size: $font-size-small;
+      color: $color-grey-dark;
+    }
+    .collectionTags {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      & > * {
+        @extend %pt-tag;
+        color: $color-grey-dark;
+        background-color: $color-primary-light;
+      }
+    }
+  }
+  .collectionDescription {
+    grid-column: 1 / -1;
+    font-size: $font-size-small;
+    justify-self: flex-start;
+  }
+  .buttonContainer {
+    grid-column: 1 / -1;
+    border: 0px;
+    width: 100%;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: space-evenly;
+    .button {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      align-items: center;
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: $color-grey-dark;
+      }
+      .text {
+        font-size: $font-size-small;
+        color: $color-grey-dark;
+      }
+      &:hover {
+        & > * {
+          color: $color-primary;
+        }
+      }
+    }
+  }
+}
