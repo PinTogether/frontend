@@ -50,13 +50,13 @@
 }
 
 %pt-tag {
-  // border: 1px solid $color-secondary-dark;
   font-size:$font-size-small;
   border-radius: 25px;
   width: fit-content;
   height: fit-content;
   background-color: $color-secondary-light;
   color:$color-secondary-dark;
+  outline: 1px solid $color-border-inactive;
   cursor: pointer;
   padding: 3px;
   padding-left: 10px;
