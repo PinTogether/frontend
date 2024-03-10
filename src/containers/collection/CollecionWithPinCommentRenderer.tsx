@@ -13,8 +13,8 @@ export default function CollectionWithPinCommentRenderer({
 }) {
   return (
     <section className={styles.collectionListContainer}>
-      {data.map((pinComment, index) => (
-        <PinCard key={index} pinData={pinComment} />
+      {data.map((pinComment) => (
+        <PinCard key={pinComment.id} pinData={pinComment} />
       ))}
     </section>
   );
