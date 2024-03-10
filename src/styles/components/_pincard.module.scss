@@ -5,7 +5,8 @@
   @extend %pt-card;
   padding: 12px;
   min-width: 20rem;
-  height: fit-content;
+  min-height: fit-content;
+  height: 100%;
   margin: 0;
   .mainInfo {
     display: grid;
@@ -17,7 +18,7 @@
       grid-column: 2 / -1;
     }
     .pinIcon {
-      width: 1.725rem;
+      width: 1.5rem;
       color: $color-text-caption;
     }
     .placeNameContainer {
@@ -25,6 +26,7 @@
       align-items: flex-end;
       line-height: 1;
       gap: 0.5rem;
+      flex-wrap: wrap;
       .placeName {
         font-size: $font-size-large;
         font-weight: 600;
@@ -67,6 +69,7 @@
 
 .tagContainer {
   @extend %pt-tagContainer;
+  margin-top: 0.25rem;
 }
 .commentContaier {
   margin-top: 1rem;
@@ -91,6 +94,13 @@
     @extend .mainInfo;
     display: flex;
     // grid-template-rows: 1fr;
+    gap: 0.5rem;
+    svg {
+      min-width: 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      color: $color-text-caption;
+    }
     & > * {
       overflow: hidden;
       flex-wrap: wrap;
@@ -102,6 +112,10 @@
   }
   .reviewContainer.show {
     height: fit-content;
+  }
+  .buttonContainer {
+    // align-items: flex-end;
+    margin-left : 2rem;
   }
 }
 
