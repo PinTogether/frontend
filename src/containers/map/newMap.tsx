@@ -152,7 +152,7 @@ const MapNaverDefault = () => {
   function markerIconRenderer(markerdata: MarkerData) {
     if (markerdata.pinCount == 1) {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:80px;">',
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px;">',
         '<img src="/icons/map_pin.svg" alt="" style="width:40px; height:40px;" >',
         '<b style=" font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
         `${markerdata.placeName}`,
@@ -161,7 +161,7 @@ const MapNaverDefault = () => {
       ].join("");
     } else if (markerdata.pinCount <= 99) {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:80px; position: relative;">',
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
         '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
         '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         `${markerdata.pinCount}`,
@@ -174,7 +174,7 @@ const MapNaverDefault = () => {
       ].join("");
     } else {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:80px; position: relative;">',
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
         '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
         '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         `99+`,
@@ -202,8 +202,14 @@ const MapNaverDefault = () => {
     function getList(index: number) {
       let returnHTML: string = "";
       overlapList[index].overlapId.forEach((data) => {
-        const str = `<a href="javascript:void(0);" onclick="router.push("/");">${data.getTitle()}</a>`;
-        returnHTML += str + "</br>";
+        const str = [
+          `<div onmouseover="this.style.backgroundColor = '#e4e1ff';" onmouseout="this.style.backgroundColor = '#ffffff'"; style="padding: 3px;">`,
+          '<div style="text-decoration: underline; text-decoration-color: #d9d9d9; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; font-size: 15px; font-weight: 500; padding: 5px; margin:0px">',
+          `${data.getTitle()}`,
+          "</div>",
+          "</div>",
+        ].join("");
+        returnHTML += str;
       });
       return returnHTML;
     }
@@ -220,7 +226,15 @@ const MapNaverDefault = () => {
       const overlapData: OverlapData = { id: marker, overlapId: list };
       overlapList.push(overlapData);
       var infowindow = new naver.maps.InfoWindow({
-        content: getList(index),
+        content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; overflow: hidden;">
+        ${getList(index)}
+        </div>`,
+        borderWidth: 0,
+        disableAnchor: true,
+        backgroundColor: "transparent",
+        //backgroundColor: "#ffffff",
+        //borderColor: "#6d56ff",
+        //disableAnchor: true,
       });
       infoWindowList.push(infowindow);
     });
@@ -238,8 +252,8 @@ const MapNaverDefault = () => {
           icon: {
             content: markerIconRenderer(data),
             //마커의 기준위치 지정
-            size: new naver.maps.Size(80, 80),
-            anchor: new naver.maps.Point(40, 40),
+            size: new naver.maps.Size(60, 50),
+            anchor: new naver.maps.Point(30, 25),
           },
           animation: naver.maps.Animation.DROP,
           title: data.placeName,
@@ -343,15 +357,16 @@ const MapNaverDefault = () => {
       );
       createMarkerList.forEach((data, index) => {
         eventList.push(
-          data.addListener("click", () => {
+          naver.maps.Event.addListener(data, "click", function (e) {
+            newMap.panTo(data.getPosition(), { duration: 200 });
             if (overlapList[index].overlapId.length != 1) {
               if (infoWindowList[index].getMap()) {
                 infoWindowList[index].close();
               } else {
                 infoWindowList[index].open(newMap, data);
+                //infoWindowList[index].setPosition(e.coords);
               }
-            }
-            else{
+            } else {
               router.push(`/place/${markerDatas[index].id}`);
             }
           })
@@ -359,6 +374,9 @@ const MapNaverDefault = () => {
       });
       return () => {
         createMarkerList.forEach((data, index) => {
+          if (infoWindowList[index] && infoWindowList[index].getMap()) {
+            infoWindowList[index].close();
+          }
           data.removeListener(eventList[index]);
         });
         naver.maps.Event.removeListener(dragevent);
