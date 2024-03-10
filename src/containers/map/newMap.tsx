@@ -36,6 +36,9 @@ const MapNaverDefault = () => {
     naver.maps.Marker[]
   >([]);
   const [overlapList, setOverlapList] = useState<OverlapData[]>([]);
+  const [infoWindowList, setInfoWindowList] = useState<naver.maps.InfoWindow[]>(
+    []
+  );
 
   const geoApiAuth = useAppSelector((state) => state.location.geoApiAuth);
   const LatLng = useAppSelector((state) => state.location.latLng);
@@ -186,7 +189,7 @@ const MapNaverDefault = () => {
   }
 
   function intersects(marker1: naver.maps.Marker, marker2: naver.maps.Marker) {
-    if (marker1 != marker2 && marker1.getMap() && marker2.getMap()) {
+    if (marker1.getMap() && marker2.getMap()) {
       var marker1Rect = marker1.getDrawingRect();
       var marker2Rect = marker2.getDrawingRect();
       // 두 마커가 겹치는지 여부를 true 또는 false로 반환한다.
@@ -195,20 +198,33 @@ const MapNaverDefault = () => {
     return false;
   }
 
-  function updateMarkerOverlapList(markerDatas: naver.maps.Marker[]) {
+  function updateMarkerOverlapList(markerLists: naver.maps.Marker[]) {
+    function getList(index: number) {
+      let returnHTML: string = "";
+      overlapList[index].overlapId.forEach((data) => {
+        const str = `<a href="javascript:void(0);" onclick="router.push("/");">${data.getTitle()}</a>`;
+        returnHTML += str + "</br>";
+      });
+      return returnHTML;
+    }
+
     const overlapList: OverlapData[] = [];
-    markerDatas.forEach((marker) => {
+    const infoWindowList: naver.maps.InfoWindow[] = [];
+    markerLists.forEach((marker, index) => {
       const list: naver.maps.Marker[] = [];
-      markerDatas.forEach((data) => {
-        if (marker != data) {
-          if (intersects(marker, data)) {
-            list.push(data);
-          }
+      markerLists.forEach((data) => {
+        if (intersects(marker, data)) {
+          list.push(data);
         }
       });
       const overlapData: OverlapData = { id: marker, overlapId: list };
       overlapList.push(overlapData);
+      var infowindow = new naver.maps.InfoWindow({
+        content: getList(index),
+      });
+      infoWindowList.push(infowindow);
     });
+    setInfoWindowList(infoWindowList);
     setOverlapList(overlapList);
   }
 
@@ -297,7 +313,7 @@ const MapNaverDefault = () => {
   //내 위치 받아오기
   useEffect(() => {
     if (window.naver && geoApiAuth != "" && newMap) {
-      const eventList:any[] = [];
+      const eventList: any[] = [];
       console.log("내 위치 받아오기 및 발급된 api키로 이벤트 등록");
       if (!createMarkerList[0]) {
         console.log("내 위치 조회");
@@ -326,9 +342,15 @@ const MapNaverDefault = () => {
         }
       );
       createMarkerList.forEach((data, index) => {
-        eventList.push(data.addListener("click", () => {
-          console.log(overlapList[index]);
-        }))
+        eventList.push(
+          data.addListener("click", () => {
+            if (infoWindowList[index].getMap()) {
+              infoWindowList[index].close();
+          } else {
+            infoWindowList[index].open(newMap, data);
+          }
+          })
+        );
       });
       return () => {
         createMarkerList.forEach((data, index) => {
