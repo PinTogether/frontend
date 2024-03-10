@@ -344,11 +344,16 @@ const MapNaverDefault = () => {
       createMarkerList.forEach((data, index) => {
         eventList.push(
           data.addListener("click", () => {
-            if (infoWindowList[index].getMap()) {
-              infoWindowList[index].close();
-          } else {
-            infoWindowList[index].open(newMap, data);
-          }
+            if (overlapList[index].overlapId.length != 1) {
+              if (infoWindowList[index].getMap()) {
+                infoWindowList[index].close();
+              } else {
+                infoWindowList[index].open(newMap, data);
+              }
+            }
+            else{
+              router.push(`/place/${markerDatas[index].id}`);
+            }
           })
         );
       });
