@@ -47,8 +47,9 @@ const PlacePage = ({ placeId }: { placeId?: string }) => {
   return (
     <>
       {/* {placeId} */}
-      {placeData && <PlaceCard place={placeData} />}
-
+      <div className={styles.pinCard}>
+        {placeData && <PlaceCard place={placeData} />}
+      </div>
       <ul className={styles.commentList}>
         {pinData.map((pin) => (
           <li key={pin.id}>
