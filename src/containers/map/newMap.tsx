@@ -198,14 +198,27 @@ const MapNaverDefault = () => {
     return false;
   }
 
+  function Test1(index: number) {
+    return (
+      <button
+        onClick={() => {
+          router.push(`/place/${markerDatas[index].id}`);
+        }}
+      >
+        test
+      </button>
+    );
+  }
+
   function updateMarkerOverlapList(markerLists: naver.maps.Marker[]) {
     function getList(index: number) {
       let returnHTML: string = "";
       overlapList[index].overlapId.forEach((data) => {
         const str = [
           `<div onmouseover="this.style.backgroundColor = '#e4e1ff';" onmouseout="this.style.backgroundColor = '#ffffff'"; style="padding: 3px;">`,
-          '<div style="text-decoration: underline; text-decoration-color: #d9d9d9; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; font-size: 15px; font-weight: 500; padding: 5px; margin:0px">',
-          `${data.getTitle()}`,
+          '<div onclick="yourFunction()" style="text-decoration: underline; text-decoration-color: #d9d9d9; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; font-size: 15px; font-weight: 500; padding: 5px; margin:0px">',
+          `<a href="/place/${markerDatas[index].id}">${data.getTitle()}</a>`,
+          //`<button onClick={()=>{router.push("/place/${markerDatas[index].id}")}}>test</button>`,
           "</div>",
           "</div>",
         ].join("");
@@ -226,7 +239,7 @@ const MapNaverDefault = () => {
       const overlapData: OverlapData = { id: marker, overlapId: list };
       overlapList.push(overlapData);
       var infowindow = new naver.maps.InfoWindow({
-        content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; overflow: hidden;">
+        content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; max-height: 400px; padding-top:10px; padding-bottom:10px;">
         ${getList(index)}
         </div>`,
         borderWidth: 0,
@@ -359,11 +372,13 @@ const MapNaverDefault = () => {
         eventList.push(
           naver.maps.Event.addListener(data, "click", function (e) {
             newMap.panTo(data.getPosition(), { duration: 200 });
+            handleGetAddress(data.getPosition().x, data.getPosition().y);
             if (overlapList[index].overlapId.length != 1) {
               if (infoWindowList[index].getMap()) {
                 infoWindowList[index].close();
               } else {
                 infoWindowList[index].open(newMap, data);
+                updateMarkers();
                 //infoWindowList[index].setPosition(e.coords);
               }
             } else {
