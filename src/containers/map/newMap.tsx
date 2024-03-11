@@ -28,7 +28,7 @@ const MapNaverDefault = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  //const [sideWidth, setSideWidth] = useState(0);
+  const [sideWidth, setSideWidth] = useState<number>(0);
   const [newMap, setNewMap] = useState<naver.maps.Map>();
   const [createMarkerList, setCreateMarkerList] = useState<naver.maps.Marker[]>(
     []
@@ -349,7 +349,7 @@ const MapNaverDefault = () => {
           top: 10,
           right: 10,
           bottom: 10,
-          left: 10,
+          left: sideWidth + 10,
           maxZoom: 18,
         });
         createMarkerList.forEach((marker) => {
@@ -451,11 +451,11 @@ const MapNaverDefault = () => {
 
   useEffect(() => {
     if (mainContentWidth === "500px") {
-      //setSideWidth(500);
+      setSideWidth(500);
       //newMap?.panBy({ x: -300, y: 0 });
     }
     else if (mainContentWidth == "0px"){
-      //setSideWidth(0);
+      setSideWidth(0);
     }
   }, [mainContentWidth]);
 
