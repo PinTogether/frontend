@@ -1,5 +1,4 @@
 "use client";
-
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import styles from "@/styles/components/_loading.module.scss";
 import { useEffect, useRef, useState } from "react";
@@ -203,7 +202,7 @@ const MapNaverDefault = () => {
     return false;
   }
 
-  function Test1(id:number) {
+  function Test1(id: number) {
     console.log(id, "으로 이동");
     router.push(`/place/${id}`);
   }
@@ -226,49 +225,6 @@ const MapNaverDefault = () => {
       });
       return returnHTML;
     }
-    // function getList(index: number) {
-    //   function yourFunction() {
-    //     router.push("/");
-    //   }
-
-    //   let returnHTML: string = "";
-    //   overlapList[index].overlapId.forEach((data) => {
-    //     const container = document.createElement("div");
-    //     container.style.padding = "3px";
-    //     const innerDiv = document.createElement("button");
-    //     innerDiv.style.textDecoration = "underline";
-    //     innerDiv.style.textDecorationColor = "#d9d9d9";
-    //     innerDiv.style.cursor = "pointer";
-    //     innerDiv.style.display = "flex";
-    //     innerDiv.style.flexDirection = "column";
-    //     innerDiv.style.justifyContent = "center";
-    //     innerDiv.style.alignItems = "flex-start";
-    //     innerDiv.style.fontSize = "15px";
-    //     innerDiv.style.fontWeight = "500";
-    //     innerDiv.style.padding = "5px";
-    //     innerDiv.style.margin = "0px";
-    //     innerDiv.textContent = data.getTitle();
-
-    //     naver.maps.Event.addDOMListener(innerDiv, 'click', function() {
-    //       alert("click");
-    //       //yourFunction();
-    //     });
-
-    //     // 마우스 오버 이벤트 리스너 설정
-    //     innerDiv.onmouseover = function () {
-    //       innerDiv.style.backgroundColor = "#e4e1ff";
-    //     };
-
-    //     // 마우스 아웃 이벤트 리스너 설정
-    //     innerDiv.onmouseout = function () {
-    //       innerDiv.style.backgroundColor = "#ffffff";
-    //     };
-
-    //     container.appendChild(innerDiv);
-    //     returnHTML += container.outerHTML;
-    //   });
-    //   return returnHTML;
-    // }
 
     const overlapList: OverlapData[] = [];
     const infoWindowList: naver.maps.InfoWindow[] = [];
@@ -300,10 +256,8 @@ const MapNaverDefault = () => {
       });
       infoWindowList.push(infowindow);
     });
-    if(infoWindowList[0] && overlapList[0]){
-      setInfoWindowList(infoWindowList);
-      setOverlapList(overlapList);
-    }
+    setInfoWindowList(infoWindowList);
+    setOverlapList(overlapList);
   }
 
   function makeMarkerList() {
@@ -388,22 +342,18 @@ const MapNaverDefault = () => {
     }
   }, [LatLng]);
 
-   //내 위치 받아오기
-  useEffect(()=>{
+  useEffect(() => {
+    console.log("내 위치 받아오기");
     if (window.naver && geoApiAuth != "" && newMap) {
-      console.log("내 위치 받아오기");
-      if (!markerDatas[0]) {
-        console.log("내 위치 조회");
-        dispatch(locationGetterByAmount(true));
-      }
+      dispatch(locationGetterByAmount(true));
     }
-  },[isScriptLoaded, geoApiAuth])
+  }, [isScriptLoaded, geoApiAuth]);
 
-  //이벤트 등록
+  //내 위치 받아오기
   useEffect(() => {
     if (window.naver && geoApiAuth != "" && newMap) {
+      console.log("이벤트 갱신");
       const eventList: naver.maps.MapEventListener[] = [];
-      console.log("이벤트 등록");
       //드래그시 이벤트 갱신
       const dragevent = naver.maps.Event.addListener(
         newMap,
@@ -411,10 +361,8 @@ const MapNaverDefault = () => {
         function (e) {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
-          if(markerDatas[0]){
-            updateMarkers();
-            updateMarkerOverlapList(createMarkerList);
-          }
+          updateMarkers();
+          updateMarkerOverlapList(createMarkerList);
         }
       );
       //줌 변경시 이벤트 갱신
@@ -424,17 +372,14 @@ const MapNaverDefault = () => {
         function (e) {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
-          if(markerDatas[0]){
-            updateMarkers();
-            updateMarkerOverlapList(createMarkerList);
-          }
+          updateMarkers();
+          updateMarkerOverlapList(createMarkerList);
         }
       );
       const buttonEventList: HTMLElement[] = [];
       createMarkerList.forEach((data, index) => {
         eventList.push(
           naver.maps.Event.addListener(data, "click", function (e) {
-            console.log("마커 클릭");
             newMap.panTo(data.getPosition(), { duration: 200 });
             setTimeout(updateMarkers, 210); // 위 duration과 맞추기
             handleGetAddress(data.getPosition().x, data.getPosition().y);
@@ -444,12 +389,16 @@ const MapNaverDefault = () => {
               } else {
                 infoWindowList[index].open(newMap, data);
                 createMarkerList.forEach((data, index2) => {
-                  const event = document.getElementById(`button${markerDatas[index2].id}`);
-                  if(event){
-                    event.addEventListener('click', () => Test1(markerDatas[index2].id));
+                  const event = document.getElementById(
+                    `button${markerDatas[index2].id}`
+                  );
+                  if (event) {
+                    event.addEventListener("click", () =>
+                      Test1(markerDatas[index2].id)
+                    );
                     buttonEventList.push(event);
                   }
-                })
+                });
               }
             } else {
               router.push(`/place/${markerDatas[index].id}`);
@@ -463,15 +412,17 @@ const MapNaverDefault = () => {
             infoWindowList[index].close();
           }
           data.removeListener(eventList[index]);
-          if(buttonEventList[index]){
-            buttonEventList[index].removeEventListener('click', () => Test1(markerDatas[index].id));
+          if (buttonEventList[index]) {
+            buttonEventList[index].removeEventListener("click", () =>
+              Test1(markerDatas[index].id)
+            );
           }
         });
         naver.maps.Event.removeListener(dragevent);
         naver.maps.Event.removeListener(zoomevent);
       };
     }
-  }, [geoApiAuth, createMarkerList]);
+  }, [geoApiAuth, createMarkerList, overlapList]);
 
   useEffect(() => {
     if (mainContentWidth === "500px") {
