@@ -15,9 +15,16 @@ export default function LoginPopup() {
     }
     if (oauth) {
       setSuccess(true);
-      opener?.postMessage("success", process.env.NEXT_PUBLIC_FRONTEND_URL);
-      window.close();
-    } else opener?.postMessage("failed", process.env.NEXT_PUBLIC_FRONTEND_URL);
+      (async () => {
+        opener?.postMessage("success", process.env.NEXT_PUBLIC_FRONTEND_URL);
+        window.close();
+      })();
+    } else {
+      (async () => {
+        opener?.postMessage("failed", process.env.NEXT_PUBLIC_FRONTEND_URL);
+        window.close();
+      })();
+    }
   }, []);
 
   return (
