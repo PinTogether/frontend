@@ -1,65 +1,30 @@
 @import "../../base/variables";
 @import "../../base/placeholders";
 
-.container {
-  display: grid;
-  grid-template-rows: 70px 250px 80px 1fr;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  transition: all 0.3s ease;
-  padding-left: 7%;
-  padding-right: 7%;
-}
-
-.collectionDataContainer {
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px;
-}
-
-.collectionData {
-  border-bottom: 1px solid $color-grey;
-  padding: 10px;
-  align-items: center;
-  justify-content: center;
-}
-
 .buttonContainer {
+  display: flex;
   align-items: center;
   justify-content: flex-start;
   align-self: center;
-  gap: 20px;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  padding: 0.5rem;
   border-bottom: 1px solid $color-grey;
-}
-
-.buttons {
-  // @extend %pt-button;
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
-  height: fit-content;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin: 5px;
-  border-radius: 3rem;
-  color: $color-grey-dark;
-  background-color: $color-grey;
-  outline: 1px solid $color-border-inactive;
-  cursor: pointer;
-  transition: all 0.1s ease-in-out;
-
-  &:hover {
-    background-color: $color-button-active;
-    outline: 2px solid $color-border-active;
+  .buttons {
+    @extend %pt-button;
+    font-size: $font-size-small;
+    padding: 0.25rem 0.75rem;
+    color: $color-grey-dark;
+    background-color: $color-grey;
+    &:hover {
+      background-color: $color-button-active;
+      outline: 2px solid $color-border-active;
+    }
   }
-}
-
-.clickedButtons {
-  background-color: $color-primary-light;
-  outline: 2px solid $color-border-active;
+  .clickedButtons {
+    background-color: $color-primary-light;
+  }
 }
 
 .collectionListContainer {
@@ -67,10 +32,11 @@
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: repeat(auto-fill, minmax(1px, 380px));
-  gap: 30px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.875rem;
+  padding: 1.25rem 0;
 }
+
 
 .collectionReplyContainer {
   flex: 1;
@@ -78,75 +44,57 @@
   align-items: center;
   justify-content: center;
   grid-template-columns: repeat(auto-fill, minmax(1px, 100%));
-  gap: 30px;
-  padding: 20px;
+  gap: 0.5rem;
+  padding: 1.25rem 0;
 }
 
-.replyInput {
-  width: 100%;
-  height: 100%;
-  background-color: $color-grey-light;
-  resize: none;
-}
-
-.replyInputButtonBox {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-rows: 1fr 20px;
-  gap: 10px;
-}
-
-.replyInputCounter {
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  font-size: $font-size-small;
-  color: $color-grey;
-}
-
-.replySendButton {
-  width: 100%;
-  height: 100%;
-  border: 1px solid $color-grey;
-  border-radius: 15px;
-}
-
-.replySendButton:hover {
-  background-color: $color-grey;
-}
-
-.replySendButton:active {
-  background-color: $color-primary-light;
-}
-
+/* ReplyContent */
 .replyContainer {
   flex: 1;
   width: 100%;
-  height: 100px;
-  padding: 10px;
+  padding: 0.625rem;
   display: grid;
-  align-items: center;
-  justify-content: center;
   border: 1px solid $color-grey;
   border-radius: 15px;
-  grid-template-columns: 40px 1fr 40px;
-  gap: 10px;
-}
-
-.replyInputContainer {
-  flex: 1;
-  width: 100%;
-  height: 130px;
-  padding: 10px;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid $color-grey;
-  background-color: $color-grey-light;
-  border-radius: 15px;
-  grid-template-columns: 40px 1fr 70px;
-  gap: 10px;
+  grid-template-columns: 2.5rem 1fr 1.5rem;
+  gap: 0.5rem;
+  .replyBox {
+    display: grid;
+    grid-template-rows: 1.25rem 1fr;
+    width: 100%;
+    height: 100%;
+    // overflow-y: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
+    .replyText {
+      font-size: $font-size-small;
+      margin-right: 0.5rem;
+    }
+    .replyName {
+      // color: $color-grey-dark;
+      font-size: $font-size-small;
+      font-weight: 600;
+    }
+    .replyCreatedAt {
+      color: $color-grey-dark;
+      font-size: $font-size-smallest;
+    }
+  }
+  .replyButton {
+    display: grid;
+    align-self: start;
+    justify-self: end;
+    color: $color-grey;
+    font-size: $font-size-smallest;
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: $color-grey;
+    }
+  }
 }
 
 .replyAvatar {
@@ -158,30 +106,58 @@
   object-fit: cover;
 }
 
-.replyBox {
-  display: grid;
-  grid-template-rows: 25px 1fr;
+/* CollectionReplyInput */
+.replyInputContainer {
+  flex: 1;
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+  // height: 130px;
+  padding: 0.625rem;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $color-grey;
+  background-color: $color-grey-light;
+  border-radius: 15px;
+  grid-template-columns: 40px 1fr 70px;
+  gap: 10px;
+  .replyTextArea {
+    width: 100%;
+    height: 100%;
+    background-color: $color-grey-light;
+    resize: none;
+  }
+  .replyInputButtonBox {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 20px;
+    gap: 10px;
+    .replySendButton {
+      width: 100%;
+      height: 100%;
+      border: 1px solid $color-grey;
+      border-radius: 15px;
+      font-size: $font-size-small;
+      color: $color-text-caption;
+      &:hover {
+        background-color: $color-grey;
+      }
+      &:active {
+        background-color: $color-primary-light;
+      }
+    }
+  }
+  .replyInputCounter {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-small;
+    color: $color-grey-dark;
   }
 }
 
-.replyName {
-  color: $color-grey-dark;
-}
 
-.replyButton {
-  display: grid;
-  align-self: start;
-  justify-self: end;
-  color: $color-grey-dark;
-  font-size: $font-size-small;
-}
 
 .icon {
   width: 25px;

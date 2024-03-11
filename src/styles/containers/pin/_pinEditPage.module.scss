@@ -4,7 +4,19 @@
 .submitButton {
   @extend %pt-editPageSubmitButton;
 }
+.deleteButton {
+  width: 100%;
+  text-align: end;
 
+  button {
+    height: 1rem;
+    font-size: $font-size-small;
+    color: $color-text-caption;
+    &:hover {
+      color: red;
+    }
+  }
+}
 
 /* ImageUploadBox */
 .imageUploadBox {

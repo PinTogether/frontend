@@ -16,6 +16,7 @@ import { SimplePinCard } from "@/components/PinCard";
 import TagEditor from "@/components/TagEditor";
 
 import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
+import SubPageLayout from "@/containers/layout/SubPageLayout";
 
 interface Place {
   id: number;
@@ -46,51 +47,61 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
   };
 
   return (
-    <EditPageLayout>
-      {/* Place 정보 */}
-      <Section>
-        <SectionTitle>
-          <PinIcon />
-          {pinDataList[0].placeName}
-        </SectionTitle>
-        <SimplePinCard pinData={pinDataList[0]} />
-        <Line />
-      </Section>
-      <Section>
-        {/* 핀 리뷰 */}
-        <SectionTitle>
-          <EditIcon />핀 리뷰
-        </SectionTitle>
-        <TextareaComponent maxLength={1000} rows={10} ref={textareaRef} />
-        <Line />
+    <SubPageLayout
+      topperMsg={pinId ? "핀 수정하기" : "핀 추가하기"}
+      completeButtonMsg={pinId ? "수정완료" : "추가완료"}
+      onClickCompleteButton={handleSubmit}
+    >
+      <EditPageLayout>
+        {/* Place 정보 */}
+        <Section>
+          <SectionTitle>
+            <PinIcon />
+            {pinDataList[0].placeName}
+          </SectionTitle>
+          <SimplePinCard pinData={pinDataList[0]} showEditButton={false} />
+          {pinId && (
+            <div className={styles.deleteButton}>
+              <button>핀 삭제하기</button>
+            </div>
+          )}
+          <Line />
+        </Section>
+        <Section>
+          {/* 핀 리뷰 */}
+          <SectionTitle>
+            <EditIcon />핀 리뷰
+          </SectionTitle>
+          <TextareaComponent maxLength={1000} rows={10} ref={textareaRef} />
+          <Line />
 
-        {/* 이미지 업로드 */}
-        <SectionTitle>
-          <ImgLoadIcon />
-          이미지 업로드
-        </SectionTitle>
-        <ImageUploadBox
-          imagePreviews={files.map((file) => URL.createObjectURL(file))}
-          setImagePreviews={setImagePreviews}
-          files={files}
-          setFiles={setFiles}
-        />
-        <Line />
-        {/* 핀 태그 */}
-        <SectionTitle>
-          <EditIcon />핀 태그
-        </SectionTitle>
-        <TagEditor tagList={tagList} setTagList={setTagList} />
-        {/* <InputComponent maxLength={10} /> */}
-        <Line />
-      </Section>
-      <Section>
-        <button
-          className={styles.submitButton}
-          onClick={handleSubmit}
-        >{`수정완료`}</button>
-      </Section>
-    </EditPageLayout>
+          {/* 이미지 업로드 */}
+          <SectionTitle>
+            <ImgLoadIcon />
+            이미지 업로드
+          </SectionTitle>
+          <ImageUploadBox
+            imagePreviews={files.map((file) => URL.createObjectURL(file))}
+            setImagePreviews={setImagePreviews}
+            files={files}
+            setFiles={setFiles}
+          />
+          <Line />
+          {/* 핀 태그 */}
+          <SectionTitle>
+            <EditIcon />핀 태그
+          </SectionTitle>
+          <TagEditor tagList={tagList} setTagList={setTagList} />
+          {/* <InputComponent maxLength={10} /> */}
+          <Line />
+        </Section>
+        <Section>
+          <button className={styles.submitButton} onClick={handleSubmit}>
+            {pinId ? "수정완료" : "추가완료"}
+          </button>
+        </Section>
+      </EditPageLayout>
+    </SubPageLayout>
   );
 }
 
