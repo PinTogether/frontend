@@ -10,12 +10,17 @@ import { locationGetterByAmount } from "@/redux/locationSlice";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
 
 import collectionDummyData from "@/../../public/dummy-data/dummy-collection.json";
+import {
+  ArrowDropDownIcon,
+  ExpendDownIcon,
+  ExpendUpIcon,
+} from "@/components/IconSvg";
 
 export default function Overlay() {
   const dispatch = useAppDispatch();
 
   const [isCardSliderOn, setIsCardSliderOn] = useState(1);
-  const [cardSliderBtnMsg, setCardSliderBtnMsg] = useState("컬렉션 숨기기 v");
+  const [showCardSlider, setShowCardSlider] = useState(false);
   const sidoName = useAppSelector((state) => state.location.sido);
   const sggName = useAppSelector((state) => state.location.sgg);
   const emdongName = useAppSelector((state) => state.location.emdong);
@@ -32,11 +37,7 @@ export default function Overlay() {
       if (prevState === 1) return 0;
       return 1;
     });
-    if (cardSliderBtnMsg === "컬렉션 숨기기 v") {
-      setCardSliderBtnMsg("컬렉션 보이기 ∧");
-    } else {
-      setCardSliderBtnMsg("컬렉션 숨기기 v");
-    }
+    setShowCardSlider((prevState) => !prevState);
   };
   return (
     <section className={styles.overlay}>
@@ -73,7 +74,7 @@ export default function Overlay() {
         <div
           className={`${styles.bottomContent} ${isCardSliderOn ? styles.visible : ""}`}
         >
-          <CardSlider2 width={800} height={80}>
+          <CardSlider2 height={150}>
             {collectionDummyData.map((collection, index) => (
               <SimpleCollectionCard
                 key={index}
@@ -85,10 +86,20 @@ export default function Overlay() {
         </div>
         <div className={styles.buttonBox}>
           <button className={styles.bottomButton}>내 컬렉션</button>
-          <button className={styles.bottomButton}>좋아요한 컬렉션</button>
-          <button className={styles.bottomButton}>새컬렉션 만들기 +</button>
+          <button className={styles.bottomButton}>스크랩한 컬렉션</button>
+          <button className={styles.bottomButton}>팔로우한 컬렉션</button>
           <button className={styles.bottomButton} onClick={toggleCardSlider}>
-            {cardSliderBtnMsg}
+            {showCardSlider ? (
+              <>
+                {"컬렉션 보기"}
+                <ExpendUpIcon />
+              </>
+            ) : (
+              <>
+                {"컬렉션 숨기기"}
+                <ExpendDownIcon />
+              </>
+            )}
           </button>
         </div>
       </div>
