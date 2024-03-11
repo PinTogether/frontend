@@ -42,6 +42,9 @@ const MapNaverDefault = () => {
 
   const geoApiAuth = useAppSelector((state) => state.location.geoApiAuth);
   const LatLng = useAppSelector((state) => state.location.latLng);
+  const mainContentWidth = useAppSelector(
+    (state) => state.location.mainContentWidth
+  );
   const locationGetter = useAppSelector(
     (state) => state.location.locationGetter
   );
@@ -217,7 +220,7 @@ const MapNaverDefault = () => {
         const str = [
           `<div onmouseover="this.style.backgroundColor = '#e4e1ff';" onmouseout="this.style.backgroundColor = '#ffffff'"; style="padding: 3px;">`,
           '<div onclick="yourFunction()" style="text-decoration: underline; text-decoration-color: #d9d9d9; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; font-size: 15px; font-weight: 500; padding: 5px; margin:0px">',
-          `<a href="/place/${markerDatas[index].id}">${data.getTitle()}</a>`,
+          `<a href="/place/${markerDatas[index].id}">${data.getTitle()}</a>`, // 임시
           //`<button onClick={()=>{router.push("/place/${markerDatas[index].id}")}}>test</button>`,
           "</div>",
           "</div>",
@@ -226,6 +229,50 @@ const MapNaverDefault = () => {
       });
       return returnHTML;
     }
+    // function getList(index: number) {
+    //   function yourFunction() {
+    //     router.push("/");
+    //   }
+
+    //   let returnHTML: string = "";
+    //   overlapList[index].overlapId.forEach((data) => {
+    //     const container = document.createElement("div");
+    //     container.style.padding = "3px";
+    //     const innerDiv = document.createElement("button");
+    //     innerDiv.style.textDecoration = "underline";
+    //     innerDiv.style.textDecorationColor = "#d9d9d9";
+    //     innerDiv.style.cursor = "pointer";
+    //     innerDiv.style.display = "flex";
+    //     innerDiv.style.flexDirection = "column";
+    //     innerDiv.style.justifyContent = "center";
+    //     innerDiv.style.alignItems = "flex-start";
+    //     innerDiv.style.fontSize = "15px";
+    //     innerDiv.style.fontWeight = "500";
+    //     innerDiv.style.padding = "5px";
+    //     innerDiv.style.margin = "0px";
+    //     innerDiv.textContent = data.getTitle();
+
+    //     // 클릭 이벤트 리스너 설정
+    //     innerDiv.onclick = function () {
+    //       alert("click");
+    //       //yourFunction();
+    //     };
+
+    //     // 마우스 오버 이벤트 리스너 설정
+    //     innerDiv.onmouseover = function () {
+    //       innerDiv.style.backgroundColor = "#e4e1ff";
+    //     };
+
+    //     // 마우스 아웃 이벤트 리스너 설정
+    //     innerDiv.onmouseout = function () {
+    //       innerDiv.style.backgroundColor = "#ffffff";
+    //     };
+
+    //     container.appendChild(innerDiv);
+    //     returnHTML += container.outerHTML;
+    //   });
+    //   return returnHTML;
+    // }
 
     const overlapList: OverlapData[] = [];
     const infoWindowList: naver.maps.InfoWindow[] = [];
@@ -240,6 +287,7 @@ const MapNaverDefault = () => {
       overlapList.push(overlapData);
       var infowindow = new naver.maps.InfoWindow({
         content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; max-height: 400px; padding-top:10px; padding-bottom:10px;">
+        <button onclick=useRouter().push("/")>asd</button>
         ${getList(index)}
         </div>`,
         borderWidth: 0,
@@ -399,6 +447,12 @@ const MapNaverDefault = () => {
       };
     }
   }, [geoApiAuth, createMarkerList, overlapList]);
+
+  useEffect(() => {
+    if (window.naver && mainContentWidth === "500px") {
+      newMap?.panBy({ x: -300, y: 0 });
+    }
+  }, [mainContentWidth]);
 
   //geocode api 인증키 받아오기
   useEffect(() => {
