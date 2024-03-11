@@ -17,19 +17,19 @@ export default function CardSlider2({
   width,
   height,
   selectedCardId,
+  selectedCardIdList,
   // setSelectedCardId,
 }: {
   children: ReactNode[];
   width?: number;
   height?: number;
   selectedCardId?: number;
+  selectedCardIdList?: number[];
   // setSelectedCardId?: Dispatch<SetStateAction<number>>;
 }) {
   const [isFirstCard, setIsFirstCard] = useState(true);
   const [isLastCard, setIsLastCard] = useState(false);
-
   const cardContainerRef = useRef<HTMLDivElement>(null);
-
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -69,47 +69,51 @@ export default function CardSlider2({
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const showSlide = (slideIndex: number) => {
-    {
-      cardRefs.current.forEach((cardRef, index) => {
-        if (index === slideIndex) {
-          cardRef?.classList.add(styles.activeCard);
-          cardRef?.classList.remove(styles.deactiveCard);
-        } else {
-          cardRef?.classList.remove(styles.activeCard);
-          cardRef?.classList.add(styles.deactiveCard);
-        }
-      });
-      setCurrentSlide(slideIndex);
-      const rootFontSize = parseFloat(
-        getComputedStyle(document.documentElement).fontSize
-      );
-      let currentScrollSizePx = defaultScrollSize * slideIndex * rootFontSize;
-      cardContainerRef.current!.scrollLeft = currentScrollSizePx;
+  function smoothScrollTo(scrollTargetPx: number) {
+    const startTime = performance.now();
+    const start = cardContainerRef.current!.scrollLeft;
+    const distance = scrollTargetPx - start; // 목표까지의 거리
+    const duration = 3 * Math.abs(distance); // 애니메이션 지속 시간 (밀리초)
 
-      if (slideIndex <= 0) setIsFirstCard(true);
-      else setIsFirstCard(false);
-      if (slideIndex >= children.length - 1) setIsLastCard(true);
-      else setIsLastCard(false);
+    function easeOutQuad(t: number) {
+      return t * (2 - t);
     }
+    function scrollStep(timestamp: number) {
+      const elapsed = timestamp - startTime; // 경과 시간
+      const fraction = Math.min(elapsed / duration, 1); // 진행률 (0에서 1 사이)
 
-    // console.log("aa", selectedCardId, slideIndex);
-    // cardId 설정
-    // const element = cardRefs?.current[slideIndex];
-    // element?.firstChild instanceof HTMLElement
-    //   ? element?.firstChild?.click()
-    //   : null;
+      cardContainerRef.current!.scrollLeft =
+        start + distance * easeOutQuad(fraction); // 현재 스크롤 위치 계산
 
-    // if (selectedCardId !== slideIndex) {
-    //   const element = cardRefs?.current[slideIndex];
-    //   const cardId =
-    //     element?.firstChild instanceof Element
-    //       ? element.firstChild?.getAttribute("data-cardid")
-    //       : null;
-    //   console.log("currentSlide", element);
-    //   console.log("currentSlide", cardId);
-    //   if (setSelectedCardId && cardId) setSelectedCardId(Number(cardId));
-    // }
+      if (fraction < 1) {
+        // 진행률이 100%에 도달하지 않았다면, 다음 프레임을 위해 재귀적으로 함수 호출
+        window.requestAnimationFrame(scrollStep);
+      }
+    }
+    window.requestAnimationFrame(scrollStep);
+  }
+
+  const showSlide = (slideIndex: number) => {
+    cardRefs.current.forEach((cardRef, index) => {
+      if (index === slideIndex) {
+        cardRef?.classList.add(styles.activeCard);
+        cardRef?.classList.remove(styles.deactiveCard);
+      } else {
+        cardRef?.classList.remove(styles.activeCard);
+        cardRef?.classList.add(styles.deactiveCard);
+      }
+    });
+    setCurrentSlide(slideIndex);
+    const rootFontSize = parseFloat(
+      getComputedStyle(document.documentElement).fontSize
+    );
+    let currentScrollSizePx = defaultScrollSize * slideIndex * rootFontSize;
+    smoothScrollTo(currentScrollSizePx);
+
+    if (slideIndex <= 0) setIsFirstCard(true);
+    else setIsFirstCard(false);
+    if (slideIndex >= children.length - 1) setIsLastCard(true);
+    else setIsLastCard(false);
   };
 
   const handleLeftClick = () => {
@@ -132,19 +136,6 @@ export default function CardSlider2({
       {/* Card Container */}
       <div className={styles.cardContainer} ref={cardContainerRef}>
         {children?.map((child, index) => {
-          if (index === 0) {
-            return (
-              <article
-                key={index}
-                className={styles.activeCard}
-                // ref={cardRefs.current[index]}
-                ref={(el) => (cardRefs.current[index] = el as HTMLDivElement)}
-                onClick={() => handleOnClick(index, child)}
-              >
-                {child}
-              </article>
-            );
-          }
           return (
             <article
               key={index}
@@ -156,7 +147,33 @@ export default function CardSlider2({
               {child}
             </article>
           );
-        })}
+        })
+        // if (index === 0) {
+        //   return (
+        //     <article
+        //       key={index}
+        //       className={styles.activeCard}
+        //       // ref={cardRefs.current[index]}
+        //       ref={(el) => (cardRefs.current[index] = el as HTMLDivElement)}
+        //       onClick={() => handleOnClick(index, child)}
+        //     >
+        //       {child}
+        //     </article>
+        //   );
+        // }
+        // return (
+        //   <article
+        //     key={index}
+        //     className={styles.deactiveCard}
+        //     // ref={cardRefs.current[index]}
+        //     ref={(el) => (cardRefs.current[index] = el as HTMLDivElement)}
+        //     onClick={() => handleOnClick(index, child)}
+        //   >
+        //     {child}
+        //   </article>
+        // );
+        }
+        {/* )} */}
       </div>
       {/* Left Button */}
       {!isFirstCard && (

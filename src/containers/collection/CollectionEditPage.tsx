@@ -70,10 +70,15 @@ export default function CollectionEditPage({
     }
   };
 
+  const submitCollectionEdit = () => {
+    console.log("submit");
+  };
+
   return (
     <SubPageLayout
       topperMsg={topperMsg}
-      // ref={pageRef}
+      completeButtonMsg={id ? "완료" : "완료"}
+      onClickCompleteButton={submitCollectionEdit}
     >
       <EditPageLayout>
         <Section>
@@ -154,19 +159,12 @@ export default function CollectionEditPage({
               </Link>
             </SectionTitle>
             {/* List */}
-            <ul
-              className={styles.pinCardContainer}
-              onClick={(e) => {
-                e.preventDefault();
-                console.log(e.target);
-              }}
-            >
-              {pinDataList.map((pin, index) => (
+            <ul className={styles.pinCardContainer}>
+              {pinDataList.map((pin) => (
                 <div key={pin.id} className={styles.pinCard}>
                   <SimplePinCard
                     pinData={pin}
-                    // onClick={() => onClickPin(index)}
-                    // showEditButton={true}
+                    showEditButton={false}
                     activeShowDetail={true}
                   />
                   <Link href={`/pin/edit/${pin.id}`}>

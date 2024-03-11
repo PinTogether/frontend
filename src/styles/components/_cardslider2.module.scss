@@ -14,12 +14,8 @@ $card-width: 48rem;
 
   .cardContainer {
     position: absolute;
-    // left: 30%;
-    // left: 3rem; //
     // transform: translateX(-($card-width / 2));
-    transition: transform 0.2s;
-    transition-timing-function: ease-in-out;
-    // overflow: scroll;
+    transition: transform 0.2s ease-out;
     overflow-y: hidden;
     overflow-x: scroll;
 
@@ -38,7 +34,6 @@ $card-width: 48rem;
     align-items: center;
     // gap
     padding: 0px 1rem;
-
     gap: 1rem;
 
     .activeCard {
