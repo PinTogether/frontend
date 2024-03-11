@@ -203,8 +203,9 @@ const MapNaverDefault = () => {
     return false;
   }
 
-  function Test1() {
-    router.push(`/place/1`);
+  function Test1(id:number) {
+    console.log(id, "으로 이동");
+    router.push(`/place/${id}`);
   }
 
   //`<a href="/place/${markerDatas[index].id}">${data.getTitle()}</a>`, // 임시
@@ -421,13 +422,20 @@ const MapNaverDefault = () => {
         eventList.push(
           naver.maps.Event.addListener(data, "click", function (e) {
             newMap.panTo(data.getPosition(), { duration: 200 });
-            setTimeout(updateMarkers, 210);
+            setTimeout(updateMarkers, 210); // 위 duration과 맞추기
             handleGetAddress(data.getPosition().x, data.getPosition().y);
-            if (overlapList[index].overlapId.length != 1) {
+            if (overlapList[index].overlapMarker.length != 1) {
               if (infoWindowList[index].getMap()) {
                 infoWindowList[index].close();
               } else {
                 infoWindowList[index].open(newMap, data);
+                createMarkerList.forEach((data, index2) => {
+                  const event = document.getElementById(`button${markerDatas[index2].id}`);
+                  if(event){
+                    event.addEventListener('click', () => Test1(markerDatas[index2].id));
+                    buttonEventList.push(event);
+                  }
+                })
               }
             } else {
               router.push(`/place/${markerDatas[index].id}`);
@@ -441,6 +449,9 @@ const MapNaverDefault = () => {
             infoWindowList[index].close();
           }
           data.removeListener(eventList[index]);
+          if(buttonEventList[index]){
+            buttonEventList[index].removeEventListener('click', () => Test1(markerDatas[index].id));
+          }
         });
         naver.maps.Event.removeListener(dragevent);
         naver.maps.Event.removeListener(zoomevent);
@@ -469,7 +480,6 @@ const MapNaverDefault = () => {
   useEffect(() => {
     deleteMarker();
     if (window.naver && markerDatas[0] && isScriptLoaded) {
-      console.log("marker 생성하기");
       makeMarkerList();
     }
   }, [markerDatas, isScriptLoaded]);
