@@ -2,7 +2,7 @@
 @import "../base/variables";
 
 $default-size: 12rem;
-$simple-size: 8rem;
+$simple-size: 6rem;
 $horizontal-size: 22rem;
 $container-padding: 0.5rem;
 
@@ -160,15 +160,20 @@ $container-padding: 0.5rem;
     }
   }
   .textContainer {
-    height: $simple-size / 3;
+    height: $simple-size / 3 + 0.5rem;
     padding: 0 $container-padding;
     display: flex;
     text-align: center;
     .title {
       align-self: center;
-      font-size: $font-size-medium;
+      font-size: $font-size-small;
       line-height: 1;
       font-weight: 600;
+      white-space: normal;
+      word-wrap: break-word;
+      &:hover {
+        color: $color-primary;
+      }
     }
   }
 }

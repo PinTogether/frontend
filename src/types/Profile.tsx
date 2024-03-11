@@ -1,5 +1,4 @@
 export default interface Profile {
-  userId?: number;
   nickname: string;
   avatar: string;
   collectionCnt: number;
@@ -9,6 +8,7 @@ export default interface Profile {
 }
 
 export interface ProfileMine extends Profile {
+  id: number;
   registrationSource?: "KAKAO" | "NAVER" | "GOOGLE";
   role?: "ROLE_ADMIN" | "ROLE_MEMBER";
 }

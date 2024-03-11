@@ -11,7 +11,7 @@ import ProfileBookmarkRenderer from "./ProfileBookmarkRenderer";
 
 const profiles: ProfileMine = {
   nickname: "김고양",
-  userId: 1,
+  id: 1,
   registrationSource: "KAKAO",
   role: "ROLE_MEMBER",
   avatar: "/images/cat_dummy.jpeg",
@@ -149,7 +149,7 @@ export default function ProfilePage({ id }: { id: number }) {
           <div className={styles.profileName}>
             <div></div>
             <p>{profiles.nickname}</p>
-            {id == profiles.userId && (
+            {id == profiles.id && (
               <button onClick={() => router.push("/profile/setting")}>
                 <SettingIcon className={styles.icon} />
               </button>
@@ -190,7 +190,7 @@ export default function ProfilePage({ id }: { id: number }) {
         >
           팔로우한 컬렉션
         </button>
-        {id == profiles.userId && (
+        {id == profiles.id && (
           <button
             className={`${styles.buttons} ${showState == 4 ? styles.clickedButtons : ""}`}
             onClick={() => onChangeShowState(4)}
@@ -198,7 +198,7 @@ export default function ProfilePage({ id }: { id: number }) {
             찜 목록 보기
           </button>
         )}
-        {id == profiles.userId && (
+        {id == profiles.id && (
           <button
             className={styles.buttons}
             onClick={() => router.push("/collection/edit")}

@@ -1,24 +1,21 @@
 "use client";
 
 import styles from "@/styles/containers/search/_searchPage.module.scss";
-import { useState, useRef, useEffect } from "react";
-import Topper from "@/components/SubTopper";
-import { SearchLog } from "./SearchLog";
 import {
+  CloseRoundIcon,
   ExpandLeftIcon,
   ExpendUpIcon,
   SearchIcon,
 } from "../../components/IconSvg";
+import { SearchLog } from "./SearchLog";
 import SearchPlaceRender from "./SearchPlaceRenderer";
 import SearchCollectionRender from "./SearchCollectionRenderer";
 import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
 
-import CollectionDatas from "@/../../public/dummy-data/dummy-collection.json";
 import { PlaceDetail } from "@/types/Place";
 import { CollectionDetail } from "@/types/Collection";
-import { SubPageLayout } from "../layout/SubPageLayout";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Page() {
   const [inputCollectionSearch, setInputCollectionSearch] = useState("");
@@ -28,11 +25,16 @@ export default function Page() {
   );
   const [showSearchLog, setShowSearchLog] = useState(true);
   const searchParams = useSearchParams();
+  const [searchPlaceMessage, setSearchPlaceMessage] = useState<string>("");
+  const [searchCollectionMessage, setSearchCollectionMessage] =
+    useState<string>("");
+
   const page = 1;
   const size = 10;
 
   useEffect(() => {
     const param = searchParams.get("searchString");
+    console.log("param", param);
     if (param) {
       setInputCollectionSearch(param);
       setShowSearchLog(false);
@@ -55,30 +57,30 @@ export default function Page() {
     }
   };
 
+  const clearInputValue = () => {
+    setInputCollectionSearch("");
+  };
+
   const searchPlace = (searchKeyWord: string) => {
     fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/place?query=${searchKeyWord}&page=${page}&size=${size}`
     )
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("검색에 실패했습니다.");
+        return res.json();
+      })
       .then((data) => {
         console.log(data);
-        setPlaceDatas(
-          data.map((place: any) => {
-            return {
-              id: place.id,
-              name: place.name,
-              roadNameAddress: place.roadNameAddress,
-              category: place.category || "ETC",
-              longitude: place.longtitude,
-              latitude: place.latitude,
-              starred: place.starred || false,
-              pinCnt: place.pinCnt,
-            };
-          })
-        );
+        setPlaceDatas(data);
+      })
+      .then(() => {
+        if (placeDatas.length === 0)
+          setSearchPlaceMessage("검색 키워드에 맞는 업체가 없습니다.");
+        else setSearchPlaceMessage("");
       })
       .catch((err) => {
         console.log(err);
+        setSearchPlaceMessage("검색에 실패했습니다.");
       });
   };
 
@@ -118,6 +120,13 @@ export default function Page() {
             value={inputCollectionSearch}
             onChange={onChangeCollection}
           />
+          <button
+            type={"button"}
+            className={styles.clearButton}
+            onClick={clearInputValue}
+          >
+            <CloseRoundIcon />
+          </button>
         </form>
         <button className={styles.searchButton} onClick={handleSubmit}>
           <SearchIcon />
@@ -140,10 +149,20 @@ export default function Page() {
         ) : (
           <SlideMenu menuTitleList={["장소 검색", "컬렉션 검색"]}>
             <SlideMenuInnerPage>
-              <SearchPlaceRender placeDatas={placeDatas} />
+              {placeDatas.length === 0 ? (
+                <p className={styles.searchMessage}>{searchPlaceMessage}</p>
+              ) : (
+                <SearchPlaceRender placeDatas={placeDatas} />
+              )}
             </SlideMenuInnerPage>
             <SlideMenuInnerPage>
-              <SearchCollectionRender collectiondatas={CollectionDatas} />
+              {collectionDatas.length === 0 ? (
+                <p className={styles.searchMessage}>
+                  {searchCollectionMessage}
+                </p>
+              ) : (
+                <SearchCollectionRender collectiondatas={collectionDatas} />
+              )}
             </SlideMenuInnerPage>
           </SlideMenu>
         )}

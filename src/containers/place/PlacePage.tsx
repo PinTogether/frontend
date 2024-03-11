@@ -15,7 +15,8 @@ const placeData = (dummyPlaceList as PlaceDetail[])[0];
 
 const PlacePage = ({ placeId }: { placeId?: string }) => {
   const [pinData, setPinData] = useState<PinForPlace[]>([]);
-  const [placeData, setPlaceData] = useState<PlaceDetail>();
+  const [placeData, setPlaceData] = useState<PlaceDetail | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string>("");
 
   useEffect(() => {
     const offset = 0;
@@ -31,6 +32,7 @@ const PlacePage = ({ placeId }: { placeId?: string }) => {
       })
       .catch((err) => {
         console.error(err);
+        setStatusMessage("리뷰를 불러오는데 실패했습니다.");
       });
 
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/places/${placeId}`)
@@ -41,6 +43,7 @@ const PlacePage = ({ placeId }: { placeId?: string }) => {
       })
       .catch((err) => {
         console.error(err);
+        setStatusMessage("장소를 불러오는데 실패했습니다.");
       });
   }, []);
 
@@ -48,14 +51,19 @@ const PlacePage = ({ placeId }: { placeId?: string }) => {
     <>
       {/* {placeId} */}
       <div className={styles.pinCard}>
-        {placeData && <PlaceCard place={placeData} />}
+        {placeData ? (
+          <PlaceCard place={placeData} />
+        ) : (
+          <span>{statusMessage}</span>
+        )}
       </div>
       <ul className={styles.commentList}>
-        {pinData.map((pin) => (
-          <li key={pin.id}>
-            <ReviewCard reviewData={pin} />
-          </li>
-        ))}
+        {pinData &&
+          pinData.map((pin) => (
+            <li key={pin.id}>
+              <ReviewCard reviewData={pin} />
+            </li>
+          ))}
       </ul>
     </>
   );
