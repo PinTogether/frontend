@@ -20,9 +20,8 @@ function ReplyContent({ data }: { data: CollectionReply }) {
       <section className={styles.replyBox}>
         <div className={styles.replyName}>{data.writer}</div>
         <div>
-          <span>{data.contents}</span>
-          <span> </span>
-          <span className={styles.replyName}>
+          <span className={styles.replyText}>{data.contents}</span>
+          <span className={styles.replyCreatedAt}>
             {data.createdAt.slice(0, 10)}
           </span>
         </div>

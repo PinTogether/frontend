@@ -15,7 +15,7 @@ export default function ReplyInputContent() {
   }
 
   return (
-    <section className={styles.replyInputContainer}>
+    <form className={styles.replyInputContainer}>
       <Image
         src={myAvatar}
         alt="profile image"
@@ -24,11 +24,12 @@ export default function ReplyInputContent() {
         className={styles.replyAvatar}
       />
       <section className={styles.replyBox}>
-        <div className={styles.replyName}>{myNickname}</div>
+        {/* <div className={styles.replyName}>{myNickname}</div> */}
         <textarea
-          className={styles.replyInput}
+          className={styles.replyTextArea}
           onChange={onChange}
           maxLength={200}
+          rows={4}
           placeholder="댓글을 작성하세요"
         />
       </section>
@@ -36,6 +37,6 @@ export default function ReplyInputContent() {
         <button className={styles.replySendButton}>등록</button>
         <p className={styles.replyInputCounter}>{inputText.length}/200</p>
       </section>
-    </section>
+    </form>
   );
 }

@@ -1,27 +1,24 @@
 "use client";
 
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
-import Topper from "@/components/SubTopper";
-import Pin from "@/types/Pin";
-// import PinReview from "@/types/PinReview";
-import CollectionCard from "@/components/CollectionCard";
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "@/redux/hooks";
-import {
-  markerDataByAmount,
-} from "@/redux/locationSlice";
+import { markerDataByAmount } from "@/redux/locationSlice";
 import MarkerData from "@/types/Marker";
 import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionWithPinCommentRenderer";
 import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPinRenderer";
 import CollectionWithReply from "@/containers/collection/CollectionWithReply";
 
-import collectionData from "@/../../public/dummy-data/dummy-collection.json";
+import collectionDatas from "@/../../public/dummy-data/dummy-collection.json";
 import pinData from "@/../../public/dummy-data/dummy-pin.json";
 import newPinData from "@/../../public/dummy-data/dummy-pin.json";
 import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
 import newPinData2 from "@/../../public/dummy-data/dummy-pin2.json";
 const commentList = pinDataList;
 import replyList from "@/../../public/dummy-data/dummy-collection-reply.json";
+import SubPageLayout from "../layout/SubPageLayout";
+
+import CollectionInfo from "@/containers/collection/CollectionInfo";
 
 export default function CollectionPage({ id }: { id: number }) {
   const [showState, setShowState] = useState(1);
@@ -55,13 +52,8 @@ export default function CollectionPage({ id }: { id: number }) {
   }
 
   return (
-    <section className={styles.container}>
-      <Topper msg={"컬렉션(장소모음) 조회"} />
-      <section className={styles.collectionDataContainer}>
-        <div className={styles.collectionData}>
-          <CollectionCard collectionData={collectionData[0]} detail={true} />
-        </div>
-      </section>
+    <SubPageLayout topperMsg={"컬렉션 조회"}>
+      <CollectionInfo collectionData={collectionDatas[0]} />
       <section className={styles.buttonContainer}>
         <button
           className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ""}`}
@@ -81,7 +73,7 @@ export default function CollectionPage({ id }: { id: number }) {
         >
           컬렉션 댓글 보기
         </button>
-        {userId == collectionData[0].writerId && (
+        {userId == collectionDatas[0].writerId && (
           <button className={styles.buttons}>+ 핀 추가</button>
         )}
       </section>
@@ -90,6 +82,6 @@ export default function CollectionPage({ id }: { id: number }) {
         <CollectionWithPinCommentRenderer data={commentList} pin={pinData[0]} />
       )}
       {showState === 3 && <CollectionWithReply replys={replyList} />}
-    </section>
+    </SubPageLayout>
   );
 }

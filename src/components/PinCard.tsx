@@ -12,14 +12,14 @@ export { PinCard, SimplePinCard };
 interface PinCardProps extends HTMLAttributes<HTMLDivElement> {
   pinData: Pin;
   showReview?: boolean;
-  showButton?: boolean;
+  showSubButtons?: boolean;
   showEditButton?: boolean;
 }
 export default function PinCard({
   pinData,
   showReview = true,
-  showButton = false,
-  showEditButton = false,
+  showSubButtons = true,
+  showEditButton = true,
   ...props
 }: PinCardProps) {
   return (
@@ -36,7 +36,7 @@ export default function PinCard({
             <span key={idx}>{tag}</span>
           ))}
         </div>
-        {showButton && (
+        {showSubButtons && (
           <div className={styles.buttonContainer}>
             <button>
               {`내 컬렉션에 추가하기`}
@@ -66,6 +66,7 @@ export default function PinCard({
 interface SimplePinCardProps extends HTMLAttributes<HTMLDivElement> {
   pinData: Pin;
   className?: string;
+  showSubButtons?: boolean;
   buttonDisabled?: boolean;
   activeShowDetail?: boolean;
   showEditButton?: boolean;
@@ -73,9 +74,10 @@ interface SimplePinCardProps extends HTMLAttributes<HTMLDivElement> {
 const SimplePinCard = ({
   pinData,
   className,
+  showSubButtons = false,
   buttonDisabled = false,
   activeShowDetail = false,
-  showEditButton = false,
+  showEditButton = true,
   ...props
 }: SimplePinCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -102,7 +104,7 @@ const SimplePinCard = ({
     >
       {!showDetail ? (
         <div className={styles.simpleMainInfo}>
-          {/* <PinIcon className={styles.pinIcon} /> */}
+          <PinIcon className={styles.pinIcon} />
           <button
             className={styles.placeNameContainer}
             disabled={buttonDisabled}
@@ -134,6 +136,22 @@ const SimplePinCard = ({
             <MyReviewCard reviewData={pinData} />
           </ul>
           {showEditButton && <EditButton pinId={pinData.id} />}
+        </div>
+      )}
+      {showSubButtons && (
+        <div className={styles.buttonContainer}>
+          <button>
+            {`내 컬렉션에 추가하기`}
+            <AddRoundIcon />
+          </button>
+          <button>
+            {`리뷰 더보기`}
+            <AddRoundIcon />
+          </button>
+          <button>
+            {`지도에서 보기`}
+            <AddRoundIcon />
+          </button>
         </div>
       )}
     </article>

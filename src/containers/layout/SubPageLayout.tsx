@@ -11,11 +11,20 @@ export { SubPageLayout };
 interface SubPageLayoutProps {
   children?: ReactNode;
   topperMsg: string;
+  completeButtonMsg?: string;
   onClickCompleteButton?: () => void;
 }
 
 const SubPageLayout = forwardRef<HTMLDivElement, SubPageLayoutProps>(
-  ({ children, topperMsg, onClickCompleteButton }: SubPageLayoutProps, ref) => {
+  (
+    {
+      children,
+      topperMsg,
+      completeButtonMsg,
+      onClickCompleteButton,
+    }: SubPageLayoutProps,
+    ref
+  ) => {
     const pageRef = useRef<HTMLDivElement>(null);
     const [hasVerticalOverflow, setHasVerticalOverflow] = useState(false);
 
@@ -39,7 +48,7 @@ const SubPageLayout = forwardRef<HTMLDivElement, SubPageLayoutProps>(
       <section className={styles.subPageLayout}>
         <SubPageTopper
           msg={topperMsg}
-          completeButtonMsg="완료"
+          completeButtonMsg={completeButtonMsg}
           onClickCompleteButton={onClickCompleteButton}
         />
         <div className={styles.subPage} ref={pageRef}>
