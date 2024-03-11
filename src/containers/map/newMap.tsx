@@ -28,6 +28,7 @@ const MapNaverDefault = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
+  //const [sideWidth, setSideWidth] = useState(0);
   const [newMap, setNewMap] = useState<naver.maps.Map>();
   const [createMarkerList, setCreateMarkerList] = useState<naver.maps.Marker[]>(
     []
@@ -449,8 +450,12 @@ const MapNaverDefault = () => {
   }, [geoApiAuth, createMarkerList, overlapList]);
 
   useEffect(() => {
-    if (window.naver && mainContentWidth === "500px") {
-      newMap?.panBy({ x: -300, y: 0 });
+    if (mainContentWidth === "500px") {
+      //setSideWidth(500);
+      //newMap?.panBy({ x: -300, y: 0 });
+    }
+    else if (mainContentWidth == "0px"){
+      //setSideWidth(0);
     }
   }, [mainContentWidth]);
 
