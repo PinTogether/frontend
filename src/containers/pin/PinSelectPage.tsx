@@ -3,7 +3,11 @@
 import { useState, useRef, useEffect, SetStateAction } from "react";
 // import styles from "@/styles/containers/pin/_pinSelectPage.module.scss"; // x
 import styles from "@/styles/containers/pin/_pinSelectPage.module.scss";
-import { CheckRingRoundIcon, PinIcon } from "@/components/IconSvg";
+import {
+  CheckRingRoundIcon,
+  CloseRoundIcon,
+  PinIcon,
+} from "@/components/IconSvg";
 import { SimplePlaceCard } from "@/components/PlaceCard";
 import { InputComponent } from "@/components/InputComponent";
 import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
@@ -12,9 +16,9 @@ import { PlaceDetail } from "@/types/Place";
 import { useSearchParams } from "next/navigation";
 
 const PinSelectPage = () => {
+  const [searchInputValue, setSearchInputValue] = useState("");
   const [selectedPlace, setSelectedPlace] = useState<number[]>([]);
   const [searchedPlace, setSearchedPlace] = useState<PlaceDetail[]>([]);
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const page = 1;
   const size = 10;
   const collectionId = useSearchParams().get("collectionId");
@@ -54,9 +58,8 @@ const PinSelectPage = () => {
   const searchPlace = (
     setSearchedPlace: React.Dispatch<SetStateAction<PlaceDetail[]>>
   ): Promise<void> => {
-    const searchInput = searchInputRef.current;
     return fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/place?query=${searchInput}&page=${page}&size=${size}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/place?query=${searchInputValue}&page=${page}&size=${size}`
     )
       .then((res) => {
         if (!res.ok) throw new Error(`서버 오류 ${res.status}}`);
@@ -129,10 +132,19 @@ const PinSelectPage = () => {
       });
   };
 
+  const clearSearchInput = () => {
+    setSearchInputValue("");
+  };
+  const handleChangeSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInputValue(e.target.value);
+  };
+
   return (
     <section>
       <SlideMenu menuTitleList={["내가 찜한 장소", "새로운 장소 검색"]}>
+        {/* 내가 찜한 장소 */}
         <SlideMenuInnerPage>
+          {/* 메뉴 */}
           <br />
           <div className={styles.selectedCollectionCount}>
             <div
@@ -150,6 +162,7 @@ const PinSelectPage = () => {
               추가하기
             </button>
           </div>
+          {/* 찜한 장소 리스트 */}
           <ul className={styles.listContainer}>
             {placeDataList.map((place) =>
               collectionPinList.includes(place.id) ? (
@@ -173,13 +186,27 @@ const PinSelectPage = () => {
             )}
           </ul>
         </SlideMenuInnerPage>
+        {/* 새로운 장소 검색 */}
         <SlideMenuInnerPage>
+          {/* 검색 */}
           <br />
-          <form onSubmit={handleSubmitSearch}>
-            <InputComponent placeholder="장소 검색" ref={searchInputRef} />
+          <form onSubmit={handleSubmitSearch} className={styles.searchForm}>
+            <InputComponent
+              placeholder="장소 검색"
+              value={searchInputValue}
+              onChange={handleChangeSearchInput}
+            />
+            <button
+              type="button"
+              className={styles.clearButton}
+              onClick={clearSearchInput}
+            >
+              <CloseRoundIcon />
+            </button>
           </form>
           <br />
           <br />
+          {/* 메뉴 */}
           <div className={styles.selectedCollectionCount}>
             <div
               className={styles.mainButton}
@@ -196,6 +223,7 @@ const PinSelectPage = () => {
               추가하기
             </button>
           </div>
+          {/* 검색 장소 리스트 */}
           <ul className={styles.listContainer}>
             {searchedPlace.map((place) =>
               collectionPinList.includes(place.id) ? (

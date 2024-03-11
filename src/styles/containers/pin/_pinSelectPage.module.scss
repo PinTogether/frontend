@@ -1,6 +1,27 @@
 @import "../../base/placeholders";
 @import "../../base/variables";
 
+.searchForm {
+	margin: 0 0.1rem;	
+	position: relative;
+	.clearButton {
+		position: absolute;
+		right: 0;
+		top: 0.35rem;
+		margin-right: 0.25rem;
+		svg {
+			width: 1.25rem;
+			height: 1.25rem;
+			color: $color-text-caption;
+		}
+		&:hover {
+			svg {
+				color: $color-primary;
+			}
+		}
+	}
+}
+
 .selectedCollectionCount {
 	font-size: $font-size-medium;
 	margin-bottom: 1rem;
