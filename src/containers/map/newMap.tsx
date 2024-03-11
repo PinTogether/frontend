@@ -345,7 +345,9 @@ const MapNaverDefault = () => {
   useEffect(() => {
     console.log("내 위치 받아오기");
     if (window.naver && geoApiAuth != "" && newMap) {
-      dispatch(locationGetterByAmount(true));
+      if (!markerDatas[0] && !createMarkerList[0]) {
+        dispatch(locationGetterByAmount(true));
+      }
     }
   }, [isScriptLoaded, geoApiAuth]);
 
