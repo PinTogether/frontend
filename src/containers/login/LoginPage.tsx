@@ -5,6 +5,7 @@ import styles from "@/styles/containers/login/_login.module.scss";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { ProfileMine } from "@/types/Profile";
 
 export default function LoginPage() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
@@ -15,6 +16,19 @@ export default function LoginPage() {
       console.log("e " + event);
       if (event.data === "success") {
         console.log("success");
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`)
+          .then((res) => {
+            if (res.ok) return res.json();
+            else throw new Error("error");
+          })
+          .then((data) => {
+            const myProfile: ProfileMine = data;
+            localStorage.setItem("profile", JSON.stringify(myProfile));
+            router.push("/");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         router.push("/");
       } else if (event.data === "failed") {
         console.log("failed");
