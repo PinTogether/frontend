@@ -1,6 +1,7 @@
 "use client";
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import styles from "@/styles/components/_loading.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getGeoCodingAuth, reverseGeoCoding } from "@/utils/GeoCoding";
@@ -13,21 +14,38 @@ import {
   markerDataByAmount,
   geoApiAuthByAmount,
 } from "@/redux/locationSlice";
+import MarkerData from "@/types/Marker";
 import LatLng from "@/types/Map";
 import Script from "next/script";
+
+interface OverlapData {
+  id: naver.maps.Marker;
+  overlapId: naver.maps.Marker[];
+}
 
 const MapNaverDefault = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const dispatch = useAppDispatch();
 
+  //const [sideWidth, setSideWidth] = useState(0);
   const [newMap, setNewMap] = useState<naver.maps.Map>();
   const [createMarkerList, setCreateMarkerList] = useState<naver.maps.Marker[]>(
+    []
+  );
+  const [clusteredMarkerList, setClusteredMarkerList] = useState<
+    naver.maps.Marker[]
+  >([]);
+  const [overlapList, setOverlapList] = useState<OverlapData[]>([]);
+  const [infoWindowList, setInfoWindowList] = useState<naver.maps.InfoWindow[]>(
     []
   );
 
   const geoApiAuth = useAppSelector((state) => state.location.geoApiAuth);
   const LatLng = useAppSelector((state) => state.location.latLng);
+  const mainContentWidth = useAppSelector(
+    (state) => state.location.mainContentWidth
+  );
   const locationGetter = useAppSelector(
     (state) => state.location.locationGetter
   );
@@ -100,7 +118,7 @@ const MapNaverDefault = () => {
   };
 
   // 현재 지도의 영역을 확인하고 마커를 그릴지 말지 결정
-  const updateMarkers = (markers: naver.maps.Marker[]) => {
+  const updateMarkers = () => {
     const showMarker = (map: naver.maps.Map, marker: naver.maps.Marker) => {
       if (marker.getMap()) return;
       marker.setMap(map);
@@ -112,24 +130,16 @@ const MapNaverDefault = () => {
     };
 
     if (newMap) {
-      // 현재 지도의 화면 영역을 mapBounds에 저장
-      let mapBounds = newMap.getBounds();
-      let marker: naver.maps.Marker;
-      let position;
-
-      for (var i = 0; i < markers.length; i++) {
-        marker = markers[i];
-        position = marker.getPosition();
-
+      createMarkerList.forEach((marker) => {
         // mapBounds와 비교하며 마커가 현재 화면에 보이는 영역에 있는지 확인
-        if (mapBounds.hasPoint(position)) {
+        if (newMap.getBounds().hasPoint(marker.getPosition())) {
           // 보이는 영역에 있다면 마커 표시
           showMarker(newMap, marker);
         } else {
           // 숨겨진 영역에 있다면 마커 숨김
           hideMarker(marker);
         }
-      }
+      });
     }
   };
 
@@ -137,65 +147,215 @@ const MapNaverDefault = () => {
   function deleteMarker() {
     if (createMarkerList[0]) {
       console.log("기존 마커 삭제");
-      for (let i = 0; i < createMarkerList.length; i++) {
-        createMarkerList[i].setMap(null);
-      }
-      setCreateMarkerList([]);
+      createMarkerList.forEach((marker) => {
+        marker.setMap(null);
+      });
     }
+  }
+
+  function markerIconRenderer(markerdata: MarkerData) {
+    if (markerdata.pinCount == 1) {
+      return [
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px;">',
+        '<img src="/icons/map_pin.svg" alt="" style="width:40px; height:40px;" >',
+        '<b style=" font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
+        `${markerdata.placeName}`,
+        "</b>",
+        "</div>",
+      ].join("");
+    } else if (markerdata.pinCount <= 99) {
+      return [
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
+        '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
+        '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+        `${markerdata.pinCount}`,
+        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:16px; height:16px;">',
+        "</b>",
+        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        `${markerdata.placeName}`,
+        "</b>",
+        "</div>",
+      ].join("");
+    } else {
+      return [
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
+        '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
+        '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+        `99+`,
+        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:16px; height:16px;">',
+        "</b>",
+        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        `${markerdata.placeName}`,
+        "</b>",
+        "</div>",
+      ].join("");
+    }
+  }
+
+  function intersects(marker1: naver.maps.Marker, marker2: naver.maps.Marker) {
+    if (marker1.getMap() && marker2.getMap()) {
+      var marker1Rect = marker1.getDrawingRect();
+      var marker2Rect = marker2.getDrawingRect();
+      // 두 마커가 겹치는지 여부를 true 또는 false로 반환한다.
+      return marker1Rect.intersects(marker2Rect);
+    }
+    return false;
+  }
+
+  function Test1(index: number) {
+    return (
+      <button
+        onClick={() => {
+          router.push(`/place/${markerDatas[index].id}`);
+        }}
+      >
+        test
+      </button>
+    );
+  }
+
+  function updateMarkerOverlapList(markerLists: naver.maps.Marker[]) {
+    function getList(index: number) {
+      let returnHTML: string = "";
+      overlapList[index].overlapId.forEach((data) => {
+        const str = [
+          `<div onmouseover="this.style.backgroundColor = '#e4e1ff';" onmouseout="this.style.backgroundColor = '#ffffff'"; style="padding: 3px;">`,
+          '<div onclick="yourFunction()" style="text-decoration: underline; text-decoration-color: #d9d9d9; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; font-size: 15px; font-weight: 500; padding: 5px; margin:0px">',
+          `<a href="/place/${markerDatas[index].id}">${data.getTitle()}</a>`, // 임시
+          //`<button onClick={()=>{router.push("/place/${markerDatas[index].id}")}}>test</button>`,
+          "</div>",
+          "</div>",
+        ].join("");
+        returnHTML += str;
+      });
+      return returnHTML;
+    }
+    // function getList(index: number) {
+    //   function yourFunction() {
+    //     router.push("/");
+    //   }
+
+    //   let returnHTML: string = "";
+    //   overlapList[index].overlapId.forEach((data) => {
+    //     const container = document.createElement("div");
+    //     container.style.padding = "3px";
+    //     const innerDiv = document.createElement("button");
+    //     innerDiv.style.textDecoration = "underline";
+    //     innerDiv.style.textDecorationColor = "#d9d9d9";
+    //     innerDiv.style.cursor = "pointer";
+    //     innerDiv.style.display = "flex";
+    //     innerDiv.style.flexDirection = "column";
+    //     innerDiv.style.justifyContent = "center";
+    //     innerDiv.style.alignItems = "flex-start";
+    //     innerDiv.style.fontSize = "15px";
+    //     innerDiv.style.fontWeight = "500";
+    //     innerDiv.style.padding = "5px";
+    //     innerDiv.style.margin = "0px";
+    //     innerDiv.textContent = data.getTitle();
+
+    //     // 클릭 이벤트 리스너 설정
+    //     innerDiv.onclick = function () {
+    //       alert("click");
+    //       //yourFunction();
+    //     };
+
+    //     // 마우스 오버 이벤트 리스너 설정
+    //     innerDiv.onmouseover = function () {
+    //       innerDiv.style.backgroundColor = "#e4e1ff";
+    //     };
+
+    //     // 마우스 아웃 이벤트 리스너 설정
+    //     innerDiv.onmouseout = function () {
+    //       innerDiv.style.backgroundColor = "#ffffff";
+    //     };
+
+    //     container.appendChild(innerDiv);
+    //     returnHTML += container.outerHTML;
+    //   });
+    //   return returnHTML;
+    // }
+
+    const overlapList: OverlapData[] = [];
+    const infoWindowList: naver.maps.InfoWindow[] = [];
+    markerLists.forEach((marker, index) => {
+      const list: naver.maps.Marker[] = [];
+      markerLists.forEach((data) => {
+        if (intersects(marker, data)) {
+          list.push(data);
+        }
+      });
+      const overlapData: OverlapData = { id: marker, overlapId: list };
+      overlapList.push(overlapData);
+      var infowindow = new naver.maps.InfoWindow({
+        content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; max-height: 400px; padding-top:10px; padding-bottom:10px;">
+        <button onclick=useRouter().push("/")>asd</button>
+        ${getList(index)}
+        </div>`,
+        borderWidth: 0,
+        disableAnchor: true,
+        backgroundColor: "transparent",
+        //backgroundColor: "#ffffff",
+        //borderColor: "#6d56ff",
+        //disableAnchor: true,
+      });
+      infoWindowList.push(infowindow);
+    });
+    setInfoWindowList(infoWindowList);
+    setOverlapList(overlapList);
   }
 
   function makeMarkerList() {
     if (markerDatas[0] && window.naver) {
-      deleteMarker();
+      console.log("마커 만듬");
       const newMarkerList: naver.maps.Marker[] = [];
-      for (let i = 0; i < markerDatas.length; i++) {
+      markerDatas.forEach((data) => {
         var marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(
-            markerDatas[i].xPos,
-            markerDatas[i].yPos
-          ),
+          position: new naver.maps.LatLng(data.xPos, data.yPos),
           icon: {
-            content: [
-              '<div style="background:#e4e1ff; display: table-cell; vertical-align: middle; cursor: pointer; height:30px; border:1px solid; border-radius:15px; padding-left:10px; padding-right:10px">',
-              `${markerDatas[i].placeName}`,
-              "</div>",
-            ].join(""),
+            content: markerIconRenderer(data),
             //마커의 기준위치 지정
-            size: new naver.maps.Size(30, 50),
-            anchor: new naver.maps.Point(0, 0),
+            size: new naver.maps.Size(60, 50),
+            anchor: new naver.maps.Point(30, 25),
           },
           animation: naver.maps.Animation.DROP,
-          title: markerDatas[i].placeName,
+          title: data.placeName,
+          //shape: {
+          //  coords: [20, 0, 60, 0, 60, 40, 20, 40],
+          //  type: "poly",
+          //},
         });
-        //마커 클릭시 해당 Pin의 장소조회로 이동 (?)
-        naver.maps.Event.addListener(marker, "click", () =>
-          router.push(`/place/${markerDatas[i].id}`)
-        );
         newMarkerList.push(marker);
-      }
+      });
       setCreateMarkerList(newMarkerList);
-      console.log("마커데이터", newMarkerList);
-      dispatch(markerDataByAmount([]));
     }
   }
 
   //마커 리스트가 있을시 화면의 bounds를 구해 적절한 위치, 줌으로 이동 및 화면에 보이는 마커 표시
   useEffect(() => {
-    if (window.naver && createMarkerList[0] && !markerDatas[0] && newMap) {
+    if (window.naver && createMarkerList[0] && newMap) {
       console.log(
-        "마커리스트들 화면에 띄우고 적절한 화면으로 이동하거나 주소 불러오기"
+        "마커리스트들 화면에 띄우고 적절한 화면으로 이동하거나 주소 불러오기\n"
       );
       var centerBounds = new naver.maps.LatLng(
         createMarkerList[0].getPosition()
       );
       var bounds = new naver.maps.LatLngBounds(centerBounds, centerBounds);
-      for (let i = 0; i < createMarkerList.length; i++) {
-        bounds.extend(createMarkerList[i].getPosition());
-      }
-      if (newMap.getCenter() != bounds.getCenter()) {
+      createMarkerList.forEach((marker) => {
+        bounds.extend(marker.getPosition());
+      });
+      if (newMap.getCenter() != bounds.getCenter() && geoApiAuth != "") {
         //geoApiAuth가 없을때 들어올수 있으므로 발급될때는 bounds이동 없이 주소만 새롭게 불러오도록 함
-        newMap.fitBounds(bounds, { top: 10, right: 10, bottom: 10, left: 10 });
-        updateMarkers(createMarkerList);
+        newMap.fitBounds(bounds, {
+          top: 10,
+          right: 10,
+          bottom: 10,
+          left: 10,
+          maxZoom: 18,
+        });
+        createMarkerList.forEach((marker) => {
+          marker.setMap(newMap);
+        });
+        updateMarkerOverlapList(createMarkerList);
       }
       const center = newMap.getCenter();
       handleGetAddress(center.x, center.y);
@@ -220,7 +380,7 @@ const MapNaverDefault = () => {
           new naver.maps.LatLng(LatLng.lat, LatLng.lng),
           new naver.maps.LatLng(LatLng.lat, LatLng.lng)
         ),
-        {easing: "easeOutCubic"}, // 애니메이션
+        { easing: "easeOutCubic" }, // 애니메이션
         { top: 4000, right: 4000, bottom: 4000, left: 4000 } // 센터기준 상하좌우에 여유공간 4000px (대충 zoom:16 비슷하게 나옴)
       );
     }
@@ -229,22 +389,75 @@ const MapNaverDefault = () => {
   //내 위치 받아오기
   useEffect(() => {
     if (window.naver && geoApiAuth != "" && newMap) {
+      const eventList: any[] = [];
       console.log("내 위치 받아오기 및 발급된 api키로 이벤트 등록");
       if (!createMarkerList[0]) {
+        console.log("내 위치 조회");
         dispatch(locationGetterByAmount(true));
       }
-      naver.maps.Event.addListener(newMap, "dragend", function (e) {
-        const center = newMap.getCenter();
-        handleGetAddress(center.x, center.y);
-        updateMarkers(createMarkerList); // 마커 위치 확인 후 그릴지 안그릴지 결정
+      //드래그시 이벤트 갱신
+      const dragevent = naver.maps.Event.addListener(
+        newMap,
+        "dragend",
+        function (e) {
+          const center = newMap.getCenter();
+          handleGetAddress(center.x, center.y);
+          updateMarkers();
+          updateMarkerOverlapList(createMarkerList);
+        }
+      );
+      //줌 변경시 이벤트 갱신
+      const zoomevent = naver.maps.Event.addListener(
+        newMap,
+        "zoom_changed",
+        function (e) {
+          const center = newMap.getCenter();
+          handleGetAddress(center.x, center.y);
+          updateMarkers();
+          updateMarkerOverlapList(createMarkerList);
+        }
+      );
+      createMarkerList.forEach((data, index) => {
+        eventList.push(
+          naver.maps.Event.addListener(data, "click", function (e) {
+            newMap.panTo(data.getPosition(), { duration: 200 });
+            handleGetAddress(data.getPosition().x, data.getPosition().y);
+            if (overlapList[index].overlapId.length != 1) {
+              if (infoWindowList[index].getMap()) {
+                infoWindowList[index].close();
+              } else {
+                infoWindowList[index].open(newMap, data);
+                updateMarkers();
+                //infoWindowList[index].setPosition(e.coords);
+              }
+            } else {
+              router.push(`/place/${markerDatas[index].id}`);
+            }
+          })
+        );
       });
-      naver.maps.Event.addListener(newMap, "zoom_changed", function (e) {
-        const center = newMap.getCenter();
-        handleGetAddress(center.x, center.y);
-        updateMarkers(createMarkerList); // 마커 위치 확인 후 그릴지 안그릴지 결정
-      });
+      return () => {
+        createMarkerList.forEach((data, index) => {
+          if (infoWindowList[index] && infoWindowList[index].getMap()) {
+            infoWindowList[index].close();
+          }
+          data.removeListener(eventList[index]);
+        });
+        naver.maps.Event.removeListener(dragevent);
+        naver.maps.Event.removeListener(zoomevent);
+      };
     }
-  }, [geoApiAuth]);
+  }, [geoApiAuth, createMarkerList, overlapList]);
+
+  useEffect(() => {
+    if (mainContentWidth === "500px") {
+      //setSideWidth(500);
+      //newMap?.panBy({ x: -300, y: 0 });
+    }
+    else if (mainContentWidth == "0px"){
+      //setSideWidth(0);
+    }
+  }, [mainContentWidth]);
 
   //geocode api 인증키 받아오기
   useEffect(() => {
@@ -256,7 +469,8 @@ const MapNaverDefault = () => {
 
   //마커 목록 생성
   useEffect(() => {
-    if (window.naver) {
+    deleteMarker();
+    if (window.naver && markerDatas[0] && isScriptLoaded) {
       console.log("marker 생성하기");
       makeMarkerList();
     }
@@ -294,7 +508,20 @@ const MapNaverDefault = () => {
         //strategy="beforeInteractive"// 왜 ?
         strategy="afterInteractive"
       />
-      <div id="map" ref={mapElement} style={{ minHeight: "100vh" }}></div>
+      {isScriptLoaded && (
+        <div id="map" ref={mapElement} style={{ minHeight: "100vh" }}></div>
+      )}
+      {!isScriptLoaded && (
+        <div className={styles.baseContainer}>
+          <div>
+            <div className={styles.ball}></div>
+            <div className={styles.ball}></div>
+            <div className={styles.ball}></div>
+            <div className={styles.ball}></div>
+            <div className={styles.ball}></div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -28,6 +28,15 @@ export default function Sidebar() {
     return false;
   };
 
+  function changeSideWidth(){
+    if(FlexbarWidth == "0px"){
+      dispatch(mainContentWidthByAmount("500px"));
+    }
+    else if (FlexbarWidth == "500px"){
+      dispatch(mainContentWidthByAmount("0px"));
+    }
+  }
+
   return (
     <section className={styles.container}>
       <div></div>
@@ -35,7 +44,7 @@ export default function Sidebar() {
         <HomeIcon className={`${styles.icon} ${currentPath("/") ? styles.currPath : ''}`}/>
         <HomeFillIcon className={styles.hoveredIcon}/>
       </button>
-      <button className={styles.button} onClick={() => dispatch(mainContentWidthByAmount("0px"))}>
+      <button className={styles.button} onClick={() => changeSideWidth()}>
         <MapIcon className={styles.icon}/>
         <MapFillIcon className={styles.hoveredIcon}/>
       </button>
