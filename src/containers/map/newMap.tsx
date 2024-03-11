@@ -300,8 +300,10 @@ const MapNaverDefault = () => {
       });
       infoWindowList.push(infowindow);
     });
-    setInfoWindowList(infoWindowList);
-    setOverlapList(overlapList);
+    if(infoWindowList[0] && overlapList[0]){
+      setInfoWindowList(infoWindowList);
+      setOverlapList(overlapList);
+    }
   }
 
   function makeMarkerList() {
@@ -386,15 +388,22 @@ const MapNaverDefault = () => {
     }
   }, [LatLng]);
 
-  //내 위치 받아오기
-  useEffect(() => {
+   //내 위치 받아오기
+  useEffect(()=>{
     if (window.naver && geoApiAuth != "" && newMap) {
-      const eventList: naver.maps.MapEventListener[] = [];
-      console.log("내 위치 받아오기 및 발급된 api키로 이벤트 등록");
-      if (!createMarkerList[0]) {
+      console.log("내 위치 받아오기");
+      if (!markerDatas[0]) {
         console.log("내 위치 조회");
         dispatch(locationGetterByAmount(true));
       }
+    }
+  },[isScriptLoaded, geoApiAuth])
+
+  //이벤트 등록
+  useEffect(() => {
+    if (window.naver && geoApiAuth != "" && newMap) {
+      const eventList: naver.maps.MapEventListener[] = [];
+      console.log("이벤트 등록");
       //드래그시 이벤트 갱신
       const dragevent = naver.maps.Event.addListener(
         newMap,
@@ -402,8 +411,10 @@ const MapNaverDefault = () => {
         function (e) {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
-          updateMarkers();
-          updateMarkerOverlapList(createMarkerList);
+          if(markerDatas[0]){
+            updateMarkers();
+            updateMarkerOverlapList(createMarkerList);
+          }
         }
       );
       //줌 변경시 이벤트 갱신
@@ -413,14 +424,17 @@ const MapNaverDefault = () => {
         function (e) {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
-          updateMarkers();
-          updateMarkerOverlapList(createMarkerList);
+          if(markerDatas[0]){
+            updateMarkers();
+            updateMarkerOverlapList(createMarkerList);
+          }
         }
       );
       const buttonEventList: HTMLElement[] = [];
       createMarkerList.forEach((data, index) => {
         eventList.push(
           naver.maps.Event.addListener(data, "click", function (e) {
+            console.log("마커 클릭");
             newMap.panTo(data.getPosition(), { duration: 200 });
             setTimeout(updateMarkers, 210); // 위 duration과 맞추기
             handleGetAddress(data.getPosition().x, data.getPosition().y);
@@ -457,7 +471,7 @@ const MapNaverDefault = () => {
         naver.maps.Event.removeListener(zoomevent);
       };
     }
-  }, [geoApiAuth, createMarkerList, overlapList]);
+  }, [geoApiAuth, createMarkerList]);
 
   useEffect(() => {
     if (mainContentWidth === "500px") {
