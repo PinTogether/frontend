@@ -16,12 +16,18 @@ export default function LoginPopup() {
     if (oauth) {
       setSuccess(true);
       (async () => {
-        opener?.postMessage("success", process.env.NEXT_PUBLIC_FRONTEND_URL);
+        await opener?.postMessage(
+          "success",
+          process.env.NEXT_PUBLIC_FRONTEND_URL
+        );
         window.close();
       })();
     } else {
       (async () => {
-        opener?.postMessage("failed", process.env.NEXT_PUBLIC_FRONTEND_URL);
+        await opener?.postMessage(
+          "failed",
+          process.env.NEXT_PUBLIC_FRONTEND_URL
+        );
         window.close();
       })();
     }
