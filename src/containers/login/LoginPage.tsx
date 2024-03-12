@@ -4,6 +4,9 @@ import { LogoHorizontal } from "@/components/LogoSvg";
 import styles from "@/styles/containers/login/_login.module.scss";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { Cookies } from "react-cookie";
+import { ProfileMine } from "@/types/Profile";
+import { useRouter } from "next/router";
 
 export default function LoginPage() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
@@ -13,11 +16,25 @@ export default function LoginPage() {
     const checkLoginStatus = (e: MessageEvent) => {
       if (e.origin !== process.env.NEXT_PUBLIC_FRONTEND_URL) return;
       console.log("checkLoginStatus");
-      const login = localStorage.getItem("myProfile");
-      console.log(login);
-      if (!login) {
-        setErrorMessage("로그인에 실패했습니다. 다시 시도해주세요.");
-      }
+
+      const oauth = new Cookies().get("Authorization");
+      if (oauth) {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`)
+          .then((res) => {
+            if (res.ok) return res.json();
+            else throw new Error("서버 오류");
+          })
+          .then((data) => {
+            const myProfile: ProfileMine = data;
+            localStorage.setItem("myProfile", JSON.stringify(myProfile));
+            useRouter().push("/");
+          })
+          .then(() => {})
+          .catch((error) => {
+            console.log(error);
+            setErrorMessage("내 정보 가져오기에 실패했습니다.");
+          });
+      } else setErrorMessage("로그인에 실패했습니다. 다시 시도해주세요.");
     };
 
     window.addEventListener("message", checkLoginStatus);
