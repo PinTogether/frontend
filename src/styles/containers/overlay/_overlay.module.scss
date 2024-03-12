@@ -83,7 +83,7 @@
 .bottomContent {
   opacity: 0;
   pointer-events: none;
-  transition: all 0.3s ease; 
+  transition: all 0.3s ease;
   min-width: 10rem;
   width: 100%;
   max-width: 100%;
@@ -113,12 +113,15 @@
   cursor: pointer;
   pointer-events: auto;
   border: 1px solid;
-  transition: all 0.3s ease;
   svg {
     width: 1.5rem;
     height: 1.5rem;
     color: $color-grey-dark;
   }
+}
+
+.clickedButtons{
+  border: 2px solid $color-primary;
 }
 
 .bottomButton:hover {

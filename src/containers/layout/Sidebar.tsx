@@ -3,6 +3,7 @@
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { mainContentWidthByAmount } from "@/redux/locationSlice";
 import { useRouter, usePathname } from "next/navigation";
+import { useState } from "react";
 import { AddSquareFillIcon, AddSquareIcon, BellFillIcon, BellIcon, HomeFillIcon, HomeIcon, MapFillIcon, MapIcon, SearchFillIcon, SearchIcon } from "@/components/IconSvg";
 import styles from "@/styles/layout/_sidebar.module.scss";
 import Image from "next/image";
@@ -14,6 +15,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   const FlexbarWidth = useAppSelector((state) => state.location.mainContentWidth);
+  const [beforeWidth, setBeforeWidth] = useState<string>("500px");
 
   function moveURL(url:string){
     if(FlexbarWidth == "0px"){
@@ -30,10 +32,15 @@ export default function Sidebar() {
 
   function changeSideWidth(){
     if(FlexbarWidth == "0px"){
-      dispatch(mainContentWidthByAmount("500px"));
+      dispatch(mainContentWidthByAmount(beforeWidth));
     }
-    else if (FlexbarWidth == "500px"){
+    else if(FlexbarWidth == "500px"){
       dispatch(mainContentWidthByAmount("0px"));
+      setBeforeWidth("500px");
+    }
+    else if (FlexbarWidth == "95%"){
+      dispatch(mainContentWidthByAmount("0px"));
+      setBeforeWidth("95%");
     }
   }
 
