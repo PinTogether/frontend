@@ -27,6 +27,7 @@ export default function Overlay() {
   const locationGetter = useAppSelector(
     (state) => state.location.locationGetter
   );
+  const [selectedCardId, setSelectedCardId] = useState<number[]>([0]);
 
   function getLocation() {
     dispatch(locationGetterByAmount(true));
@@ -39,6 +40,14 @@ export default function Overlay() {
     });
     setShowCardSlider((prevState) => !prevState);
   };
+
+  const handleClickedCard = (index: number) => {
+    setSelectedCardId((prev) => {
+      if (prev.includes(index)) return prev.filter((id) => id !== index);
+      return [...prev, index];
+    });
+  };
+
   return (
     <section className={styles.overlay}>
       <div className={styles.top}>
@@ -74,12 +83,13 @@ export default function Overlay() {
         <div
           className={`${styles.bottomContent} ${isCardSliderOn ? styles.visible : ""}`}
         >
-          <CardSlider2 height={150}>
+          <CardSlider2 height={160} selectedCardIndexList={selectedCardId}>
             {collectionDummyData.map((collection, index) => (
               <SimpleCollectionCard
                 key={index}
                 collectionData={collection}
                 linkDisabled={true}
+                onClick={() => handleClickedCard(index)}
               />
             ))}
           </CardSlider2>
