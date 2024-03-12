@@ -4,43 +4,27 @@ import { LogoHorizontal } from "@/components/LogoSvg";
 import styles from "@/styles/containers/login/_login.module.scss";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { ProfileMine } from "@/types/Profile";
 
 export default function LoginPage() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
-  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      console.log("e " + event);
-      if (event.data === "success") {
-        console.log("success");
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`)
-          .then((res) => {
-            if (res.ok) return res.json();
-            else throw new Error("error");
-          })
-          .then((data) => {
-            const myProfile: ProfileMine = data;
-            localStorage.setItem("profile", JSON.stringify(myProfile));
-            router.push("/");
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        router.push("/");
-      } else if (event.data === "failed") {
-        console.log("failed");
+    const checkLoginStatus = (e: MessageEvent) => {
+      if (e.origin !== process.env.NEXT_PUBLIC_FRONTEND_URL) return;
+      console.log("checkLoginStatus");
+      const login = localStorage.getItem("myProfile");
+      console.log(login);
+      if (!login) {
+        setErrorMessage("로그인에 실패했습니다. 다시 시도해주세요.");
       }
     };
-    externalPopup?.addEventListener("message", handleMessage);
+
+    window.addEventListener("message", checkLoginStatus);
     return () => {
-      if (externalPopup?.closed === false) {
-        externalPopup?.removeEventListener("message", handleMessage);
-      }
+      window.removeEventListener("message", checkLoginStatus);
     };
-  }, [externalPopup]);
+  }, []);
 
   const handleClick = ({
     loginType,
@@ -52,17 +36,25 @@ export default function LoginPage() {
     const height = 600; // 팝업의 세로 길이 : 500
     const left = window.screenX + (window.outerWidth - width) / 2;
     const top = window.screenY + (window.outerHeight - height) / 2;
+
     setExternalPopup(
       window.open(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth2/authorization/${loginType}`,
-        `${loginType} login`,
+        `${loginType}s login`,
         `width=${width},height=${height},left=${left},top=${top},popup=yes`
       )
     );
+    // setExternalPopup(
+    //   window.open(
+    //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/`,
+    //     `${loginType}s login`,
+    //     `width=${width},height=${height},left=${left},top=${top},popup=yes`
+    //   )
+    // );
   };
 
   return (
-    <div className={styles.page}>
+    <div id={styles.loginPage}>
       <LogoHorizontal />
       <div className={styles.buttonContainer}>
         <button
@@ -87,7 +79,8 @@ export default function LoginPage() {
           <span>구글 로그인</span>
         </button>
       </div>
-      <footer>
+      <div className={styles.loginErrorMessage}>{errorMessage}</div>
+      <footer className={styles.footer}>
         <a>서비스 이용약관</a>
         <p>|</p>
         <a>개인정보 처리방침</a>

@@ -5,11 +5,16 @@ $color-kakao: #fee500;
 $color-google: #ffffff;
 $color-naver: #03c75a;
 
-.page {
-  @extend %pt-page;
+#loginPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 2rem;
+  height: 100%;
 
   .buttonContainer {
+    margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -17,17 +22,15 @@ $color-naver: #03c75a;
       @extend %pt-button;
       box-shadow: 0 0px 0.1rem 0 rgba(0, 0, 0, 0.5);
       padding: 0.5rem 0rem;
-      font-size: 1.2rem;
+      font-size: $font-size-medium;
       width: 240px;
       outline: none;
       gap: 1rem;
 
-
       span {
         display: flex;
-        align-items: flex-end;
-        line-height: 1;
-        height: 1.5rem;
+        align-items: center;
+        height: 100%;
         color: rgba(0, 0, 0, 0.85);
       }
       &:hover {
@@ -55,8 +58,11 @@ $color-naver: #03c75a;
       }
     }
   }
-
-  footer {
+  .loginErrorMessage {
+    font-size: $font-size-small;
+    color: rgba(red, 0.7);
+  }
+  .footer {
     margin-top: 6rem;
     display: flex;
     justify-content: center;
