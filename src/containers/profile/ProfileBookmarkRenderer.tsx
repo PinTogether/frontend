@@ -59,7 +59,7 @@ export default function ProfileBookmarkRenderer({
                 setSelectMode(false), setClickedBookmarks([]);
               }}
             >
-              선택모드 취소
+              전체 취소
             </button>
           </>
         )}

@@ -202,7 +202,7 @@ const MapNaverDefault = () => {
     return false;
   }
 
-  function Test1(id: number) {
+  function movePage(id: number) {
     console.log(id, "으로 이동");
     router.push(`/place/${id}`);
   }
@@ -382,9 +382,6 @@ const MapNaverDefault = () => {
       createMarkerList.forEach((data, index) => {
         eventList.push(
           naver.maps.Event.addListener(data, "click", function (e) {
-            newMap.panTo(data.getPosition(), { duration: 200 });
-            setTimeout(updateMarkers, 210); // 위 duration과 맞추기
-            handleGetAddress(data.getPosition().x, data.getPosition().y);
             if (overlapList[index].overlapMarker.length != 1) {
               if (infoWindowList[index].getMap()) {
                 infoWindowList[index].close();
@@ -395,14 +392,18 @@ const MapNaverDefault = () => {
                     `button${markerDatas[index2].id}`
                   );
                   if (event) {
-                    event.addEventListener("click", () =>
-                      Test1(markerDatas[index2].id)
+                    event.addEventListener("click", () =>{
+                      movePage(markerDatas[index2].id);
+                    }
                     );
                     buttonEventList.push(event);
                   }
                 });
               }
             } else {
+              // newMap.panTo(data.getPosition(), { duration: 200 });
+              // setTimeout(updateMarkers, 210); // 위 duration과 맞추기
+              // handleGetAddress(data.getPosition().x, data.getPosition().y);
               router.push(`/place/${markerDatas[index].id}`);
             }
           })
@@ -416,7 +417,7 @@ const MapNaverDefault = () => {
           data.removeListener(eventList[index]);
           if (buttonEventList[index]) {
             buttonEventList[index].removeEventListener("click", () =>
-              Test1(markerDatas[index].id)
+              movePage(markerDatas[index].id)
             );
           }
         });
