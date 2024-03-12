@@ -39,7 +39,7 @@ export default function LoginPage() {
 
     setExternalPopup(
       window.open(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/${loginType}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth2/authorization/${loginType}`,
         `${loginType}s login`,
         `width=${width},height=${height},left=${left},top=${top},popup=yes`
       )
