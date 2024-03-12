@@ -39,11 +39,18 @@ export default function LoginPage() {
 
     setExternalPopup(
       window.open(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/popup`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/${loginType}`,
         `${loginType}s login`,
         `width=${width},height=${height},left=${left},top=${top},popup=yes`
       )
     );
+    // setExternalPopup(
+    //   window.open(
+    //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/`,
+    //     `${loginType}s login`,
+    //     `width=${width},height=${height},left=${left},top=${top},popup=yes`
+    //   )
+    // );
   };
 
   return (
