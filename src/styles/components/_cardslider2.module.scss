@@ -18,6 +18,9 @@ $card-width: 48rem;
     transition: transform 0.2s ease-out;
     overflow-y: hidden;
     overflow-x: scroll;
+    
+    scroll-snap-type : block mandatory;
+    scroll-snap-align: center;
 
     // scroll bar hide
     -ms-overflow-style: none; /* IE and Edge */
@@ -32,23 +35,18 @@ $card-width: 48rem;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    // gap
-    padding: 0px 1rem;
+    padding: 0 1rem;
     gap: 1rem;
-
+    
     .activeCard {
       flex-shrink: 0;
       transition: transform 1s;
-      // transform: scale(1);
       & > * {
         border: 3px solid $color-primary;
-        // border-image : linear-gradient(90deg, #ff8a00, #e52e71);
       }
       opacity: 1;
     }
-
     .deactiveCard {
-      // transform: scale(0.8);
       opacity: 0.5;
     }
   }
