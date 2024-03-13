@@ -111,6 +111,8 @@
   grid-template-columns: 1fr auto;
   grid-template-rows: auto auto;
   row-gap: 0.5rem;
+  justify-items: start;
+  width: 100%;
     .pinIcon {
       color: $color-text-caption;
     }
