@@ -3,12 +3,14 @@ import {
   DefaultCollectionSkeleton,
   CollectionImageSkeleton,
   PinWithReviewSkeleton,
+  DetailCollectionSkeleton,
+  SimpleCollectionSkeleton,
 } from "@/components/loading/SkeletonImage";
 import styles from "@/styles/components/_skeletonImage.module.scss";
 import { Suspense } from "react";
 
-async function SlowServerComponent() {
-  const got = await fetch("http://localhost:3000/api/suspense", {
+async function SlowServerComponent({ time }: { time: number }) {
+  const got = await fetch(`http://localhost:3000/api/suspense?time=${time}`, {
     cache: "no-store",
   }).then((res) => (res.ok ? res.json() : { message: "GET failed" }));
   return <div>로딩 완료: {got.message}</div>;
@@ -28,28 +30,32 @@ export default function Page() {
       <div className={styles.previewContainer}>
         <AvatarImageSkeleton />
         <Suspense fallback={<AvatarImageSkeleton />}>
-          <SlowServerComponent />
+          <SlowServerComponent time={5000} />
         </Suspense>
       </div>
       이미지
       <div className={styles.previewContainer}>
         <CollectionImageSkeleton />
         <Suspense fallback={<CollectionImageSkeleton />}>
-          <SlowServerComponent />
+          <SlowServerComponent time={3000} />
         </Suspense>
       </div>
       컬렉션
       <div className={styles.previewContainer}>
         <DefaultCollectionSkeleton />
         <Suspense fallback={<DefaultCollectionSkeleton />}>
-          <SlowServerComponent />
+          <SlowServerComponent time={2000} />
         </Suspense>
       </div>
       핀리뷰
       <PinWithReviewSkeleton />
       <Suspense fallback={<PinWithReviewSkeleton />}>
-          <SlowServerComponent />
-        </Suspense>
+        <SlowServerComponent time={8000} />
+      </Suspense>
+      디테일 컬렉션
+      <DetailCollectionSkeleton />
+      심플 컬렉션
+      <SimpleCollectionSkeleton />
     </div>
   );
 }
