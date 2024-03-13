@@ -1,0 +1,139 @@
+@import "../base/variables";
+@import "../base/placeholders";
+
+.previewContainer{
+  padding: 20px;
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(0);
+  }
+  50%,
+  100% {
+    transform: translateX(460px);
+  }
+}
+
+.skeletonAvatar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 100%;
+  background: linear-gradient(to right, $color-grey-light, $color-grey, $color-grey-light);
+  animation: loading 2.5s infinite linear;
+}
+
+.skeletonAvatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: $color-grey-light;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeletonImage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 100%;
+  background: linear-gradient(to right, $color-grey-light, $color-grey, $color-grey-light);
+  animation: loading 2.5s infinite linear;
+}
+
+.skeletonImage {
+  width: 170px;
+  height: 170px;
+  border-radius: $border-radius;
+  background: $color-grey-light;
+  position: relative;
+  overflow: hidden;
+}
+
+.collectionContainer{
+  min-width: 12rem;
+  width: 12rem;
+  height: 290px;
+  border-radius: $border-radius;
+  background: $color-grey-light;
+  gap: 10px;
+  display:flex;
+  flex-direction: column;
+}
+
+.skeletonCollectionImg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 100%;
+  background: linear-gradient(to right, $color-grey, $color-grey-dark, $color-grey);
+  animation: loading 2.5s infinite linear;
+}
+
+.skeletonCollectionImg{
+  width: 12rem;
+  height: 12rem;
+  background: $color-grey;
+  border-radius: $border-radius;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+}
+
+.skeletonPinWithReview{
+  width: 340px;
+  height: 270px;
+  border-radius: $border-radius;
+  background: $color-grey-light;
+  gap: 5px;
+  padding: 15px;
+  display:grid;
+  grid-template-rows: 1fr 1fr;
+  .topBox{
+    gap: 5px;
+    padding: 15px;
+    display:grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+  }
+  .bottomBox{
+    gap: 5px;
+    padding: 15px;
+    display:grid;
+    grid-template-columns: 90px 1fr;
+  }
+  .bottomBoxInner{
+    gap: 5px;
+    padding: 15px;
+    display:grid;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+}
+
+.skeletonTextBox::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 100%;
+  background: linear-gradient(to right, $color-grey, $color-grey-dark, $color-grey);
+  animation: loading 2.5s infinite linear;
+}
+
+.skeletonTextBox{
+  border-radius: $border-radius;
+  background: $color-grey;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+}
