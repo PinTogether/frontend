@@ -5,27 +5,14 @@ import { useRouter } from "next/navigation";
 import { PlaceStarred } from "@/types/Place";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { PinIcon } from "@/components/IconSvg";
-
+import placeDatas from "@/../../public/dummy-data/dummy-place.json";
+import PlaceCard, { SimplePlaceCard } from "@/components/PlaceCard";
 
 export default function ProfileBookmarkRenderer({
   bookmarks,
 }: {
   bookmarks: PlaceStarred[];
 }) {
-  function onChangeClickedBookmark(id: number) {
-    if (selectMode) {
-      const newList = [...clickedBookmarks];
-      if (newList.includes(id)) {
-        const i = newList.indexOf(id);
-        newList.splice(i, 1);
-      } else {
-        newList.push(id);
-      }
-      setClickedBookmarks(newList);
-      console.log(clickedBookmarks);
-    } else {
-    }
-  }
   const router = useRouter();
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const [clickedBookmarks, setClickedBookmarks] = useState<number[]>([]);
@@ -42,6 +29,21 @@ export default function ProfileBookmarkRenderer({
       setIsButtonPressed(false);
     };
     document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const onChangeClickedBookmark = (id: number) => {
+    if (selectMode) {
+      const newList = [...clickedBookmarks];
+      if (newList.includes(id)) {
+        const i = newList.indexOf(id);
+        newList.splice(i, 1);
+      } else {
+        newList.push(id);
+      }
+      setClickedBookmarks(newList);
+      console.log(clickedBookmarks);
+    } else {
+    }
   };
 
   return (
@@ -63,10 +65,14 @@ export default function ProfileBookmarkRenderer({
             </button>
           </>
         )}
-        {!selectMode && <b className={styles.bookmarkMessage}>찜 장소를 길게 누르면 선택할 수 있습니다.</b>}
+        {!selectMode && (
+          <b className={styles.bookmarkMessage}>
+            찜 장소를 길게 누르면 선택할 수 있습니다.
+          </b>
+        )}
       </div>
       <section className={styles.profileBookmarkContainer}>
-        {bookmarks.map((bookmark, index) => (
+        {/*{placeDatas.map((bookmark, index) => (
           <button
             onClick={() => {
               (selectMode && onChangeClickedBookmark(bookmark.id)) ||
@@ -77,11 +83,22 @@ export default function ProfileBookmarkRenderer({
             key={index}
             className={`${styles.bookmarkContainer} ${clickedBookmarks.includes(bookmark.id) ? styles.bookmarkContainerClicked : ""}`}
           >
-            <section className={styles.bookmarkData}>
-              <b>{bookmark.name}</b>
-              <div>{bookmark.category}</div>
-              <div>{bookmark.roadNameAddress}</div>
-            </section>
+            <SimplePlaceCard place={bookmark} />
+          
+          </button>
+        ))}*/}
+        {placeDatas.map((bookmark, index) => (
+          <button
+            onClick={() => {
+              (selectMode && onChangeClickedBookmark(bookmark.id)) ||
+                (!selectMode && router.push(`/pin/${bookmark.id}`));
+            }}
+            onMouseDown={handleMouseDown}
+            onMouseUp={() => setIsButtonPressed(false)}
+            key={index}
+            className={`${styles.bookmarkContainer} ${clickedBookmarks.includes(bookmark.id) ? styles.bookmarkContainerClicked : ""}`}
+          >
+            <SimplePlaceCard place={bookmark} />
           </button>
         ))}
       </section>

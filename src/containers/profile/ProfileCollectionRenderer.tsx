@@ -1,6 +1,6 @@
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
-import Collection, { CollectionDetail } from "@/types/Collection";
-import CollectionCard from "@/components/CollectionCard";
+import { CollectionDetail } from "@/types/Collection";
+import { DefaultCollectionCard } from "@/components/CollectionCard";
 
 export default function ProfileCollectionRenderer({
   collectionList,
@@ -10,7 +10,7 @@ export default function ProfileCollectionRenderer({
   return (
     <section className={styles.profileListContainer}>
       {collectionList.map((collection, index) => (
-        <CollectionCard key={index} collectionData={collection} />
+        <DefaultCollectionCard key={index} collectionData={collection} />
       ))}
     </section>
   );
