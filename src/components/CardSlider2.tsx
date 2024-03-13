@@ -55,6 +55,7 @@ export default function CardSlider2({
       const elapsed = timestamp - startTime; // 경과 시간
       const fraction = Math.min(elapsed / duration, 1); // 진행률 (0에서 1 사이)
 
+      if (cardContainerRef.current === null) return;
       cardContainerRef.current!.scrollLeft =
         start + distance * easeOutQuad(fraction); // 현재 스크롤 위치 계산
 
