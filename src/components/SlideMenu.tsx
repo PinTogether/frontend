@@ -91,12 +91,17 @@ const SlideMenu = ({
         <div ref={menuSelectLine} className={`${styles.menuSelectLine}`} />
       </ul>
       <ul className={styles.pageUl} ref={pageRef}>
-        {children[selectedMenu]}
-        {/* {children.map((child, index) => (
-          <li className={styles.pageLi} key={index}>
+        {/* {children[selectedMenu]} */}
+        {children.map((child, index) => (
+          <li
+            className={`${styles.pageLi} ${
+              index === selectedMenu ? "" : styles.hidden
+            }`}
+            key={index}
+          >
             {child}
           </li>
-        ))} */}
+        ))}
       </ul>
     </div>
   );

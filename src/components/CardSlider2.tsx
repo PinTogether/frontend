@@ -1,14 +1,6 @@
 "use client";
 
-// import styles from "@/styles/components/Cardslider.module.scss";
-import {
-  useState,
-  useRef,
-  ReactNode,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { useState, useRef, ReactNode, useEffect } from "react";
 import styles from "@/styles/components/_cardslider2.module.scss";
 import pxToRem from "@/utils/pxToRem";
 
@@ -16,64 +8,45 @@ export default function CardSlider2({
   children,
   width,
   height,
-  selectedCardId,
-  selectedCardIdList,
-  // setSelectedCardId,
+  selectedCardIndexList,
 }: {
   children: ReactNode[];
   width?: number;
   height?: number;
-  selectedCardId?: number;
-  selectedCardIdList?: number[];
-  // setSelectedCardId?: Dispatch<SetStateAction<number>>;
+  selectedCardIndexList?: number[];
 }) {
   const [isFirstCard, setIsFirstCard] = useState(true);
   const [isLastCard, setIsLastCard] = useState(false);
   const cardContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  useEffect(() => {
-    showSlide(selectedCardId || 0);
-  }, [selectedCardId]);
+  const [widthStyle, setWidthStyle] = useState({
+    width: width ? width : "100%",
+    height: height ? height : "100%",
+  });
+  const cardWidth = 4; // rem
+  const defaultgap = 1;
 
-  // cardRefs를 초기화하고, children 배열의 변화에 따라 업데이트합니다.
   useEffect(() => {
+    /* 세팅 */
     cardRefs.current = children.map(
       (_, index) => cardRefs.current[index] || null
     );
     setWidthStyle({
       width: width ? width : "100%",
       height: cardRefs.current[0]?.clientHeight
-        ? cardRefs.current[0]?.clientHeight
+        ? cardRefs.current[0]?.clientHeight + "3"
         : "100%",
     });
     const newCardWidth = pxToRem(cardRefs.current[0]?.clientWidth || 0);
-    setDefaultScrollSize((newCardWidth || cardWidth) + defaultgap);
-    console.log(
-      "cardRefs.current[0]?.clientWidth",
-      cardRefs.current[0]?.clientWidth
-    );
-    showSlide(selectedCardId || 0);
-  }, [selectedCardId, children.length]);
-
-  const [widthStyle, setWidthStyle] = useState({
-    width: width ? width : "100%",
-    height: height ? height : "100%",
-  });
-
-  const cardWidth = 4; // rem
-  const defaultgap = 1;
-  const [defaultScrollSize, setDefaultScrollSize] = useState(
-    cardWidth + defaultgap
-  );
-
-  const [currentSlide, setCurrentSlide] = useState(0);
+    setActivateCardList(selectedCardIndexList ? selectedCardIndexList : []);
+  }, [selectedCardIndexList, children.length]);
 
   function smoothScrollTo(scrollTargetPx: number) {
     const startTime = performance.now();
     const start = cardContainerRef.current!.scrollLeft;
     const distance = scrollTargetPx - start; // 목표까지의 거리
-    const duration = 3 * Math.abs(distance); // 애니메이션 지속 시간 (밀리초)
+    const duration = 2 * Math.abs(distance); // 애니메이션 지속 시간 (밀리초)
 
     function easeOutQuad(t: number) {
       return t * (2 - t);
@@ -82,6 +55,7 @@ export default function CardSlider2({
       const elapsed = timestamp - startTime; // 경과 시간
       const fraction = Math.min(elapsed / duration, 1); // 진행률 (0에서 1 사이)
 
+      if (cardContainerRef.current === null) return;
       cardContainerRef.current!.scrollLeft =
         start + distance * easeOutQuad(fraction); // 현재 스크롤 위치 계산
 
@@ -93,9 +67,9 @@ export default function CardSlider2({
     window.requestAnimationFrame(scrollStep);
   }
 
-  const showSlide = (slideIndex: number) => {
-    cardRefs.current.forEach((cardRef, index) => {
-      if (index === slideIndex) {
+  const setActivateCardList = (indexList: number[]) => {
+    cardRefs.current.forEach((cardRef, i) => {
+      if (indexList.includes(i)) {
         cardRef?.classList.add(styles.activeCard);
         cardRef?.classList.remove(styles.deactiveCard);
       } else {
@@ -103,32 +77,36 @@ export default function CardSlider2({
         cardRef?.classList.add(styles.deactiveCard);
       }
     });
-    setCurrentSlide(slideIndex);
-    const rootFontSize = parseFloat(
-      getComputedStyle(document.documentElement).fontSize
-    );
-    let currentScrollSizePx = defaultScrollSize * slideIndex * rootFontSize;
-    smoothScrollTo(currentScrollSizePx);
+  };
 
-    if (slideIndex <= 0) setIsFirstCard(true);
+  const setButtonVisibility = (willScrolledWidth: number) => {
+    if (!cardContainerRef.current) return;
+    if (willScrolledWidth <= 0) setIsFirstCard(true);
     else setIsFirstCard(false);
-    if (slideIndex >= children.length - 1) setIsLastCard(true);
+    if (
+      willScrolledWidth + cardContainerRef.current?.clientWidth >=
+      cardContainerRef.current?.scrollWidth
+    )
+      setIsLastCard(true);
     else setIsLastCard(false);
   };
 
-  const handleLeftClick = () => {
+  const handleClickLeftButton = () => {
     if (isFirstCard) return;
-    showSlide(currentSlide - 1);
+    const willScrolledWidth =
+      cardContainerRef.current!.scrollLeft -
+      cardContainerRef.current!.clientWidth;
+    smoothScrollTo(willScrolledWidth);
+    setButtonVisibility(willScrolledWidth);
   };
 
-  const handleRightClick = () => {
+  const handleClickRightButton = () => {
     if (isLastCard) return;
-    showSlide(currentSlide + 1);
-  };
-
-  const handleOnClick = (index: number, test: any) => {
-    showSlide(index);
-    console.log(test);
+    const willScrolledWidth =
+      cardContainerRef.current!.scrollLeft +
+      cardContainerRef.current!.clientWidth;
+    smoothScrollTo(willScrolledWidth);
+    setButtonVisibility(willScrolledWidth);
   };
 
   return (
@@ -140,44 +118,16 @@ export default function CardSlider2({
             <article
               key={index}
               className={styles.deactiveCard}
-              // ref={cardRefs.current[index]}
               ref={(el) => (cardRefs.current[index] = el as HTMLDivElement)}
-              onClick={() => handleOnClick(index, child)}
             >
               {child}
             </article>
           );
-        })
-        // if (index === 0) {
-        //   return (
-        //     <article
-        //       key={index}
-        //       className={styles.activeCard}
-        //       // ref={cardRefs.current[index]}
-        //       ref={(el) => (cardRefs.current[index] = el as HTMLDivElement)}
-        //       onClick={() => handleOnClick(index, child)}
-        //     >
-        //       {child}
-        //     </article>
-        //   );
-        // }
-        // return (
-        //   <article
-        //     key={index}
-        //     className={styles.deactiveCard}
-        //     // ref={cardRefs.current[index]}
-        //     ref={(el) => (cardRefs.current[index] = el as HTMLDivElement)}
-        //     onClick={() => handleOnClick(index, child)}
-        //   >
-        //     {child}
-        //   </article>
-        // );
-        }
-        {/* )} */}
+        })}
       </div>
       {/* Left Button */}
       {!isFirstCard && (
-        <button className={styles.leftButton} onClick={handleLeftClick}>
+        <button className={styles.leftButton} onClick={handleClickLeftButton}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -195,7 +145,7 @@ export default function CardSlider2({
       )}
       {/* Right Button */}
       {!isLastCard && (
-        <button className={styles.rightButton} onClick={handleRightClick}>
+        <button className={styles.rightButton} onClick={handleClickRightButton}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"

@@ -12,79 +12,47 @@ import SearchPlaceRender from "./SearchPlaceRenderer";
 import SearchCollectionRender from "./SearchCollectionRenderer";
 import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
 
-import { PlaceDetail } from "@/types/Place";
 import { CollectionDetail } from "@/types/Collection";
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Page() {
-  const [inputCollectionSearch, setInputCollectionSearch] = useState("");
-  const [placeDatas, setPlaceDatas] = useState<PlaceDetail[]>([]);
+  const [searchInputValue, setSearchInputValue] = useState("");
   const [collectionDatas, setCollectionDatas] = useState<CollectionDetail[]>(
     []
   );
   const [showSearchLog, setShowSearchLog] = useState(true);
   const searchParams = useSearchParams();
-  const [searchPlaceMessage, setSearchPlaceMessage] = useState<string>("");
-  const [searchCollectionMessage, setSearchCollectionMessage] =
-    useState<string>("");
-
-  const page = 1;
-  const size = 10;
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
+    // URL에 searchParams가 있으면 해당 검색어로 검색
     const param = searchParams.get("searchString");
     console.log("param", param);
     if (param) {
-      setInputCollectionSearch(param);
+      setSearchInputValue(param);
       setShowSearchLog(false);
-      searchPlace(param);
+      setSearchKeyword(param);
     }
   }, [searchParams]);
 
-  const onChangeCollection = (e: any) => {
-    setInputCollectionSearch(e.target.value);
+  const onChangeSearchInput = (e: any) => {
+    setSearchInputValue(e.target.value);
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log("검색");
-    if (inputCollectionSearch === "") {
+    if (searchInputValue === "") {
       setShowSearchLog(true);
     } else {
       setShowSearchLog(false);
-      searchPlace(inputCollectionSearch);
+      setSearchKeyword(searchInputValue);
     }
   };
 
   const clearInputValue = () => {
-    setInputCollectionSearch("");
+    setSearchInputValue("");
   };
-
-  const searchPlace = (searchKeyWord: string) => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/place?query=${searchKeyWord}&page=${page}&size=${size}`
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error("검색에 실패했습니다.");
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setPlaceDatas(data);
-      })
-      .then(() => {
-        if (placeDatas.length === 0)
-          setSearchPlaceMessage("검색 키워드에 맞는 업체가 없습니다.");
-        else setSearchPlaceMessage("");
-      })
-      .catch((err) => {
-        console.log(err);
-        setSearchPlaceMessage("검색에 실패했습니다.");
-      });
-  };
-
-  const searchCollection = () => {};
 
   // Topper & ScrollTop
   const router = useRouter();
@@ -109,6 +77,7 @@ export default function Page() {
 
   return (
     <section id={styles.searchPage}>
+      {/* 검색창 */}
       <div className={styles.topper}>
         <button className={styles.backButton} onClick={() => router.back()}>
           <ExpandLeftIcon />
@@ -117,8 +86,8 @@ export default function Page() {
           <input
             className={styles.searchInput}
             placeholder="강릉, 맛집,  디저트 ... !"
-            value={inputCollectionSearch}
-            onChange={onChangeCollection}
+            value={searchInputValue}
+            onChange={onChangeSearchInput}
           />
           <button
             type={"button"}
@@ -132,7 +101,7 @@ export default function Page() {
           <SearchIcon />
         </button>
       </div>
-
+      {/* 최상위로 가기 버튼 */}
       {hasVerticalOverflow && (
         <button
           className={styles.scrollTopButton}
@@ -143,36 +112,26 @@ export default function Page() {
           <ExpendUpIcon />
         </button>
       )}
+      {/* 검색 결과 */}
       <section className={styles.searchInnerPage} ref={pageRef}>
         {showSearchLog ? (
           <SearchLogRenderer />
         ) : (
           <SlideMenu menuTitleList={["장소 검색", "컬렉션 검색"]}>
             <SlideMenuInnerPage>
-              {placeDatas.length === 0 ? (
-                <p className={styles.searchMessage}>{searchPlaceMessage}</p>
-              ) : (
-                <SearchPlaceRender placeDatas={placeDatas} />
-              )}
+              <SearchPlaceRender searchKeyword={searchKeyword} />
             </SlideMenuInnerPage>
             <SlideMenuInnerPage>
-              {collectionDatas.length === 0 ? (
-                <p className={styles.searchMessage}>
-                  {searchCollectionMessage}
-                </p>
-              ) : (
-                <SearchCollectionRender collectiondatas={collectionDatas} />
-              )}
+              <SearchCollectionRender searchKeyword={searchKeyword} />
             </SlideMenuInnerPage>
           </SlideMenu>
         )}
       </section>
-      {/* </SubPageLayout> */}
     </section>
   );
 }
 
-const SearchLogRenderer = ({}: {}) => {
+const SearchLogRenderer = () => {
   return (
     <div className={styles.searchLogContainer}>
       <span className={styles.searchLogBanner}>최근 검색</span>

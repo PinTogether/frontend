@@ -28,6 +28,7 @@ export default function Overlay() {
   const locationGetter = useAppSelector(
     (state) => state.location.locationGetter
   );
+  const [selectedCardId, setSelectedCardId] = useState<number[]>([0]);
 
   function getLocation() {
     dispatch(locationGetterByAmount(true));
@@ -40,6 +41,19 @@ export default function Overlay() {
     });
     setShowCardSlider((prevState) => !prevState);
   };
+
+  const handleClickedCard = (index: number) => {
+    setSelectedCardId((prev) => {
+      if (prev.includes(index)) return prev.filter((id) => id !== index);
+      return [...prev, index];
+    });
+  };
+
+  const handleClickBottomButton = (num: number) => {
+    setCollectionSelector(num);
+    setSelectedCardId([0]);
+  };
+
   return (
     <section className={styles.overlay}>
       <div className={styles.top}>
@@ -77,34 +91,37 @@ export default function Overlay() {
         >
           <>
             {collectionSelector == 0 && (
-              <CardSlider2 height={150}>
+              <CardSlider2 height={150} selectedCardIndexList={selectedCardId}>
                 {collectionDummyData.map((collection, index) => (
                   <SimpleCollectionCard
                     key={index}
                     collectionData={collection}
                     linkDisabled={true}
+                    onClick={() => handleClickedCard(index)}
                   />
                 ))}
               </CardSlider2>
             )}
             {collectionSelector == 1 && (
-              <CardSlider2 height={150}>
+              <CardSlider2 height={150} selectedCardIndexList={selectedCardId}>
                 {collectionDummyData.map((collection, index) => (
                   <SimpleCollectionCard
                     key={index}
                     collectionData={collection}
                     linkDisabled={true}
+                    onClick={() => handleClickedCard(index)}
                   />
                 ))}
               </CardSlider2>
             )}
             {collectionSelector == 2 && (
-              <CardSlider2 height={150}>
+              <CardSlider2 height={160} selectedCardIndexList={selectedCardId}>
                 {collectionDummyData.map((collection, index) => (
                   <SimpleCollectionCard
                     key={index}
                     collectionData={collection}
                     linkDisabled={true}
+                    onClick={() => handleClickedCard(index)}
                   />
                 ))}
               </CardSlider2>
@@ -114,19 +131,19 @@ export default function Overlay() {
         <div className={styles.buttonBox}>
           <button
             className={`${styles.bottomButton} ${collectionSelector == 0 ? styles.clickedButtons : ""}`}
-            onClick={() => setCollectionSelector(0)}
+            onClick={() => handleClickBottomButton(0)}
           >
             내 컬렉션
           </button>
           <button
             className={`${styles.bottomButton} ${collectionSelector == 1 ? styles.clickedButtons : ""}`}
-            onClick={() => setCollectionSelector(1)}
+            onClick={() => handleClickBottomButton(1)}
           >
             스크랩한 컬렉션
           </button>
           <button
             className={`${styles.bottomButton} ${collectionSelector == 2 ? styles.clickedButtons : ""}`}
-            onClick={() => setCollectionSelector(2)}
+            onClick={() => handleClickBottomButton(2)}
           >
             팔로우한 컬렉션
           </button>
