@@ -68,15 +68,6 @@
     padding-left: 7%;
     padding-right: 7%;
     overflow: auto;
-		.searchMessage {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: $font-size-small;
-			color: $color-grey-dark;
-			margin-top: 5rem;
-			gap: 0.5rem;
-		}
 	}
 	.scrollTopButton {
     position: absolute;
@@ -174,9 +165,20 @@
 	display: grid;
 	align-items: center;
 	justify-content: center;
+	justify-items: center;
 	grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
 	gap: 1rem;
 	padding: 0.5rem;
+	.searchMessage {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: $font-size-small;
+		color: $color-grey-dark;
+		margin-top: 5rem;
+		gap: 0.5rem;
+	}
 }
+
 
 }
