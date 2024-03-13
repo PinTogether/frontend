@@ -1,7 +1,7 @@
 @import "../base/placeholders";
 @import "../base/variables";
 
-$default-size: 12rem;
+$default-size: 8rem;
 $simple-size: 6rem;
 $horizontal-size: 22rem;
 $container-padding: 0.5rem;
@@ -85,59 +85,104 @@ $container-padding: 0.5rem;
   flex-direction: column;
   gap: 0.5rem;
   min-width: $default-size;
-  width: 100%;
+  width: $default-size;
 
   .imgContainer {
     @include bookmarkContainer($default-size);
-    img {
-      width: $default-size;
+    overflow: hidden;
+    border-radius: $border-radius;
+    .thumbnailLink {
+      overflow: hidden;
       height: $default-size;
-      object-fit: cover;
-      border-radius: $border-radius;
+      width: $default-size;
+      overflow: hidden;
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: auto;
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $default-size;
+        height: $default-size;
+        background: rgba(255, 255, 255, 0.5);
+        transition: opacity 0.1s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        gap: 0.5rem;
+        opacity: 0;
+        span {
+          justify-self: center;
+          font-size: $font-size-small;
+          word-break: keep-all;
+          line-height: 1.2;
+          text-align: center;
+          color: white;
+        }
+        &:hover {
+          opacity: 1;
+        }
+      }
     }
   }
   .textContainer {
     padding: 0 $container-padding;
     // padding-top : 0.5rem;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr 1fr;
+    // display: grid;
+    // grid-template-columns: auto 1fr;
+    // grid-template-rows: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 0.3rem;
     align-items: center;
     justify-items: flex-start;
-
-    .profile {
-      grid-row: 1 / -1;
-      img {
-        width: 2.5rem;
-        height: 2.5rem;
-        object-fit: cover;
-        border-radius: 50%;
-      }
-    }
+    // .profile {
+    //   display: flex;
+    //   flex-direction: row;
+    //   align-items: center;
+    //   // align-content: flex-start;
+    //   // justify-items: flex-start;
+    //   // justify-content: flex-start;
+    //   img {
+    //     width: 1.5rem;
+    //     height: 1.5rem;
+    //     object-fit: cover;
+    //     border-radius: 50%;
+    //   }
+    // }
     .nickname {
       font-size: $font-size-small;
     }
     .title {
-      font-size: $font-size-large;
+      font-size: $font-size-medium;
       line-height: 1;
       font-weight: 700;
     }
   }
   .buttonContainer {
     padding: 0 $container-padding;
-    padding-bottom: 0.5rem;
-
+    padding-bottom: $container-padding;
     display: flex;
-    justify-content: center;
-    gap: 1rem;
-
-    font-size: $font-size-small;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-evenly;
+    font-size: $font-size-smallest;
     color: $color-text-caption;
-    stroke: $color-text-caption;
-
+    height: fit-content;
     & > * {
       @extend %button;
+      color: $color-text-caption;
+      height: 1.25rem;
+      line-height: 1;
+      svg {
+        width: 1rem;
+        color: $color-text-caption;
+      }
     }
   }
 }
@@ -164,6 +209,7 @@ $container-padding: 0.5rem;
     padding: 0 $container-padding;
     display: flex;
     text-align: center;
+    word-break: keep-all;
     .title {
       align-self: center;
       font-size: $font-size-small;
