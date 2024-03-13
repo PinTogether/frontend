@@ -6,11 +6,12 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Cookies } from "react-cookie";
 import { ProfileMine } from "@/types/Profile";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     const checkLoginStatus = (e: MessageEvent) => {
@@ -27,7 +28,7 @@ export default function LoginPage() {
           .then((data) => {
             const myProfile: ProfileMine = data;
             localStorage.setItem("myProfile", JSON.stringify(myProfile));
-            useRouter().push("/");
+            router.push("/");
           })
           .then(() => {})
           .catch((error) => {
