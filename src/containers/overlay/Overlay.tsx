@@ -49,6 +49,11 @@ export default function Overlay() {
     });
   };
 
+  const handleClickBottomButton = (num: number) => {
+    setCollectionSelector(num);
+    setSelectedCardId([0]);
+  };
+
   return (
     <section className={styles.overlay}>
       <div className={styles.top}>
@@ -86,7 +91,7 @@ export default function Overlay() {
         >
           <>
             {collectionSelector == 0 && (
-              <CardSlider2 height={150}>
+              <CardSlider2 height={150} selectedCardIndexList={selectedCardId}>
                 {collectionDummyData.map((collection, index) => (
                   <SimpleCollectionCard
                     key={index}
@@ -98,7 +103,7 @@ export default function Overlay() {
               </CardSlider2>
             )}
             {collectionSelector == 1 && (
-              <CardSlider2 height={150}>
+              <CardSlider2 height={150} selectedCardIndexList={selectedCardId}>
                 {collectionDummyData.map((collection, index) => (
                   <SimpleCollectionCard
                     key={index}
@@ -117,7 +122,7 @@ export default function Overlay() {
                     collectionData={collection}
                     linkDisabled={true}
                     onClick={() => handleClickedCard(index)}
-              />
+                  />
                 ))}
               </CardSlider2>
             )}
@@ -126,19 +131,19 @@ export default function Overlay() {
         <div className={styles.buttonBox}>
           <button
             className={`${styles.bottomButton} ${collectionSelector == 0 ? styles.clickedButtons : ""}`}
-            onClick={() => setCollectionSelector(0)}
+            onClick={() => handleClickBottomButton(0)}
           >
             내 컬렉션
           </button>
           <button
             className={`${styles.bottomButton} ${collectionSelector == 1 ? styles.clickedButtons : ""}`}
-            onClick={() => setCollectionSelector(1)}
+            onClick={() => handleClickBottomButton(1)}
           >
             스크랩한 컬렉션
           </button>
           <button
             className={`${styles.bottomButton} ${collectionSelector == 2 ? styles.clickedButtons : ""}`}
-            onClick={() => setCollectionSelector(2)}
+            onClick={() => handleClickBottomButton(2)}
           >
             팔로우한 컬렉션
           </button>
