@@ -24,7 +24,9 @@ export default function LoginPage() {
       if (oauth) {
         console.log("oauth", oauth);
         console.log(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`);
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`)
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`, {
+          credentials: "include",
+        })
           .then((res) => {
             console.log("login res", res);
             if (res.ok) return res.json();
