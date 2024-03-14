@@ -23,10 +23,12 @@ export default function LoginPage() {
       if (oauth) {
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`)
           .then((res) => {
+            console.log("login res", res);
             if (res.ok) return res.json();
             else throw new Error("서버 오류");
           })
           .then((data: APIResponse) => {
+            console.log("login data", data);
             const myProfile: ProfileMine = data.results[0];
             localStorage.setItem("myProfile", JSON.stringify(myProfile));
           })
