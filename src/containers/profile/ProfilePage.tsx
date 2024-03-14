@@ -1,5 +1,7 @@
 "use client";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
+import { Suspense } from "react";
+import ProfileSkeleton from "@/components/loading/ProfileSkeleton";
 import { useRouter } from "next/navigation";
 import { SettingIcon } from "@/components/IconSvg";
 import { useState } from "react";
@@ -8,6 +10,13 @@ import { CollectionDetail } from "@/types/Collection";
 import { PlaceStarred } from "@/types/Place";
 import ProfileCollectionRenderer from "./ProfileCollectionRenderer";
 import ProfileBookmarkRenderer from "./ProfileBookmarkRenderer";
+
+async function SlowServerComponent({ time }: { time: number }) {
+  const got = await fetch(`http://localhost:3000/api/suspense?time=${time}`, {
+    cache: "no-store",
+  }).then((res) => (res.ok ? res.json() : { message: "GET failed" }));
+  return <div>로딩 완료: {got.message}</div>;
+}
 
 const profiles: ProfileMine = {
   nickname: "김고양",
@@ -139,38 +148,40 @@ export default function ProfilePage({ id }: { id: number }) {
   }
   return (
     <>
-      <section className={styles.profileDataContainer}>
-        <div className={styles.profileData}>
-          <img
-            src={profiles.avatar}
-            alt="profile img"
-            className={styles.profileImage}
-          />
-          <div className={styles.profileName}>
-            <div></div>
-            <p>{profiles.nickname}</p>
-            {id == profiles.id && (
-              <button onClick={() => router.push("/profile/setting")}>
-                <SettingIcon className={styles.icon} />
-              </button>
-            )}
+      <Suspense fallback={<ProfileSkeleton />}>
+        <section className={styles.profileDataContainer}>
+          <div className={styles.profileData}>
+            <img
+              src={profiles.avatar}
+              alt="profile img"
+              className={styles.profileImage}
+            />
+            <div className={styles.profileName}>
+              <div style={{visibility:"hidden"}}><SlowServerComponent time={3000}/></div>
+              <p>{profiles.nickname}</p>
+              {id == profiles.id && (
+                <button onClick={() => router.push("/profile/setting")}>
+                  <SettingIcon className={styles.icon} />
+                </button>
+              )}
+            </div>
+            <div className={styles.profileLog}>
+              <div className={styles.profileLogBox}>
+                <b>{profiles.collectionCnt}</b>
+                <p>내 컬렉션</p>
+              </div>
+              <div className={styles.profileLogBox}>
+                <b>{profiles.followerCnt}</b>
+                <p>스크랩한 컬렉션</p>
+              </div>
+              <div className={styles.profileLogBox}>
+                <b>{profiles.scrappedCollectionCnt}</b>
+                <p>팔로워 수</p>
+              </div>
+            </div>
           </div>
-          <div className={styles.profileLog}>
-            <div className={styles.profileLogBox}>
-              <b>{profiles.collectionCnt}</b>
-              <p>내 컬렉션</p>
-            </div>
-            <div className={styles.profileLogBox}>
-              <b>{profiles.followerCnt}</b>
-              <p>스크랩한 컬렉션</p>
-            </div>
-            <div className={styles.profileLogBox}>
-              <b>{profiles.scrappedCollectionCnt}</b>
-              <p>팔로워 수</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      </Suspense>
       <section className={styles.buttonContainer}>
         <button
           className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ""}`}

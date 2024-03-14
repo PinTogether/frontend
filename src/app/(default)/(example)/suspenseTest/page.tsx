@@ -5,7 +5,9 @@ import {
   PinWithReviewSkeleton,
   DetailCollectionSkeleton,
   SimpleCollectionSkeleton,
+  SimplePinSkeleton,
 } from "@/components/loading/SkeletonImage";
+import ProfileSkeleton from "@/components/loading/ProfileSkeleton";
 import styles from "@/styles/components/_skeletonImage.module.scss";
 import { Suspense } from "react";
 
@@ -56,6 +58,10 @@ export default function Page() {
       <DetailCollectionSkeleton />
       심플 컬렉션
       <SimpleCollectionSkeleton />
+      심플 핀
+      <SimplePinSkeleton />
+      프로필
+      <ProfileSkeleton />
     </div>
   );
 }

@@ -50,12 +50,16 @@
 }
 
 .profileLog {
+  align-items: center;
+  justify-content: center;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
 }
 
 .prifileLogBox {
+  align-items: center;
+  justify-content: center;
   display: grid;
   grid-template-rows: 1fr 1fr;
 }

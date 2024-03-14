@@ -10,7 +10,7 @@
 
 @keyframes loading {
   0% {
-    transform: translateX(0);
+    transform: translateX(-110px);
   }
   50%,
   100% {
@@ -23,15 +23,15 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 50px;
+  width: 100px;
   height: 100%;
-  background: linear-gradient(to right, $color-grey-light, $color-grey, $color-grey-light);
-  animation: loading 2.5s infinite linear;
+  background: linear-gradient(to right, rgba(#d9d9d9, 0), rgba(#a6a6a6, 0.2), rgba(#d9d9d9, 0));
+  animation: loading 2s infinite linear;
 }
 
 .skeletonAvatar {
-  width: 150px;
-  height: 150px;
+  width: 125px;
+  height: 125px;
   border-radius: 50%;
   background: $color-grey-light;
   position: relative;
@@ -43,10 +43,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 50px;
+  width: 100px;
   height: 100%;
-  background: linear-gradient(to right, $color-grey-light, $color-grey, $color-grey-light);
-  animation: loading 2.5s infinite linear;
+  background: linear-gradient(to right, rgba(#d9d9d9, 0), rgba(#a6a6a6, 0.2), rgba(#d9d9d9, 0));
+  animation: loading 2s infinite linear;
 }
 
 .skeletonImage {
@@ -59,18 +59,21 @@
 }
 
 .skeletonCollection{
-  width: 12rem;
+  width: 192px;
   height: 290px;
   border-radius: $border-radius;
-  background: $color-grey-light;
+  border: 2px solid $color-grey-light;
+  //background: $color-grey-light;
   gap: 10px;
   display:grid;
+  overflow: hidden;
   grid-template-rows: 12rem 1fr;
   .bottomBox{
-    gap: 10px;
+    gap: 15px;
     padding: 15px;
+    padding-top: 5px;
     display: grid;
-    grid-template-rows: 50px 1fr;
+    grid-template-rows: 35px 1fr;
   }
 }
 
@@ -78,7 +81,8 @@
   width: 340px;
   height: 250px;
   border-radius: $border-radius;
-  background: $color-grey-light;
+  border: 2px solid $color-grey-light;
+  //background: $color-grey-light;
   gap: 5px;
   padding: 10px;
   display:grid;
@@ -111,7 +115,8 @@
   width: 360px;
   height: 220px;
   border-radius: $border-radius;
-  background: $color-grey-light;
+  //background: $color-grey-light;
+  border: 2px solid $color-grey-light;
   gap: 5px;
   padding: 10px;
   display:grid;
@@ -120,7 +125,7 @@
     gap: 5px;
     padding: 15px;
     display:grid;
-    grid-template-columns: 100px 1fr 25px;
+    grid-template-columns: 100px 1fr;
   }
   .topBoxInner{
     gap: 5px;
@@ -144,7 +149,8 @@
   width: 310px;
   height: 110px;
   border-radius: $border-radius;
-  background: $color-grey-light;
+  border: 2px solid $color-grey-light;
+  //background: $color-grey-light;
   gap: 5px;
   padding: 15px;
   display:grid;
@@ -169,20 +175,44 @@
   }
 }
 
+.skeletonSimplePin{
+  width: 380px;
+  height: 125px;
+  border-radius: $border-radius;
+  border: 2px solid $color-grey-light;
+  //background: $color-grey-light;
+  gap: 5px;
+  padding: 15px;
+  padding-top: 5px;
+  place-items: start;
+  align-items: end;
+  display:grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  .innerBox{
+    width: 100%;
+    gap: 5px;
+    padding: 5px;
+    place-items: flex-start;
+    align-items: flex-end;
+    display:flex;
+    flex-direction: row;
+  }
+}
+
 .skeletonTextBox::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  width: 50px;
+  width: 100px;
   height: 100%;
-  background: linear-gradient(to right, $color-grey, #a6a6a6, $color-grey);
-  animation: loading 2.5s infinite linear;
+  background: linear-gradient(to right, rgba(#d9d9d9, 0), rgba(#a6a6a6, 0.1), rgba(#a6a6a6, 0.2), rgba(#a6a6a6, 0.1), rgba(#d9d9d9, 0));
+  animation: loading 2s infinite linear;
 }
 
 .skeletonTextBox{
   border-radius: $border-radius;
-  background: $color-grey;
+  background: $color-grey-light;
   position: relative;
   overflow: hidden;
   display: grid;
@@ -193,10 +223,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 50px;
+  width: 100px;
   height: 100%;
-  background: linear-gradient(to right, $color-grey, #a6a6a6, $color-grey);
-  animation: loading 2.5s infinite linear;
+  background: linear-gradient(to right, rgba(#d9d9d9, 0), rgba(#a6a6a6, 0.1), rgba(#a6a6a6, 0.2), rgba(#a6a6a6, 0.1), rgba(#d9d9d9, 0));
+  animation: loading 2s infinite linear;
 }
 
 .skeletonIconBox{
