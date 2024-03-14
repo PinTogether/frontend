@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Cookies } from "react-cookie";
 import { ProfileMine } from "@/types/Profile";
 import { useRouter } from "next/navigation";
+import APIResponse from "@/types/APIResponse";
 
 export default function LoginPage() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
@@ -16,7 +17,7 @@ export default function LoginPage() {
   useEffect(() => {
     const checkLoginStatus = (e: MessageEvent) => {
       if (e.origin !== process.env.NEXT_PUBLIC_FRONTEND_URL) return;
-      console.log("checkLoginStatus");
+      console.log("checkLoginStatus", e);
 
       const oauth = new Cookies().get("Authorization");
       if (oauth) {
@@ -25,12 +26,13 @@ export default function LoginPage() {
             if (res.ok) return res.json();
             else throw new Error("서버 오류");
           })
-          .then((data) => {
-            const myProfile: ProfileMine = data;
+          .then((data: APIResponse) => {
+            const myProfile: ProfileMine = data.results[0];
             localStorage.setItem("myProfile", JSON.stringify(myProfile));
+          })
+          .then(() => {
             router.push("/");
           })
-          .then(() => {})
           .catch((error) => {
             console.log(error);
             setErrorMessage("내 정보 가져오기에 실패했습니다.");
@@ -64,7 +66,7 @@ export default function LoginPage() {
     );
     // setExternalPopup(
     //   window.open(
-    //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/`,
+    //     `${process.env.NEXT_PUBLIC_FRONTEND_URL}/popup`,
     //     `${loginType}s login`,
     //     `width=${width},height=${height},left=${left},top=${top},popup=yes`
     //   )
