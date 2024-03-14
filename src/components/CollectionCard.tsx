@@ -104,11 +104,11 @@ const LikedButton = ({
       {displayIconFirst ? (
         <>
           {isLiked ? <HeartFillIcon className={styles.liked} /> : <HeartIcon />}
-          <p> {`${likeCnt}개 좋아요`}</p>
+          <p> {likeCnt === 0 ? `첫 좋아요` : `${likeCnt}개 좋아요`}</p>
         </>
       ) : (
         <>
-          <p> {`${likeCnt}개 좋아요`}</p>
+          <p> {likeCnt === 0 ? `첫 좋아요` : `${likeCnt}개 좋아요`}</p>
           {isLiked ? <HeartFillIcon className={styles.liked} /> : <HeartIcon />}
         </>
       )}
@@ -152,7 +152,7 @@ const PinButton = ({
   displayIconFirst?: boolean;
 }) => {
   return (
-    <button disabled={linkDisabled}>
+    <button disabled={linkDisabled} className={styles.disabledButton}>
       {displayIconFirst ? (
         <>
           <PinIcon />

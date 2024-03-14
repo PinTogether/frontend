@@ -77,6 +77,10 @@ $container-padding: 0.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.disabledButton {
+  cursor: default;
+  pointer-events: none; 
+}
 
 /* DefaultCollectionCard */
 .collectionCard {
