@@ -4,14 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PlaceStarred } from "@/types/Place";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
-import { PinIcon } from "@/components/IconSvg";
 import placeDatas from "@/../../public/dummy-data/dummy-place.json";
-import PlaceCard, { SimplePlaceCard } from "@/components/PlaceCard";
+import { SimplePlaceCard } from "@/components/PlaceCard";
 
 export default function ProfileBookmarkRenderer({
   bookmarks,
+  className,
 }: {
   bookmarks: PlaceStarred[];
+  className?: string;
 }) {
   const router = useRouter();
   const [isButtonPressed, setIsButtonPressed] = useState(false);
@@ -47,7 +48,7 @@ export default function ProfileBookmarkRenderer({
   };
 
   return (
-    <section className={styles.bookmarkOuterContainer}>
+    <section className={`${styles.bookmarkOuterContainer} ${className}`}>
       <div className={styles.bookmarkButtonContainer}>
         {selectMode && (
           <>
