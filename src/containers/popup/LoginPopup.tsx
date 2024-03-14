@@ -13,15 +13,22 @@ export default function LoginPopup() {
       redirect("/");
     }
     const oauth = new Cookies().get("Authorization");
-    if (oauth) setSuccess(true);
-    else {
-      setSuccess(false);
-      window.opener.postMessage(
-        "login failed",
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}`
-      );
-    }
-    self.close();
+    (async () => {
+      if (oauth) {
+        setSuccess(true);
+        await window.opener.postMessage(
+          "login success",
+          `${process.env.NEXT_PUBLIC_FRONTEND_URL}`
+        );
+      } else {
+        setSuccess(false);
+        await window.opener.postMessage(
+          "login failed",
+          `${process.env.NEXT_PUBLIC_FRONTEND_URL}`
+        );
+      }
+      self.close();
+    })();
   }, []);
 
   return (

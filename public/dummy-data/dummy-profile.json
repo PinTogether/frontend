@@ -1,8 +1,8 @@
 [
   {
-    "userId": 1,
+    "id": 1,
     "nickname": "사용자1",
-    "avatar": "/avatars/user1.png",
+    "avatar": "https://picsum.photos/200",
     "collectionCnt": 10,
     "scrappedCollectionCnt": 2,
     "followerCnt": 200,
@@ -12,9 +12,9 @@
     "isFollowed": true
   },
   {
-    "userId": 2,
+    "id": 2,
     "nickname": "사용자2",
-    "avatar": "/avatars/user2.png",
+    "avatar": "https://picsum.photos/200",
     "collectionCnt": 15,
     "scrappedCollectionCnt": 5,
     "followerCnt": 100,
@@ -24,9 +24,9 @@
     "isFollowed": false
   },
   {
-    "userId": 3,
+    "id": 3,
     "nickname": "사용자3",
-    "avatar": "/avatars/user3.png",
+    "avatar": "https://picsum.photos/200",
     "collectionCnt": 5,
     "scrappedCollectionCnt": 1,
     "followerCnt": 50,
@@ -36,9 +36,9 @@
     "isFollowed": true
   },
   {
-    "userId": 4,
+    "id": 4,
     "nickname": "사용자4",
-    "avatar": "/avatars/user4.png",
+    "avatar": "https://picsum.photos/200",
     "collectionCnt": 20,
     "scrappedCollectionCnt": 10,
     "followerCnt": 300,
