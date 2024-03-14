@@ -20,7 +20,10 @@ export default function LoginPage() {
       console.log("checkLoginStatus", e);
 
       const oauth = new Cookies().get("Authorization");
+      console.log("oauth", oauth);
       if (oauth) {
+        console.log("oauth", oauth);
+        console.log(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`);
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`)
           .then((res) => {
             console.log("login res", res);
