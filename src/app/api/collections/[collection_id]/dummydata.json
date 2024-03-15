@@ -19,7 +19,7 @@
     "phoneNumber": "010-1234-5678"
   },
   {
-    "id": 4,
+    "id": 2,
     "collectionId": 1,
     "writer": "사용자1233",
     "review": "멋진 전망을 가진 평화로운 장소입니다.",
@@ -57,7 +57,7 @@
     "phoneNumber": "010-1234-5678"
   },
   {
-    "id": 2,
+    "id": 4,
     "collectionId": 1,
     "writer": "사용자13",
     "review": "멋진 전망을 가진 평화로운 장소입니다.",

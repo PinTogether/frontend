@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": 5,
     "collectionId": 1,
     "writer": "사용자1",
     "review": "멋진 전망을 가진 평화로운 장소입니다.",
@@ -19,7 +19,7 @@
     "phoneNumber": "010-1234-5678"
   },
   {
-    "id": 2,
+    "id": 6,
     "collectionId": 2,
     "writer": "사용자2",
     "review": "주말을 보내기에 사랑스러운 장소입니다.",
@@ -38,7 +38,7 @@
     "phoneNumber": "010-8765-4321"
   },
   {
-    "id": 3,
+    "id": 7,
     "collectionId": 3,
     "writer": "사용자3",
     "review": "다양한 책을 읽을 수 있는 조용한 도서관입니다.",
@@ -57,7 +57,7 @@
     "phoneNumber": "010-2345-6789"
   },
   {
-    "id": 4,
+    "id": 8,
     "collectionId": 4,
     "writer": "사용자4",
     "review": "신선한 해산물을 맛볼 수 있는 해변가 최고의 식당입니다.",
@@ -76,7 +76,7 @@
     "phoneNumber": "051-1234-5678"
   },
   {
-    "id": 5,
+    "id": 9,
     "collectionId": 5,
     "writer": "사용자5",
     "review": "온 가족이 즐길 수 있는 아름다운 테마 파크입니다.",
@@ -95,7 +95,7 @@
     "phoneNumber": "031-8765-4321"
   },
   {
-    "id": 6,
+    "id": 10,
     "collectionId": 6,
     "writer": "사용자6",
     "review": "멋진 야경과 함께 로맨틱한 밤을 보낼 수 있는 최고의 루프탑 바입니다.",
@@ -114,7 +114,7 @@
     "phoneNumber": "02-1234-5678"
   },
   {
-    "id": 7,
+    "id": 11,
     "collectionId": 7,
     "writer": "사용자7",
     "review": "역사를 체험할 수 있는 가장 생생한 재현 마을입니다.",
