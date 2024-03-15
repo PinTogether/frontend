@@ -20,13 +20,20 @@ export default function LoginPage() {
       console.log("checkLoginStatus", e);
 
       const oauth = new Cookies().get("Authorization");
+      console.log("oauth", oauth);
       if (oauth) {
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`)
+        console.log("oauth", oauth);
+        console.log(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`);
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`, {
+          credentials: "include",
+        })
           .then((res) => {
+            console.log("login res", res);
             if (res.ok) return res.json();
             else throw new Error("서버 오류");
           })
           .then((data: APIResponse) => {
+            console.log("login data", data);
             const myProfile: ProfileMine = data.results[0];
             localStorage.setItem("myProfile", JSON.stringify(myProfile));
           })
