@@ -1,0 +1,238 @@
+@import "../base/variables";
+@import "../base/placeholders";
+
+.previewContainer{
+  padding: 20px;
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-110px);
+  }
+  50%,
+  100% {
+    transform: translateX(460px);
+  }
+}
+
+.skeletonAvatar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(#d9d9d9, 0), rgba(#a6a6a6, 0.2), rgba(#d9d9d9, 0));
+  animation: loading 2s infinite linear;
+}
+
+.skeletonAvatar {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  background: $color-grey-light;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeletonImage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(#d9d9d9, 0), rgba(#a6a6a6, 0.2), rgba(#d9d9d9, 0));
+  animation: loading 2s infinite linear;
+}
+
+.skeletonImage {
+  width: 170px;
+  height: 170px;
+  border-radius: $border-radius;
+  background: $color-grey-light;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeletonCollection{
+  width: 192px;
+  height: 290px;
+  border-radius: $border-radius;
+  border: 2px solid $color-grey-light;
+  //background: $color-grey-light;
+  gap: 10px;
+  display:grid;
+  overflow: hidden;
+  grid-template-rows: 12rem 1fr;
+  .bottomBox{
+    gap: 15px;
+    padding: 15px;
+    padding-top: 5px;
+    display: grid;
+    grid-template-rows: 35px 1fr;
+  }
+}
+
+.skeletonPinWithReview{
+  width: 340px;
+  height: 250px;
+  border-radius: $border-radius;
+  border: 2px solid $color-grey-light;
+  //background: $color-grey-light;
+  gap: 5px;
+  padding: 10px;
+  display:grid;
+  grid-template-rows: 1fr 1fr;
+  .topBox{
+    gap: 5px;
+    padding: 15px;
+    display:grid;
+    place-items: start;
+    align-items: end;
+    grid-template-rows: 20px 20px 20px 20px;
+  }
+  .bottomBox{
+    gap: 5px;
+    padding: 15px;
+    display:grid;
+    grid-template-columns: 90px 1fr;
+  }
+  .bottomBoxInner{
+    gap: 5px;
+    padding: 15px;
+    display:grid;
+    place-items: start;
+    align-items: end;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+}
+
+.skeletonDetailCollection{
+  width: 360px;
+  height: 220px;
+  border-radius: $border-radius;
+  //background: $color-grey-light;
+  border: 2px solid $color-grey-light;
+  gap: 5px;
+  padding: 10px;
+  display:grid;
+  grid-template-rows: 110px 1fr;
+  .topBox{
+    gap: 5px;
+    padding: 15px;
+    display:grid;
+    grid-template-columns: 100px 1fr;
+  }
+  .topBoxInner{
+    gap: 5px;
+    padding: 10px;
+    display:grid;
+    place-items: start;
+    align-items: end;
+    grid-template-rows: 20px 30px 1fr;
+  }
+  .bottomBox{
+    gap: 5px;
+    padding: 10px;
+    display:grid;
+    place-items: start;
+    align-items: end;
+    grid-template-rows: 20px 20px 1fr;
+  }
+}
+
+.skeletonSimpleCollection{
+  width: 310px;
+  height: 110px;
+  border-radius: $border-radius;
+  border: 2px solid $color-grey-light;
+  //background: $color-grey-light;
+  gap: 5px;
+  padding: 15px;
+  display:grid;
+  grid-template-columns: 80px 1fr;
+  .innerBox{
+    gap: 5px;
+    padding: 10px;
+    display:grid;
+    grid-template-rows: 1fr 20px;
+  }
+  .innerBox2{
+    gap: 5px;
+    display:grid;
+    grid-template-columns: 1fr 20px;
+  }
+  .innerBox3{
+    gap: 5px;
+    display:grid;
+    place-items: start;
+    align-items: end;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+.skeletonSimplePin{
+  width: 380px;
+  height: 125px;
+  border-radius: $border-radius;
+  border: 2px solid $color-grey-light;
+  //background: $color-grey-light;
+  gap: 5px;
+  padding: 15px;
+  padding-top: 5px;
+  place-items: start;
+  align-items: end;
+  display:grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  .innerBox{
+    width: 100%;
+    gap: 5px;
+    padding: 5px;
+    place-items: flex-start;
+    align-items: flex-end;
+    display:flex;
+    flex-direction: row;
+  }
+}
+
+.skeletonTextBox::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(#d9d9d9, 0), rgba(#a6a6a6, 0.1), rgba(#a6a6a6, 0.2), rgba(#a6a6a6, 0.1), rgba(#d9d9d9, 0));
+  animation: loading 2s infinite linear;
+}
+
+.skeletonTextBox{
+  border-radius: $border-radius;
+  background: $color-grey-light;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+}
+
+.skeletonIconBox::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(#d9d9d9, 0), rgba(#a6a6a6, 0.1), rgba(#a6a6a6, 0.2), rgba(#a6a6a6, 0.1), rgba(#d9d9d9, 0));
+  animation: loading 2s infinite linear;
+}
+
+.skeletonIconBox{
+  border-radius: 50%;
+  background: $color-grey;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+}

@@ -5,7 +5,9 @@ import { CollectionDetail } from "@/types/Collection";
 import { PlaceStarred } from "@/types/Place";
 import ProfileCollectionRenderer from "./ProfileCollectionRenderer";
 import ProfileBookmarkRenderer from "./ProfileBookmarkRenderer";
+import { Suspense } from "react";
 
+import ProfileSkeleton from "@/components/loading/ProfileSkeleton";
 import profileDatas from "@/../../public/dummy-data/dummy-profile.json";
 import placeDatas from "@/../../public/dummy-data/dummy-place.json";
 import collectionDatas from "@/../../public/dummy-data/dummy-collection.json";
@@ -31,7 +33,7 @@ export default function ProfilePage({ id }: { id: number }) {
   }
   return (
     <SubPageLayout topperMsg="프로필" completeButtonMsg="수정">
-      <ProfileInfoRenderer id={id} />
+        <ProfileInfoRenderer id={id} />
       <section className={styles.buttonContainer}>
         <button
           className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ""}`}

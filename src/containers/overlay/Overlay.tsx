@@ -4,17 +4,27 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import styles from "@/styles/containers/overlay/_overlay.module.scss";
 import CardSlider from "@/components/CardSlider";
 import CardSlider2 from "@/components/CardSlider2";
+import MarkerData from "@/types/Marker";
+import Pin from "@/types/Pin";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { locationGetterByAmount } from "@/redux/locationSlice";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
 
 import collectionDummyData from "@/../../public/dummy-data/dummy-collection.json";
+import pinDummyData from "@/../../public/dummy-data/dummy-pin.json";
 import {
   ArrowDropDownIcon,
   ExpendDownIcon,
   ExpendUpIcon,
 } from "@/components/IconSvg";
+
+import { markerDataByAmount } from "@/redux/locationSlice";
+
+interface markerDataByCollection {
+  collectionId: number;
+  pinDatas: Pin[];
+}
 
 export default function Overlay() {
   const dispatch = useAppDispatch();
@@ -28,7 +38,8 @@ export default function Overlay() {
   const locationGetter = useAppSelector(
     (state) => state.location.locationGetter
   );
-  const [selectedCardId, setSelectedCardId] = useState<number[]>([0]);
+  const [selectedCardId, setSelectedCardId] = useState<number[]>([]);
+  const [markerDatas, setMarkerDatas] = useState<markerDataByCollection[]>([]);
 
   function getLocation() {
     dispatch(locationGetterByAmount(true));
@@ -44,15 +55,88 @@ export default function Overlay() {
 
   const handleClickedCard = (index: number) => {
     setSelectedCardId((prev) => {
-      if (prev.includes(index)) return prev.filter((id) => id !== index);
+      if (prev.includes(index)) {
+        removeMarkerData(collectionDummyData[index].id); //마커리스트 데이터에서 해당하는 컬렉션 제거
+        return prev.filter((id) => id !== index);
+      }
+      addMarkerData(collectionDummyData[index].id); //마커리스트 데이터에 해당하는 컬렉션 추가
       return [...prev, index];
     });
   };
 
   const handleClickBottomButton = (num: number) => {
     setCollectionSelector(num);
-    setSelectedCardId([0]);
+    setSelectedCardId([]);
   };
+
+  const removeMarkerData = (id:number) => {
+    const newMarkerData:markerDataByCollection[] = [];
+    markerDatas.forEach((data)=>{
+      if(data.collectionId != id){
+        newMarkerData.push(data);
+      }
+    })
+    setMarkerDatas(newMarkerData);
+  }
+
+  const addMarkerData = async(id:number) => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`)
+    .then((res) => {
+      if (!res.ok){
+        throw new Error(`컬렉션 '${id}'의 정보 가져오기를 실패했습니다.`);
+      }
+      return(res.json());
+    })
+    .then((res) => {
+      const newMarkerData:markerDataByCollection = {
+        collectionId: id,
+        pinDatas: res,
+      }
+      setMarkerDatas((prev)=>{
+        return [...prev, newMarkerData];
+      })
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  }
+
+  function makeMarkerList() {
+    let markerList: MarkerData[] = [];
+
+    //최종 마커 리스트를 생성하고 Map에 전달
+
+    function checkList(id:number){
+      for(let i = 0 ; i < markerList.length ; i++){
+        if(markerList[i].id == id){
+          return false;
+        }
+      }
+      return true;
+    }
+    if(markerDatas[0]){
+      markerDatas.forEach((collectionData) => {
+        console.log("데이터:", collectionData);
+        collectionData.pinDatas.forEach((pinData) => {
+          if(checkList(pinData.id)){
+            let newData: MarkerData = {
+              id:pinData.id,
+              placeName:pinData.placeName,
+              pinCount:pinData.saveCnt,
+              xPos:pinData.longtitude,
+              yPos:pinData.latitude,
+            };
+            markerList.push(newData);
+          }
+        });
+      });
+    }
+    dispatch(markerDataByAmount(markerList));
+  }
+
+  useEffect(() => {
+    makeMarkerList();
+  }, [markerDatas]);
 
   return (
     <section className={styles.overlay}>

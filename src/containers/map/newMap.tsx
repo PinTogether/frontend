@@ -392,10 +392,9 @@ const MapNaverDefault = () => {
                     `button${markerDatas[index2].id}`
                   );
                   if (event) {
-                    event.addEventListener("click", () =>{
+                    event.addEventListener("click", () => {
                       movePage(markerDatas[index2].id);
-                    }
-                    );
+                    });
                     buttonEventList.push(event);
                   }
                 });
