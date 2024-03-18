@@ -25,12 +25,18 @@ const ProfileInfoRenderer = ({
   // TODO : 로그인 여부 확인
   const [isLogined, setIsLogined] = useState(false);
 
+  const [isFollowed, setIsFollowed] = useState<boolean>(
+    profileInfo?.followed || false
+  );
+
   const handleClickFollowButton = async () => {
     if (profileInfo || !isLoading || !isMyProfile) {
       setIsLoading(true);
       const { success, errorMessage } = await fetchPostFollow(userId);
       if (!success) {
         console.error(errorMessage);
+      } else {
+        setIsFollowed(true);
       }
       setIsLoading(false);
     }
@@ -42,6 +48,8 @@ const ProfileInfoRenderer = ({
       const { success, errorMessage } = await fetchDeleteFollow(userId);
       if (!success) {
         console.error(errorMessage);
+      } else {
+        setIsFollowed(false);
       }
       setIsLoading(false);
     }
@@ -67,7 +75,7 @@ const ProfileInfoRenderer = ({
               <Link href={"/profile/setting"}>
                 <SettingIcon className={styles.icon} />
               </Link>
-            ) : profileInfo.followed ? (
+            ) : isFollowed ? (
               <button
                 className={styles.followButton}
                 onClick={handleClickFollowButton}
