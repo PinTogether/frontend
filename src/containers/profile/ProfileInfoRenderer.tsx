@@ -22,8 +22,10 @@ const ProfileInfoRenderer = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
+  // TODO : 로그인 여부 확인
+  const [isLogined, setIsLogined] = useState(false);
+
   const handleClickFollowButton = async () => {
-    console.log("follow button clicked");
     if (profileInfo || !isLoading || !isMyProfile) {
       setIsLoading(true);
       const { success, errorMessage } = await fetchPostFollow(userId);
@@ -35,7 +37,6 @@ const ProfileInfoRenderer = ({
   };
 
   const handleClickUnfollowButton = async () => {
-    console.log("unfollow button clicked");
     if (profileInfo || !isLoading || !isMyProfile) {
       setIsLoading(true);
       const { success, errorMessage } = await fetchDeleteFollow(userId);
@@ -71,14 +72,14 @@ const ProfileInfoRenderer = ({
                 className={styles.followButton}
                 onClick={handleClickFollowButton}
               >
-                팔로우
+                팔로우 취소
               </button>
             ) : (
               <button
                 className={styles.followButton}
                 onClick={handleClickUnfollowButton}
               >
-                팔로우 취소
+                팔로우
               </button>
             )}
           </div>
