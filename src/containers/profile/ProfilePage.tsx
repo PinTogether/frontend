@@ -1,26 +1,19 @@
 "use client";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { Suspense, useState } from "react";
-import { CollectionDetail } from "@/types/Collection";
 import { PlaceStarred } from "@/types/Place";
-import ProfileCollectionRenderer from "./ProfileCollectionRenderer";
-import ProfileBookmarkRenderer from "./ProfileBookmarkRenderer";
+import ProfileStarsRenderer from "./ProfileBookmarkRenderer";
 
 import ProfileSkeleton from "@/components/loading/ProfileSkeleton";
 import profileDatas from "@/../../public/dummy-data/dummy-profile.json";
-import placeDatas from "@/../../public/dummy-data/dummy-place.json";
-import collectionDatas from "@/../../public/dummy-data/dummy-collection.json";
 import SubPageLayout from "../layout/SubPageLayout";
 import Link from "next/link";
 
 import ProfileInfoRenderer from "./ProfileInfoRenderer";
-import ProfileScrappedCollectionRenderer from "./ProfileScrappedCollectionRenderer";
+import ProfileCollectionsRenderer from "./ProfileCollectionsRenderer";
+import ProfileScrapsRenderer from "./ProfileScrapsRenderer";
 
 const profiles = profileDatas[0];
-const bookmarksList: PlaceStarred[] = placeDatas;
-const scrappedCollections: CollectionDetail[] = collectionDatas;
-const followCollections = scrappedCollections;
-const myCollections = scrappedCollections;
 
 export default function ProfilePage({ id }: { id: number }) {
   const [showState, setShowState] = useState(1);
@@ -36,7 +29,7 @@ export default function ProfilePage({ id }: { id: number }) {
       topperMsg="프로필"
       completeButtonMsg={id == profiles.id ? "수정" : undefined}
     >
-      <ProfileInfoRenderer id={id} />
+      <ProfileInfoRenderer userId={id} />
       <section className={styles.buttonContainer}>
         <button
           className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ""}`}
@@ -70,16 +63,12 @@ export default function ProfilePage({ id }: { id: number }) {
           </Link>
         )}
       </section>
-      {showState === 1 && <ProfileCollectionRenderer userId={id} />}
-      {showState === 2 && (
-        <Suspense fallback={<Loading />}>
-          <ProfileScrappedCollectionRenderer userId={id} />
-        </Suspense>
-      )}
+      {showState === 1 && <ProfileCollectionsRenderer userId={id} />}
+      {showState === 2 && <ProfileScrapsRenderer userId={id} />}
       {/* {showState === 3 && (
         <ProfileCollectionRenderer collectionList={followCollections} />
       )} */}
-      {showState === 4 && <ProfileBookmarkRenderer bookmarks={bookmarksList} />}
+      {showState === 4 && <ProfileStarsRenderer userId={id} />}
     </SubPageLayout>
   );
 }

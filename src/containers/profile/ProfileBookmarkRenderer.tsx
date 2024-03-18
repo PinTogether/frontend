@@ -1,20 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PlaceStarred } from "@/types/Place";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import placeDatas from "@/../../public/dummy-data/dummy-place.json";
 import { SimplePlaceCard } from "@/components/PlaceCard";
+import fetchGetStars from "@/utils/fetchGetStars";
 
-export default function ProfileBookmarkRenderer({
-  bookmarks,
+export default function ProfileStarsRenderer({
+  userId,
   className,
 }: {
-  bookmarks: PlaceStarred[];
+  userId: number;
   className?: string;
 }) {
+  /* fetch data */
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<{
+    starredDatas: PlaceStarred[];
+    errorMessage: string;
+  }>({
+    starredDatas: [],
+    errorMessage: "",
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const result = await fetchGetStars(userId);
+      setData(result);
+      setIsLoading(false);
+    };
+    if (!isLoading) fetchData();
+  }, [userId]);
+
+  /* card click */
   const router = useRouter();
+  // TODO "isButtonPressed" is not used
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const [clickedBookmarks, setClickedBookmarks] = useState<number[]>([]);
   const [selectMode, setSelectMode] = useState(false);
@@ -73,22 +96,7 @@ export default function ProfileBookmarkRenderer({
         )}
       </div>
       <section className={styles.profileBookmarkContainer}>
-        {/*{placeDatas.map((bookmark, index) => (
-          <button
-            onClick={() => {
-              (selectMode && onChangeClickedBookmark(bookmark.id)) ||
-                (!selectMode && router.push(`/pin/${bookmark.id}`));
-            }}
-            onMouseDown={handleMouseDown}
-            onMouseUp={() => setIsButtonPressed(false)}
-            key={index}
-            className={`${styles.bookmarkContainer} ${clickedBookmarks.includes(bookmark.id) ? styles.bookmarkContainerClicked : ""}`}
-          >
-            <SimplePlaceCard place={bookmark} />
-
-          </button>
-        ))}*/}
-        {placeDatas.map((bookmark, index) => (
+        {data.starredDatas.map((bookmark, index) => (
           <button
             onClick={() => {
               (selectMode && onChangeClickedBookmark(bookmark.id)) ||
