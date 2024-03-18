@@ -1,4 +1,4 @@
-const fetchDeleteFollow = async () => {
+const fetchDeleteAccount = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/me`, {
       method: "DELETE",
@@ -15,4 +15,4 @@ const fetchDeleteFollow = async () => {
     };
   }
 };
-export default fetchDeleteFollow;
+export default fetchDeleteAccount;
