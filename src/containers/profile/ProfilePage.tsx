@@ -65,6 +65,7 @@ export default function ProfilePage({ userId }: { userId: number }) {
     >
       <>
         <ProfileInfoRenderer
+          userId={userId}
           profileInfo={profile.profileInfo}
           errorMessage={profile.errorMessage}
           isMyProfile={isMyProfile}

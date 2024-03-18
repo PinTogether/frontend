@@ -26,20 +26,28 @@
     }
     .profileName {
       display: grid;
-      grid-template-columns: 1.5rem 1fr 1.5rem;
+      grid-template-columns: 1fr auto 1fr;
       flex-direction: columns;
       align-items: center;
       justify-content: center;
       font-size: $font-size-large;
+
       gap: 15px;
-    }
-    .icon {
-      width: 1rem;
-      height: 1rem;
-      color: $color-grey-dark;
-    }
-    .icon:hover {
-      color: $color-primary;
+      .icon {
+        width: 1rem;
+        height: 1rem;
+        color: $color-grey-dark;
+      }
+      .icon:hover {
+        color: $color-primary;
+      }
+      .followButton {
+        align-self: flex-end;
+        font-size: $font-size-small;
+        &:hover {
+          color: $color-primary;
+        }
+      }
     }
   }
   .profileLog {
