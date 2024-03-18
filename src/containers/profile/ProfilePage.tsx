@@ -105,6 +105,7 @@ export default function ProfilePage({ userId }: { userId: number }) {
             </Link>
           )}
         </section>
+        {/* TODO : 버튼 클릭시 마다 재랜더링이 되지 않도록(fetch 여러번) dispaly : none 으로 화면 제어하기*/}
         {showState === 1 && (
           <ProfileCollectionsRenderer
             userId={userId}
@@ -117,7 +118,9 @@ export default function ProfilePage({ userId }: { userId: number }) {
         {/* {showState === 3 && (
         <ProfileCollectionRenderer collectionList={followCollections} />
       )} */}
-        {showState === 4 && <ProfileStarsRenderer userId={userId} />}
+        {showState === 4 && isMyProfile && (
+          <ProfileStarsRenderer userId={userId} />
+        )}
       </>
     </SubPageLayout>
   );
