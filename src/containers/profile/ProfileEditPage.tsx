@@ -82,7 +82,10 @@ export default function ProfileEditPage() {
 
     const fetch = async () => {
       if (!myProfile) return;
-      const success = await fetchPutMyProfile(inputNickname, imageFileUrl);
+      const { success, errorMessage } = await fetchPutMyProfile(
+        inputNickname,
+        imageFileUrl
+      );
       if (success) {
         router.push(`profile/${myProfile.id}`);
       } else {
