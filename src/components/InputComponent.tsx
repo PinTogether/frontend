@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
   InputHTMLAttributes,
   TextareaHTMLAttributes,
@@ -54,8 +56,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
-InputComponent.displayName = 'InputComponent';
-
+InputComponent.displayName = "InputComponent";
 
 // Textarea
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -102,4 +103,4 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     );
   }
 );
-TextareaComponent.displayName = 'TextareaComponent';
+TextareaComponent.displayName = "TextareaComponent";
