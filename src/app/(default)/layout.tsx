@@ -4,10 +4,9 @@
 
 import "../globals.css";
 import styles from "@/styles/layout/_layout.module.scss";
-import Map from "@/containers/map/newMap";
+import Map from "@/containers/map/Map";
 import Sidebar from "@/containers/layout/Sidebar";
 import Maincontent from "@/containers/layout/Maincontent";
-import Script from "next/script";
 
 import Providers from "@/utils/Providers";
 
