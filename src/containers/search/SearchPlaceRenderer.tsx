@@ -6,6 +6,7 @@ import { PlaceDetail } from "@/types/Place";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
 import PlaceCard from "@/components/PlaceCard";
 import BouncingLoader from "@/components/BouncingLoader";
+import fetchGetSearchPlace from "@/utils/fetchGetSearchPlace";
 
 export default function SearchPlaceRender({
   searchKeyword,
@@ -39,36 +40,23 @@ export default function SearchPlaceRender({
     }
   }, [isIntersecting]);
 
-  const searchPlace = (searchKeyword: string, page: number) => {
+  const searchPlace = async (searchKeyword: string, page: number) => {
     const size = 10;
     setIsLoading(true);
-    fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/place?query=${searchKeyword}&page=${page + 1}&size=${size}`
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error("검색에 실패했습니다.");
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data, data.length);
-        if (data.length > 0) setPageNum((prev) => prev + 1);
-        setPlaceDatas((prev) => [...prev, ...data]);
-        return data;
-      })
-      .then((data) => {
-        if (placeDatas.length === 0) {
-          setErrorMessage("검색 키워드에 맞는 장소가 없습니다.");
-        } else {
-          setErrorMessage("");
-          setIsEnd(data.length < size);
-        }
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setErrorMessage("검색에 실패했습니다.");
-        setIsLoading(false);
-      });
+    const { collectionDatas, errorMessage } = await fetchGetSearchPlace(
+      searchKeyword,
+      page,
+      size
+    );
+    if (collectionDatas.length > 0) setPageNum((prev) => prev + 1);
+    setPlaceDatas((prev) => [...prev, ...collectionDatas]);
+    if (placeDatas.length === 0) {
+      setErrorMessage(errorMessage);
+    } else {
+      setErrorMessage("");
+      setIsEnd(collectionDatas.length < size);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -87,8 +75,8 @@ export default function SearchPlaceRender({
           {isLoading && <BouncingLoader />}
         </>
       )}
-      <div ref={pageEndDiv} style={{ height: "5px" }}></div>
       <br />
+      {!isEnd && <div ref={pageEndDiv} style={{ height: "5px" }}></div>}
     </section>
   );
 }
