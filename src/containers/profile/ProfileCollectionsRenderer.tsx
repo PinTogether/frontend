@@ -7,9 +7,11 @@ import fetchGetProfileCollections from "@/utils/fetchGetProfileCollections";
 
 const ProfileCollectionsRenderer = ({
   userId,
+  isMyProfile,
   className,
 }: {
   userId: number;
+  isMyProfile: boolean;
   className?: string;
 }) => {
   /* fetch data */

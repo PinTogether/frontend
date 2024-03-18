@@ -7,9 +7,11 @@ import fetchGetProfileScraps from "@/utils/fetchGetProfileScraps";
 
 const ProfileScrapsCollectionRenderer = ({
   userId,
+  isMyProfile,
   className,
 }: {
   userId: number;
+  isMyProfile: boolean;
   className?: string;
 }) => {
   /* fetch data */
