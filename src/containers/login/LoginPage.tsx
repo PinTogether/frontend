@@ -5,47 +5,34 @@ import styles from "@/styles/containers/login/_login.module.scss";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Cookies } from "react-cookie";
-import { ProfileMine } from "@/types/Profile";
 import { useRouter } from "next/navigation";
-import APIResponse from "@/types/APIResponse";
+import fetchGetMyProfile from "@/utils/fetchGetMyProfile";
 
 export default function LoginPage() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const checkLoginStatus = (e: MessageEvent) => {
-      if (e.origin !== process.env.NEXT_PUBLIC_FRONTEND_URL) return;
-      console.log("checkLoginStatus", e);
+    const oauth = new Cookies().get("Authorization");
+    if (oauth) {
+      getMyInfo();
+    }
 
-      const oauth = new Cookies().get("Authorization");
-      console.log("oauth", oauth);
-      if (oauth) {
-        console.log("oauth", oauth);
-        console.log(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`);
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`, {
-          credentials: "include",
-        })
-          .then((res) => {
-            console.log("login res", res);
-            if (res.ok) return res.json();
-            else throw new Error("서버 오류");
-          })
-          .then((data: APIResponse) => {
-            console.log("login data", data);
-            const myProfile: ProfileMine = data.results[0];
-            localStorage.setItem("myProfile", JSON.stringify(myProfile));
-          })
-          .then(() => {
-            router.push("/");
-          })
-          .catch((error) => {
-            console.log(error);
-            setErrorMessage("내 정보 가져오기에 실패했습니다.");
-          });
-      } else setErrorMessage("로그인에 실패했습니다. 다시 시도해주세요.");
-    };
+    // for development
+    // const myProfile: ProfileMine = {
+    //   id: 2,
+    //   nickname: "사용자1",
+    //   avatar: "https://picsum.photos/200",
+    //   collectionCnt: 10,
+    //   scrappedCollectionCnt: 2,
+    //   followerCnt: 200,
+    //   followingCnt: 150,
+    //   registrationSource: "KAKAO",
+    //   role: "ROLE_MEMBER",
+    // };
+    // localStorage.setItem("myProfile", JSON.stringify(myProfile));
 
     window.addEventListener("message", checkLoginStatus);
     return () => {
@@ -53,6 +40,33 @@ export default function LoginPage() {
     };
   }, []);
 
+  const checkLoginStatus = (e: MessageEvent) => {
+    if (e.origin !== process.env.NEXT_PUBLIC_FRONTEND_URL) return;
+    console.log("checkLoginStatus", e);
+    const oauth = new Cookies().get("Authorization");
+    console.log("oauth", oauth);
+    if (oauth && !isLoading) {
+      getMyInfo();
+    } else setErrorMessage("로그인에 실패했습니다. 다시 시도해주세요.");
+  };
+
+  const getMyInfo = async () => {
+    const fetch = async () => {
+      setIsLoading(true);
+      const { profileInfo, errorMessage } = await fetchGetMyProfile();
+      if (errorMessage != "" || !profileInfo) {
+        setErrorMessage(errorMessage);
+      } else {
+        const myProfile = profileInfo;
+        localStorage.setItem("myProfile", JSON.stringify(myProfile));
+      }
+      setIsLoading(false);
+      router.push("/");
+    };
+    fetch();
+  };
+
+  /* popup */
   const handleClick = ({
     loginType,
   }: {
@@ -71,6 +85,8 @@ export default function LoginPage() {
         `width=${width},height=${height},left=${left},top=${top},popup=yes`
       )
     );
+
+    // for devlopment
     // setExternalPopup(
     //   window.open(
     //     `${process.env.NEXT_PUBLIC_FRONTEND_URL}/popup`,
