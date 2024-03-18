@@ -85,7 +85,7 @@ export default function ProfileBookmarkRenderer({
             className={`${styles.bookmarkContainer} ${clickedBookmarks.includes(bookmark.id) ? styles.bookmarkContainerClicked : ""}`}
           >
             <SimplePlaceCard place={bookmark} />
-          
+
           </button>
         ))}*/}
         {placeDatas.map((bookmark, index) => (

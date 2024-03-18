@@ -150,6 +150,9 @@ const MapNaverDefault = () => {
       createMarkerList.forEach((marker) => {
         marker.setMap(null);
       });
+      setCreateMarkerList([]);
+      setInfoWindowList([]);
+      setOverlapList([]);
     }
   }
 
@@ -363,8 +366,10 @@ const MapNaverDefault = () => {
         function (e) {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
-          updateMarkers();
-          updateMarkerOverlapList(createMarkerList);
+          if(createMarkerList[0]){
+            updateMarkers();
+            updateMarkerOverlapList(createMarkerList);
+          }
         }
       );
       //줌 변경시 이벤트 갱신
@@ -374,8 +379,10 @@ const MapNaverDefault = () => {
         function (e) {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
-          updateMarkers();
-          updateMarkerOverlapList(createMarkerList);
+          if(createMarkerList[0]){
+            updateMarkers();
+            updateMarkerOverlapList(createMarkerList);
+          }
         }
       );
       const buttonEventList: HTMLElement[] = [];
@@ -392,10 +399,9 @@ const MapNaverDefault = () => {
                     `button${markerDatas[index2].id}`
                   );
                   if (event) {
-                    event.addEventListener("click", () =>{
+                    event.addEventListener("click", () => {
                       movePage(markerDatas[index2].id);
-                    }
-                    );
+                    });
                     buttonEventList.push(event);
                   }
                 });

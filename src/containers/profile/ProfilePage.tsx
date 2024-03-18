@@ -6,6 +6,7 @@ import { PlaceStarred } from "@/types/Place";
 import ProfileCollectionRenderer from "./ProfileCollectionRenderer";
 import ProfileBookmarkRenderer from "./ProfileBookmarkRenderer";
 
+import ProfileSkeleton from "@/components/loading/ProfileSkeleton";
 import profileDatas from "@/../../public/dummy-data/dummy-profile.json";
 import placeDatas from "@/../../public/dummy-data/dummy-place.json";
 import collectionDatas from "@/../../public/dummy-data/dummy-collection.json";
