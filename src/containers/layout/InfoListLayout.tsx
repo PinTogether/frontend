@@ -41,11 +41,16 @@ export const UlWrapper = ({
   );
 };
 
+interface LiWrapperProps extends React.HTMLProps<HTMLLIElement> {
+  showExpandButton?: boolean; // showExpandButton을 boolean으로 명시적으로 선언
+  onClick?: React.MouseEventHandler<HTMLLIElement>; // onClick은 선택적이며, HTMLLIElement에 대한 마우스 이벤트 핸들러입니다.
+}
 export const LiWrapper = ({
   children,
+  showExpandButton = false,
   onClick,
   ...props
-}: React.HTMLProps<HTMLLIElement>) => {
+}: LiWrapperProps) => {
   return (
     <li
       className={onClick ? styles.clickableList : styles.list}
@@ -53,7 +58,9 @@ export const LiWrapper = ({
       {...props}
     >
       {children}
-      {onClick ? <ExpandRightIcon className={styles.expandButton} /> : null}
+      {showExpandButton ? (
+        <ExpandRightIcon className={styles.expandButton} />
+      ) : null}
     </li>
   );
 };

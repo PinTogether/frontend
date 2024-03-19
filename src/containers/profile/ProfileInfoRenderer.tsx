@@ -1,49 +1,68 @@
 "use client";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { SettingIcon } from "@/components/IconSvg";
-import { useEffect, useState } from "react";
-import APIResponse from "@/types/APIResponse";
 import { ProfileOthers } from "@/types/Profile";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const ProfileInfoRenderer = ({ id }: { id: number }) => {
-  const [profileData, setProfileData] = useState<ProfileOthers>();
+import fetchPostFollow from "@/utils/fetchPostFollow";
+import fetchDeleteFollow from "@/utils/fetchDeleteFollow";
+
+const ProfileInfoRenderer = ({
+  userId,
+  profileInfo,
+  errorMessage,
+  isMyProfile,
+}: {
+  userId: number;
+  profileInfo: ProfileOthers | null;
+  errorMessage: string;
+  isMyProfile: boolean;
+}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    if (!isLoading) getUserInfo();
-  }, []);
+  // TODO : 로그인 여부 확인
+  const [isLogined, setIsLogined] = useState(false);
 
-  const getUserInfo = () => {
-    setIsLoading(true);
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("프로필 정보 가져오기를 실패했습니다.");
-        return res.json();
-      })
-      .then((data: APIResponse) => {
-        setProfileData(data.results[0]);
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        setErrorMessage("프로필 정보 가져오기를 실패했습니다.");
-        setIsLoading(false);
-      });
+  const [isFollowed, setIsFollowed] = useState<boolean>(
+    profileInfo?.followed || false
+  );
+
+  const handleClickFollowButton = async () => {
+    if (profileInfo || !isLoading || !isMyProfile) {
+      setIsLoading(true);
+      const { success, errorMessage } = await fetchPostFollow(userId);
+      if (!success) {
+        console.error(errorMessage);
+      } else {
+        setIsFollowed(true);
+      }
+      setIsLoading(false);
+    }
+  };
+
+  const handleClickUnfollowButton = async () => {
+    if (profileInfo || !isLoading || !isMyProfile) {
+      setIsLoading(true);
+      const { success, errorMessage } = await fetchDeleteFollow(userId);
+      if (!success) {
+        console.error(errorMessage);
+      } else {
+        setIsFollowed(false);
+      }
+      setIsLoading(false);
+    }
   };
 
   return (
     <section id={styles.profileDataContainer}>
-      {isLoading ? (
-        "loading skeleton..."
-      ) : !profileData ? (
+      {!profileInfo ? (
         `${errorMessage}`
       ) : (
         <div className={styles.profileData}>
           <Image
-            src={profileData.avatar}
+            src={profileInfo.avatar}
             alt="profile img"
             className={styles.profileImage}
             width={100}
@@ -51,28 +70,39 @@ const ProfileInfoRenderer = ({ id }: { id: number }) => {
           />
           <div className={styles.profileName}>
             <div></div>
-            <p>{profileData.nickname}</p>
-            {/* {id == profiles.id && ( ////////// profileData ! */}
-            <Link href={"/profile/setting"}>
-              <SettingIcon className={styles.icon} />
-            </Link>
-            {/* )} */}
+            <p>{profileInfo.nickname}</p>
+            {isMyProfile ? (
+              <Link href={"/profile/setting"}>
+                <SettingIcon className={styles.icon} />
+              </Link>
+            ) : isFollowed ? (
+              <button
+                className={styles.followButton}
+                onClick={handleClickFollowButton}
+              >
+                팔로우 취소
+              </button>
+            ) : (
+              <button
+                className={styles.followButton}
+                onClick={handleClickUnfollowButton}
+              >
+                팔로우
+              </button>
+            )}
           </div>
           <div className={styles.profileLog}>
             <div className={styles.profileLogBox}>
-              <b className={styles.number}>{profileData.collectionCnt}</b>
+              <b className={styles.number}>{profileInfo.collectionCnt}</b>
               <p className={styles.text}>컬렉션</p>
             </div>
             <div className={styles.profileLogBox}>
-              <b className={styles.number}>
-                {profileData.followerCnt}
-                {/* <BookMarkIcon /> */}
-              </b>
+              <b className={styles.number}>{profileInfo.followerCnt}</b>
               <p className={styles.text}>스크랩</p>
             </div>
             <div className={styles.profileLogBox}>
               <b className={styles.number}>
-                {profileData.scrappedCollectionCnt}
+                {profileInfo.scrappedCollectionCnt}
               </b>
               <p className={styles.text}>팔로워</p>
             </div>

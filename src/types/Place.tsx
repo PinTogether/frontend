@@ -15,7 +15,10 @@ export interface PlaceDetail extends Place {
 
 // 찜한 모든 장소 조회
 export interface PlaceStarred extends Place {
-  created_at: string;
+  longtitude: number;
+  latitude: number;
+  starred: boolean;
+  updatedAt: string;
 }
 
 interface ERDPlace {

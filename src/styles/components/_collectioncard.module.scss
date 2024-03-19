@@ -102,8 +102,8 @@ $container-padding: 0.5rem;
       overflow: hidden;
       img {
         object-fit: cover;
-        width: 100%;
-        height: auto;
+        width: $default-size;
+        height: $default-size;
       }
       .overlay {
         position: absolute;

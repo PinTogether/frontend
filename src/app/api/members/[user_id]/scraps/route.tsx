@@ -8,7 +8,7 @@ export async function GET(
 ) {
   const page = request.nextUrl.searchParams.get("page");
   const size = request.nextUrl.searchParams.get("size");
-  console.log("GET /api/members/[user_id]/collections/route.tsx");
+  console.log("GET /api/members/[user_id]/scraps/route.tsx");
   console.log("params", params);
   console.log("page, size", page, size);
   return NextResponse.json({

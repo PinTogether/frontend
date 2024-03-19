@@ -42,3 +42,10 @@
   color: $color-primary;
   width: 100%;
 }
+
+.disabled {
+  // @extend %pt-input;
+  background-color: $color-grey-dark;
+  border: 1px solid yellowgreen;
+  cursor: not-allowed;
+}
