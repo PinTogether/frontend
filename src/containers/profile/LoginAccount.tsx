@@ -1,26 +1,28 @@
 import styles from "@/styles/containers/profile/_profileSettingPage.module.scss";
 import Image from "next/image";
 
-enum LoginRoute {
-  Kakao = 1,
-  Naver,
-  Google,
+// TODO LoginType을 못 읽어와서 임시로 선언
+// import { LoginType } from "./ProfileSettingPage";
+export enum LoginType {
+  KAKAO = 1,
+  NAVER = 2,
+  GOOGLE = 3,
 }
 
 const loginRoutes = {
-  [LoginRoute.Kakao]: {
+  [LoginType.KAKAO]: {
     className: styles.loginImgContainerKakao,
     src: "/logo/kakao.svg",
     alt: "kakao",
     text: "카카오 계정 회원",
   },
-  [LoginRoute.Naver]: {
+  [LoginType.NAVER]: {
     className: styles.loginImgContainerNaver,
     src: "/logo/naver.svg",
     alt: "naver",
     text: "네이버 계정 회원",
   },
-  [LoginRoute.Google]: {
+  [LoginType.GOOGLE]: {
     className: styles.loginImgContainerGoogle,
     src: "/logo/google.svg",
     alt: "google",
@@ -29,14 +31,14 @@ const loginRoutes = {
 };
 
 const LoginAccount = ({
-  RouteState, // RouteState ?
+  loginType,
   isLogin,
 }: {
-  RouteState?: LoginRoute;
+  loginType?: LoginType;
   isLogin?: number;
 }) => {
-  if (isLogin && RouteState) {
-    const route = loginRoutes[RouteState];
+  if (isLogin && loginType) {
+    const route = loginRoutes[loginType];
     if (route) {
       return (
         <div className={styles.loginRoute}>

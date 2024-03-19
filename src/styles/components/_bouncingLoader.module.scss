@@ -3,9 +3,11 @@
 .loader {
 	margin: 1rem;
   width: 5rem;
-	height: 100%;
+	height: fit-content;
 	display: flex;
 	gap: 1rem;
+  align-items: center;
+  justify-content: center;
 
 	@keyframes bounce {
 		0% {

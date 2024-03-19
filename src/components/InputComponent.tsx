@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
   InputHTMLAttributes,
   TextareaHTMLAttributes,
@@ -18,8 +20,6 @@ interface InputProps
 }
 const InputComponent = forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...restProps }: InputProps, ref) => {
-    const inputRef = useRef<HTMLInputElement>(null);
-
     const [textLength, setTextLength] = useState(0);
 
     const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
     if (!restProps.maxLength) {
       return (
         <input
-          ref={inputRef}
+          ref={ref}
           className={`${styles.input} ${className}`}
           {...restProps}
           onChange={handleTextChange}
@@ -42,7 +42,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={`${styles.inputContainer} ${className}`}>
         <input
-          ref={inputRef}
+          ref={ref}
           className={styles.input}
           {...restProps}
           onChange={handleTextChange}
@@ -54,8 +54,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
-InputComponent.displayName = 'InputComponent';
-
+InputComponent.displayName = "InputComponent";
 
 // Textarea
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -102,4 +101,4 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     );
   }
 );
-TextareaComponent.displayName = 'TextareaComponent';
+TextareaComponent.displayName = "TextareaComponent";

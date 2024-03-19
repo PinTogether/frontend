@@ -6,5 +6,5 @@ type PageParams = {
 };
 
 export default function Page({ params }: { params: PageParams }) {
-  return <ProfilePage id={params.id} />;
+  return <ProfilePage userId={params.id} />;
 }
