@@ -76,6 +76,25 @@
     "phoneNumber": "051-1234-5678"
   },
   {
+    "id": 15,
+    "collectionId": 4,
+    "writer": "사용자4",
+    "review": "신선한 해산물을 맛볼 수 있는 해변가 최고의 식당입니다.",
+    "createdAt": "2023-04-04T00:00:00Z",
+    "saveCnt": 11,
+    "roadNameAddress": "부산시 예제구 예제동 101",
+    "placeName": "해변가 식당 mk2",
+    "image": "/images/pin4.jpg",
+    "longtitude": 35.1547,
+    "latitude": 129.255,
+    "starred": true,
+    "category": "음식",
+    "tags": ["해산물", "식당", "음식"],
+    "collectionTitle": "맛집 탐방",
+		"imagePaths": ["https://picsum.photos/200", "https://picsum.photos/200"],
+    "phoneNumber": "051-1234-5678"
+  },
+  {
     "id": 9,
     "collectionId": 5,
     "writer": "사용자5",

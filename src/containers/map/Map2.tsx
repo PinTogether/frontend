@@ -23,6 +23,15 @@ interface OverlapData {
   overlapId: number[];
 }
 
+interface ClusteredMarkerData{
+  innerMarkerList: naver.maps.Marker[];
+  innerMarkerId: number[];
+  bound: naver.maps.Bounds;
+  centerPoint : naver.maps.Point;
+  clusteredMarker: naver.maps.Marker | null;
+  infoWindow: naver.maps.InfoWindow | null;
+}
+
 const MapNaverDefault = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
@@ -34,12 +43,8 @@ const MapNaverDefault = () => {
     []
   );
   const [clusteredMarkerList, setClusteredMarkerList] = useState<
-    naver.maps.Marker[]
+  ClusteredMarkerData[]
   >([]);
-  const [overlapList, setOverlapList] = useState<OverlapData[]>([]);
-  const [infoWindowList, setInfoWindowList] = useState<naver.maps.InfoWindow[]>(
-    []
-  );
 
   const geoApiAuth = useAppSelector((state) => state.location.geoApiAuth);
   const LatLng = useAppSelector((state) => state.location.latLng);
@@ -130,6 +135,15 @@ const MapNaverDefault = () => {
     };
 
     if (newMap) {
+      if(clusteredMarkerList[0]){
+        console.log("클러스터 마커 정리");
+        clusteredMarkerList.forEach((marker)=>{
+          if(marker.infoWindow)
+            marker.clusteredMarker?.setMap(null);
+        });
+        setClusteredMarkerList([]);
+      }
+      setClusteredMarkerList([]);
       createMarkerList.forEach((marker) => {
         // mapBounds와 비교하며 마커가 현재 화면에 보이는 영역에 있는지 확인
         if (newMap.getBounds().hasPoint(marker.getPosition())) {
@@ -151,8 +165,6 @@ const MapNaverDefault = () => {
         marker.setMap(null);
       });
       setCreateMarkerList([]);
-      setInfoWindowList([]);
-      setOverlapList([]);
     }
   }
 
@@ -210,16 +222,14 @@ const MapNaverDefault = () => {
     router.push(`/place/${id}`);
   }
 
-  //`<a href="/place/${markerDatas[index].id}">${data.getTitle()}</a>`, // 임시
-  //`<button onClick={()=>{router.push("/place/${markerDatas[index].id}")}}>test</button>`,
+  function makeClusteredMarkerList(){ // 변경중
 
-  function updateMarkerOverlapList(markerLists: naver.maps.Marker[]) {
     function getList(index: number) {
       let returnHTML: string = "";
-      overlapList[index].overlapMarker.forEach((data, indexNum) => {
+      newClusteredMarkers[index].innerMarkerList.forEach((data, indexNum) => {
         const str = [
           `<div onmouseover="this.style.backgroundColor = '#e4e1ff';" onmouseout="this.style.backgroundColor = '#ffffff'"; style="padding: 3px;">
-          <div id="button${overlapList[index].overlapId[indexNum]}" style="text-decoration: underline; text-decoration-color: #d9d9d9; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; font-size: 15px; font-weight: 500; padding: 5px; margin:0px">
+          <div id="ClusteredMarker${newClusteredMarkers[index].innerMarkerId[indexNum]}" style="text-decoration: underline; text-decoration-color: #d9d9d9; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; font-size: 15px; font-weight: 500; padding: 5px; margin:0px">
           ${data.getTitle()}
           </div>
           </div>`,
@@ -229,38 +239,74 @@ const MapNaverDefault = () => {
       return returnHTML;
     }
 
-    const overlapList: OverlapData[] = [];
-    const infoWindowList: naver.maps.InfoWindow[] = [];
-    markerLists.forEach((marker, index) => {
-      const markerList: naver.maps.Marker[] = [];
-      const markerId: number[] = [];
-      markerLists.forEach((data, index2) => {
-        if (intersects(marker, data)) {
-          markerList.push(data);
-          markerId.push(markerDatas[index2].id);
+    if(clusteredMarkerList[0]){
+      clusteredMarkerList.forEach((data)=>{
+        if(data.clusteredMarker)
+          data.clusteredMarker.setMap(null);
+      })
+    }
+
+    const newClusteredMarkers: ClusteredMarkerData[] = [];
+    createMarkerList.forEach((marker, markerIndex) => {
+      if(newClusteredMarkers[0] && marker.getMap()){
+        let isIntersect:boolean = false;
+        for (let clusteredMarkerIndex = 0 ; clusteredMarkerIndex < newClusteredMarkers.length ; clusteredMarkerIndex++){
+          if (intersects(marker, newClusteredMarkers[clusteredMarkerIndex].innerMarkerList[0])) {
+            const markerPosition:naver.maps.Point = marker.getPosition();
+            newClusteredMarkers[clusteredMarkerIndex].innerMarkerList.push(marker);
+            newClusteredMarkers[clusteredMarkerIndex].innerMarkerId.push(markerDatas[markerIndex].id);
+            newClusteredMarkers[clusteredMarkerIndex].centerPoint = new naver.maps.Point({x : (newClusteredMarkers[clusteredMarkerIndex].centerPoint.x + markerPosition.x) / 2, y: (newClusteredMarkers[clusteredMarkerIndex].centerPoint.y + markerPosition.y) / 2 });
+            newClusteredMarkers[clusteredMarkerIndex].bound = newClusteredMarkers[clusteredMarkerIndex].bound.extend(marker.getPosition());
+            isIntersect = true;
+            break;
+          }
         }
-      });
-      const overlapData: OverlapData = {
-        id: marker,
-        overlapMarker: markerList,
-        overlapId: markerId,
-      };
-      overlapList.push(overlapData);
-      var infowindow = new naver.maps.InfoWindow({
-        content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; max-height: 400px; padding-top:10px; padding-bottom:10px;">
-        ${getList(index)}
-        </div>`,
-        borderWidth: 0,
-        disableAnchor: true,
-        backgroundColor: "transparent",
-        //backgroundColor: "#ffffff",
-        //borderColor: "#6d56ff",
-        //disableAnchor: true,
-      });
-      infoWindowList.push(infowindow);
-    });
-    setInfoWindowList(infoWindowList);
-    setOverlapList(overlapList);
+        if(!isIntersect){
+          const centerBounds = new naver.maps.LatLng(marker.getPosition());
+          newClusteredMarkers.push({innerMarkerList:[marker], innerMarkerId:[markerDatas[markerIndex].id], centerPoint: marker.getPosition(), bound: new naver.maps.LatLngBounds(centerBounds, centerBounds), clusteredMarker:null, infoWindow:null});
+        }
+      }
+      else if(marker.getMap()){
+        const centerBounds = new naver.maps.LatLng(marker.getPosition());
+        newClusteredMarkers.push({innerMarkerList:[marker], innerMarkerId:[markerDatas[markerIndex].id], centerPoint: marker.getPosition(), bound: new naver.maps.LatLngBounds(centerBounds, centerBounds), clusteredMarker:null, infoWindow:null});
+      }
+    })
+    createMarkerList.forEach((data)=>{
+      data.setMap(null);
+    })
+    if(newClusteredMarkers[0]){
+      newClusteredMarkers.forEach((ClusteredMarkerData, index)=>{
+        if(ClusteredMarkerData.innerMarkerList.length != 1){
+        ClusteredMarkerData.infoWindow = new naver.maps.InfoWindow({
+          content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; max-height: 400px; padding-top:10px; padding-bottom:10px;">
+          ${getList(index)}
+          </div>`,
+          borderWidth: 0,
+          disableAnchor: true,
+          backgroundColor: "transparent",
+        });
+        ClusteredMarkerData.clusteredMarker = new naver.maps.Marker({
+          position: ClusteredMarkerData.centerPoint,
+          icon: {
+            content: [
+              '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:70px; height:70px; position: relative;">',
+              '<img src="/icons/clustered_pin.svg" alt="" style="width:70px; height:70px;"></img>',
+              '<b style="position: absolute; top: 31px; left: 50%; color: #ffffff; font-size: 15px; font-weight: 600; transform: translate(-50%, -50%);">',
+              `${ClusteredMarkerData.innerMarkerId.length}`,
+              "</b>",
+              "</div>",
+            ].join(""),
+            size: new naver.maps.Size(70, 70),
+            anchor: new naver.maps.Point(35, 60),
+          },
+        });
+      }
+      else{
+        ClusteredMarkerData.clusteredMarker = ClusteredMarkerData.innerMarkerList[0];
+      }
+      })
+    }
+    setClusteredMarkerList(newClusteredMarkers);
   }
 
   function makeMarkerList() {
@@ -276,7 +322,6 @@ const MapNaverDefault = () => {
             size: new naver.maps.Size(60, 50),
             anchor: new naver.maps.Point(30, 25),
           },
-          animation: naver.maps.Animation.DROP,
           title: data.placeName,
           //shape: {
           //  coords: [20, 0, 60, 0, 60, 40, 20, 40],
@@ -312,9 +357,9 @@ const MapNaverDefault = () => {
           maxZoom: 18,
         });
         createMarkerList.forEach((marker) => {
-          marker.setMap(newMap);
+          marker.setMap(newMap); //없을시 업데이트 마커가 일어나야 마커가 표시됨
         });
-        updateMarkerOverlapList(createMarkerList);
+        makeClusteredMarkerList();
       }
       const center = newMap.getCenter();
       handleGetAddress(center.x, center.y);
@@ -358,7 +403,7 @@ const MapNaverDefault = () => {
   useEffect(() => {
     if (window.naver && geoApiAuth != "" && newMap) {
       console.log("이벤트 갱신");
-      const eventList: naver.maps.MapEventListener[] = [];
+      const markerEventList: naver.maps.MapEventListener[] = [];
       //드래그시 이벤트 갱신
       const dragevent = naver.maps.Event.addListener(
         newMap,
@@ -368,7 +413,7 @@ const MapNaverDefault = () => {
           handleGetAddress(center.x, center.y);
           if(createMarkerList[0]){
             updateMarkers();
-            updateMarkerOverlapList(createMarkerList);
+            makeClusteredMarkerList();
           }
         }
       );
@@ -381,64 +426,72 @@ const MapNaverDefault = () => {
           handleGetAddress(center.x, center.y);
           if(createMarkerList[0]){
             updateMarkers();
-            updateMarkerOverlapList(createMarkerList);
+            makeClusteredMarkerList();
           }
         }
       );
-      const buttonEventList: HTMLElement[] = [];
-      createMarkerList.forEach((data, index) => {
-        eventList.push(
-          naver.maps.Event.addListener(data, "click", function (e) {
-            if (overlapList[index].overlapMarker.length != 1) {
-              if (infoWindowList[index].getMap()) {
-                infoWindowList[index].close();
-              } else {
-                infoWindowList[index].open(newMap, data);
-                createMarkerList.forEach((data, index2) => {
-                  const event = document.getElementById(
-                    `button${markerDatas[index2].id}`
-                  );
-                  if (event) {
-                    event.addEventListener("click", () => {
-                      movePage(markerDatas[index2].id);
-                    });
-                    buttonEventList.push(event);
-                  }
-                });
+      const ClusteredMarkerEventList: HTMLElement[] = [];
+      clusteredMarkerList.forEach((data) => {
+        if(data.clusteredMarker)
+          data.clusteredMarker.setMap(newMap);
+        markerEventList.push(
+          naver.maps.Event.addListener(data.clusteredMarker, "click", function(e) {
+            if (data.infoWindow){
+              if(data.infoWindow.getMap()){
+                data.infoWindow.close();
               }
-            } else {
-              // newMap.panTo(data.getPosition(), { duration: 200 });
-              // setTimeout(updateMarkers, 210); // 위 duration과 맞추기
-              // handleGetAddress(data.getPosition().x, data.getPosition().y);
-              router.push(`/place/${markerDatas[index].id}`);
+              else{
+                if(data.clusteredMarker)
+                  data.infoWindow.open(newMap, data.clusteredMarker);
+                  data.innerMarkerId.forEach((data) => {
+                    const event = document.getElementById(
+                      `ClusteredMarker${data}`
+                    );
+                    if (event) {
+                      event.addEventListener("click", () => {
+                        movePage(data);
+                      });
+                      ClusteredMarkerEventList.push(event);
+                    }
+                  });
+                  newMap.panToBounds(
+                    data.bound,
+                    { easing: "easeOutCubic" }, // 애니메이션
+                    { top: 400, right: 400, bottom: 400, left: 400 }
+                    );
+              }
+            }
+            else{
+              router.push(`/place/${data.innerMarkerId[0]}`);
             }
           })
-        );
-      });
+        )
+      })
       return () => {
-        createMarkerList.forEach((data, index) => {
-          if (infoWindowList[index] && infoWindowList[index].getMap()) {
-            infoWindowList[index].close();
+        clusteredMarkerList.forEach((data, index) => {
+          if(data.infoWindow && data.infoWindow.getMap()){
+            data.infoWindow.close();
           }
-          data.removeListener(eventList[index]);
-          if (buttonEventList[index]) {
-            buttonEventList[index].removeEventListener("click", () =>
+          data.clusteredMarker?.removeListener(markerEventList[index]);
+          if (ClusteredMarkerEventList[index]) {
+            ClusteredMarkerEventList[index].removeEventListener("click", () =>
               movePage(markerDatas[index].id)
             );
           }
-        });
+        })
         naver.maps.Event.removeListener(dragevent);
         naver.maps.Event.removeListener(zoomevent);
       };
     }
-  }, [geoApiAuth, createMarkerList, overlapList]);
+  }, [geoApiAuth, createMarkerList, clusteredMarkerList]);
 
   useEffect(() => {
     if (mainContentWidth === "500px") {
       setSideWidth(500);
-      //newMap?.panBy({ x: -300, y: 0 });
+      newMap?.panBy({ x: -300, y: 0 });
     } else if (mainContentWidth == "0px") {
       setSideWidth(0);
+      newMap?.panBy({ x: 300, y: 0 });
     }
   }, [mainContentWidth]);
 
@@ -452,9 +505,13 @@ const MapNaverDefault = () => {
 
   //마커 목록 생성
   useEffect(() => {
-    deleteMarker();
+    if(!markerDatas[0])
+      deleteMarker();
     if (window.naver && markerDatas[0] && isScriptLoaded) {
       makeMarkerList();
+    }
+    return()=>{
+      deleteMarker();
     }
   }, [markerDatas, isScriptLoaded]);
 
