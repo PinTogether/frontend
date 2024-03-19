@@ -7,7 +7,7 @@ const fetchDeleteFollow = async (userId: number) => {
         credentials: "include",
       }
     );
-    console.log("fetchDeleteFollow", res, res.json());
+    console.log("fetchDeleteFollow", res);
     if (!res.ok) throw new Error("팔로우 취소에 실패했습니다.");
     return { success: true, errorMessage: "" };
   } catch (err: any) {

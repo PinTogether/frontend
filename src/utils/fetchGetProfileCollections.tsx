@@ -16,9 +16,10 @@ const fetchGetProfileCollections = async (
         credentials: "include",
       }
     );
-    console.log("fetchGetProfileCollections", res, res.json());
+    console.log("fetchGetProfileCollections res", res);
     if (!res.ok) throw new Error("유저의 컬렉션 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
+    console.log("fetchGetProfileCollections data", data);
     if (data.metadata.resultCount === 0) {
       return {
         collectionDatas: [],

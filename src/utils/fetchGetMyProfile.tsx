@@ -9,9 +9,10 @@ const fetchGetMyProfile = async () => {
         credentials: "include",
       }
     );
-    console.log("fetchGetMyProfile", res, res.json());
+    console.log("fetchGetMyProfile res", res);
     if (!res.ok) throw new Error("내 프로필 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
+    console.log("fetchGetMyProfile data", data);
     const profileInfo: ProfileMine = data.results[0];
     return { profileInfo, errorMessage: "" };
   } catch (err: any) {

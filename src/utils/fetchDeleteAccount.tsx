@@ -4,7 +4,7 @@ const fetchDeleteAccount = async () => {
       method: "DELETE",
       credentials: "include",
     });
-    console.log("fetchDeleteFollow", res, res.json());
+    console.log("fetchDeleteFollow res", res);
     if (!res.ok) throw new Error("계정 삭제에 실패했습니다.");
     return { success: true, errorMessage: "" };
   } catch (err: any) {

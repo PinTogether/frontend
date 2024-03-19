@@ -1,13 +1,17 @@
-const fetchPutMyProfile = async (nickname?: string, avatar?: string) => {
+const fetchPutMyProfile = async (nickname: string, avatar: string) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`,
       {
         method: "PUT",
         credentials: "include",
+        body: JSON.stringify({
+          nickname: nickname,
+          avatar: avatar,
+        }),
       }
     );
-    console.log("fetchPutMyProfile", res, res.json());
+    console.log("fetchPutMyProfile res", res);
     if (!res.ok) throw new Error("프로필 수정에 실패했습니다.");
     return { success: true, errorMessage: "" };
   } catch (err: any) {

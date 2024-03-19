@@ -17,9 +17,10 @@ const fetchGetSearchPlace = async (
         credentials: "include",
       }
     );
-    console.log("fetchGetSearchPlace", res, res.json());
+    console.log("fetchGetSearchPlace res", res);
     if (!res.ok) throw new Error("검색에 실패했습니다.");
     const data: APIResponse = await res.json();
+    console.log("fetchGetSearchPlace data", data);
     if (data.metadata.resultCount == 0) {
       return {
         collectionDatas: [],
