@@ -4,7 +4,7 @@ import PresignedUrl from "@/types/PresingedUrl";
 const fetchGetAvatarPresignedUrl = async (contentType: string) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/me/avatar/presinged-url`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/me/avatar/presigned-url`,
       {
         method: "POST",
         credentials: "include",
