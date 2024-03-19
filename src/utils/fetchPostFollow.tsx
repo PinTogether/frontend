@@ -7,7 +7,7 @@ const fetchPostFollow = async (userId: number) => {
         credentials: "include",
       }
     );
-    console.log("fetchPostFollow", res);
+    console.log("fetchPostFollow", res, res.json());
     if (!res.ok) throw new Error("팔로우에 실패했습니다.");
     return { success: true, errorMessage: "" };
   } catch (err: any) {

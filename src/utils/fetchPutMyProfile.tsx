@@ -7,7 +7,7 @@ const fetchPutMyProfile = async (nickname?: string, avatar?: string) => {
         credentials: "include",
       }
     );
-    console.log("fetchPutMyProfile", res);
+    console.log("fetchPutMyProfile", res, res.json());
     if (!res.ok) throw new Error("프로필 수정에 실패했습니다.");
     return { success: true, errorMessage: "" };
   } catch (err: any) {
