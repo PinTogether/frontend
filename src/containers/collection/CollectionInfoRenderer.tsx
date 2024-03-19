@@ -11,10 +11,12 @@ import {
 import styles from "@/styles/containers/collection/_collectionInfo.module.scss";
 import Link from "next/link";
 
-const CollectionInfo = ({
+const CollectionInfoRenderer = ({
   collectionData,
+  isMyCollection,
 }: {
   collectionData: CollectionDetail;
+  isMyCollection: boolean;
 }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -45,14 +47,17 @@ const CollectionInfo = ({
       <div className={styles.collectionData}>
         <div className={styles.collectionTitle}>
           <h1 className={styles.title}>{collectionData.title}</h1>
-          <button onClick={handleClickBookmarkButton}>
-            <BookMarkIcon
-              className={`${styles.bookmarkIcon} ${isBookmarked ? styles.filled : ""}`}
-            />
-          </button>
-          <Link href={`/collection/edit/${collectionData.id}`}>
-            <EditIcon className={styles.editIcon} />
-          </Link>
+          {isMyCollection ? (
+            <Link href={`/collection/edit/${collectionData.id}`}>
+              <EditIcon className={styles.editIcon} />
+            </Link>
+          ) : (
+            <button onClick={handleClickBookmarkButton}>
+              <BookMarkIcon
+                className={`${styles.bookmarkIcon} ${isBookmarked ? styles.filled : ""}`}
+              />
+            </button>
+          )}
         </div>
         <Link
           href={`/profile/${collectionData.writerId}`}
@@ -90,4 +95,4 @@ const CollectionInfo = ({
     </section>
   );
 };
-export default CollectionInfo;
+export default CollectionInfoRenderer;

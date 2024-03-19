@@ -7,53 +7,122 @@ import { markerDataByAmount } from "@/redux/locationSlice";
 import MarkerData from "@/types/Marker";
 import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionWithPinCommentRenderer";
 import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPinRenderer";
-import CollectionWithReply from "@/containers/collection/CollectionWithReply";
+import CollectionWithReplyRenderer from "@/containers/collection/CollectionWithReply";
+import { CollectionDetail } from "@/types/Collection";
+import { PinForPlace } from "@/types/Pin";
 
-import collectionDatas from "@/../../public/dummy-data/dummy-collection.json";
-import pinData from "@/../../public/dummy-data/dummy-pin.json";
-import newPinData from "@/../../public/dummy-data/dummy-pin.json";
-import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
-import newPinData2 from "@/../../public/dummy-data/dummy-pin2.json";
-const commentList = pinDataList;
+import { useRouter } from "next/navigation";
+
 import replyList from "@/../../public/dummy-data/dummy-collection-reply.json";
 import SubPageLayout from "../layout/SubPageLayout";
 
-import CollectionInfo from "@/containers/collection/CollectionInfo";
+import CollectionInfoRenderer from "@/containers/collection/CollectionInfoRenderer";
 
-export default function CollectionPage({ id }: { id: number }) {
+import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
+import fetchGetPinInfo from "@/utils/fetchGetPinInfo";
+
+export default function CollectionPage({
+  collectionId,
+}: {
+  collectionId: number;
+}) {
+  const router = useRouter();
+  const [isMyCollection, setIsMyCollection] = useState(true);
+
+  /* fetch data */
+  const [isCollectionFetching, setIsCollectionFetching] = useState(false);
+  const [isPinFetching, setIsPinFetching] = useState(false);
+  const [collectionFetchDatas, setCollectionFetchDatas] = useState<{
+    collectionInfo: CollectionDetail | null;
+    errorMessage: string;
+  }>({
+    collectionInfo: null,
+    errorMessage: "",
+  });
+  const [pinFetchDatas, setPinFetchDatas] = useState<{
+    pinInfo: PinForPlace[] | null;
+    errorMessage: string;
+  }>({
+    pinInfo: null,
+    errorMessage: "",
+  });
+
+  const getCollectionData = async () => {
+    if (isCollectionFetching) return;
+    setIsCollectionFetching(true);
+    const result = await fetchGetCollectionInfo(collectionId);
+    setCollectionFetchDatas(result);
+    setIsCollectionFetching(false);
+  };
+  const getPinData = async () => {
+    if (isPinFetching) return;
+    setIsPinFetching(true);
+    const result = await fetchGetPinInfo(collectionId);
+    setPinFetchDatas(result);
+    setIsPinFetching(false);
+  };
+
+  /* button state */
   const [showState, setShowState] = useState(1);
-  const userId = id; // 나중에 localStorage 같은곳에 있는 내 id와 비교하는걸로 변경
-  const dispatch = useAppDispatch();
-
-  function onChangeShowState(state: number) {
+  const onChangeShowState = (state: number) => {
     if (state == showState) {
       setShowState(0);
     } else {
       setShowState(state);
     }
-  }
+  };
 
-  useEffect(() => {
-    makeMarker();
-  }, []);
-
-  function makeMarker() { // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
+  /* 지도 */
+  const dispatchMarker = useAppDispatch();
+  const makeMarker = () => {
+    // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
+    if (!pinFetchDatas.pinInfo) return;
     const markerList: MarkerData[] = [];
-    for (let i = 0; i < pinDataList.length; i++) {
+    for (let i = 0; i < pinFetchDatas.pinInfo.length; i++) {
       markerList.push({
-        id: pinDataList[i].id,
-        placeName: pinDataList[i].placeName,
-        pinCount: pinDataList[i].saveCnt,
-        xPos: pinDataList[i].longtitude,
-        yPos: pinDataList[i].latitude,
+        id: pinFetchDatas.pinInfo[i].id,
+        placeName: pinFetchDatas.pinInfo[i].placeName,
+        pinCount: pinFetchDatas.pinInfo[i].saveCnt,
+        xPos: pinFetchDatas.pinInfo[i].longtitude,
+        yPos: pinFetchDatas.pinInfo[i].latitude,
       });
     }
-    dispatch(markerDataByAmount(markerList));
-  }
+    dispatchMarker(markerDataByAmount(markerList));
+  };
+
+  useEffect(() => {
+    getCollectionData();
+    getPinData();
+  }, []);
+
+  useEffect(() => {
+    if (collectionFetchDatas.collectionInfo) {
+      // TODO : 로그인한 유저의 컬렉션인지 확인하는 로직 추가 (isMyCollection)
+      // setIsMyCollection(true);
+    }
+  }, [collectionFetchDatas]);
+
+  useEffect(() => {
+    if (pinFetchDatas.pinInfo) {
+      console.log("pinFetchDatas.pinInfo", pinFetchDatas.pinInfo);
+      makeMarker();
+    }
+  }, [pinFetchDatas]);
 
   return (
-    <SubPageLayout topperMsg={"컬렉션 조회"}>
-      <CollectionInfo collectionData={collectionDatas[0]} />
+    <SubPageLayout
+      topperMsg={"컬렉션 조회"}
+      completeButtonMsg={isMyCollection ? "수정" : undefined}
+      onClickCompleteButton={() =>
+        router.push(`/collection/edit/${collectionId}`)
+      }
+    >
+      {collectionFetchDatas.collectionInfo && (
+        <CollectionInfoRenderer
+          collectionData={collectionFetchDatas.collectionInfo}
+          isMyCollection={isMyCollection}
+        />
+      )}
       <section className={styles.buttonContainer}>
         <button
           className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ""}`}
@@ -73,15 +142,17 @@ export default function CollectionPage({ id }: { id: number }) {
         >
           컬렉션 댓글 보기
         </button>
-        {userId == collectionDatas[0].writerId && (
+        {isMyCollection && (
           <button className={styles.buttons}>+ 핀 추가</button>
         )}
       </section>
-      {showState === 1 && <CollectionWithPinRenderer pins={pinDataList} />}
-      {showState === 2 && (
-        <CollectionWithPinCommentRenderer data={commentList} pin={pinData[0]} />
+      {showState === 1 && pinFetchDatas.pinInfo && (
+        <CollectionWithPinRenderer pins={pinFetchDatas.pinInfo} />
       )}
-      {showState === 3 && <CollectionWithReply replys={replyList} />}
+      {showState === 2 && pinFetchDatas.pinInfo && (
+        <CollectionWithPinCommentRenderer data={pinFetchDatas.pinInfo} />
+      )}
+      {showState === 3 && <CollectionWithReplyRenderer replys={replyList} />}
     </SubPageLayout>
   );
 }
