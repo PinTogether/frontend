@@ -17,11 +17,13 @@ import { ProfileMine } from "@/types/Profile";
 import checkFileValid from "@/utils/checkFileValid";
 import fetchPutMyProfile from "@/utils/fetchPutMyProfile";
 import { InputComponent } from "@/components/InputComponent";
+import fetchGetAvatarPresignedUrl from "@/utils/fetchGetAvatarPresignedUrl";
 
 export default function ProfileEditPage() {
   const imageSize = 300;
   const router = useRouter();
   const inputNicknameMaxLength = 16;
+  const [isUploading, setIsUploading] = useState(false);
   /* 프로필 변경전 정보 */
   const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
   /* 프로필 변경후 정보 */
@@ -73,27 +75,54 @@ export default function ProfileEditPage() {
       setNicknameCheckMessage("닉네임을 입력해주세요.");
       return;
     }
-    if (inputNickname === myProfile?.nickname && imageFile === null) {
+    if (
+      isUploading ||
+      (inputNickname === myProfile?.nickname && imageFile === null)
+    ) {
       return;
     }
-
+    setIsUploading(true);
     // TODO : 프로필 avatar 변경 시, presigned url 받아서 s3에 업로드
-    const imageFileUrl = undefined;
+    const imageFileUrl = await uploadImage();
+    if (imageFileUrl) {
+      await uploadProfile(imageFileUrl);
+    }
+    setIsUploading(false);
+  };
 
-    const fetch = async () => {
-      if (!myProfile) return;
-      const { success, errorMessage } = await fetchPutMyProfile(
-        inputNickname,
-        imageFileUrl
+  const uploadImage = async () => {
+    if (!imageFile) return null;
+    const { presignedUrlData, errorMessage } = await fetchGetAvatarPresignedUrl(
+      imageFile?.type
+    );
+    if (imageFile && presignedUrlData) {
+      const { success, errorMessage } = await fetchPutS3PresignedUrl(
+        presignedUrlData.presignedUrl,
+        imageFile
       );
-      if (success) {
-        router.push(`profile/${myProfile.id}`);
-      } else {
-        // TODO : 에러 메시지 표시
-        setNicknameCheckMessage("프로필 수정에 실패했습니다.");
+      if (!success) {
+        setImageFileCheckMessage(errorMessage);
+        return null;
       }
-    };
-    fetch();
+    } else if (errorMessage) {
+      setImageFileCheckMessage(errorMessage);
+      return null;
+    }
+    return presignedUrlData?.imageUrl || null;
+  };
+
+  const uploadProfile = async (imageFileUrl: string) => {
+    if (!myProfile) return;
+    const { success, errorMessage } = await fetchPutMyProfile(
+      inputNickname,
+      imageFileUrl
+    );
+    if (success) {
+      router.push(`profile/${myProfile.id}`);
+    } else {
+      // TODO : 에러 메시지 표시
+      setNicknameCheckMessage("프로필 수정에 실패했습니다.");
+    }
   };
 
   return (
