@@ -97,7 +97,7 @@ export default function Overlay() {
       })
     })
     .catch((e) => {
-      console.log(e);
+      console.error(e);
     });
   }
 
@@ -116,7 +116,6 @@ export default function Overlay() {
     }
     if(markerDatas[0]){
       markerDatas.forEach((collectionData) => {
-        console.log("데이터:", collectionData);
         collectionData.pinDatas.forEach((pinData) => {
           if(checkList(pinData.id)){
             let newData: MarkerData = {
