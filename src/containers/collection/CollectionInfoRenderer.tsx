@@ -10,6 +10,8 @@ import {
 } from "@/components/IconSvg";
 import styles from "@/styles/containers/collection/_collectionInfo.module.scss";
 import Link from "next/link";
+import fetchPostCollectionLikes from "@/utils/fetchPostCollectionLikes";
+import fetchDeleteCollectionLikes from "@/utils/fetchDeleteCollectionLikes";
 
 const CollectionInfoRenderer = ({
   collectionData,
@@ -20,6 +22,7 @@ const CollectionInfoRenderer = ({
 }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [isLikedLoading, setIsLikedLoading] = useState(false);
 
   const handleClickLocationButton = () => {
     // 위치 버튼 클릭시
@@ -27,8 +30,31 @@ const CollectionInfoRenderer = ({
   const handleClickShareButton = () => {
     // 공유 버튼 클릭시
   };
-  const handleClickLikeButton = () => {
-    setIsLiked(!isLiked);
+
+  const handleClickLikeButton = async () => {
+    setIsLikedLoading(true);
+    // 좋아요
+    if (isLiked === false) {
+      const { success, errorMessage } = await fetchPostCollectionLikes(
+        collectionData.id
+      );
+      if (success) {
+        setIsLiked(true);
+        collectionData.likeCnt += 1; // 왜 되는 걸까?
+      } else console.log(errorMessage);
+      setIsLikedLoading(false);
+    }
+    // 좋아요 취소
+    else if (isLiked === true) {
+      const { success, errorMessage } = await fetchDeleteCollectionLikes(
+        collectionData.id
+      );
+      if (success) {
+        setIsLiked(false);
+        collectionData.likeCnt -= 1;
+      } else console.log(errorMessage);
+      setIsLikedLoading(false);
+    }
   };
 
   const handleClickBookmarkButton = () => {
@@ -83,7 +109,11 @@ const CollectionInfoRenderer = ({
           <LinkIcon />
           <div className={styles.text}>공유하기</div>
         </button>
-        <button className={styles.button} onClick={handleClickLikeButton}>
+        <button
+          className={styles.button}
+          onClick={handleClickLikeButton}
+          disabled={isLikedLoading}
+        >
           <HeartIcon className={`${isLiked ? styles.liked : ""}`} />
           <div className={styles.text}>
             {collectionData.likeCnt === 0
