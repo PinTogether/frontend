@@ -38,7 +38,7 @@ function ReplyContent({ data }: { data: CollectionReply }) {
   );
 }
 
-export default function CollectionWithReply({
+export default function CollectionWithReplyRenderer({
   replys,
 }: {
   replys: CollectionReply[];
