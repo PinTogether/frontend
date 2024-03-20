@@ -1,7 +1,7 @@
 const fetchDeleteCollectionScraps = async (collectionId: number) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/${collectionId}/scraps`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${collectionId}/scraps`,
       {
         method: "DELETE",
         credentials: "include",
