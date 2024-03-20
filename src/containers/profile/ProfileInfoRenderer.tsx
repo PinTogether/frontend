@@ -78,14 +78,14 @@ const ProfileInfoRenderer = ({
             ) : isFollowed ? (
               <button
                 className={styles.followButton}
-                onClick={handleClickFollowButton}
+                onClick={handleClickUnfollowButton}
               >
                 팔로우 취소
               </button>
             ) : (
               <button
                 className={styles.followButton}
-                onClick={handleClickUnfollowButton}
+                onClick={handleClickFollowButton}
               >
                 팔로우
               </button>
