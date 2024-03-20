@@ -336,7 +336,7 @@ const MapNaverDefault = () => {
       newClusteredMarkers.forEach((ClusteredMarkerData, index) => {
         if (ClusteredMarkerData.innerMarkerList.length != 1) {
           ClusteredMarkerData.infoWindow = new naver.maps.InfoWindow({
-            content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; max-height: 400px; padding-top:10px; padding-bottom:10px;">
+            content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; max-height: 300px; padding-top:5px; padding-bottom:5px; padding-right:5px; overflow-y: auto;">
           ${getList(index)}
           </div>`,
             borderWidth: 0,
