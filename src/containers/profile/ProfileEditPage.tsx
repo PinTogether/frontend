@@ -1,23 +1,25 @@
 "use client";
 
-import styles from "@/styles/containers/profile/_profileEditPage.module.scss";
-import SubPageLayout from "@/containers/layout/SubPageLayout";
-import Image from "next/image";
 import { useState, useEffect } from "react";
-import { EditIcon, ImgLoadIcon, CloseRoundIcon } from "@/components/IconSvg";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+import styles from "@/styles/containers/profile/_profileEditPage.module.scss";
+import { ProfileMine } from "@/types/Profile";
+import SubPageLayout from "@/containers/layout/SubPageLayout";
 import EditPageLayout, {
   SectionTitle,
   Line,
   Section,
 } from "@/containers/layout/EditPageLayout";
-import { useRouter } from "next/navigation";
-
-import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
-import { ProfileMine } from "@/types/Profile";
-import checkFileValid from "@/utils/checkFileValid";
-import fetchPutMyProfile from "@/utils/fetchPutMyProfile";
+import { EditIcon, ImgLoadIcon, CloseRoundIcon } from "@/components/IconSvg";
 import { InputComponent } from "@/components/InputComponent";
+
+import checkFileValid from "@/utils/checkFileValid";
+import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+import fetchPutMyProfile from "@/utils/fetchPutMyProfile";
 import fetchGetAvatarPresignedUrl from "@/utils/fetchGetAvatarPresignedUrl";
+import PresignedUrl from "@/types/PresingedUrl";
 
 export default function ProfileEditPage() {
   const imageSize = 300;
@@ -43,10 +45,12 @@ export default function ProfileEditPage() {
     }
   }, []);
 
+  // 닉네임
   const handleChangeNickname = (e: any) => {
     setInputNickname(e.target.value);
   };
 
+  // 프로필 사진
   const handleChangeAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -65,64 +69,77 @@ export default function ProfileEditPage() {
       }
     };
   };
-
-  const onClickResetAvatar = () => {
+  const handleClickResetAvatar = () => {
     setImgSrc(myProfile?.avatar || "");
   };
 
+  // 프로필 수정하기 제출
   const submitEditProfile = async () => {
-    if (inputNickname === "") {
-      setNicknameCheckMessage("닉네임을 입력해주세요.");
-      return;
-    }
     if (
+      !myProfile ||
       isUploading ||
-      (inputNickname === myProfile?.nickname && imageFile === null)
-    ) {
+      (inputNickname === myProfile.nickname && !imageFile)
+    )
+      return;
+
+    setIsUploading(true);
+    // 파일 체크
+    if (imageFile && !checkFileValid(imageFile)) {
+      setImageFileCheckMessage(
+        "5MB 이하의 jpg, jpeg, png 파일을 업로드해주세요."
+      );
+      setIsUploading(false);
       return;
     }
-    setIsUploading(true);
-    // TODO : 프로필 avatar 변경 시, presigned url 받아서 s3에 업로드
-    const imageFileUrl = await uploadImage();
-    if (imageFileUrl) {
-      await uploadProfile(imageFileUrl);
-    }
+    // 업로드
+    const presignedUrlData = imageFile
+      ? await getPresignedUrl(imageFile)
+      : null;
+    if (!presignedUrlData) return;
+    const imageFileUrl =
+      presignedUrlData && imageFile
+        ? await uploadAvatar(imageFile, presignedUrlData)
+        : myProfile?.avatar;
+    if (!imageFileUrl) return;
+    await uploadProfile(inputNickname, imageFileUrl);
     setIsUploading(false);
   };
 
-  const uploadImage = async () => {
-    if (!imageFile) return null;
+  // 프로필, 이미지 업로드 관련 함수
+  const getPresignedUrl = async (imageFile: File) => {
     const { presignedUrlData, errorMessage } = await fetchGetAvatarPresignedUrl(
       imageFile?.type
     );
-    if (imageFile && presignedUrlData) {
-      const { success, errorMessage } = await fetchPutS3PresignedUrl(
-        presignedUrlData.presignedUrl,
-        imageFile
-      );
-      if (!success) {
-        setImageFileCheckMessage(errorMessage);
-        return null;
-      }
-    } else if (errorMessage) {
+    if (errorMessage || !presignedUrlData) {
       setImageFileCheckMessage(errorMessage);
       return null;
     }
-    return presignedUrlData?.imageUrl || null;
+    return presignedUrlData;
   };
 
-  const uploadProfile = async (imageFileUrl: string) => {
-    if (!myProfile) return;
+  const uploadAvatar = async (
+    imageFile: File,
+    presignedUrlData: PresignedUrl
+  ) => {
+    const { success, errorMessage } = await fetchPutS3PresignedUrl(
+      presignedUrlData.presignedUrl,
+      imageFile
+    );
+    if (!success || errorMessage) {
+      setImageFileCheckMessage(errorMessage);
+      return null;
+    }
+    return presignedUrlData.imageUrl;
+  };
+
+  const uploadProfile = async (inputNickname: string, imageFileUrl: string) => {
+    if (!myProfile || isUploading) return;
     const { success, errorMessage } = await fetchPutMyProfile(
       inputNickname,
       imageFileUrl
     );
-    if (success) {
-      router.push(`profile/${myProfile.id}`);
-    } else {
-      // TODO : 에러 메시지 표시
-      setNicknameCheckMessage("프로필 수정에 실패했습니다.");
-    }
+    if (success) router.push(`profile/${myProfile.id}`);
+    else setNicknameCheckMessage(errorMessage);
   };
 
   return (
@@ -133,6 +150,7 @@ export default function ProfileEditPage() {
     >
       <EditPageLayout>
         <Section>
+          {/* 프로필 사진 */}
           <SectionTitle>
             <ImgLoadIcon />
             프로필 사진 변경
@@ -149,14 +167,14 @@ export default function ProfileEditPage() {
               <Image
                 src={imgSrc}
                 alt="profile image"
-                className={styles.avartar}
+                className={`${styles.avartar} ${isUploading ? styles.disabled : ""}`}
                 width={imageSize}
                 height={imageSize}
               />
             </label>
             <button
               className={styles.cancelButton}
-              onClick={onClickResetAvatar}
+              onClick={handleClickResetAvatar}
             >
               <CloseRoundIcon />
             </button>
@@ -166,12 +184,14 @@ export default function ProfileEditPage() {
           </span>
         </Section>
         <Line />
+        {/* 닉네임 */}
         <Section>
           <SectionTitle>
             <EditIcon />
             닉네임 변경
           </SectionTitle>
           <InputComponent
+            className={isUploading ? styles.disabled : ""}
             onChange={handleChangeNickname}
             value={inputNickname}
             placeholder="김고양"
@@ -183,6 +203,7 @@ export default function ProfileEditPage() {
           </span>
         </Section>
         <Line />
+        {/* 프로필 수정하기 버튼 */}
         <Section>
           <button className={styles.submitButton} onClick={submitEditProfile}>
             프로필 수정하기
