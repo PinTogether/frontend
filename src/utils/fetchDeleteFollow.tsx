@@ -1,7 +1,7 @@
 const fetchDeleteFollow = async (userId: number) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/${userId}/follow`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${userId}/follow`,
       {
         method: "DELETE",
         credentials: "include",

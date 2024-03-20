@@ -1,7 +1,7 @@
 const fetchPostFollow = async (followUserId: number) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/${followUserId}/follow`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${followUserId}/follow`,
       {
         method: "POST",
         credentials: "include",
