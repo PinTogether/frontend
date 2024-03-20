@@ -1,11 +1,9 @@
 import CollectionPage from "@/containers/collection/CollectionPage";
 
-type PageParams ={
+type PageParams = {
   id: number;
-}
+};
 
-export default function Page({params}:{params:PageParams}) {
-  return (
-    <CollectionPage id={params.id} />
-  );
+export default function Page({ params }: { params: PageParams }) {
+  return <CollectionPage collectionId={params.id} />;
 }

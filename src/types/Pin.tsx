@@ -28,10 +28,6 @@ export interface PinForPlace extends Pin {
   // pinId: number;
   collectionTitle: string;
   imagePaths: string[];
-  phoneNumber: string;
-
-  // noXpos
-  // noYpos
 }
 
 // 장소에 대한 모든 핀 조회

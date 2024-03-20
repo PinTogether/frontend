@@ -1,42 +1,95 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
+import { ProfileMine } from "@/types/Profile";
+import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+import fetchPostCollectionComments from "@/utils/fetchPostCollectionComment";
+import AlertModal from "@/components/AlertModal";
 
-export default function ReplyInputContent() {
-  const size = 100;
-  const myAvatar = "/images/cat_dummy.jpeg";
-  const myNickname = "김고양";
+const ReplyInputContent = ({ collectionId }: { collectionId: number }) => {
+  const sizeImage = 100;
+
   const [inputText, setInputText] = useState("");
+  const [profile, setProfile] = useState<ProfileMine | null>(null);
+  const [isProfileLoading, setIsProfileLoading] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
-  function onChange(e: any) {
+  const onChange = (e: any) => {
     setInputText(e.target.value);
-  }
+  };
+
+  const getMyProfile = async () => {
+    if (isProfileLoading) return;
+    setIsProfileLoading(true);
+    const profile = getMyProfileFromLocalStorage();
+    setProfile(profile);
+    setIsProfileLoading(false);
+  };
+
+  useEffect(() => {
+    getMyProfile();
+  }, []);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (isPosting) return;
+    setIsPosting(true);
+
+    const { success, errorMessage } = await fetchPostCollectionComments(
+      collectionId,
+      inputText
+    );
+    if (!success) {
+      setAlertMessage(errorMessage);
+      setIsPosting(false);
+      return;
+    }
+    setInputText("");
+    setIsPosting(false);
+    setAlertMessage("댓글이 등록되었습니다.");
+  };
 
   return (
-    <form className={styles.replyInputContainer}>
-      <Image
-        src={myAvatar}
-        alt="profile image"
-        width={size}
-        height={size}
-        className={styles.replyAvatar}
-      />
-      <section className={styles.replyBox}>
-        {/* <div className={styles.replyName}>{myNickname}</div> */}
-        <textarea
-          className={styles.replyTextArea}
-          onChange={onChange}
-          maxLength={200}
-          rows={4}
-          placeholder="댓글을 작성하세요"
-        />
-      </section>
-      <section className={styles.replyInputButtonBox}>
-        <button className={styles.replySendButton}>등록</button>
-        <p className={styles.replyInputCounter}>{inputText.length}/200</p>
-      </section>
-    </form>
+    <>
+      {profile ? (
+        <form className={styles.replyInputContainer} onSubmit={handleSubmit}>
+          <Image
+            src={profile?.avatar}
+            alt="profile image"
+            width={sizeImage}
+            height={sizeImage}
+            className={styles.replyAvatar}
+          />
+          <section className={styles.replyBox}>
+            <textarea
+              className={styles.replyTextArea}
+              onChange={onChange}
+              value={inputText}
+              maxLength={200}
+              rows={4}
+              placeholder="댓글을 남겨주세요"
+            />
+          </section>
+          <section className={styles.replyInputButtonBox}>
+            <button className={styles.replySendButton}>등록</button>
+            <p className={styles.replyInputCounter}>{inputText.length}/200</p>
+          </section>
+        </form>
+      ) : (
+        <div className={styles.replyInputContainer}>
+          <p></p>
+          <Link href="/login" className={styles.statusMessage}>
+            댓글을 남기고 싶다면 로그인을 먼저 해주세요 🐾
+          </Link>
+        </div>
+      )}
+      <AlertModal message={alertMessage} setMessage={setAlertMessage} />
+    </>
   );
-}
+};
+export default ReplyInputContent;

@@ -6,10 +6,8 @@ import Pin from "@/types/Pin";
 
 export default function CollectionWithPinCommentRenderer({
   data,
-  pin,
 }: {
   data: PinForPlace[];
-  pin: Pin;
 }) {
   return (
     <section className={styles.collectionListContainer}>
