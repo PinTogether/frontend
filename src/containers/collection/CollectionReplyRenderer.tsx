@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -26,6 +26,10 @@ const CollectionReplyRenderer = ({
 }) => {
   const [alertMessage, setAlertMessage] = useState("");
   const [isDeleteReplyLoading, setIsDeleteReplyLoading] = useState(false);
+
+  useEffect(() => {
+    setAlertMessage(errorMessage);
+  }, [errorMessage]);
 
   const deleteReply = async (replyId: number) => {
     if (isDeleteReplyLoading) return;
