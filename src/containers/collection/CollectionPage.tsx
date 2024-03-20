@@ -114,13 +114,6 @@ export default function CollectionPage({
   }, []);
 
   useEffect(() => {
-    if (collectionFetchDatas.collectionInfo) {
-      // TODO : 로그인한 유저의 컬렉션인지 확인하는 로직 추가 (isMyCollection)
-      // setIsMyCollection(true);
-    }
-  }, [collectionFetchDatas]);
-
-  useEffect(() => {
     if (pinFetchDatas.pinInfo) {
       console.log("pinFetchDatas.pinInfo", pinFetchDatas.pinInfo);
       makeMarker();
@@ -134,7 +127,7 @@ export default function CollectionPage({
     ) {
       setIsMyCollection(true);
     }
-  }, [myProfile]);
+  }, [myProfile, collectionFetchDatas]);
 
   return (
     <SubPageLayout
@@ -144,12 +137,14 @@ export default function CollectionPage({
         router.push(`/collection/edit/${collectionId}`)
       }
     >
+      {/* 컬렉션 정보 */}
       {collectionFetchDatas.collectionInfo && (
         <CollectionInfoRenderer
           collectionData={collectionFetchDatas.collectionInfo}
           isMyCollection={isMyCollection}
         />
       )}
+      {/* 메뉴 */}
       <section className={styles.buttonContainer}>
         <button
           className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ""}`}
@@ -173,6 +168,7 @@ export default function CollectionPage({
           <button className={styles.buttons}>+ 핀 추가</button>
         )}
       </section>
+      {/* 메뉴 페이지 */}
       {showState === 1 && pinFetchDatas.pinInfo && (
         <CollectionWithPinRenderer pins={pinFetchDatas.pinInfo} />
       )}
