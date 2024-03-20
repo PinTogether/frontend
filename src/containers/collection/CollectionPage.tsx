@@ -1,25 +1,25 @@
 "use client";
-
-import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { markerDataByAmount } from "@/redux/locationSlice";
-import MarkerData from "@/types/Marker";
-import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionWithPinCommentRenderer";
-import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPinRenderer";
-import CollectionWithReplyRenderer from "@/containers/collection/CollectionWithReply";
-import { CollectionDetail } from "@/types/Collection";
-import { PinForPlace } from "@/types/Pin";
-
-import { useRouter } from "next/navigation";
-
-import replyList from "@/../../public/dummy-data/dummy-collection-reply.json";
-import SubPageLayout from "../layout/SubPageLayout";
-
-import CollectionInfoRenderer from "@/containers/collection/CollectionInfoRenderer";
-
 import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
 import fetchGetPinInfo from "@/utils/fetchGetPinInfo";
+import fetchGetCollectionComments from "@/utils/fetchGetCollectionComments";
+import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+
+import styles from "@/styles/containers/collection/_collectionPage.module.scss";
+import MarkerData from "@/types/Marker";
+import { CollectionDetail } from "@/types/Collection";
+import { PinForPlace } from "@/types/Pin";
+import CollectionReply from "@/types/CollectionReply";
+import { ProfileMine } from "@/types/Profile";
+
+import SubPageLayout from "../layout/SubPageLayout";
+import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionWithPinCommentRenderer";
+import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPinRenderer";
+import CollectionReplyRenderer from "@/containers/collection/CollectionReplyRenderer";
+import CollectionInfoRenderer from "@/containers/collection/CollectionInfoRenderer";
 
 export default function CollectionPage({
   collectionId,
@@ -27,11 +27,13 @@ export default function CollectionPage({
   collectionId: number;
 }) {
   const router = useRouter();
-  const [isMyCollection, setIsMyCollection] = useState(true);
+  const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
+  const [isMyCollection, setIsMyCollection] = useState(false);
 
   /* fetch data */
   const [isCollectionFetching, setIsCollectionFetching] = useState(false);
   const [isPinFetching, setIsPinFetching] = useState(false);
+  const [isReplyFetching, setIsReplyFetching] = useState(false);
   const [collectionFetchDatas, setCollectionFetchDatas] = useState<{
     collectionInfo: CollectionDetail | null;
     errorMessage: string;
@@ -44,6 +46,13 @@ export default function CollectionPage({
     errorMessage: string;
   }>({
     pinInfo: null,
+    errorMessage: "",
+  });
+  const [replyFetchDatas, setReplyFetchDatas] = useState<{
+    replyDatas: CollectionReply[] | null;
+    errorMessage: string;
+  }>({
+    replyDatas: null,
     errorMessage: "",
   });
 
@@ -60,6 +69,13 @@ export default function CollectionPage({
     const result = await fetchGetPinInfo(collectionId);
     setPinFetchDatas(result);
     setIsPinFetching(false);
+  };
+  const getReplyData = async () => {
+    if (isReplyFetching) return;
+    setIsReplyFetching(true);
+    const result = await fetchGetCollectionComments(collectionId);
+    setReplyFetchDatas(result);
+    setIsReplyFetching(false);
   };
 
   /* button state */
@@ -93,6 +109,8 @@ export default function CollectionPage({
   useEffect(() => {
     getCollectionData();
     getPinData();
+    getReplyData();
+    setMyProfile(getMyProfileFromLocalStorage());
   }, []);
 
   useEffect(() => {
@@ -108,6 +126,15 @@ export default function CollectionPage({
       makeMarker();
     }
   }, [pinFetchDatas]);
+
+  useEffect(() => {
+    if (
+      myProfile &&
+      myProfile.id === collectionFetchDatas.collectionInfo?.writerId
+    ) {
+      setIsMyCollection(true);
+    }
+  }, [myProfile]);
 
   return (
     <SubPageLayout
@@ -152,7 +179,14 @@ export default function CollectionPage({
       {showState === 2 && pinFetchDatas.pinInfo && (
         <CollectionWithPinCommentRenderer data={pinFetchDatas.pinInfo} />
       )}
-      {showState === 3 && <CollectionWithReplyRenderer replys={replyList} />}
+      {showState === 3 && collectionFetchDatas.collectionInfo && (
+        <CollectionReplyRenderer
+          replys={replyFetchDatas.replyDatas || []}
+          errorMessage={replyFetchDatas.errorMessage}
+          collectionInfo={collectionFetchDatas.collectionInfo}
+          myId={myProfile?.id}
+        />
+      )}
     </SubPageLayout>
   );
 }
