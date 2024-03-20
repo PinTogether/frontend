@@ -11,7 +11,7 @@ const fetchGetProfileCollections = async (
 }> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${userId}/scraps?page=${page}&size=${size}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${userId}/collections?page=${page}&size=${size}`,
       {
         credentials: "include",
       }

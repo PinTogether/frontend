@@ -1,59 +1,150 @@
 "use client";
-
-import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { markerDataByAmount } from "@/redux/locationSlice";
+import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
+import fetchGetPinInfo from "@/utils/fetchGetPinInfo";
+import fetchGetCollectionComments from "@/utils/fetchGetCollectionComments";
+import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+
+import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import MarkerData from "@/types/Marker";
+import { CollectionDetail } from "@/types/Collection";
+import { PinForPlace } from "@/types/Pin";
+import CollectionReply from "@/types/CollectionReply";
+import { ProfileMine } from "@/types/Profile";
+
+import SubPageLayout from "../layout/SubPageLayout";
 import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionWithPinCommentRenderer";
 import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPinRenderer";
-import CollectionWithReply from "@/containers/collection/CollectionWithReply";
+import CollectionReplyRenderer from "@/containers/collection/CollectionReplyRenderer";
+import CollectionInfoRenderer from "@/containers/collection/CollectionInfoRenderer";
 
-import collectionDatas from "@/../../public/dummy-data/dummy-collection.json";
-import pinData from "@/../../public/dummy-data/dummy-pin.json";
-import newPinData from "@/../../public/dummy-data/dummy-pin.json";
-import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
-import newPinData2 from "@/../../public/dummy-data/dummy-pin2.json";
-const commentList = pinDataList;
-import replyList from "@/../../public/dummy-data/dummy-collection-reply.json";
-import SubPageLayout from "../layout/SubPageLayout";
+export default function CollectionPage({
+  collectionId,
+}: {
+  collectionId: number;
+}) {
+  const router = useRouter();
+  const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
+  const [isMyCollection, setIsMyCollection] = useState(false);
 
-import CollectionInfo from "@/containers/collection/CollectionInfo";
+  /* fetch data */
+  const [isCollectionFetching, setIsCollectionFetching] = useState(false);
+  const [isPinFetching, setIsPinFetching] = useState(false);
+  const [isReplyFetching, setIsReplyFetching] = useState(false);
+  const [collectionFetchDatas, setCollectionFetchDatas] = useState<{
+    collectionInfo: CollectionDetail | null;
+    errorMessage: string;
+  }>({
+    collectionInfo: null,
+    errorMessage: "",
+  });
+  const [pinFetchDatas, setPinFetchDatas] = useState<{
+    pinInfo: PinForPlace[] | null;
+    errorMessage: string;
+  }>({
+    pinInfo: null,
+    errorMessage: "",
+  });
+  const [replyFetchDatas, setReplyFetchDatas] = useState<{
+    replyDatas: CollectionReply[] | null;
+    errorMessage: string;
+  }>({
+    replyDatas: null,
+    errorMessage: "",
+  });
 
-export default function CollectionPage({ id }: { id: number }) {
+  const getCollectionData = async () => {
+    if (isCollectionFetching) return;
+    setIsCollectionFetching(true);
+    const result = await fetchGetCollectionInfo(collectionId);
+    setCollectionFetchDatas(result);
+    setIsCollectionFetching(false);
+  };
+  const getPinData = async () => {
+    if (isPinFetching) return;
+    setIsPinFetching(true);
+    const result = await fetchGetPinInfo(collectionId);
+    setPinFetchDatas(result);
+    setIsPinFetching(false);
+  };
+  const getReplyData = async () => {
+    if (isReplyFetching) return;
+    setIsReplyFetching(true);
+    const result = await fetchGetCollectionComments(collectionId);
+    setReplyFetchDatas(result);
+    setIsReplyFetching(false);
+  };
+
+  /* button state */
   const [showState, setShowState] = useState(1);
-  const userId = id; // 나중에 localStorage 같은곳에 있는 내 id와 비교하는걸로 변경
-  const dispatch = useAppDispatch();
-
-  function onChangeShowState(state: number) {
+  const onChangeShowState = (state: number) => {
     if (state == showState) {
       setShowState(0);
     } else {
       setShowState(state);
     }
-  }
+  };
 
-  useEffect(() => {
-    makeMarker();
-  }, []);
-
-  function makeMarker() { // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
+  /* 지도 */
+  const dispatchMarker = useAppDispatch();
+  const makeMarker = () => {
+    // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
+    if (!pinFetchDatas.pinInfo) return;
     const markerList: MarkerData[] = [];
-    for (let i = 0; i < pinDataList.length; i++) {
+    for (let i = 0; i < pinFetchDatas.pinInfo.length; i++) {
       markerList.push({
-        id: pinDataList[i].id,
-        placeName: pinDataList[i].placeName,
-        pinCount: pinDataList[i].saveCnt,
-        xPos: pinDataList[i].longtitude,
-        yPos: pinDataList[i].latitude,
+        id: pinFetchDatas.pinInfo[i].id,
+        placeName: pinFetchDatas.pinInfo[i].placeName,
+        pinCount: pinFetchDatas.pinInfo[i].saveCnt,
+        xPos: pinFetchDatas.pinInfo[i].longtitude,
+        yPos: pinFetchDatas.pinInfo[i].latitude,
       });
     }
-    dispatch(markerDataByAmount(markerList));
-  }
+    dispatchMarker(markerDataByAmount(markerList));
+  };
+
+  useEffect(() => {
+    getCollectionData();
+    getPinData();
+    getReplyData();
+    setMyProfile(getMyProfileFromLocalStorage());
+  }, []);
+
+  useEffect(() => {
+    if (pinFetchDatas.pinInfo) {
+      console.log("pinFetchDatas.pinInfo", pinFetchDatas.pinInfo);
+      makeMarker();
+    }
+  }, [pinFetchDatas]);
+
+  useEffect(() => {
+    if (
+      myProfile &&
+      myProfile.id === collectionFetchDatas.collectionInfo?.writerId
+    ) {
+      setIsMyCollection(true);
+    }
+  }, [myProfile, collectionFetchDatas]);
 
   return (
-    <SubPageLayout topperMsg={"컬렉션 조회"}>
-      <CollectionInfo collectionData={collectionDatas[0]} />
+    <SubPageLayout
+      topperMsg={"컬렉션 조회"}
+      completeButtonMsg={isMyCollection ? "수정" : undefined}
+      onClickCompleteButton={() =>
+        router.push(`/collection/edit/${collectionId}`)
+      }
+    >
+      {/* 컬렉션 정보 */}
+      {collectionFetchDatas.collectionInfo && (
+        <CollectionInfoRenderer
+          collectionData={collectionFetchDatas.collectionInfo}
+          isMyCollection={isMyCollection}
+        />
+      )}
+      {/* 메뉴 */}
       <section className={styles.buttonContainer}>
         <button
           className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ""}`}
@@ -73,15 +164,25 @@ export default function CollectionPage({ id }: { id: number }) {
         >
           컬렉션 댓글 보기
         </button>
-        {userId == collectionDatas[0].writerId && (
+        {isMyCollection && (
           <button className={styles.buttons}>+ 핀 추가</button>
         )}
       </section>
-      {showState === 1 && <CollectionWithPinRenderer pins={pinDataList} />}
-      {showState === 2 && (
-        <CollectionWithPinCommentRenderer data={commentList} pin={pinData[0]} />
+      {/* 메뉴 페이지 */}
+      {showState === 1 && pinFetchDatas.pinInfo && (
+        <CollectionWithPinRenderer pins={pinFetchDatas.pinInfo} />
       )}
-      {showState === 3 && <CollectionWithReply replys={replyList} />}
+      {showState === 2 && pinFetchDatas.pinInfo && (
+        <CollectionWithPinCommentRenderer data={pinFetchDatas.pinInfo} />
+      )}
+      {showState === 3 && collectionFetchDatas.collectionInfo && (
+        <CollectionReplyRenderer
+          replys={replyFetchDatas.replyDatas || []}
+          errorMessage={replyFetchDatas.errorMessage}
+          collectionInfo={collectionFetchDatas.collectionInfo}
+          myId={myProfile?.id}
+        />
+      )}
     </SubPageLayout>
   );
 }
