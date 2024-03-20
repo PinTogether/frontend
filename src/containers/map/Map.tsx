@@ -1,7 +1,7 @@
 "use client";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import styles from "@/styles/components/_loading.module.scss";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getGeoCodingAuth, reverseGeoCoding } from "@/utils/GeoCoding";
 import {
@@ -366,9 +366,6 @@ const MapNaverDefault = () => {
         }
       });
     }
-    newClusteredMarkers.forEach((data) => {
-      if (newMap && data.clusteredMarker) data.clusteredMarker.setMap(newMap);
-    });
     setClusteredMarkerList(newClusteredMarkers);
   }
 
@@ -616,6 +613,16 @@ const MapNaverDefault = () => {
       makeMarkerList();
     }
   }, [markerDatas, isScriptLoaded]);
+
+  useLayoutEffect(() => {
+    if(window.naver && newMap && clusteredMarkerList[0]){
+      clusteredMarkerList.forEach((data) => {
+        if(data.clusteredMarker){
+          data.clusteredMarker.setMap(newMap);
+        }
+      })
+    }
+  },[clusteredMarkerList])
 
   //지도 생성
   useEffect(() => {
