@@ -26,11 +26,12 @@ export default function ProfileEditPage() {
   const router = useRouter();
   const inputNicknameMaxLength = 16;
   const [isUploading, setIsUploading] = useState(false);
+  
   /* 프로필 변경전 정보 */
   const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
   /* 프로필 변경후 정보 */
   const [inputNickname, setInputNickname] = useState("");
-  const [imgSrc, setImgSrc] = useState("");
+  const [imageSrc, setImageSrc] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   /* 에러 메시지 */
   const [imageFileCheckMessage, setImageFileCheckMessage] = useState("");
@@ -41,7 +42,7 @@ export default function ProfileEditPage() {
     setMyProfile(myProfile);
     if (myProfile) {
       setInputNickname(myProfile.nickname);
-      setImgSrc(myProfile.avatar);
+      setImageSrc(myProfile.avatar);
     }
   }, []);
 
@@ -65,43 +66,34 @@ export default function ProfileEditPage() {
     fileReader.readAsDataURL(file);
     fileReader.onload = (e) => {
       if (typeof e.target?.result === "string") {
-        setImgSrc(e.target?.result);
+        setImageSrc(e.target?.result);
       }
     };
   };
   const handleClickResetAvatar = () => {
-    setImgSrc(myProfile?.avatar || "");
+    setImageSrc(
+      process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL || myProfile?.avatar || ""
+    );
   };
 
   // 프로필 수정하기 제출
   const submitEditProfile = async () => {
-    if (
-      !myProfile ||
-      isUploading ||
-      (inputNickname === myProfile.nickname && !imageFile)
-    )
-      return;
-
-    setIsUploading(true);
-    // 파일 체크
-    if (imageFile && !checkFileValid(imageFile)) {
-      setImageFileCheckMessage(
-        "5MB 이하의 jpg, jpeg, png 파일을 업로드해주세요."
-      );
-      setIsUploading(false);
+    if (!myProfile || isUploading) return;
+    if (inputNickname === myProfile.nickname && !imageFile) {
+      setNicknameCheckMessage("변경된 내용이 없습니다.");
       return;
     }
-    // 업로드
-    const presignedUrlData = imageFile
-      ? await getPresignedUrl(imageFile)
-      : null;
-    if (!presignedUrlData) return;
-    const imageFileUrl =
-      presignedUrlData && imageFile
-        ? await uploadAvatar(imageFile, presignedUrlData)
-        : myProfile?.avatar;
-    if (!imageFileUrl) return;
-    await uploadProfile(inputNickname, imageFileUrl);
+
+    setIsUploading(true);
+    if (imageFile && checkFileValid(imageFile)) {
+      const presignedUrlData = await getPresignedUrl(imageFile);
+      if (!presignedUrlData) return;
+      if (!(await uploadAvatar(imageFile, presignedUrlData))) {
+        setIsUploading(false);
+        return;
+      }
+    }
+    await uploadProfile(inputNickname, imageSrc);
     setIsUploading(false);
   };
 
@@ -127,9 +119,10 @@ export default function ProfileEditPage() {
     );
     if (!success || errorMessage) {
       setImageFileCheckMessage(errorMessage);
-      return null;
+      return false;
     }
-    return presignedUrlData.imageUrl;
+    setImageSrc(presignedUrlData.imageUrl);
+    return true;
   };
 
   const uploadProfile = async (inputNickname: string, imageFileUrl: string) => {
@@ -165,7 +158,7 @@ export default function ProfileEditPage() {
             />
             <label htmlFor="file">
               <Image
-                src={imgSrc}
+                src={imageSrc}
                 alt="profile image"
                 className={`${styles.avartar} ${isUploading ? styles.disabled : ""}`}
                 width={imageSize}
