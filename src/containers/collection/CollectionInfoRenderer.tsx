@@ -1,6 +1,9 @@
-import React, { useState } from "react";
-import { CollectionDetail } from "@/types/Collection";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+
+import styles from "@/styles/containers/collection/_collectionInfo.module.scss";
+import { CollectionDetail } from "@/types/Collection";
 import {
   BookMarkIcon,
   EditIcon,
@@ -8,10 +11,12 @@ import {
   LinkIcon,
   LocationIcon,
 } from "@/components/IconSvg";
-import styles from "@/styles/containers/collection/_collectionInfo.module.scss";
-import Link from "next/link";
+import AlertModal from "@/components/AlertModal";
+
 import fetchPostCollectionLikes from "@/utils/fetchPostCollectionLikes";
 import fetchDeleteCollectionLikes from "@/utils/fetchDeleteCollectionLikes";
+import fetchPostCollectionScraps from "@/utils/fetchPostCollectionScraps";
+import fetchDeleteCollectionScraps from "@/utils/fetchDeleteCollectionScraps";
 
 const CollectionInfoRenderer = ({
   collectionData,
@@ -20,49 +25,84 @@ const CollectionInfoRenderer = ({
   collectionData: CollectionDetail;
   isMyCollection: boolean;
 }) => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isScraped, setIsScraped] = useState(false);
+  const [isScrapedLoading, setIsScrapedLoading] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isLikedLoading, setIsLikedLoading] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const handleClickLocationButton = () => {
-    // 위치 버튼 클릭시
-  };
-  const handleClickShareButton = () => {
-    // 공유 버튼 클릭시
+    // TODO : 위치 버튼 클릭시 map marker 띄우기
   };
 
-  const handleClickLikeButton = async () => {
+  const handleClickShareButton = () => {
+    // 공유하기
+    navigator.clipboard.writeText(`
+      ${process.env.NEXT_PUBLIC_FRONTEND_URL}/collection/${collectionData.id}
+    `);
+    setAlertMessage((prev) => "클립보드에 복사되었습니다.");
+  };
+
+  const likeCollection = async () => {
     setIsLikedLoading(true);
     // 좋아요
-    if (isLiked === false) {
+    if (!isLiked) {
       const { success, errorMessage } = await fetchPostCollectionLikes(
         collectionData.id
       );
       if (success) {
         setIsLiked(true);
         collectionData.likeCnt += 1; // 왜 되는 걸까?
-      } else console.log(errorMessage);
+      } else setAlertMessage(errorMessage);
       setIsLikedLoading(false);
     }
     // 좋아요 취소
-    else if (isLiked === true) {
+    else {
       const { success, errorMessage } = await fetchDeleteCollectionLikes(
         collectionData.id
       );
       if (success) {
         setIsLiked(false);
         collectionData.likeCnt -= 1;
-      } else console.log(errorMessage);
+      } else setAlertMessage(errorMessage);
       setIsLikedLoading(false);
     }
   };
 
-  const handleClickBookmarkButton = () => {
-    setIsBookmarked(!isBookmarked);
+  const scrapCollection = async () => {
+    if (isScrapedLoading) return;
+    setIsScrapedLoading(true);
+    // 스크랩
+    if (!isScraped) {
+      const { success, errorMessage } = await fetchPostCollectionScraps(
+        collectionData.id
+      );
+      if (success) {
+        collectionData.scrapCnt += 1;
+        setIsScraped(true);
+      } else setAlertMessage(errorMessage);
+    }
+    // 스크랩 취소
+    else {
+      const { success, errorMessage } = await fetchDeleteCollectionScraps(
+        collectionData.id
+      );
+      if (!success) {
+        collectionData.scrapCnt -= 1;
+        setIsScraped(false);
+      } else setAlertMessage(errorMessage);
+    }
+    setIsScrapedLoading(false);
   };
+
+  useEffect(() => {
+    setIsScraped(collectionData.isScrapped);
+    setIsLiked(collectionData.isLiked);
+  }, [collectionData]);
 
   return (
     <section id={styles.collectionInfo}>
+      {/* 이미지 */}
       <Image
         className={styles.collectionImg}
         src={collectionData.thumbnail}
@@ -70,6 +110,7 @@ const CollectionInfoRenderer = ({
         width={200}
         height={200}
       />
+      {/* 컬렉션 정보 */}
       <div className={styles.collectionData}>
         <div className={styles.collectionTitle}>
           <h1 className={styles.title}>{collectionData.title}</h1>
@@ -78,9 +119,9 @@ const CollectionInfoRenderer = ({
               <EditIcon className={styles.editIcon} />
             </Link>
           ) : (
-            <button onClick={handleClickBookmarkButton}>
+            <button onClick={scrapCollection}>
               <BookMarkIcon
-                className={`${styles.bookmarkIcon} ${isBookmarked ? styles.filled : ""}`}
+                className={`${styles.bookmarkIcon} ${isScraped ? styles.filled : ""}`}
               />
             </button>
           )}
@@ -97,9 +138,11 @@ const CollectionInfoRenderer = ({
           ))}
         </p>
       </div>
+      {/* 컬렉션 상세 설명 */}
       <div className={styles.collectionDescription}>
         {collectionData.details}
       </div>
+      {/* 기타 버튼 */}
       <div className={styles.buttonContainer}>
         <button className={styles.button} onClick={handleClickLocationButton}>
           <LocationIcon />
@@ -111,7 +154,7 @@ const CollectionInfoRenderer = ({
         </button>
         <button
           className={styles.button}
-          onClick={handleClickLikeButton}
+          onClick={likeCollection}
           disabled={isLikedLoading}
         >
           <HeartIcon className={`${isLiked ? styles.liked : ""}`} />
@@ -121,6 +164,7 @@ const CollectionInfoRenderer = ({
               : `${collectionData.likeCnt}개 좋아요`}
           </div>
         </button>
+        <AlertModal message={alertMessage} setMessage={setAlertMessage} />
       </div>
     </section>
   );
