@@ -19,7 +19,7 @@ import { InputComponent } from "@/components/InputComponent";
 import checkFileValid from "@/utils/checkFileValid";
 import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
 import fetchPutMyProfile from "@/utils/fetchPutMyProfile";
-import fetchGetAvatarPresignedUrl from "@/utils/fetchGetAvatarPresignedUrl";
+import fetchPostAvatarPresignedUrl from "@/utils/fetchPostAvatarPresignedUrl";
 import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
 
 export default function ProfileEditPage() {
@@ -100,7 +100,7 @@ export default function ProfileEditPage() {
 
   // 프로필, 이미지 업로드 관련 함수
   const getPresignedUrl = async (imageFile: File) => {
-    const { presignedUrlData, errorMessage } = await fetchGetAvatarPresignedUrl(
+    const { presignedUrlData, errorMessage } = await fetchPostAvatarPresignedUrl(
       imageFile?.type
     );
     if (errorMessage || !presignedUrlData) {
