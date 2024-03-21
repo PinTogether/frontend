@@ -148,11 +148,6 @@ export default function Overlay() {
   return (
     <section className={styles.overlay}>
       <div className={styles.top}>
-        <div className={styles.topLocation}>
-          <div>{sidoName}</div>
-          <div>{sggName}</div>
-          <div>{emdongName}</div>
-        </div>
         <button className={styles.topButton} onClick={getLocation}>
           {locationGetter && (
             <div className={styles.loader}>
@@ -174,6 +169,11 @@ export default function Overlay() {
             ></img>
           )}
         </button>
+        <div className={styles.topLocation}>
+          <div>{sidoName}</div>
+          <div>{sggName}</div>
+          <div>{emdongName}</div>
+        </div>
       </div>
       <div></div>
       {myProfile && (

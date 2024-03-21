@@ -21,13 +21,14 @@
 }
 
 .top {
-  width: 400px;
+  width: 500px;
   place-self: left;
   display: grid;
   position: relative;
   align-items: center;
-  grid-template-columns: 2fr 0.1fr 0.25fr;
-  left: 50px;
+  grid-template-columns: 40px 1fr;
+  gap: 15px;
+  left: 25px;
 }
 
 .topButton {
@@ -44,7 +45,6 @@
   cursor: pointer;
   pointer-events: auto;
   border: 1px solid;
-  grid-column: 3;
 }
 
 .topButton:hover {
@@ -52,17 +52,20 @@
 }
 
 .topLocation {
-  display: grid;
-  grid-template-columns: 1.25fr 1fr 1fr;
-  position: relative;
+  display: flex;
+  flex-direction: row;
   font-size: $font-size-medium;
-  min-width: 200px;
+  width: max-content;
   height: 40px;
   border-radius: 30px;
+  gap: 15px;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
   background-color: rgba(255, 255, 255, 0.8);
   pointer-events: none;
   text-align: center;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   border: 1px solid;
 }
