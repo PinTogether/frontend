@@ -23,7 +23,7 @@ const fetchGetProfileCollections = async (
     if (data.metadata.resultCount === 0) {
       return {
         collectionDatas: [],
-        errorMessage: "검색 결과가 없습니다.",
+        errorMessage: "컬렉션이 없습니다.",
       };
     }
     const collectionDatas: CollectionDetail[] = data.results;
