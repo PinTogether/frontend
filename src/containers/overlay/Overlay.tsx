@@ -90,7 +90,7 @@ export default function Overlay() {
     .then((res) => {
       const newMarkerData:markerDataByCollection = {
         collectionId: id,
-        pinDatas: res,
+        pinDatas: res.results,
       }
       setMarkerDatas((prev)=>{
         return [...prev, newMarkerData];
@@ -115,6 +115,7 @@ export default function Overlay() {
       return true;
     }
     if(markerDatas[0]){
+      console.log(markerDatas);
       markerDatas.forEach((collectionData) => {
         collectionData.pinDatas.forEach((pinData) => {
           if(checkList(pinData.id)){
