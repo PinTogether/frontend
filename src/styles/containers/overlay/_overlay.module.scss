@@ -123,6 +123,26 @@
   }
 }
 
+.disabledBottomButton {
+  font-size: $font-size-medium;
+  color: $color-grey-dark;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  height: 30px;
+  border-radius: 30px;
+  background-color: rgba(154, 154, 154, 0.8);
+  pointer-events: auto;
+  border: 1px solid;
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: $color-grey-dark;
+  }
+}
+
 .clickedButtons{
   border: 2px solid $color-primary;
 }
