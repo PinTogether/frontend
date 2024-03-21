@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import styles from "@/styles/containers/profile/_profileEditPage.module.scss";
 import { ProfileMine } from "@/types/Profile";
+import PresignedUrl from "@/types/PresingedUrl";
 import SubPageLayout from "@/containers/layout/SubPageLayout";
 import EditPageLayout, {
   SectionTitle,
@@ -19,14 +20,14 @@ import checkFileValid from "@/utils/checkFileValid";
 import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
 import fetchPutMyProfile from "@/utils/fetchPutMyProfile";
 import fetchGetAvatarPresignedUrl from "@/utils/fetchGetAvatarPresignedUrl";
-import PresignedUrl from "@/types/PresingedUrl";
+import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
 
 export default function ProfileEditPage() {
   const imageSize = 300;
   const router = useRouter();
   const inputNicknameMaxLength = 16;
   const [isUploading, setIsUploading] = useState(false);
-  
+
   /* 프로필 변경전 정보 */
   const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
   /* 프로필 변경후 정보 */
