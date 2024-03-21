@@ -17,7 +17,7 @@ import { EditIcon, ImgLoadIcon, CloseRoundIcon } from "@/components/IconSvg";
 import { InputComponent } from "@/components/InputComponent";
 
 import checkFileValid from "@/utils/checkFileValid";
-import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage"; // TODO
 import fetchPutMyProfile from "@/utils/fetchPutMyProfile";
 import fetchPostAvatarPresignedUrl from "@/utils/fetchPostAvatarPresignedUrl";
 import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
@@ -88,11 +88,15 @@ export default function ProfileEditPage() {
     setIsUploading(true);
     if (imageFile && checkFileValid(imageFile)) {
       const presignedUrlData = await getPresignedUrl(imageFile);
-      if (!presignedUrlData) return;
+      if (!presignedUrlData) {
+        setIsUploading(false);
+        return;
+      }
       if (!(await uploadAvatar(imageFile, presignedUrlData))) {
         setIsUploading(false);
         return;
       }
+      setImageSrc(presignedUrlData.imageUrl);
     }
     await uploadProfile(inputNickname, imageSrc);
     setIsUploading(false);
@@ -100,9 +104,8 @@ export default function ProfileEditPage() {
 
   // 프로필, 이미지 업로드 관련 함수
   const getPresignedUrl = async (imageFile: File) => {
-    const { presignedUrlData, errorMessage } = await fetchPostAvatarPresignedUrl(
-      imageFile?.type
-    );
+    const { presignedUrlData, errorMessage } =
+      await fetchPostAvatarPresignedUrl(imageFile?.type);
     if (errorMessage || !presignedUrlData) {
       setImageFileCheckMessage(errorMessage);
       return null;
@@ -156,6 +159,7 @@ export default function ProfileEditPage() {
               id="file"
               style={{ display: "none" }}
               onChange={handleChangeAvatar}
+              disabled={isUploading}
             />
             <label htmlFor="file">
               <Image
@@ -169,6 +173,7 @@ export default function ProfileEditPage() {
             <button
               className={styles.cancelButton}
               onClick={handleClickResetAvatar}
+              disabled={isUploading}
             >
               <CloseRoundIcon />
             </button>
@@ -191,6 +196,7 @@ export default function ProfileEditPage() {
             placeholder="김고양"
             maxLength={inputNicknameMaxLength}
             ref={(input) => input && input.focus()}
+            disabled={isUploading}
           />
           <span className={styles.nicknameCheckMessage}>
             {nicknameCheckMessage}
@@ -199,7 +205,11 @@ export default function ProfileEditPage() {
         <Line />
         {/* 프로필 수정하기 버튼 */}
         <Section>
-          <button className={styles.submitButton} onClick={submitEditProfile}>
+          <button
+            className={styles.submitButton}
+            onClick={submitEditProfile}
+            disabled={isUploading}
+          >
             프로필 수정하기
           </button>
         </Section>
