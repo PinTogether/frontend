@@ -1,7 +1,7 @@
 @import "../../base/variables";
 @import "../../base/placeholders";
 
-/* ProfilePage */
+/* ProfileInfoRenderer */
 #profileDataContainer {
   flex: 1;
   display: flex;
@@ -66,6 +66,16 @@
     }
   }
 }
+
+/* ProfilePage */
+.errorMessage {
+  color: $color-grey-dark;
+  font-size: $font-size-small;
+  text-align: center;
+  margin-top: 1.25rem;
+  grid-column : 1 / -1;
+}
+
 .buttonContainer {
   display: flex;
   align-items: center;
