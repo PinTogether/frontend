@@ -1,12 +1,13 @@
 import PresignedUrl from "@/types/PresingedUrl";
 import APIResponse from "@/types/APIResponse";
 
+// TODO
+
 const fetchPostCollection = async (
   title: string,
-  thumnail: string,
   details: string,
   tags: string[],
-  fileType: string
+  contentType: string | null
 ) => {
   try {
     const res = await fetch(
@@ -14,12 +15,12 @@ const fetchPostCollection = async (
       {
         method: "POST",
         credentials: "include",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: title,
-          thumnail: thumnail,
           details: details,
           tags: tags,
-          fileType: fileType,
+          contentType: contentType,
         }),
       }
     );
@@ -27,7 +28,7 @@ const fetchPostCollection = async (
     if (!res.ok) throw new Error("컬렉션 생성을 실패했습니다.");
     const data: APIResponse = await res.json();
     console.log("fetchPostCollection data", data);
-    if (fileType === "") {
+    if (contentType === "") {
       const presingedUrlData: PresignedUrl = data.results[0];
       return {
         presingedUrlData: presingedUrlData,

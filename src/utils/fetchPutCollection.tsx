@@ -13,6 +13,7 @@ const fetchPutCollection = async (
       {
         method: "PUT",
         credentials: "include",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: title,
           thumnail: thumnail,
