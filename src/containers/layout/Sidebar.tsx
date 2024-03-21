@@ -110,10 +110,10 @@ export default function Sidebar() {
         <BellIcon className={styles.icon} />
         <BellFillIcon className={styles.hoveredIcon} />
       </button>
-      {imgSrc && myProfile && myProfile.id ? (
-        <button
-          className={`${styles.button} ${usePathname().startsWith("/profile") ? styles.currPath : ""}`}
-        >
+      <button
+        className={`${styles.button} ${usePathname().startsWith("/login") ? styles.currPath : ""}`}
+      >
+        {imgSrc && myProfile && myProfile.id ? (
           <div className={styles.profilebox}>
             <Image
               src={imgSrc}
@@ -124,14 +124,10 @@ export default function Sidebar() {
               onClick={() => moveURL(`/profile/${userId}`)}
             />
           </div>
-        </button>
-      ) : (
-        <button
-          className={`${styles.button} ${usePathname().startsWith("/login") ? styles.currPath : ""}`}
-        >
-            <SignInSquareIcon onClick={() => moveURL(`/login`)}/>
-        </button>
-      )}
+        ) : (
+          <SignInSquareIcon onClick={() => moveURL(`/login`)} />
+        )}
+      </button>
       <div></div>
     </section>
   );
