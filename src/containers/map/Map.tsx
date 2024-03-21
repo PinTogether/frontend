@@ -485,6 +485,18 @@ const MapNaverDefault = () => {
           }
         }
       );
+      const mapClick = naver.maps.Event.addListener(
+        newMap,
+        "click",
+        function(e){
+          clusteredMarkerList.forEach((data)=>{
+            if(data.infoWindow?.getMap()){
+              console.log("닫기");
+              data.infoWindow.close();
+            }
+          })
+        }
+      )
       clusteredMarkerList.forEach((data) => {
         const eventList: naver.maps.MapEventListener[] = [];
         const buttonEventList: HTMLElement[] = [];
@@ -556,7 +568,7 @@ const MapNaverDefault = () => {
         data.buttonEventList = buttonEventList.slice();
       });
       return () => {
-        clusteredMarkerList.forEach((data, index) => {
+        clusteredMarkerList.forEach((data) => {
           if (data.infoWindow && data.infoWindow.getMap()) {
             data.infoWindow.close();
           }
@@ -577,6 +589,7 @@ const MapNaverDefault = () => {
         });
         naver.maps.Event.removeListener(dragevent);
         naver.maps.Event.removeListener(zoomevent);
+        naver.maps.Event.removeListener(mapClick);
       };
     }
   }, [geoApiAuth, clusteredMarkerList]);
@@ -585,14 +598,14 @@ const MapNaverDefault = () => {
     if (mainContentWidth === "500px") {
       setSideWidth(500);
       newMap?.panBy({ x: -300, y: 0 });
-      if(newMap){
+      if (newMap) {
         const center = newMap.getCenter();
         handleGetAddress(center.x, center.y);
       }
     } else if (mainContentWidth == "0px") {
       setSideWidth(0);
       newMap?.panBy({ x: 300, y: 0 });
-      if(newMap){
+      if (newMap) {
         const center = newMap.getCenter();
         handleGetAddress(center.x, center.y);
       }
@@ -615,14 +628,14 @@ const MapNaverDefault = () => {
   }, [markerDatas, isScriptLoaded]);
 
   useLayoutEffect(() => {
-    if(window.naver && newMap && clusteredMarkerList[0]){
+    if (window.naver && newMap && clusteredMarkerList[0]) {
       clusteredMarkerList.forEach((data) => {
-        if(data.clusteredMarker){
+        if (data.clusteredMarker) {
           data.clusteredMarker.setMap(newMap);
         }
-      })
+      });
     }
-  },[clusteredMarkerList])
+  }, [clusteredMarkerList]);
 
   //지도 생성
   useEffect(() => {
