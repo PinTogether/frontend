@@ -1,7 +1,7 @@
 import { PinForPlace } from "@/types/Pin";
 import APIResponse from "@/types/APIResponse";
 
-const fetchGetPinInfo = async (collectionId: number) => {
+const fetchGetCollectionAllPins = async (collectionId: number) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${collectionId}/pins`,
@@ -9,10 +9,10 @@ const fetchGetPinInfo = async (collectionId: number) => {
         credentials: "include",
       }
     );
-    console.log("fetchGetPinInfo res", res);
+    console.log("fetchGetCollectionAllPins res", res);
     if (!res.ok) throw new Error("핀 리스트 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetPinInfo data", data);
+    console.log("fetchGetCollectionAllPins data", data);
     const pinInfo: PinForPlace[] = data.results;
     console.log("pinInfo", pinInfo);
     return { pinInfo, errorMessage: "" };
@@ -24,4 +24,4 @@ const fetchGetPinInfo = async (collectionId: number) => {
     };
   }
 };
-export default fetchGetPinInfo;
+export default fetchGetCollectionAllPins;

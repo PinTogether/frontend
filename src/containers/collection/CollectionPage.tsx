@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { markerDataByAmount } from "@/redux/locationSlice";
 import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
-import fetchGetPinInfo from "@/utils/fetchGetPinInfo";
+import fetchGetCollectionAllPins from "@/utils/fetchGetCollectionAllPins";
 import fetchGetCollectionComments from "@/utils/fetchGetCollectionComments";
 import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
 
@@ -66,7 +66,7 @@ export default function CollectionPage({
   const getPinData = async () => {
     if (isPinFetching) return;
     setIsPinFetching(true);
-    const result = await fetchGetPinInfo(collectionId);
+    const result = await fetchGetCollectionAllPins(collectionId);
     setPinFetchDatas(result);
     setIsPinFetching(false);
   };
