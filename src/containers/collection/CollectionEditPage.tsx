@@ -110,10 +110,9 @@ export default function CollectionEditPage({
     const { presingedUrlData, newCollectionId, errorMessage } =
       await fetchPostCollection(
         inputTitle,
-        imgFile ? imgSrc : "",
         inputDetails,
         tagList,
-        imgFile?.type || ""
+        imgFile?.type || null
       );
     if (errorMessage || (imgFile && !presingedUrlData)) {
       setAlertMessage(errorMessage);
