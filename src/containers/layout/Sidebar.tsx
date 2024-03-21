@@ -15,6 +15,7 @@ import {
   MapIcon,
   SearchFillIcon,
   SearchIcon,
+  SignInSquareIcon,
 } from "@/components/IconSvg";
 import styles from "@/styles/layout/_sidebar.module.scss";
 import Image from "next/image";
@@ -32,7 +33,9 @@ export default function Sidebar() {
   );
   const [beforeWidth, setBeforeWidth] = useState<string>("500px");
   const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
-  const [imgSrc, setImgSrc] = useState<string>("https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/profile1.png");
+  const [imgSrc, setImgSrc] = useState<string>(
+    "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/profile1.png"
+  );
 
   function moveURL(url: string) {
     if (FlexbarWidth == "0px") {
@@ -62,44 +65,44 @@ export default function Sidebar() {
     setMyProfile(getMyProfileFromLocalStorage);
   }, []);
 
-  useEffect(()=>{
-    if(myProfile){
+  useEffect(() => {
+    if (myProfile) {
       setImgSrc(myProfile.avatar);
-    }
-    else if(process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL){
+    } else if (process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL) {
       setImgSrc(process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL);
+    } else {
+      setImgSrc(
+        "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/profile1.png"
+      );
     }
-    else{
-      setImgSrc("https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/profile1.png");
-    }
-  },[myProfile])
+  }, [myProfile]);
 
   return (
     <section className={styles.container}>
       <div></div>
-      <button className={`${styles.button} ${currentPath("/") ? styles.currPath : ""}`} onClick={() => moveURL("/")}>
-        <HomeIcon
-          className={`${styles.icon}`}
-        />
+      <button
+        className={`${styles.button} ${currentPath("/") ? styles.currPath : ""}`}
+        onClick={() => moveURL("/")}
+      >
+        <HomeIcon className={`${styles.icon}`} />
         <HomeFillIcon className={styles.hoveredIcon} />
       </button>
       <button className={styles.button} onClick={() => changeSideWidth()}>
         <MapIcon className={styles.icon} />
         <MapFillIcon className={styles.hoveredIcon} />
       </button>
-      <button className={`${styles.button} ${currentPath("/search") ? styles.currPath : ""}`} onClick={() => moveURL("/search")}>
-        <SearchIcon
-          className={`${styles.icon}`}
-        />
+      <button
+        className={`${styles.button} ${currentPath("/search") ? styles.currPath : ""}`}
+        onClick={() => moveURL("/search")}
+      >
+        <SearchIcon className={`${styles.icon}`} />
         <SearchFillIcon className={styles.hoveredIcon} />
       </button>
       <button
         className={`${styles.button} ${usePathname().startsWith("/collection") ? styles.currPath : ""}`}
         onClick={() => moveURL("/collection/edit")}
       >
-        <AddSquareIcon
-          className={`${styles.icon}`}
-        />
+        <AddSquareIcon className={`${styles.icon}`} />
         <AddSquareFillIcon className={styles.hoveredIcon} />
       </button>
       <div></div>
@@ -107,9 +110,11 @@ export default function Sidebar() {
         <BellIcon className={styles.icon} />
         <BellFillIcon className={styles.hoveredIcon} />
       </button>
-      <button className={`${styles.button} ${usePathname().startsWith("/profile") ? styles.currPath : ""}`}>
-        <div className={styles.profilebox}>
-          {(imgSrc && myProfile && myProfile.id) ? (
+      {imgSrc && myProfile && myProfile.id ? (
+        <button
+          className={`${styles.button} ${usePathname().startsWith("/profile") ? styles.currPath : ""}`}
+        >
+          <div className={styles.profilebox}>
             <Image
               src={imgSrc}
               alt="profile image"
@@ -118,18 +123,15 @@ export default function Sidebar() {
               height={size}
               onClick={() => moveURL(`/profile/${userId}`)}
             />
-          ) : (
-            <Image
-              src={imgSrc}
-              alt="profile image"
-              className={`${styles.profile}`}
-              width={size}
-              height={size}
-              onClick={() => moveURL(`/login`)}
-            />
-          )}
-        </div>
-      </button>
+          </div>
+        </button>
+      ) : (
+        <button
+          className={`${styles.button} ${usePathname().startsWith("/login") ? styles.currPath : ""}`}
+        >
+            <SignInSquareIcon onClick={() => moveURL(`/login`)}/>
+        </button>
+      )}
       <div></div>
     </section>
   );
