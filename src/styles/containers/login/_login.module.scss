@@ -24,9 +24,8 @@ $color-naver: #03c75a;
       padding: 0.5rem 0rem;
       font-size: $font-size-medium;
       width: 240px;
-      outline: none;
       gap: 1rem;
-
+      border-color: rgba(0, 0, 0, 0);
       span {
         display: flex;
         align-items: center;
@@ -34,9 +33,8 @@ $color-naver: #03c75a;
         color: rgba(0, 0, 0, 0.85);
       }
       &:hover {
-        border: none;
-        outline: none;
-        opacity: 0.4;
+        border-color: rgba(0, 0, 0, 0);
+        opacity: 0.5;
       }
     }
     .kakaoButton {
