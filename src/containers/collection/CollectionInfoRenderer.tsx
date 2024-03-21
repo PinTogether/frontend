@@ -25,9 +25,9 @@ const CollectionInfoRenderer = ({
   collectionData: CollectionDetail;
   isMyCollection: boolean;
 }) => {
-  const [isScraped, setIsScraped] = useState(false);
+  const [isScraped, setIsScraped] = useState(collectionData.isScrapped);
+  const [isLiked, setIsLiked] = useState(collectionData.isLiked);
   const [isScrapedLoading, setIsScrapedLoading] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
   const [isLikedLoading, setIsLikedLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
