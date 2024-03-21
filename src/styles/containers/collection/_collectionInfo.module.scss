@@ -5,7 +5,7 @@
 #collectionInfo {
   height: fit-content;
   width: 100%;
-  
+
   display: grid;
   grid-template-columns: auto auto;
   gap: 1rem;
@@ -23,7 +23,7 @@
     width: 7rem;
     height: 7rem;
     border-radius: $border-radius;
-    object-fit: cover;    
+    object-fit: cover;
   }
   .collectionData {
     min-width: 15rem;
@@ -83,7 +83,7 @@
       & > * {
         @extend %pt-tag;
         color: $color-grey-dark;
-        outline: 1px solid $color-grey;
+        border: 1px solid $color-grey;
       }
     }
   }

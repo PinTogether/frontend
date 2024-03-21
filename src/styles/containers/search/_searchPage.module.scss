@@ -30,7 +30,7 @@
 				border-radius: $border-radius;
 				background-color: $color-grey-light;
 				&:focus-visible {
-					outline: 2px solid $color-primary-light;
+					border: 2px solid $color-primary-light;
 				}
 			}
 			.clearButton {
@@ -105,7 +105,7 @@
 		gap: 5px;
 		line-height: 2;
 		color: $color-grey-dark;
-	}	
+	}
 	.searchLogLists{
 		height: 100%;
 		display: grid;
@@ -129,7 +129,7 @@
 	&:hover{
 		background-color: $color-grey-light;
 	}
-	
+
 	// }
 	.searchIcon {
 		flex-shrink: 0;
