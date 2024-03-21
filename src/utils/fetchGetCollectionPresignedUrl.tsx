@@ -1,6 +1,7 @@
 import APIResponse from "@/types/APIResponse";
 import PresignedUrl from "@/types/PresingedUrl";
 
+// TODO : POST
 const fetchGetCollectionPresignedUrl = async (
   collectionId: number,
   contentType: string
@@ -11,6 +12,7 @@ const fetchGetCollectionPresignedUrl = async (
       {
         method: "POST",
         credentials: "include",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ contentType: contentType }),
       }
     );

@@ -5,6 +5,7 @@ const fetchPutMyProfile = async (nickname: string, avatar: string) => {
       {
         method: "PUT",
         credentials: "include",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nickname: nickname,
           avatar: avatar,
