@@ -1,12 +1,12 @@
 import APIResponse from "@/types/APIResponse";
 import PresignedUrl from "@/types/PresingedUrl";
 
-// TODO POST
-const fetchGetAvatarPresignedUrl = async (contentType: string) => {
+const fetchPostAvatarPresignedUrl = async (contentType: string) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me/avatar/presigned-url`,
       {
+        method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ contentType: contentType }),
@@ -26,4 +26,4 @@ const fetchGetAvatarPresignedUrl = async (contentType: string) => {
     };
   }
 };
-export default fetchGetAvatarPresignedUrl;
+export default fetchPostAvatarPresignedUrl;
