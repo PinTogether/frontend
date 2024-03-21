@@ -19,3 +19,4 @@ const fetchPutS3PresignedUrl = async (
     };
   }
 };
+export default fetchPutS3PresignedUrl;

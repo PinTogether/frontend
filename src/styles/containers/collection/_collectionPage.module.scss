@@ -46,6 +46,13 @@
   grid-template-columns: repeat(auto-fill, minmax(1px, 100%));
   gap: 0.5rem;
   padding: 1.25rem 0;
+  .errorMessage {
+    color: $color-text-caption;
+    font-size: $font-size-small;
+    margin-top: 1rem;
+    align-self: center;
+    justify-self: center;
+  }
 }
 
 /* ReplyContent */

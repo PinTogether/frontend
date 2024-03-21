@@ -8,7 +8,7 @@ type PageParams = {
 export default function Page({ params }: { params: PageParams }) {
   return (
     // <SubPageLayout topperMsg="컬렉션 수정">
-    <CollectionEditPage topperMsg="컬렉션 수정" id={params.id} />
+    <CollectionEditPage topperMsg="컬렉션 수정" collectionId={params.id} />
     // </SubPageLayout>
   );
 }

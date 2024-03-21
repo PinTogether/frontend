@@ -119,7 +119,7 @@ const CollectionInfoRenderer = ({
               <EditIcon className={styles.editIcon} />
             </Link>
           ) : (
-            <button onClick={scrapCollection}>
+            <button onClick={scrapCollection} disabled={isScrapedLoading}>
               <BookMarkIcon
                 className={`${styles.bookmarkIcon} ${isScraped ? styles.filled : ""}`}
               />

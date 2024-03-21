@@ -27,10 +27,6 @@ const CollectionReplyRenderer = ({
   const [alertMessage, setAlertMessage] = useState("");
   const [isDeleteReplyLoading, setIsDeleteReplyLoading] = useState(false);
 
-  useEffect(() => {
-    setAlertMessage(errorMessage);
-  }, [errorMessage]);
-
   const deleteReply = async (replyId: number) => {
     if (isDeleteReplyLoading) return;
     setIsDeleteReplyLoading(true);
@@ -44,14 +40,18 @@ const CollectionReplyRenderer = ({
   return (
     <section className={styles.collectionReplyContainer}>
       <ReplyInputContent collectionId={collectionInfo.id} />
-      {replys.map((reply) => (
-        <ReplyContent
-          key={reply.id}
-          data={reply}
-          isMyReply={myId === reply.writerId}
-          onClickDeleteButton={deleteReply}
-        />
-      ))}
+      {errorMessage ? (
+        <div className={styles.errorMessage}>{errorMessage}</div>
+      ) : (
+        replys.map((reply) => (
+          <ReplyContent
+            key={reply.id}
+            data={reply}
+            isMyReply={myId === reply.writerId}
+            onClickDeleteButton={deleteReply}
+          />
+        ))
+      )}
       <AlertModal message={alertMessage} setMessage={setAlertMessage} />
     </section>
   );
