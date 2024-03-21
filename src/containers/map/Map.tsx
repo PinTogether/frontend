@@ -1,7 +1,7 @@
 "use client";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import styles from "@/styles/components/_loading.module.scss";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getGeoCodingAuth, reverseGeoCoding } from "@/utils/GeoCoding";
 import {
@@ -25,6 +25,8 @@ interface ClusteredMarkerData {
   centerPoint: naver.maps.Point;
   clusteredMarker: naver.maps.Marker | null;
   infoWindow: naver.maps.InfoWindow | null;
+  eventList: naver.maps.MapEventListener[] | null;
+  buttonEventList: HTMLElement[] | null;
 }
 
 const MapNaverDefault = () => {
@@ -168,7 +170,7 @@ const MapNaverDefault = () => {
       return [
         '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px;">',
         '<img src="/icons/map_pin.svg" alt="" style="width:40px; height:40px;" >',
-        '<b style=" font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
+        '<b style="background-color: rgba(120,120,120,0.15); padding: 3px; border-radius: 10px; font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
@@ -181,7 +183,7 @@ const MapNaverDefault = () => {
         `${markerdata.pinCount}`,
         '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:16px; height:16px;">',
         "</b>",
-        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        '<b style="background-color: rgba(120,120,120,0.15); padding: 3px; border-radius: 10px; font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
@@ -194,7 +196,7 @@ const MapNaverDefault = () => {
         `99+`,
         '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:16px; height:16px;">',
         "</b>",
-        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        '<b style="background-color: rgba(120,120,120,0.15); padding: 3px; border-radius: 10px; font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
@@ -306,6 +308,8 @@ const MapNaverDefault = () => {
             ),
             clusteredMarker: null,
             infoWindow: null,
+            eventList: null,
+            buttonEventList: null,
           });
           marker.setMap(null);
         }
@@ -322,6 +326,8 @@ const MapNaverDefault = () => {
           ),
           clusteredMarker: null,
           infoWindow: null,
+          eventList: null,
+          buttonEventList: null,
         });
         marker.setMap(null);
       }
@@ -330,7 +336,7 @@ const MapNaverDefault = () => {
       newClusteredMarkers.forEach((ClusteredMarkerData, index) => {
         if (ClusteredMarkerData.innerMarkerList.length != 1) {
           ClusteredMarkerData.infoWindow = new naver.maps.InfoWindow({
-            content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; max-height: 400px; padding-top:10px; padding-bottom:10px;">
+            content: `<div style="background-color: #ffffff; border-radius: 15px; border: 1px solid #6d56ff; max-height: 300px; padding-top:5px; padding-bottom:5px; padding-right:5px; overflow-y: auto;">
           ${getList(index)}
           </div>`,
             borderWidth: 0,
@@ -356,13 +362,10 @@ const MapNaverDefault = () => {
         } else {
           ClusteredMarkerData.clusteredMarker =
             ClusteredMarkerData.innerMarkerList[0];
-            ClusteredMarkerData.clusteredMarker.get
+          ClusteredMarkerData.clusteredMarker.get;
         }
       });
     }
-    newClusteredMarkers.forEach((data) => {
-      if (newMap && data.clusteredMarker) data.clusteredMarker.setMap(newMap);
-    });
     setClusteredMarkerList(newClusteredMarkers);
   }
 
@@ -404,7 +407,7 @@ const MapNaverDefault = () => {
         //geoApiAuth가 없을때 들어올수 있으므로 발급될때는 bounds이동 없이 주소만 새롭게 불러오도록 함
         newMap.panToBounds(
           bounds,
-          { easing: "linear" },
+          { easing: "linear", duration: 300 },
           {
             top: 100,
             right: 100,
@@ -438,7 +441,7 @@ const MapNaverDefault = () => {
           new naver.maps.LatLng(LatLng.lat, LatLng.lng),
           new naver.maps.LatLng(LatLng.lat, LatLng.lng)
         ),
-        { easing: "easeOutCubic" }, // 애니메이션
+        { easing: "linear", duration: 300 }, // 애니메이션
         { top: 4000, right: 4000, bottom: 4000, left: 4000 } // 센터기준 상하좌우에 여유공간 4000px (대충 zoom:16 비슷하게 나옴)
       );
     }
@@ -455,7 +458,7 @@ const MapNaverDefault = () => {
   //내 위치 받아오기
   useEffect(() => {
     if (window.naver && geoApiAuth != "" && newMap) {
-      const eventList: naver.maps.MapEventListener[] = [];
+      let isMouseOverInfoWindow = false;
       //드래그시 이벤트 갱신
       const dragevent = naver.maps.Event.addListener(
         newMap,
@@ -482,27 +485,51 @@ const MapNaverDefault = () => {
           }
         }
       );
-      const buttonEventList: HTMLElement[] = [];
-      clusteredMarkerList.forEach((data, index) => {
+      clusteredMarkerList.forEach((data) => {
+        const eventList: naver.maps.MapEventListener[] = [];
+        const buttonEventList: HTMLElement[] = [];
         eventList.push(
           naver.maps.Event.addListener(
             data.clusteredMarker,
             "mouseover",
-            function (e) {
+            function () {
               if (data.infoWindow) {
                 if (data.clusteredMarker) {
                   data.infoWindow.open(newMap, data.clusteredMarker);
+                  data.innerMarkerId.forEach((id) => {
+                    const event = document.getElementById(`button${id}`);
+                    if (event) {
+                      event.addEventListener("click", () => {
+                        movePage(id);
+                      });
+                      buttonEventList.push(event);
+                    }
+                  });
                 }
               }
             }
           ),
+          // naver.maps.Event.addListener(
+          //   data.infoWindow,
+          //   "mouseover",
+          //   function () {
+          //     isMouseOverInfoWindow = true;
+          //   }
+          // ),
+          // naver.maps.Event.addListener(
+          //   data.infoWindow,
+          //   "mouseout",
+          //   function () {
+          //     isMouseOverInfoWindow = false;
+          //   }
+          // ),
           naver.maps.Event.addListener(
             data.clusteredMarker,
             "mouseout",
-            function (e) {
+            function () {
               if (data.infoWindow) {
-                if (data.clusteredMarker) {
-                  data.infoWindow.close();
+                if (data.clusteredMarker && !isMouseOverInfoWindow) {
+                  //data.infoWindow.close();
                 }
               }
             }
@@ -510,23 +537,14 @@ const MapNaverDefault = () => {
           naver.maps.Event.addListener(
             data.clusteredMarker,
             "click",
-            function (e) {
+            function () {
               if (data.infoWindow) {
                 if (data.clusteredMarker) {
                   newMap.panToBounds(
                     data.markersBounds,
-                    { easing: "easeOutCubic" }, // 애니메이션
+                    { easing: "linear", duration: 300 }, // 애니메이션
                     { top: 400, right: 400, bottom: 400, left: 400 }
                   );
-                  data.innerMarkerId.forEach((data, index2) => {
-                    const event = document.getElementById(`button${data}`);
-                    if (event) {
-                      event.addEventListener("click", () => {
-                        movePage(data);
-                      });
-                      buttonEventList.push(event);
-                    }
-                  });
                 }
               } else {
                 router.push(`/place/${data.innerMarkerId[0]}`);
@@ -534,18 +552,27 @@ const MapNaverDefault = () => {
             }
           )
         );
+        data.eventList = eventList.slice();
+        data.buttonEventList = buttonEventList.slice();
       });
       return () => {
         clusteredMarkerList.forEach((data, index) => {
           if (data.infoWindow && data.infoWindow.getMap()) {
             data.infoWindow.close();
           }
-          if (data.clusteredMarker)
-            data.clusteredMarker.removeListener(eventList[index]);
-          if (buttonEventList[index]) {
-            buttonEventList[index].removeEventListener("click", () =>
-              movePage(markerDatas[index].id)
-            );
+          if (data.clusteredMarker && data.eventList) {
+            // naver 이벤트 정리
+            data.eventList.forEach((event) => {
+              data.clusteredMarker?.removeListener(event);
+            });
+          }
+          if (data.clusteredMarker && data.buttonEventList) {
+            // DOMElement 이벤트 정리
+            data.buttonEventList.forEach((event, index) => {
+              event.removeEventListener("click", () =>
+                movePage(data.innerMarkerId[index])
+              );
+            });
           }
         });
         naver.maps.Event.removeListener(dragevent);
@@ -558,9 +585,17 @@ const MapNaverDefault = () => {
     if (mainContentWidth === "500px") {
       setSideWidth(500);
       newMap?.panBy({ x: -300, y: 0 });
+      if(newMap){
+        const center = newMap.getCenter();
+        handleGetAddress(center.x, center.y);
+      }
     } else if (mainContentWidth == "0px") {
       setSideWidth(0);
       newMap?.panBy({ x: 300, y: 0 });
+      if(newMap){
+        const center = newMap.getCenter();
+        handleGetAddress(center.x, center.y);
+      }
     }
   }, [mainContentWidth]);
 
@@ -578,6 +613,16 @@ const MapNaverDefault = () => {
       makeMarkerList();
     }
   }, [markerDatas, isScriptLoaded]);
+
+  useLayoutEffect(() => {
+    if(window.naver && newMap && clusteredMarkerList[0]){
+      clusteredMarkerList.forEach((data) => {
+        if(data.clusteredMarker){
+          data.clusteredMarker.setMap(newMap);
+        }
+      })
+    }
+  },[clusteredMarkerList])
 
   //지도 생성
   useEffect(() => {
