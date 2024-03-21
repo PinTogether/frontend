@@ -420,3 +420,4 @@ body {
 
 
 
+input, textarea, button {-webkit-appearance:none; -moz-appearance:none; appearance:none;}input, textarea, button, select {-webkit-border-radius:0; -moz-border-radius:0; -o-border-radius:0; border-radius:0;}

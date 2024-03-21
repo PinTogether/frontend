@@ -19,7 +19,7 @@
     background-color: $color-grey;
     &:hover {
       background-color: $color-button-active;
-      outline: 2px solid $color-border-active;
+      border: 2px solid $color-border-active;
     }
   }
   .clickedButtons {

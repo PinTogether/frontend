@@ -82,16 +82,17 @@
     padding: 0.25rem 0.75rem;
     color: $color-grey-dark;
     background-color: $color-grey;
+    border-radius: $border-radius;
     &:hover {
       background-color: $color-button-active;
-      outline: 2px solid $color-border-active;
+      //border: 2px solid $color-border-active;
+      // border-radius: $border-radius;
     }
   }
   .clickedButtons {
     background-color: $color-primary-light;
   }
 }
-
 
 /* ProfileCollectionRednerer */
 .profileListContainer {
@@ -128,7 +129,7 @@
       border-radius: 0.5rem;
       color: $color-grey-dark;
       background-color: $color-primary-light;
-      outline: 1px solid $color-border-inactive;
+      border: 1px solid $color-border-inactive;
       cursor: pointer;
       transition: all 0.2s ease-in-out;
       &:hover {
@@ -136,7 +137,7 @@
       }
     }
   }
-  .bookmarkMessage{
+  .bookmarkMessage {
     color: $color-grey-dark;
     font-size: $font-size-small;
   }
@@ -173,4 +174,3 @@
     }
   }
 }
-

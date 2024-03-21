@@ -9,6 +9,7 @@
 	margin:0;
 	padding:0;
 	overflow: auto;
+	gap: 3px;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
@@ -17,7 +18,7 @@
 .icon, .hoveredIcon{
   position: absolute;
   margin:0;
-  padding:0;
+  padding:0px;
   width:30px;
   height:30px;
   border-radius: 70%;
@@ -29,6 +30,9 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border-radius: 70%;
+	width: 100%;
+	height: 100%;
 	cursor: pointer;
 }
 
@@ -66,7 +70,6 @@
 
 .currPath{
 	background-color: $color-primary-light;
-	outline : solid 10px $color-primary-light;
 	transition: opacity 0.1s ease-in-out;
 }
 

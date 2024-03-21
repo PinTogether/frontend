@@ -74,9 +74,9 @@ export default function Sidebar() {
   return (
     <section className={styles.container}>
       <div></div>
-      <button className={styles.button} onClick={() => moveURL("/")}>
+      <button className={`${styles.button} ${currentPath("/") ? styles.currPath : ""}`} onClick={() => moveURL("/")}>
         <HomeIcon
-          className={`${styles.icon} ${currentPath("/") ? styles.currPath : ""}`}
+          className={`${styles.icon}`}
         />
         <HomeFillIcon className={styles.hoveredIcon} />
       </button>
@@ -84,18 +84,18 @@ export default function Sidebar() {
         <MapIcon className={styles.icon} />
         <MapFillIcon className={styles.hoveredIcon} />
       </button>
-      <button className={styles.button} onClick={() => moveURL("/search")}>
+      <button className={`${styles.button} ${currentPath("/search") ? styles.currPath : ""}`} onClick={() => moveURL("/search")}>
         <SearchIcon
-          className={`${styles.icon} ${usePathname().startsWith("/search") ? styles.currPath : ""}`}
+          className={`${styles.icon}`}
         />
         <SearchFillIcon className={styles.hoveredIcon} />
       </button>
       <button
-        className={styles.button}
+        className={`${styles.button} ${usePathname().startsWith("/collection") ? styles.currPath : ""}`}
         onClick={() => moveURL("/collection/edit")}
       >
         <AddSquareIcon
-          className={`${styles.icon} ${usePathname().startsWith("/collection") ? styles.currPath : ""}`}
+          className={`${styles.icon}`}
         />
         <AddSquareFillIcon className={styles.hoveredIcon} />
       </button>
@@ -104,13 +104,13 @@ export default function Sidebar() {
         <BellIcon className={styles.icon} />
         <BellFillIcon className={styles.hoveredIcon} />
       </button>
-      <button className={styles.button}>
+      <button className={`${styles.button} ${usePathname().startsWith("/profile") ? styles.currPath : ""}`}>
         <div className={styles.profilebox}>
           {myProfile && myProfile.id ? (
             <Image
               src="/images/cat_dummy.jpeg"
               alt="profile image"
-              className={`${styles.profile} ${usePathname().startsWith("/profile") ? styles.currPathProfile : ""}`}
+              className={`${styles.profile}`}
               width={size}
               height={size}
               onClick={() => moveURL(`/profile/${userId}`)}
@@ -119,7 +119,7 @@ export default function Sidebar() {
             <Image
               src={imgSrc}
               alt="profile image"
-              className={`${styles.profile} ${usePathname().startsWith("/profile") ? styles.currPathProfile : ""}`}
+              className={`${styles.profile}`}
               width={size}
               height={size}
               onClick={() => moveURL(`/login`)}
