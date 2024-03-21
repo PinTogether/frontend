@@ -6,7 +6,6 @@ const fetchGetAvatarPresignedUrl = async (contentType: string) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me/avatar/presigned-url`,
       {
-        method: "POST",
         credentials: "include",
         body: JSON.stringify({ contentType: contentType }),
       }
