@@ -22,7 +22,7 @@ import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
 import { ProfileMine } from "@/types/Profile";
 
 export default function Sidebar() {
-  const size = 300;
+  const size = 500;
   const userId = 1; // 나중에 수정해야함
   const router = useRouter();
   const pathname = usePathname();
@@ -32,7 +32,7 @@ export default function Sidebar() {
   );
   const [beforeWidth, setBeforeWidth] = useState<string>("500px");
   const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
-  const [imgSrc, setImgSrc] = useState<string>("");
+  const [imgSrc, setImgSrc] = useState<string>("https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/profile1.png");
 
   function moveURL(url: string) {
     if (FlexbarWidth == "0px") {
@@ -60,6 +60,9 @@ export default function Sidebar() {
 
   useEffect(() => {
     setMyProfile(getMyProfileFromLocalStorage);
+  }, []);
+
+  useEffect(()=>{
     if(myProfile){
       setImgSrc(myProfile.avatar);
     }
@@ -67,9 +70,9 @@ export default function Sidebar() {
       setImgSrc(process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL);
     }
     else{
-      setImgSrc("");
+      setImgSrc("https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/profile1.png");
     }
-  }, []);
+  },[myProfile])
 
   return (
     <section className={styles.container}>
@@ -106,9 +109,9 @@ export default function Sidebar() {
       </button>
       <button className={`${styles.button} ${usePathname().startsWith("/profile") ? styles.currPath : ""}`}>
         <div className={styles.profilebox}>
-          {myProfile && myProfile.id ? (
+          {(imgSrc && myProfile && myProfile.id) ? (
             <Image
-              src="/images/cat_dummy.jpeg"
+              src={imgSrc}
               alt="profile image"
               className={`${styles.profile}`}
               width={size}
