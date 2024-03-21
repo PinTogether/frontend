@@ -9,6 +9,7 @@ import {
   StarIcon,
   ZimmIcon,
 } from "@/components/IconSvg";
+import Link from "next/link";
 
 import Place, { PlaceDetail, PlaceStarred } from "@/types/Place";
 import { useState } from "react";
@@ -40,10 +41,10 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
             {`52개 핀`}
             <PinIcon />
           </div>
-          <button>
+          <Link href={`/collection/select`}>
             {`컬렉션에 추가하기`}
             <AddRoundIcon />
-          </button>
+          </Link>
           <button>
             {`지도에서 보기`}
             <AddRoundIcon />

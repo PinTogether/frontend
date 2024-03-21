@@ -2,12 +2,14 @@
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { SettingIcon } from "@/components/IconSvg";
 import { ProfileOthers } from "@/types/Profile";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
 import fetchPostFollow from "@/utils/fetchPostFollow";
 import fetchDeleteFollow from "@/utils/fetchDeleteFollow";
+import checkIsLogin from "@/utils/checkLogin";
 
 const ProfileInfoRenderer = ({
   userId,
@@ -21,21 +23,22 @@ const ProfileInfoRenderer = ({
   isMyProfile: boolean;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-
-  // TODO : 로그인 여부 확인
-  const [isLogined, setIsLogined] = useState(false);
-
-  const [isFollowed, setIsFollowed] = useState<boolean>(
-    profileInfo?.followed || false
-  );
+  const [isLogin, setIsLogin] = useState(false);
+  const [isFollowed, setIsFollowed] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleClickFollowButton = async () => {
-    if (profileInfo || !isLoading || !isMyProfile) {
+    if (!isLogin) {
+      router.push("/login");
+      return;
+    }
+    if (profileInfo && !isLoading && !isMyProfile) {
       setIsLoading(true);
       const { success, errorMessage } = await fetchPostFollow(userId);
       if (!success) {
         console.error(errorMessage);
       } else {
+        profileInfo.followerCnt++;
         setIsFollowed(true);
       }
       setIsLoading(false);
@@ -43,17 +46,28 @@ const ProfileInfoRenderer = ({
   };
 
   const handleClickUnfollowButton = async () => {
-    if (profileInfo || !isLoading || !isMyProfile) {
+    if (!isLogin) {
+      router.push("/login");
+      return;
+    }
+    if (profileInfo && !isLoading && !isMyProfile) {
       setIsLoading(true);
       const { success, errorMessage } = await fetchDeleteFollow(userId);
       if (!success) {
         console.error(errorMessage);
       } else {
+        profileInfo.followerCnt--;
         setIsFollowed(false);
       }
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (profileInfo) setIsFollowed(profileInfo.followed);
+    const isLogin = checkIsLogin();
+    setIsLogin(isLogin);
+  }, [profileInfo]);
 
   return (
     <section id={styles.profileDataContainer}>
@@ -79,6 +93,7 @@ const ProfileInfoRenderer = ({
               <button
                 className={styles.followButton}
                 onClick={handleClickUnfollowButton}
+                disabled={isLoading}
               >
                 팔로우 취소
               </button>
@@ -86,6 +101,7 @@ const ProfileInfoRenderer = ({
               <button
                 className={styles.followButton}
                 onClick={handleClickFollowButton}
+                disabled={isLoading}
               >
                 팔로우
               </button>
