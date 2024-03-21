@@ -208,7 +208,7 @@ const DefaultCollectionCard = ({
             className={styles.userAvatar}
           />
         </Link> */}
-        <p className={styles.nickname}>{`by ${collectionData.writerId}`}</p>
+        <p className={styles.nickname}>{`by ${collectionData.writer}`}</p>
         <Link
           href={`/collection/${collectionData.id}`}
           className={styles.title}
@@ -295,7 +295,7 @@ const HorizontalCollectionCard = ({
           href={`/profile/${collectionData.writerId}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
-        >{`by ${collectionData.writerId}`}</Link>
+        >{`by ${collectionData.writer}`}</Link>
         <BookMark />
       </div>
       <div className={styles.buttonContainer}>
@@ -383,7 +383,7 @@ const HorizontalDetailCollectionCard = ({
           href={`/profile/${collectionData.writerId}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
-        >{`by ${collectionData.writerId}`}</Link>
+        >{`by ${collectionData.writer}`}</Link>
         <BookMark />
       </div>
       <div className={styles.buttonContainer}>
