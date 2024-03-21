@@ -1,7 +1,7 @@
 "use client";
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { Suspense, useState, useEffect } from "react";
-import ProfileStarsRenderer from "./ProfileBookmarkRenderer";
+import ProfileStarredRenderer from "./ProfileStarredRenderer";
 
 import ProfileSkeleton from "@/components/loading/ProfileSkeleton";
 import SubPageLayout from "../layout/SubPageLayout";
@@ -122,7 +122,7 @@ export default function ProfilePage({ userId }: { userId: number }) {
         <ProfileCollectionRenderer collectionList={followCollections} />
       )} */}
           {showState === 4 && isMyProfile && (
-            <ProfileStarsRenderer userId={userId} />
+            <ProfileStarredRenderer userId={userId} />
           )}
         </>
       )}

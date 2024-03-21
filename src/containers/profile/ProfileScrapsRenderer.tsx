@@ -18,13 +18,10 @@ const ProfileScrapsCollectionRenderer = ({
   const size = 27;
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<{
+  const [scrappedFetchData, setScrappedFetchData] = useState<{
     scrapDatas: CollectionDetail[];
     errorMessage: string;
-  }>({
-    scrapDatas: [],
-    errorMessage: "",
-  });
+  } | null>(null);
 
   /* infinite scroll */
   const pageEndRef = useRef<HTMLDivElement>(null);
@@ -40,9 +37,9 @@ const ProfileScrapsCollectionRenderer = ({
     const fetchData = async () => {
       setIsLoading(true);
       const result = await fetchGetProfileScraps(userId, page, size);
-      setData((prev) => {
+      setScrappedFetchData((prev) => {
         return {
-          scrapDatas: [...prev.scrapDatas, ...result.scrapDatas],
+          scrapDatas: [...(prev?.scrapDatas ?? []), ...result.scrapDatas],
           errorMessage: result.errorMessage,
         };
       });
@@ -55,10 +52,12 @@ const ProfileScrapsCollectionRenderer = ({
 
   return (
     <section className={`${styles.profileListContainer} ${className}`}>
-      {data.scrapDatas.length === 0 ? (
-        <p>{data.errorMessage}</p>
+      {!scrappedFetchData ? (
+        <p className={styles.errorMessage}>Loading</p>
+      ) : scrappedFetchData.errorMessage ? (
+        <p className={styles.errorMessage}>{scrappedFetchData.errorMessage}</p>
       ) : (
-        data.scrapDatas.map((collection) => (
+        scrappedFetchData.scrapDatas.map((collection) => (
           <DefaultCollectionCard
             key={collection.id}
             collectionData={collection}

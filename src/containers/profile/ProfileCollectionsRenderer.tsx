@@ -55,8 +55,8 @@ const ProfileCollectionsRenderer = ({
 
   return (
     <section className={`${styles.profileListContainer} ${className}`}>
-      {data.collectionDatas.length === 0 ? (
-        <p>{data.errorMessage}</p>
+      {data.errorMessage ? (
+        <p className={styles.errorMessage}>{data.errorMessage}</p>
       ) : (
         <>
           {data.collectionDatas.map((collection, index) => (
