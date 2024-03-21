@@ -11,7 +11,7 @@ const fetchGetSearchPlace = async (
 }> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/place?query=${searchKeyword}&page=${page}&size=${size}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/places?query=${searchKeyword}&page=${page}&size=${size}`,
       // `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${userId}/scraps?page=${page}&size=${size}`,
       {
         credentials: "include",
