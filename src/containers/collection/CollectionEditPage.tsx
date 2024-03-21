@@ -92,6 +92,9 @@ export default function CollectionEditPage({
   /* submit */
   const submitCollectionEdit = async () => {
     console.log("submit");
+    if (isUploading) {
+      setAlertMessage("업로드 중입니다. 잠시만 기다려주세요.");
+    }
     setIsUploading(true);
     if (inputTitle === "") {
       setAlertMessage("컬렉션 제목을 입력해주세요.");
@@ -214,6 +217,7 @@ export default function CollectionEditPage({
                 id="file"
                 style={{ display: "none" }}
                 onChange={onChageImage}
+                disabled={isUploading}
               />
               <label htmlFor="file">
                 <Image
@@ -244,6 +248,7 @@ export default function CollectionEditPage({
             value={inputTitle}
             maxLength={15}
             placeholder="제목을 입력해주세요"
+            disabled={isUploading}
           />
           <Line />
           {/* 컬렉션 태그 */}
@@ -264,6 +269,7 @@ export default function CollectionEditPage({
             value={inputDetails}
             maxLength={250}
             placeholder="컬렉션 설명을 입력해주세요"
+            disabled={isUploading}
           />
           <Line />
         </Section>
