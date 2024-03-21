@@ -6,7 +6,6 @@ import CardSlider from "@/components/CardSlider";
 import CardSlider2 from "@/components/CardSlider2";
 import MarkerData from "@/types/Marker";
 import Pin from "@/types/Pin";
-
 import { useState, useEffect } from "react";
 import { locationGetterByAmount } from "@/redux/locationSlice";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
@@ -20,6 +19,9 @@ import {
 } from "@/components/IconSvg";
 
 import { markerDataByAmount } from "@/redux/locationSlice";
+
+import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+import { ProfileMine } from "@/types/Profile";
 
 interface markerDataByCollection {
   collectionId: number;
@@ -40,6 +42,7 @@ export default function Overlay() {
   );
   const [selectedCardId, setSelectedCardId] = useState<number[]>([]);
   const [markerDatas, setMarkerDatas] = useState<markerDataByCollection[]>([]);
+  const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
 
   function getLocation() {
     dispatch(locationGetterByAmount(true));
@@ -138,6 +141,10 @@ export default function Overlay() {
     makeMarkerList();
   }, [markerDatas]);
 
+  useEffect(() => {
+    setMyProfile(getMyProfileFromLocalStorage);
+  }, []);
+
   return (
     <section className={styles.overlay}>
       <div className={styles.top}>
@@ -169,6 +176,7 @@ export default function Overlay() {
         </button>
       </div>
       <div></div>
+      {myProfile && (
       <div className={styles.bottom}>
         <div
           className={`${styles.bottomContent} ${isCardSliderOn ? styles.visible : ""}`}
@@ -246,6 +254,7 @@ export default function Overlay() {
           </button>
         </div>
       </div>
+      )}
     </section>
   );
 }
