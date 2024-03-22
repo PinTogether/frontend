@@ -12,6 +12,9 @@ const fetchGetPlaceInfo = async (
       }
     );
     console.log("fetchGetPlaceInfo res", res);
+    if (res.status === 404) {
+      return { placeInfo: null, errorMessage: "장소 정보가 없습니다." };
+    }
     if (!res.ok) throw new Error("장소 정보 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
     console.log("fetchGetPlaceInfo data", data);
