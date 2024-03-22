@@ -18,8 +18,8 @@ const collection: CollectionDetail = {
   likeCnt: 12,
   pinCnt: 5,
   scrapCnt: 3,
-  isScrapped: true,
-  isLiked: false,
+  scrapped: true,
+  liked: false,
   tags: ["강릉", "맛집", "주민"],
   commentCnt: 3,
 };

@@ -8,8 +8,8 @@
     "likeCnt": 150,
     "pinCnt": 30,
     "scrapCnt": 25,
-    "isScrapped": false,
-    "isLiked": true
+    "scrapped": false,
+    "liked": true
   },
   {
     "id": 2,
@@ -20,8 +20,8 @@
     "likeCnt": 180,
     "pinCnt": 50,
     "scrapCnt": 30,
-    "isScrapped": true,
-    "isLiked": false
+    "scrapped": true,
+    "liked": false
   },
   {
     "id": 3,
@@ -32,8 +32,8 @@
     "likeCnt": 200,
     "pinCnt": 70,
     "scrapCnt": 40,
-    "isScrapped": true,
-    "isLiked": true
+    "scrapped": true,
+    "liked": true
   },
   {
     "id": 4,
@@ -44,8 +44,8 @@
     "likeCnt": 220,
     "pinCnt": 60,
     "scrapCnt": 35,
-    "isScrapped": false,
-    "isLiked": true
+    "scrapped": false,
+    "liked": true
   },
   {
     "id": 5,
@@ -56,7 +56,7 @@
     "likeCnt": 170,
     "pinCnt": 40,
     "scrapCnt": 20,
-    "isScrapped": true,
-    "isLiked": false
+    "scrapped": true,
+    "liked": false
   }
 ]

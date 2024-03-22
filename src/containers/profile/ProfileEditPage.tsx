@@ -92,14 +92,18 @@ export default function ProfileEditPage() {
         setIsUploading(false);
         return;
       }
-      if (!(await uploadAvatar(imageFile, presignedUrlData))) {
+      const imageUrl = await uploadAvatar(imageFile, presignedUrlData);
+      if (imageUrl === null) {
         setIsUploading(false);
         return;
       }
-      setImageSrc(presignedUrlData.imageUrl);
+      setImageSrc(imageUrl);
+      await uploadProfile(inputNickname, imageUrl);
+      setIsUploading(false);
+    } else {
+      await uploadProfile(inputNickname, imageSrc);
+      setIsUploading(false);
     }
-    await uploadProfile(inputNickname, imageSrc);
-    setIsUploading(false);
   };
 
   // 프로필, 이미지 업로드 관련 함수
@@ -123,10 +127,9 @@ export default function ProfileEditPage() {
     );
     if (!success || errorMessage) {
       setImageFileCheckMessage(errorMessage);
-      return false;
+      return null;
     }
-    setImageSrc(presignedUrlData.imageUrl);
-    return true;
+    return presignedUrlData.imageUrl;
   };
 
   const uploadProfile = async (inputNickname: string, imageFileUrl: string) => {
@@ -135,8 +138,20 @@ export default function ProfileEditPage() {
       inputNickname,
       imageFileUrl
     );
-    if (success) router.push(`profile/${myProfile.id}`);
-    else setNicknameCheckMessage(errorMessage);
+    if (success) {
+      updateLocalstorageMyProfile();
+      router.push(`/profile/${myProfile.id}`);
+    } else setNicknameCheckMessage(errorMessage);
+  };
+
+  const updateLocalstorageMyProfile = async () => {
+    if (!myProfile) return;
+    const newProfile = {
+      ...myProfile,
+      nickname: inputNickname,
+      avatar: imageSrc,
+    };
+    localStorage.setItem("myProfile", JSON.stringify(newProfile));
   };
 
   return (

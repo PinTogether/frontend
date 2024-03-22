@@ -9,8 +9,8 @@ export default interface Collection {
   likeCnt: number;
   pinCnt: number;
   scrapCnt: number;
-  isScrapped: boolean;
-  isLiked: boolean;
+  scrapped: boolean;
+  liked: boolean;
 }
 
 // 특정 콜렉션 정보 조회
