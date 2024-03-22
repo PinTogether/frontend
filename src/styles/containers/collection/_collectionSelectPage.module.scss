@@ -1,6 +1,13 @@
 @import "../../base/placeholders";
 @import "../../base/variables";
 
+.errorMessage {
+	color: $color-text-caption;
+	font-size: $font-size-small;
+	margin-top: 0.5rem;
+	text-align: center;
+}
+
 .selectedCollectionCount {
 	font-size: $font-size-medium;
 	margin-bottom: 1rem;
