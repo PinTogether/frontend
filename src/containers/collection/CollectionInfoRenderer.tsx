@@ -25,8 +25,8 @@ const CollectionInfoRenderer = ({
   collectionData: CollectionDetail;
   isMyCollection: boolean;
 }) => {
-  const [isScraped, setIsScraped] = useState(collectionData.isScrapped);
-  const [isLiked, setIsLiked] = useState(collectionData.isLiked);
+  const [isScraped, setIsScraped] = useState<boolean>(collectionData.scrapped);
+  const [isLiked, setIsLiked] = useState<boolean>(collectionData.liked);
   const [isScrapedLoading, setIsScrapedLoading] = useState(false);
   const [isLikedLoading, setIsLikedLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -94,11 +94,6 @@ const CollectionInfoRenderer = ({
     }
     setIsScrapedLoading(false);
   };
-
-  useEffect(() => {
-    setIsScraped(collectionData.isScrapped);
-    setIsLiked(collectionData.isLiked);
-  }, [collectionData]);
 
   return (
     <section id={styles.collectionInfo}>
