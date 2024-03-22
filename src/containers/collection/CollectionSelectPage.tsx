@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import styles from "@/styles/containers/collection/_collectionSelectPage.module.scss";
@@ -9,18 +11,52 @@ import SubPageLayout from "@/containers/layout/SubPageLayout";
 import { CheckRingRoundIcon, ExpandRightIcon } from "@/components/IconSvg";
 import { SimpleBoxCollectionCard } from "@/components/CollectionCard";
 import AlertModal from "@/components/AlertModal";
+import { SimplePlaceCard } from "@/components/PlaceCard";
 
 import fetchGetProfileCollections from "@/utils/fetchGetProfileCollections";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
-import fetchPostPin from "@/utils/fetchPostPin";
+import fetchPostPinToCollections from "@/utils/fetchPostPinToCollections";
+import fetchGetPlaceInfo from "@/utils/fetchGetPlaceInfo";
+import getMyId from "@/utils/getMyId";
+import { PlaceDetail } from "@/types/Place";
+import { Line } from "../layout/EditPageLayout";
 
 const CollectionSelectPage = () => {
-  // TODO : placeId 가져오기
-  const placeId = 1;
+  const router = useRouter();
 
-  /* fetch data */
-  // TODO : userId 가져오기
-  const userId = 1;
+  /* 기본 id 가져오기 */
+  const searchParams = useSearchParams();
+  const [placeId, setPlaceId] = useState<number | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const userId = getMyId();
+    if (userId) {
+      setUserId(userId);
+    }
+    const placeId = searchParams.get("placeId");
+    if (placeId) {
+      setPlaceId(parseInt(placeId));
+    }
+  }, []);
+
+  /* fetch place data */
+  const [placeFetchData, setPlaceFetchData] = useState<{
+    placeInfo: PlaceDetail | null;
+    errorMessage: string;
+  } | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!placeId) return;
+      const { placeInfo, errorMessage } = await fetchGetPlaceInfo(placeId);
+      console.log("fetchData", placeInfo, errorMessage);
+      setPlaceFetchData({ placeInfo, errorMessage }); // ?
+    };
+    if (placeId) fetchData();
+  }, [placeId]);
+
+  /* fetch collection data */
   const pageSize = 25;
   const [pageNum, setPageNum] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
@@ -30,7 +66,7 @@ const CollectionSelectPage = () => {
   >([]);
 
   const fetchCollectionData = async () => {
-    if (isFetching) return;
+    if (isFetching || !userId) return;
     setIsFetching(true);
     const { collectionDatas, errorMessage } = await fetchGetProfileCollections(
       userId,
@@ -40,6 +76,11 @@ const CollectionSelectPage = () => {
     if (errorMessage) {
       setErrorMessage(errorMessage);
       setIsFetching(false);
+      setIsEnd(true);
+      return;
+    } else if (collectionDatas.length === 0) {
+      setIsFetching(false);
+      setIsEnd(true);
       return;
     }
     setCollectionDataList((prev) => [...prev, ...collectionDatas]);
@@ -80,7 +121,11 @@ const CollectionSelectPage = () => {
   };
 
   /* submit */
-  const submitAddPin = () => {
+  const submitAddPin = async () => {
+    if (!placeId) {
+      setAlertMessage("잘못된 접근입니다.");
+      return;
+    }
     if (selectedCollection.length === 0) {
       setAlertMessage("선택된 컬렉션이 없습니다.");
       return;
@@ -89,31 +134,19 @@ const CollectionSelectPage = () => {
       setAlertMessage("한번에 10개까지 선택 가능합니다.");
       return;
     }
-    const review = "";
-    const tags: string[] = [];
-    const fileType: string[] = [];
 
     // TODO : API 필요
-    selectedCollection.forEach(async (collectionId) => {
-      const { success, errorMessage } = await fetchPostPin(
-        placeId,
-        collectionId,
-        review,
-        tags,
-        fileType
-      );
-      if (!success) {
-        setAlertMessage(errorMessage);
-        return;
-      } else {
-        setAlertMessage("핀이 추가되었습니다.");
-        setSelectedCollection((prev) =>
-          prev.filter((id) => id !== collectionId)
-        );
-      }
-    });
-    if (selectedCollection.length === 0) {
-      setAlertMessage("모든 핀이 추가되었습니다.");
+    const { success, errorMessage } = await fetchPostPinToCollections(
+      placeId,
+      selectedCollection
+    );
+    if (!success) {
+      setAlertMessage(errorMessage);
+      return;
+    } else {
+      setAlertMessage("핀이 추가되었습니다.");
+      setSelectedCollection([]);
+      router.push(`/place/${placeId}`);
     }
   };
 
@@ -123,10 +156,21 @@ const CollectionSelectPage = () => {
       completeButtonMsg="완료"
       onClickCompleteButton={submitAddPin}
     >
+      {/* 선택된 장소 정보 */}
       <section>
-        {/* <button className={styles.subButton}>확인</button> */}
+        {!placeFetchData?.placeInfo ? (
+          <p className={styles.errorMessage}>{placeFetchData?.errorMessage}</p>
+        ) : (
+          <SimplePlaceCard place={placeFetchData.placeInfo} />
+        )}
+        <br />
+        <Line />
+      </section>
+      {/* 컬렉션 선택 */}
+      <section>
+        {/* 메뉴 */}
         <div className={styles.selectedCollectionCount}>
-          <div>{`${selectedCollection.length}개의 컬렉션 선택`}</div>
+          <h3>{`${selectedCollection.length}개의 컬렉션 선택`}</h3>
           {selectedCollection.length > 0 ? (
             <button className={styles.subButton} onClick={handleResetButton}>
               전체 취소
@@ -138,18 +182,26 @@ const CollectionSelectPage = () => {
             </Link>
           )}
         </div>
-        <ul className={styles.listContainer}>
-          {collectionDataList.map((collection) => (
-            <li
-              key={collection.id}
-              className={`${styles.list}  ${selectedCollection.includes(collection.id) ? styles.active : null}`}
-              onClick={() => handleClickedCollection(collection.id)}
-            >
-              <SimpleBoxCollectionCard collectionData={collection} />
-              <CheckRingRoundIcon className={styles.checkIcon} />
-            </li>
-          ))}
-        </ul>
+        {/* 리스트 */}
+        {errorMessage ? (
+          <>
+            <br />
+            <p className={styles.errorMessage}>{errorMessage}</p>
+          </>
+        ) : (
+          <ul className={styles.listContainer}>
+            {collectionDataList.map((collection) => (
+              <li
+                key={collection.id}
+                className={`${styles.list}  ${selectedCollection.includes(collection.id) ? styles.active : null}`}
+                onClick={() => handleClickedCollection(collection.id)}
+              >
+                <SimpleBoxCollectionCard collectionData={collection} />
+                <CheckRingRoundIcon className={styles.checkIcon} />
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
       <br />
       {!isEnd && <div ref={pageEndRef} style={{ height: "5px" }}></div>}

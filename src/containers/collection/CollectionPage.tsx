@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { markerDataByAmount } from "@/redux/locationSlice";
 import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
-import fetchGetPinInfo from "@/utils/fetchGetPinInfo";
+import fetchGetCollectionAllPins from "@/utils/fetchGetCollectionAllPins";
 import fetchGetCollectionComments from "@/utils/fetchGetCollectionComments";
 import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
 
@@ -42,10 +42,10 @@ export default function CollectionPage({
     errorMessage: "",
   });
   const [pinFetchDatas, setPinFetchDatas] = useState<{
-    pinInfo: PinForPlace[] | null;
+    pinList: PinForPlace[] | null;
     errorMessage: string;
   }>({
-    pinInfo: null,
+    pinList: null,
     errorMessage: "",
   });
   const [replyFetchDatas, setReplyFetchDatas] = useState<{
@@ -66,7 +66,7 @@ export default function CollectionPage({
   const getPinData = async () => {
     if (isPinFetching) return;
     setIsPinFetching(true);
-    const result = await fetchGetPinInfo(collectionId);
+    const result = await fetchGetCollectionAllPins(collectionId);
     setPinFetchDatas(result);
     setIsPinFetching(false);
   };
@@ -92,15 +92,15 @@ export default function CollectionPage({
   const dispatchMarker = useAppDispatch();
   const makeMarker = () => {
     // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
-    if (!pinFetchDatas.pinInfo) return;
+    if (!pinFetchDatas.pinList) return;
     const markerList: MarkerData[] = [];
-    for (let i = 0; i < pinFetchDatas.pinInfo.length; i++) {
+    for (let i = 0; i < pinFetchDatas.pinList.length; i++) {
       markerList.push({
-        id: pinFetchDatas.pinInfo[i].id,
-        placeName: pinFetchDatas.pinInfo[i].placeName,
-        pinCount: pinFetchDatas.pinInfo[i].saveCnt,
-        xPos: pinFetchDatas.pinInfo[i].longtitude,
-        yPos: pinFetchDatas.pinInfo[i].latitude,
+        id: pinFetchDatas.pinList[i].id,
+        placeName: pinFetchDatas.pinList[i].placeName,
+        pinCount: pinFetchDatas.pinList[i].saveCnt,
+        xPos: pinFetchDatas.pinList[i].longtitude,
+        yPos: pinFetchDatas.pinList[i].latitude,
       });
     }
     dispatchMarker(markerDataByAmount(markerList));
@@ -114,8 +114,8 @@ export default function CollectionPage({
   }, []);
 
   useEffect(() => {
-    if (pinFetchDatas.pinInfo) {
-      console.log("pinFetchDatas.pinInfo", pinFetchDatas.pinInfo);
+    if (pinFetchDatas.pinList) {
+      console.log("pinFetchDatas.pinList", pinFetchDatas.pinList);
       makeMarker();
     }
   }, [pinFetchDatas]);
@@ -169,11 +169,11 @@ export default function CollectionPage({
         )}
       </section>
       {/* 메뉴 페이지 */}
-      {showState === 1 && pinFetchDatas.pinInfo && (
-        <CollectionWithPinRenderer pins={pinFetchDatas.pinInfo} />
+      {showState === 1 && pinFetchDatas.pinList && (
+        <CollectionWithPinRenderer pins={pinFetchDatas.pinList} />
       )}
-      {showState === 2 && pinFetchDatas.pinInfo && (
-        <CollectionWithPinCommentRenderer data={pinFetchDatas.pinInfo} />
+      {showState === 2 && pinFetchDatas.pinList && (
+        <CollectionWithPinCommentRenderer data={pinFetchDatas.pinList} />
       )}
       {showState === 3 && collectionFetchDatas.collectionInfo && (
         <CollectionReplyRenderer

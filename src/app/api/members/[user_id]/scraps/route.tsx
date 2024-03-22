@@ -17,8 +17,18 @@ export async function GET(
       message: "OK",
     },
     metadata: {
-      resultCount: dummydata.length,
+      resultCount: 0,
     },
-    results: dummydata,
+    results: [],
   });
+  // return NextResponse.json({
+  //   status: {
+  //     code: 200,
+  //     message: "OK",
+  //   },
+  //   metadata: {
+  //     resultCount: dummydata.length,
+  //   },
+  //   results: dummydata,
+  // });
 }

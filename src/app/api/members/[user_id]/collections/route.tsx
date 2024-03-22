@@ -21,4 +21,14 @@ export async function GET(
     },
     results: dummydata,
   });
+  // return NextResponse.json({
+  //   status: {
+  //     code: 200,
+  //     message: "OK",
+  //   },
+  //   metadata: {
+  //     resultCount: 0,
+  //   },
+  //   results: [],
+  // });
 }
