@@ -6,8 +6,25 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { user_id: string } }
 ) {
-  console.log("GET /api/bookmarks/[place_id]/route.tsx");
+  console.log("GET /api/members/[user_id]/route.tsx");
   console.log("params", params);
+
+  // return NextResponse.json(
+  //   {
+  //     status: {
+  //       code: 404,
+  //       message: "NOT FOUND",
+  //     },
+  //     metadata: {
+  //       resultCount: 0,
+  //     },
+  //     results: [],
+  //   },
+  //   {
+  //     status: 404,
+  //   }
+  // );
+
   return NextResponse.json({
     status: {
       code: 200,
