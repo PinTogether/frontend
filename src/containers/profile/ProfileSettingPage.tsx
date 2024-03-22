@@ -59,7 +59,7 @@ export default function ProfileSettingPage() {
 
   // TODO : react-cookie 사용으로 변경하기
   const deleteCookie = (name: string, path: string = "/") => {
-    const domain = window.location.hostname;
+    const domain = window.location.hostname.replace("www", "");
     let cookieString =
       name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=" + path;
     if (domain) {
