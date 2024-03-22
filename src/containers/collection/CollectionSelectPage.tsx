@@ -159,9 +159,7 @@ const CollectionSelectPage = () => {
       {/* 선택된 장소 정보 */}
       <section>
         {!placeFetchData?.placeInfo ? (
-          <p className={styles.errorMessage}>
-            err{placeFetchData?.errorMessage}
-          </p>
+          <p className={styles.errorMessage}>{placeFetchData?.errorMessage}</p>
         ) : (
           <SimplePlaceCard place={placeFetchData.placeInfo} />
         )}
