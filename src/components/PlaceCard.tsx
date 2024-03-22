@@ -41,7 +41,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
             {`52개 핀`}
             <PinIcon />
           </div>
-          <Link href={`/collection/select`}>
+          <Link href={`/collection/select?placeId=${place.id}`}>
             {`컬렉션에 추가하기`}
             <AddRoundIcon />
           </Link>
