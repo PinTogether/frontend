@@ -14,7 +14,7 @@ import Link from "next/link";
 import Place, { PlaceDetail, PlaceStarred } from "@/types/Place";
 import { useState } from "react";
 import { StarFilledIcon } from "@/components/IconSvg";
-import { makeMarkerList } from "@/utils/makeMarkerList";
+import { makeMarker } from "@/utils/makeMarker";
 import { useAppDispatch } from "@/redux/hooks";
 
 export { PlaceCard, SimpleBoxPlaceCard as SimplePlaceCard };
@@ -48,7 +48,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
             {`컬렉션에 추가하기`}
             <AddRoundIcon />
           </Link>
-          <button onClick={(e)=>{makeMarkerList(place.id, place.name, 0, place.longitude, place.latitude, dispatchMarker)}}>
+          <button onClick={(e)=>{makeMarker(place.id, place.name, 0, place.longitude, place.latitude, dispatchMarker)}}>
             {`지도에서 보기`}
             <AddRoundIcon />
           </button>

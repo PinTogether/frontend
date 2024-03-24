@@ -37,12 +37,14 @@ export default function Overlay() {
   const sidoName = useAppSelector((state) => state.location.sido);
   const sggName = useAppSelector((state) => state.location.sgg);
   const emdongName = useAppSelector((state) => state.location.emdong);
+  const outerMarkerdata = useAppSelector((state) => state.location.markerData);
   const locationGetter = useAppSelector(
     (state) => state.location.locationGetter
   );
   const [selectedCardId, setSelectedCardId] = useState<number[]>([]);
   const [markerDatas, setMarkerDatas] = useState<markerDataByCollection[]>([]);
   const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
+  const [markerList, setMarkerList] = useState<MarkerData[]>([]);
 
   function getLocation() {
     dispatch(locationGetterByAmount(true));
@@ -105,13 +107,13 @@ export default function Overlay() {
   }
 
   function makeMarkerList() {
-    let markerList: MarkerData[] = [];
-
+    let markerLists: MarkerData[] = [];
+    setMarkerList([]);
     //최종 마커 리스트를 생성하고 Map에 전달
 
     function checkList(id:number){
-      for(let i = 0 ; i < markerList.length ; i++){
-        if(markerList[i].id == id){
+      for(let i = 0 ; i < markerLists.length ; i++){
+        if(markerLists[i].id == id){
           return false;
         }
       }
@@ -128,10 +130,11 @@ export default function Overlay() {
               xPos:pinData.longitude,
               yPos:pinData.latitude,
             };
-            markerList.push(newData);
+            markerLists.push(newData);
           }
         });
       });
+      setMarkerList(markerLists);
     }
     dispatch(markerDataByAmount(markerList));
   }
@@ -276,8 +279,14 @@ export default function Overlay() {
   }
 
   useEffect(() => {
-    makeMarkerList();
+    if(markerDatas[0])
+      makeMarkerList();
   }, [markerDatas]);
+
+  // useEffect(() => {
+  //   if(outerMarkerdata != markerList)
+  //   setSelectedCardId([])
+  // }, [outerMarkerdata])
 
   useEffect(() => {
     setMyProfile(getMyProfileFromLocalStorage);
