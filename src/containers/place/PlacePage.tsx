@@ -77,7 +77,7 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
         id: pinData[0].id,
         placeName: pinData[0].placeName,
         pinCount: pinData[0].saveCnt,
-        xPos: pinData[0].longtitude,
+        xPos: pinData[0].longitude,
         yPos: pinData[0].latitude,
       });
     dispatchMarker(markerDataByAmount(markerList));

@@ -7,7 +7,7 @@ export default interface Pin {
   saveCnt: number;
   roadNameAddress: string;
   placeName: string;
-  longtitude: number;
+  longitude: number;
   latitude: number;
   starred: boolean;
   category: string;
@@ -19,7 +19,7 @@ export default interface Pin {
 export default interface MarkerData {
   id: number;
   placeName: string;
-  longtitude: number;
+  longitude: number;
   latitude: number;
 }
 

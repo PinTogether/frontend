@@ -100,7 +100,7 @@ export default function CollectionPage({
         id: pinFetchDatas.pinList[i].id,
         placeName: pinFetchDatas.pinList[i].placeName,
         pinCount: pinFetchDatas.pinList[i].saveCnt,
-        xPos: pinFetchDatas.pinList[i].longtitude,
+        xPos: pinFetchDatas.pinList[i].longitude,
         yPos: pinFetchDatas.pinList[i].latitude,
       });
     }
