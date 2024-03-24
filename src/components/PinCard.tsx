@@ -7,6 +7,11 @@ import { ReviewCard, MyReviewCard } from "./ReviewCard";
 import { HTMLAttributes, use, useRef, useState } from "react";
 import Link from "next/link";
 
+// pinEdit
+import { useRouter } from "next/navigation";
+import { initialPinEditState } from "@/redux/pinEditSlice";
+import { useAppDispatch } from "@/redux/hooks";
+
 export { PinCard, SimplePinCard };
 
 interface PinCardProps extends HTMLAttributes<HTMLDivElement> {
@@ -58,7 +63,7 @@ export default function PinCard({
           <MyReviewCard reviewData={pinData} />
         </ul>
       )}
-      {showEditButton && <EditButton pinId={pinData.id} />}
+      {showEditButton && <EditButton pinId={pinData.id} pinData={pinData} />}
     </article>
   );
 }
@@ -115,7 +120,9 @@ const SimplePinCard = ({
             </address>
             <span className={styles.category}>{pinData.category}</span>
           </button>
-          {showEditButton && <EditButton pinId={pinData.id} />}
+          {showEditButton && (
+            <EditButton pinId={pinData.id} pinData={pinData} />
+          )}
         </div>
       ) : (
         <div className={styles.mainInfo}>
@@ -135,7 +142,9 @@ const SimplePinCard = ({
           <ul className={styles.commentContaier}>
             <MyReviewCard reviewData={pinData} />
           </ul>
-          {showEditButton && <EditButton pinId={pinData.id} />}
+          {showEditButton && (
+            <EditButton pinId={pinData.id} pinData={pinData} />
+          )}
         </div>
       )}
       {showSubButtons && (
@@ -159,10 +168,22 @@ const SimplePinCard = ({
 };
 
 // Utils
-const EditButton = ({ pinId }: { pinId: number }) => {
+
+const EditButton = ({ pinId, pinData }: { pinId: number; pinData: Pin }) => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const handleClick = () => {
+    // redux
+    if (pinData) {
+      dispatch(initialPinEditState(pinData));
+    }
+    router.push(`/pin/edit/${pinId}`);
+  };
+
   return (
-    <Link className={styles.editButton} href={`/pin/edit/${pinId}`}>
+    <button className={styles.editButton} onClick={handleClick}>
       <EditIcon />
-    </Link>
+    </button>
   );
 };
