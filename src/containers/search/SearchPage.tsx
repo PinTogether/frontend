@@ -7,20 +7,17 @@ import {
   ExpendUpIcon,
   SearchIcon,
 } from "../../components/IconSvg";
-import { SearchLog } from "./SearchLog";
+import { SearchLogContent } from "./SearchLogContent";
 import SearchPlaceRender from "./SearchPlaceRenderer";
 import SearchCollectionRender from "./SearchCollectionRenderer";
 import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
 
-import { CollectionDetail } from "@/types/Collection";
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import fetchGetSearchHistory from "@/utils/fetchGetSearchHistory";
 
 export default function Page() {
   const [searchInputValue, setSearchInputValue] = useState("");
-  const [collectionDatas, setCollectionDatas] = useState<CollectionDetail[]>(
-    []
-  );
   const [showSearchLog, setShowSearchLog] = useState(true);
   const searchParams = useSearchParams();
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -34,7 +31,7 @@ export default function Page() {
       setShowSearchLog(false);
       setSearchKeyword(param);
     }
-  }, [searchParams]);
+  }, []);
 
   const onChangeSearchInput = (e: any) => {
     setSearchInputValue(e.target.value);
@@ -101,7 +98,7 @@ export default function Page() {
           <SearchIcon />
         </button>
       </div>
-      {/* 최상위로 가기 버튼 */}
+      {/* 최상위로 스크롤 버튼 */}
       {hasVerticalOverflow && (
         <button
           className={styles.scrollTopButton}
@@ -131,40 +128,64 @@ export default function Page() {
   );
 }
 
+import SearchLog from "@/types/SearchLog";
+import checkIsLogin from "@/utils/checkLogin";
+
 const SearchLogRenderer = () => {
+  const [searchLogs, setSearchLogs] = useState<SearchLog[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+
+  useEffect(() => {
+    // 최근 검색어 불러오기
+    const fetch = async () => {
+      if (isLoading) return;
+      setIsLoading(true);
+      const { searchLogs, errorMessage } = await fetchGetSearchHistory();
+      if (errorMessage) setErrorMessage(errorMessage);
+      else setSearchLogs(searchLogs);
+      setIsLoading(false);
+    };
+    fetch();
+
+    setIsLogin(checkIsLogin());
+  }, []);
+
   return (
     <div className={styles.searchLogContainer}>
-      <span className={styles.searchLogBanner}>최근 검색</span>
-      <section className={styles.searchLogLists}>
-        <SearchLog searchString="강남맛집" searchCategory="장소" />
-        <SearchLog searchString="강남맛집" searchCategory="장소" />
-        <SearchLog searchString="해방촌" searchCategory="장소" />
-        <SearchLog searchString="독립 서점" searchCategory="핀" />
-        <SearchLog searchString="강남맛집" searchCategory="장소" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="독립 서점" searchCategory="핀" />
-        <SearchLog searchString="독립 서점" searchCategory="핀" />
-        <SearchLog searchString="독립 서점" searchCategory="핀" />
-        <SearchLog searchString="서울 맛집" searchCategory="컬렉션" />
-        <SearchLog
-          searchString="서울에서 제일이나 두번째로 맛있는 맛집"
-          searchCategory="컬렉션"
-        />
-        <SearchLog searchString="서울 맛집" searchCategory="컬렉션" />
-        <SearchLog searchString="서울 맛집" searchCategory="컬렉션" />
-        <SearchLog searchString="서울 맛집" searchCategory="컬렉션" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-        <SearchLog searchString="강남맛집" searchCategory="전체" />
-      </section>
+      {!isLogin ? (
+        // 비회원
+        <>
+          <p className={styles.errorMessage}>🥨 음식점을 검색해보세요 🥪</p>
+          <p className={styles.errorMessage}>📍 컬렉션도 검색할 수 있어요 📌</p>
+        </>
+      ) : (
+        // 회원
+        <>
+          <span className={styles.searchLogBanner}>최근 검색</span>
+          {errorMessage ? (
+            <p className={styles.errorMessage}>{errorMessage}</p>
+          ) : searchLogs.length === 0 ? (
+            <>
+              <p className={styles.errorMessage}>🥨 음식점을 검색해보세요 🥪</p>
+              <p className={styles.errorMessage}>
+                📍 컬렉션도 검색할 수 있어요 📌
+              </p>
+            </>
+          ) : (
+            <section className={styles.searchLogLists}>
+              {searchLogs.map((searchLog) => (
+                <SearchLogContent
+                  key={searchLog.id}
+                  searchString={searchLog.query}
+                  searchCategory={"total"} // searchCategory는 미사용
+                />
+              ))}
+            </section>
+          )}
+        </>
+      )}
     </div>
   );
 };

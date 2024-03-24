@@ -2,12 +2,7 @@ import { CloseRoundIcon, SearchIcon } from "@/components/IconSvg";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
 import Link from "next/link";
 
-interface SearchData {
-  searchString: string;
-  searchCategory: number;
-}
-
-function SearchLog({
+function SearchLogContent({
   searchString,
   searchCategory,
 }: {
@@ -31,4 +26,4 @@ function SearchLog({
   );
 }
 
-export { SearchLog };
+export { SearchLogContent };
