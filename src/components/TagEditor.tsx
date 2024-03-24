@@ -5,9 +5,11 @@ import { InputComponent } from "@/components/InputComponent";
 const TagEditor = ({
   tagList,
   setTagList,
+  disabled,
 }: {
   tagList: string[];
   setTagList: React.Dispatch<React.SetStateAction<string[]>>;
+  disabled: boolean;
 }) => {
   const [inputTag, setInputTag] = useState("");
 
@@ -58,6 +60,7 @@ const TagEditor = ({
               key={index}
               className={styles.tagEditor}
               onClick={() => deleteTag(tag)}
+              disabled={disabled}
             >
               {tag}
             </button>
@@ -70,6 +73,7 @@ const TagEditor = ({
         value={inputTag}
         maxLength={30}
         placeholder="태그를 등록해보세요 : 맛집, 휴식, 데이트 ..."
+        disabled={disabled}
       />
     </>
   );
