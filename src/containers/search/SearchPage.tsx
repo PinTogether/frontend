@@ -11,6 +11,7 @@ import { SearchLogContent } from "./SearchLogContent";
 import SearchPlaceRender from "./SearchPlaceRenderer";
 import SearchCollectionRender from "./SearchCollectionRenderer";
 import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
+import GlobalAlertModal from "@/components/GlobalAlertModal";
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -128,6 +129,7 @@ export default function Page() {
           </SlideMenu>
         )}
       </section>
+      <GlobalAlertModal />
     </section>
   );
 }
