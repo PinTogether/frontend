@@ -10,6 +10,24 @@ export async function GET(
 ) {
   console.log("GET /api/collections/[collection_id]/route.tsx");
   console.log("params", params);
+  if (params.collection_id == "0") {
+    return NextResponse.json(
+      {
+        status: {
+          code: 404,
+          message: "Not Found",
+        },
+        metadata: {
+          resultCount: 0,
+        },
+        results: [],
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+
   return NextResponse.json({
     status: {
       code: 200,

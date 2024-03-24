@@ -12,6 +12,22 @@ export async function GET(
   console.log("GET /api/bookmarks/[place_id]/route.tsx");
   console.log("params", params);
   console.log("query, page, size", query, page, size);
+  // if (Number(page) === 3) return NextResponse.json([]);
+  // return NextResponse.json(dummydata);
+  
   if (Number(page) === 3) return NextResponse.json([]);
-  return NextResponse.json(dummydata);
+  const result = dummydata.slice(
+    Number(page) * Number(size),
+    Number(page) * Number(size) + Number(size)
+  );
+  return NextResponse.json({
+    status: {
+      code: 200,
+      message: "OK",
+    },
+    metadata: {
+      resultCount: result.length,
+    },
+    results: result,
+  });
 }
