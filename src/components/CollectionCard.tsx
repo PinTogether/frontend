@@ -17,6 +17,8 @@ import Link from "next/link";
 
 import { useAppDispatch } from "@/redux/hooks";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
+import fetchPostCollectionLikes from "@/utils/fetchPostCollectionLikes";
+import fetchDeleteCollectionLikes from "@/utils/fetchDeleteCollectionLikes";
 
 interface CollectionCardProps extends HTMLAttributes<HTMLButtonElement> {
   collectionData: CollectionDetail;
@@ -90,18 +92,44 @@ const BookMark = () => {
 };
 
 const LikedButton = ({
+  collectionId,
   likeCnt,
   linkDisabled = false,
   displayIconFirst = true,
 }: {
+  collectionId: number;
   likeCnt: number;
   linkDisabled: boolean;
   displayIconFirst?: boolean;
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const handleLike = () => {
-    setIsLiked(!isLiked);
+  const dispatch = useAppDispatch();
+
+  const handleLike = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    // 좋아요
+    if (!isLiked) {
+      const { success, errorMessage } =
+        await fetchPostCollectionLikes(collectionId);
+      if (success) {
+        setIsLiked(true);
+        likeCnt += 1; // 왜 되는 걸까?
+      } else dispatch(addAlertMessage(errorMessage));
+    }
+    // 좋아요 취소
+    else {
+      const { success, errorMessage } =
+        await fetchDeleteCollectionLikes(collectionId);
+      if (success) {
+        setIsLiked(false);
+        likeCnt -= 1;
+      } else dispatch(addAlertMessage(errorMessage));
+    }
+    setIsLoading(false);
   };
+
   return (
     <button onClick={linkDisabled ? undefined : handleLike}>
       {displayIconFirst ? (
@@ -236,6 +264,7 @@ const DefaultCollectionCard = ({
           displayIconFirst={false}
         />
         <LikedButton
+          collectionId={collectionData.id}
           likeCnt={collectionData.likeCnt}
           linkDisabled={linkDisabled}
           displayIconFirst={false}
@@ -317,6 +346,7 @@ const HorizontalCollectionCard = ({
           linkDisabled={linkDisabled}
         />
         <LikedButton
+          collectionId={collectionData.id}
           likeCnt={collectionData.likeCnt}
           linkDisabled={linkDisabled}
         />
@@ -405,6 +435,7 @@ const HorizontalDetailCollectionCard = ({
           linkDisabled={linkDisabled}
         />
         <LikedButton
+          collectionId={collectionData.id}
           likeCnt={collectionData.likeCnt}
           linkDisabled={linkDisabled}
         />
