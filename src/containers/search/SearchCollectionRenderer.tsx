@@ -6,6 +6,7 @@ import { CollectionDetail } from "@/types/Collection";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
 import { HorizontalDetailCollectionCard } from "@/components/CollectionCard";
 import BouncingLoader from "@/components/BouncingLoader";
+import fetchGetSearchCollection from "@/utils/fetchGetSearchCollection";
 
 export default function SearchCollectionRender({
   searchKeyword,
@@ -41,36 +42,23 @@ export default function SearchCollectionRender({
     }
   }, [isIntersecting]);
 
-  const searchCollection = (searchKeyword: string, page: number) => {
+  const searchCollection = async (searchKeyword: string, page: number) => {
     const size = 10;
     setIsLoading(true);
-    fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/collection?query=${searchKeyword}&page=${page + 1}&size=${size}`
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error("검색에 실패했습니다.");
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data, data.length);
-        if (data.length > 0) setPageNum((prev) => prev + 1);
-        setCollectionDatas((prev) => [...prev, ...data]);
-        return data;
-      })
-      .then((data) => {
-        if (collectionDatas.length === 0) {
-          setErrorMessage("검색 키워드에 맞는 컬렉션이 없습니다.");
-        } else {
-          setErrorMessage("");
-          setIsEnd(data.length < size);
-        }
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setErrorMessage("검색에 실패했습니다.");
-        setIsLoading(false);
-      });
+    const { collectionDatas, errorMessage } = await fetchGetSearchCollection(
+      searchKeyword,
+      page,
+      size
+    );
+    if (collectionDatas.length > 0) setPageNum((prev) => prev + 1);
+    setCollectionDatas((prev) => [...prev, ...collectionDatas]);
+    if (collectionDatas.length === 0) {
+      setErrorMessage(errorMessage);
+    } else {
+      setErrorMessage("");
+      setIsEnd(collectionDatas.length < size);
+    }
+    setIsLoading(false);
   };
 
   return (
