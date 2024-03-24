@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import styles from "@/styles/containers/collection/_collectionInfo.module.scss";
 import { CollectionDetail } from "@/types/Collection";
+import { ProfileMine } from "@/types/Profile";
 import {
   BookMarkIcon,
   EditIcon,
@@ -17,6 +18,7 @@ import fetchPostCollectionLikes from "@/utils/fetchPostCollectionLikes";
 import fetchDeleteCollectionLikes from "@/utils/fetchDeleteCollectionLikes";
 import fetchPostCollectionScraps from "@/utils/fetchPostCollectionScraps";
 import fetchDeleteCollectionScraps from "@/utils/fetchDeleteCollectionScraps";
+import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
 
 const CollectionInfoRenderer = ({
   collectionData,
@@ -25,6 +27,7 @@ const CollectionInfoRenderer = ({
   collectionData: CollectionDetail;
   isMyCollection: boolean;
 }) => {
+  const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
   const [isScraped, setIsScraped] = useState<boolean>(collectionData.scrapped);
   const [isLiked, setIsLiked] = useState<boolean>(collectionData.liked);
   const [isScrapedLoading, setIsScrapedLoading] = useState(false);
@@ -40,10 +43,12 @@ const CollectionInfoRenderer = ({
     navigator.clipboard.writeText(`
       ${process.env.NEXT_PUBLIC_FRONTEND_URL}/collection/${collectionData.id}
     `);
-    setAlertMessage((prev) => "클립보드에 복사되었습니다.");
+    setAlertMessage("클립보드에 복사되었습니다.");
   };
 
   const likeCollection = async () => {
+    if (isLikedLoading) return;
+    if (!myProfile) return setAlertMessage("로그인이 필요합니다.");
     setIsLikedLoading(true);
     // 좋아요
     if (!isLiked) {
@@ -71,6 +76,7 @@ const CollectionInfoRenderer = ({
 
   const scrapCollection = async () => {
     if (isScrapedLoading) return;
+    if (!myProfile) return setAlertMessage("로그인이 필요합니다.");
     setIsScrapedLoading(true);
     // 스크랩
     if (!isScraped) {
@@ -94,6 +100,11 @@ const CollectionInfoRenderer = ({
     }
     setIsScrapedLoading(false);
   };
+
+  useEffect(() => {
+    const myProfile = getMyProfileFromLocalStorage();
+    setMyProfile(myProfile);
+  }, []);
 
   return (
     <section id={styles.collectionInfo}>
