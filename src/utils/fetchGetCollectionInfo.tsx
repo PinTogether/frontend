@@ -10,6 +10,12 @@ const fetchGetCollectionInfo = async (collectionId: number) => {
       }
     );
     console.log("fetchGetCollectionInfo res", res);
+    if (res.status === 404) {
+      return {
+        collectionInfo: null,
+        errorMessage: "컬렉션 정보를 찾을 수 없습니다.",
+      };
+    }
     if (!res.ok) throw new Error("컬렉션 정보 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
     console.log("fetchGetCollectionInfo data", data);
