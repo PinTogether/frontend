@@ -35,7 +35,6 @@ export default function SearchPlaceRender({
 
   useEffect(() => {
     if (isIntersecting && !isLoading && !isEnd) {
-      console.log("Intersect", pageNum);
       searchPlace(searchKeyword, pageNum);
     }
   }, [isIntersecting]);
