@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "@/styles/containers/collection/_collectionEditPage.module.scss";
+import Pin from "@/types/Pin";
 import {
   ImgLoadIcon,
   EditIcon,
@@ -23,13 +24,12 @@ import { SimplePinCard } from "@/components/PinCard";
 import TagEditor from "@/components/TagEditor";
 import AlertModal from "@/components/AlertModal";
 
-import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
-
 import fetchPostCollection from "@/utils/fetchPostCollection";
 import fetchGetCollectionPresignedUrl from "@/utils/fetchGetCollectionPresignedUrl";
 import fetchPutCollection from "@/utils/fetchPutCollection";
 import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
 import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
+import fetchGetCollectionAllPins from "@/utils/fetchGetCollectionAllPins";
 
 export default function CollectionEditPage({
   collectionId,
@@ -42,6 +42,9 @@ export default function CollectionEditPage({
   const router = useRouter();
   const [isUploading, setIsUploading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+
+  /* 핀 리스트 */
+  const [pinDataList, setPinDataList] = useState<Pin[]>([]);
 
   /* 컬렉션 정보 */
   const [inputTitle, setInputTitle] = useState("");
@@ -120,9 +123,12 @@ export default function CollectionEditPage({
     if (errorMessage || (imgFile && !presingedUrlData)) {
       setAlertMessage(errorMessage);
       return;
+    } else if (!imgFile) {
+      router.push(`/collection/${newCollectionId}`);
+      return;
     }
     // S3 이미지 업로드
-    else if (imgFile && presingedUrlData) {
+    else if (presingedUrlData) {
       const { success, errorMessage } = await fetchPutS3PresignedUrl(
         presingedUrlData.presignedUrl,
         imgFile
@@ -130,17 +136,26 @@ export default function CollectionEditPage({
       if (!success) {
         setAlertMessage(errorMessage);
         return;
-      } else if (newCollectionId)
-        router.push(`/collection/${presingedUrlData.id}`);
-      // else setAlertMessage("컬렉션 이미지 업로드에 실패했습니다.");
-    } else {
-      // 이미지 없이 컬렉션 생성 성공
-      if (newCollectionId) router.push(`/collection/${newCollectionId}`);
-      else setAlertMessage("컬렉션 생성에 실패했습니다.");
+      } else if (newCollectionId) {
+        // 변경된 이미지와 정보로 컬렉션 수정
+        const { success, errorMessage } = await fetchPutCollection(
+          newCollectionId,
+          inputTitle,
+          imgSrc,
+          inputDetails,
+          tagList
+        );
+        if (!success) {
+          setAlertMessage(errorMessage);
+          return;
+        }
+        router.push(`/collection/${newCollectionId}`);
+      }
     }
   };
 
   const editCollection = async (collectionId: number) => {
+    // 컬렉션 수정
     // imgFile이 있으면 S3에 이미지 업로드
     if (imgFile) {
       // presinged URL 발급
@@ -151,25 +166,40 @@ export default function CollectionEditPage({
         return;
       }
       //  S3 이미지 업로드
-      const { success, errorMessage: errorMessage2 } =
+      const { success: success1, errorMessage: errorMessage2 } =
         await fetchPutS3PresignedUrl(presignedUrlData.presignedUrl, imgFile);
-      if (!success) {
+      if (!success1) {
         setAlertMessage(errorMessage2);
         return;
       }
       setImgSrc(presignedUrlData.imageUrl);
+      // 변경된 이미지와 정보로 컬렉션 수정
+      const { success: success2, errorMessage } = await fetchPutCollection(
+        collectionId,
+        inputTitle,
+        presignedUrlData.imageUrl,
+        inputDetails,
+        tagList
+      );
+      if (!success2) {
+        setAlertMessage(errorMessage);
+        return;
+      }
+    } else {
+      // 이미지 변경 없이 컬렉션 수정
+      const { success, errorMessage } = await fetchPutCollection(
+        collectionId,
+        inputTitle,
+        imgSrc,
+        inputDetails,
+        tagList
+      );
+      if (!success) {
+        setAlertMessage(errorMessage);
+        return;
+      }
     }
-    // 컬렉션 수정
-    const { success, errorMessage } = await fetchPutCollection(
-      inputTitle,
-      imgSrc,
-      inputDetails,
-      tagList
-    );
-    if (!success) {
-      setAlertMessage(errorMessage);
-      return;
-    }
+    router.push(`/collection/${collectionId}`);
   };
 
   /* 컬렉션 정보 불러오기 */
@@ -188,11 +218,29 @@ export default function CollectionEditPage({
     setTagList(collectionInfo.tags);
     setIsUploading(false);
   };
-  //
+
+  /* 핀 리스트 불러오기 */
+  const getAndSetPinList = async (collectionId: number) => {
+    setIsUploading(true);
+    const { pinList, errorMessage } =
+      await fetchGetCollectionAllPins(collectionId);
+    if (!pinList || errorMessage) {
+      setAlertMessage(errorMessage);
+      setIsUploading(false);
+      return;
+    }
+    setPinDataList(pinList);
+    setIsUploading(false);
+  };
 
   useEffect(() => {
     if (collectionId) {
-      getAndSetCollectionInfo(collectionId);
+      (async () => {
+        if (collectionId) {
+          await getAndSetCollectionInfo(collectionId);
+          await getAndSetPinList(collectionId);
+        }
+      })();
     }
   }, [collectionId]);
 
@@ -229,7 +277,11 @@ export default function CollectionEditPage({
               </label>
             </div>
             <div className={styles.cancelButtonBox}>
-              <button className={styles.cancelButton} onClick={resetImgSrc}>
+              <button
+                className={styles.cancelButton}
+                onClick={resetImgSrc}
+                disabled={isUploading}
+              >
                 <CloseRoundIcon />
               </button>
             </div>
@@ -305,10 +357,18 @@ export default function CollectionEditPage({
             <Line />
           </Section>
         )}
-        {/* <Section className={styles.buttonContainer}>
-          {id && <button className={styles.confirmButton}>수정 완료</button>}
-          {!id && <button className={styles.confirmButton}>생성 완료</button>}
-        </Section> */}
+        <Section className={styles.buttonContainer}>
+          {collectionId && (
+            <button className={styles.confirmButton} disabled={isUploading}>
+              수정 완료
+            </button>
+          )}
+          {!collectionId && (
+            <button className={styles.confirmButton} disabled={isUploading}>
+              생성 완료
+            </button>
+          )}
+        </Section>
         <AlertModal message={alertMessage} setMessage={setAlertMessage} />
       </EditPageLayout>
     </SubPageLayout>
