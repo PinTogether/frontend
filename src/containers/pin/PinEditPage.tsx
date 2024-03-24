@@ -15,8 +15,19 @@ import checkFileValid from "@/utils/checkFileValid";
 import { SimplePinCard } from "@/components/PinCard";
 import TagEditor from "@/components/TagEditor";
 
-import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
+// import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
 import SubPageLayout from "@/containers/layout/SubPageLayout";
+
+import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
+import fetchPostPinPresignedUrl from "@/utils/fetchPostPinPresignedUrl";
+
+import PresignedUrl from "@/types/PresingedUrl";
+import { useRouter } from "next/navigation";
+import fetchPutPin from "@/utils/fetchPutPin";
+
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { clearPinEditState } from "@/redux/pinEditSlice";
+import AlertModal from "@/components/AlertModal";
 
 interface Place {
   id: number;
@@ -31,19 +42,110 @@ export interface NewPinData extends Place {
   files?: File[];
 }
 
-export default function PinEditPage({ pinId }: { pinId?: string }) {
-  const [review, setReview] = useState<string>("");
-  const [files, setFiles] = useState<File[]>([]);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+export interface ImageData {
+  id: number;
+  file: File | null;
+  preview: string;
+}
+
+export default function PinEditPage({ pinId }: { pinId: string }) {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const [alertMessage, setAlertMessage] = useState<string>("");
+  /* 기존 데이터 */
+  const pinData = useAppSelector((state) => state.pinEdit);
+  /* 변경하는 데이터 */
+  const [imageFiles, setImageFiles] = useState<ImageData[]>([]);
   const [tagList, setTagList] = useState<string[]>([]);
+  const reviewTextareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  useEffect(() => {
+    setImageFiles(
+      pinData.imagePaths.map((imagePath, index) => ({
+        id: index + 1,
+        file: null,
+        preview: imagePath,
+      }))
+    );
+    setTagList(pinData.tags);
+    reviewTextareaRef.current!.value = pinData.review;
+  }, []);
 
-  useEffect(() => {}, []);
+  /* submit */
+  const handleSubmit = async () => {
+    if (!pinId || !reviewTextareaRef.current) return;
 
-  const handleSubmit = () => {
-    // setReview(textareaRef.current?.value ?? "");
-    console.log(textareaRef.current?.value, files);
+    // 업로드할 파일 분리
+    const originalFiles = imageFiles.filter((imageFile) => {
+      return imageFile.file === null;
+    });
+    const uploadFiles = imageFiles.filter((imageFile) => {
+      return imageFile.file !== null;
+    });
+
+    // presigned-url 발급
+    const { presignedUrlDataList, errorMessage } =
+      await fetchPostPinPresignedUrl(
+        Number(pinId),
+        uploadFiles.map((fileData) => fileData.file?.type || "")
+      );
+    if (!presignedUrlDataList) {
+      setAlertMessage(errorMessage);
+      return;
+    }
+    // presigned-url S3 업로드
+    const success = await putImageToS3(
+      presignedUrlDataList,
+      uploadFiles.map((fileData) => fileData.file as File) // null 은 위에서 필터링
+    );
+    if (!success) {
+      setAlertMessage("S3 업로드 실패");
+      return;
+    }
+    // 핀 수정
+    const imagePaths = [
+      ...originalFiles.map((data) => data.preview[0]),
+      ...presignedUrlDataList.map((data) => data.imageUrl),
+    ];
+    setImageFiles((prev) => [
+      ...originalFiles,
+      ...presignedUrlDataList.map((data, index) => ({
+        id: index + 1,
+        file: null,
+        preview: data.imageUrl,
+      })),
+    ]);
+    const result = await fetchPutPin(
+      Number(pinId),
+      reviewTextareaRef.current.value,
+      imagePaths,
+      tagList
+    );
+    if (!result) {
+      setAlertMessage("핀 수정 실패");
+      return;
+    }
+    // 핀 수정 성공
+    dispatch(clearPinEditState());
+    router.push(`/collection/${pinData.collectionId}`);
+  };
+
+  const putImageToS3 = async (
+    presignedUrlDataList: PresignedUrl[],
+    imageFile: File[]
+  ) => {
+    let result = true;
+    for (let index = 0; index < presignedUrlDataList.length; index++) {
+      const { success, errorMessage } = await fetchPutS3PresignedUrl(
+        presignedUrlDataList[index].presignedUrl,
+        imageFile[index]
+      );
+      if (!success) {
+        setAlertMessage(errorMessage);
+        result = false;
+      }
+    }
+    return result;
   };
 
   return (
@@ -57,9 +159,9 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
         <Section>
           <SectionTitle>
             <PinIcon />
-            {pinDataList[0].placeName}
+            {pinData.placeName}
           </SectionTitle>
-          <SimplePinCard pinData={pinDataList[0]} showEditButton={false} />
+          <SimplePinCard pinData={pinData} showEditButton={false} />
           {pinId && (
             <div className={styles.deleteButton}>
               <button>핀 삭제하기</button>
@@ -72,7 +174,11 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
           <SectionTitle>
             <EditIcon />핀 리뷰
           </SectionTitle>
-          <TextareaComponent maxLength={1000} rows={10} ref={textareaRef} />
+          <TextareaComponent
+            maxLength={1000}
+            rows={10}
+            ref={reviewTextareaRef}
+          />
           <Line />
 
           {/* 이미지 업로드 */}
@@ -81,10 +187,8 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
             이미지 업로드
           </SectionTitle>
           <ImageUploadBox
-            imagePreviews={files.map((file) => URL.createObjectURL(file))}
-            setImagePreviews={setImagePreviews}
-            files={files}
-            setFiles={setFiles}
+            imageFiles={imageFiles}
+            setImageFiles={setImageFiles}
           />
           <Line />
           {/* 핀 태그 */}
@@ -101,20 +205,18 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
           </button>
         </Section>
       </EditPageLayout>
+      <AlertModal message={alertMessage} setMessage={setAlertMessage} />
     </SubPageLayout>
   );
 }
 
+/* 이미지 업로드 */
 const ImageUploadBox = ({
-  imagePreviews,
-  setImagePreviews,
-  files,
-  setFiles,
+  imageFiles,
+  setImageFiles,
 }: {
-  imagePreviews: string[];
-  setImagePreviews: React.Dispatch<React.SetStateAction<string[]>>;
-  files: File[];
-  setFiles: (newFiles: File[]) => void;
+  imageFiles: ImageData[];
+  setImageFiles: React.Dispatch<React.SetStateAction<ImageData[]>>;
 }) => {
   const imageUploadMax = 5;
   const [errMsg, setErrMsg] = useState("");
@@ -125,25 +227,22 @@ const ImageUploadBox = ({
       if (checkFileValid(file)) return true;
       setErrMsg("유효하지 않은 파일 형식입니다.");
     });
-    if (newFiles.length + files.length > imageUploadMax) {
+    if (newFiles.length + imageFiles.length > imageUploadMax) {
       setErrMsg("이미지는 5개까지 업로드 가능합니다.");
       return;
     }
-    const previews = [...newFiles, ...files].map((file) => {
-      return URL.createObjectURL(file);
-    });
-    setFiles([...newFiles, ...files]);
-    setImagePreviews(previews);
+    setImageFiles((prev) => [
+      ...prev,
+      ...newFiles.map((file) => ({
+        id: !prev.length ? 0 : prev[prev.length - 1].id + 1,
+        file: file,
+        preview: URL.createObjectURL(file),
+      })),
+    ]);
   };
 
-  const handleDeleteImage = (index: number) => {
-    const newFiles = [...files];
-    newFiles.splice(index, 1);
-    setFiles(newFiles);
-    const previews = newFiles.map((file) => {
-      return URL.createObjectURL(file);
-    });
-    setImagePreviews(previews);
+  const handleDeleteImage = (id: number) => {
+    setImageFiles((prev) => prev.filter((imageFile) => imageFile.id !== id));
   };
 
   return (
@@ -157,16 +256,14 @@ const ImageUploadBox = ({
         multiple
       />
       <ImagePreviewBox
-        imagePreviews={imagePreviews}
+        imageFiles={imageFiles}
         handleClickClose={handleDeleteImage}
       >
         <label htmlFor="img-upload" className={styles.inputLabel}>
           <AddRoundIcon />
         </label>
       </ImagePreviewBox>
-      {files && (
-        <span className={styles.selectedImgNum}> {`${files.length}/5`}</span>
-      )}
+      <span className={styles.selectedImgNum}>{`${imageFiles.length}/5`}</span>
       {errMsg && <span className={styles.errMsg}>{errMsg}</span>}
     </div>
   );
