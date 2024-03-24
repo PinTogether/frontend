@@ -6,64 +6,87 @@ import { PlaceDetail } from "@/types/Place";
 import ReviewCard from "@/components/ReviewCard";
 import PlaceCard from "@/components/PlaceCard";
 
-import dummyPinList from "@/../../public/dummy-data/dummy-pin.json";
-import dummyPlaceList from "@/../../public/dummy-data/dummy-place.json";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import fetchGetPlacePins from "@/utils/fetchGetPlacePins";
+import useIntersectionObserver from "@/hooks/useInteresectionObserver";
+import fetchGetPlaceInfo from "@/utils/fetchGetPlaceInfo";
 
-const pinData: PinForPlace[] = dummyPinList as PinForPlace[];
-const placeData = (dummyPlaceList as PlaceDetail[])[0];
-
-const PlacePage = ({ placeId }: { placeId?: string }) => {
+const PlacePage = ({ placeId }: { placeId: string }) => {
+  /* fetch data */
+  const size = 50;
+  const [page, setPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [pinData, setPinData] = useState<PinForPlace[]>([]);
   const [placeData, setPlaceData] = useState<PlaceDetail | null>(null);
-  const [statusMessage, setStatusMessage] = useState<string>("");
+  const [placeErrorMessage, setPlaceErrorMessage] = useState<string>("");
+  const [pinErrorMessage, setPinErrorMessage] = useState<string>("");
+
+  /* infinite scroll */
+  const pageEndRef = useRef<HTMLDivElement>(null);
+  const [isEnd, setIsEnd] = useState(false);
+  const option = {
+    root: null,
+    rootMargin: "0px", // viewport 기준으로 얼마나 더 감지할 것인가
+    threshold: 0.8, // 0.0 ~ 1.0, 1.0이면 완전히 보이는 상태
+  };
+  const isIntersecting = useIntersectionObserver(pageEndRef, option);
 
   useEffect(() => {
-    const offset = 0;
-    const limit = 150;
+    const fetchData = async () => {
+      if (!placeId) return;
+      const { placeInfo, errorMessage } = await fetchGetPlaceInfo(
+        Number(placeId)
+      );
+      if (placeErrorMessage || !placeInfo) {
+        setPlaceErrorMessage(placeErrorMessage);
+      } else setPlaceData(placeInfo);
+    };
+    if (placeId) fetchData();
+  }, [placeId]);
 
-    fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/places/${placeId}/pins?offset=${offset}&limit=${limit}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setPinData(data);
-      })
-      .catch((err) => {
-        console.error(err);
-        setStatusMessage("리뷰를 불러오는데 실패했습니다.");
-      });
-
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/places/${placeId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setPlaceData(data);
-      })
-      .catch((err) => {
-        console.error(err);
-        setStatusMessage("장소를 불러오는데 실패했습니다.");
-      });
-  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (isLoading) return;
+      setIsLoading(true);
+      const { placeInfo, errorMessage } = await fetchGetPlacePins(
+        Number(placeId),
+        page,
+        size
+      );
+      if (placeErrorMessage || !placeInfo) {
+        setPinErrorMessage(placeErrorMessage);
+      } else {
+        setPinData(placeInfo);
+        setPage((prev) => prev + 1);
+        if (placeInfo.length === 0) setIsEnd(true);
+      }
+      setIsLoading(false);
+    };
+    if (isIntersecting && !isEnd) fetchData();
+  }, [placeId, isIntersecting]);
 
   return (
     <>
-      {/* {placeId} */}
       <div className={styles.pinCard}>
-        {placeData ? (
-          <PlaceCard place={placeData} />
+        {placeErrorMessage || !placeData ? (
+          <span>{placeErrorMessage}</span>
         ) : (
-          <span>{statusMessage}</span>
+          <PlaceCard place={placeData} />
         )}
       </div>
       <ul className={styles.commentList}>
-        {pinData &&
+        {pinErrorMessage ? (
+          <span>{pinErrorMessage}</span>
+        ) : (
           pinData.map((pin) => (
             <li key={pin.id}>
               <ReviewCard reviewData={pin} />
+              {/* PinReviewCard */}
             </li>
-          ))}
+          ))
+        )}
+        <br />
+        {!isEnd && <div ref={pageEndRef} style={{ height: "5px" }}></div>}
       </ul>
     </>
   );

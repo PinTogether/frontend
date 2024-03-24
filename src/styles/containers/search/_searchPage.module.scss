@@ -1,6 +1,12 @@
 @import "../../base/variables";
 
 // #searchPageId{
+.errorMessage {
+  color: $color-grey-dark;
+  font-size: $font-size-small;
+  text-align: center;
+  margin-top: 1.25rem;
+}
 
 #searchPage{
 	display: flex;

@@ -17,9 +17,9 @@ export async function GET(
         message: "OK",
       },
       metadata: {
-        resultCount: 1,
+        resultCount: 0,
       },
-      results: dummydata1,
+      results: [],
     });
   } else if (params.collection_id == "2") {
     return NextResponse.json({

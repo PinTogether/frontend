@@ -43,18 +43,18 @@ export default function SearchPlaceRender({
   const searchPlace = async (searchKeyword: string, page: number) => {
     const size = 10;
     setIsLoading(true);
-    const { collectionDatas, errorMessage } = await fetchGetSearchPlace(
+    const { placeDatas, errorMessage } = await fetchGetSearchPlace(
       searchKeyword,
       page,
       size
     );
-    if (collectionDatas.length > 0) setPageNum((prev) => prev + 1);
-    setPlaceDatas((prev) => [...prev, ...collectionDatas]);
+    if (placeDatas.length > 0) setPageNum((prev) => prev + 1);
+    setPlaceDatas((prev) => [...prev, ...placeDatas]);
     if (placeDatas.length === 0) {
       setErrorMessage(errorMessage);
     } else {
       setErrorMessage("");
-      setIsEnd(collectionDatas.length < size);
+      setIsEnd(placeDatas.length < size);
     }
     setIsLoading(false);
   };

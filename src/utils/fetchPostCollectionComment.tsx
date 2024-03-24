@@ -19,8 +19,6 @@ const fetchPostCollectionComments = async (
     );
     console.log("fetchPostCollectionComments res", res);
     if (!res.ok) throw new Error("댓글 등록에 실패했습니다.");
-    const data: APIResponse = await res.json();
-    console.log("fetchPostCollectionComments data", data);
     return { success: true, errorMessage: "" };
   } catch (err: any) {
     console.error(err);

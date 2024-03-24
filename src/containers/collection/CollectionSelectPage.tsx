@@ -135,7 +135,6 @@ const CollectionSelectPage = () => {
       return;
     }
 
-    // TODO : API 필요
     const { success, errorMessage } = await fetchPostPinToCollections(
       placeId,
       selectedCollection

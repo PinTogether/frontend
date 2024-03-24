@@ -19,10 +19,10 @@ const ProfileCollectionsRenderer = ({
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<{
-    collectionDatas: CollectionDetail[];
+    collectionDatas: CollectionDetail[] | null;
     errorMessage: string;
   }>({
-    collectionDatas: [],
+    collectionDatas: null,
     errorMessage: "",
   });
 
@@ -38,11 +38,15 @@ const ProfileCollectionsRenderer = ({
 
   useEffect(() => {
     const fetchData = async () => {
+      if (isLoading) return;
       setIsLoading(true);
       const result = await fetchGetProfileCollections(userId, page, size);
       setData((prev) => {
         return {
-          collectionDatas: [...prev.collectionDatas, ...result.collectionDatas],
+          collectionDatas: [
+            ...(prev.collectionDatas ?? []),
+            ...result.collectionDatas,
+          ],
           errorMessage: result.errorMessage,
         };
       });
@@ -50,12 +54,12 @@ const ProfileCollectionsRenderer = ({
       result.collectionDatas.length === 0 && setIsEnd(true);
       setIsLoading(false);
     };
-    if (isIntersecting && !isLoading && !isEnd) fetchData();
+    if (isIntersecting && !isEnd) fetchData();
   }, [userId, isIntersecting]);
 
   return (
     <section className={`${styles.profileListContainer} ${className}`}>
-      {data.errorMessage ? (
+      {data.errorMessage || !data.collectionDatas ? (
         <p className={styles.errorMessage}>{data.errorMessage}</p>
       ) : (
         <>

@@ -36,7 +36,9 @@ const fetchPostCollection = async (
         errorMessage: "",
       };
     } else {
-      const result = data.results[0];
+      const result: {
+        id: number;
+      } = data.results[0];
       return {
         presingedUrlData: null,
         newCollectionId: result.id,

@@ -14,13 +14,19 @@ const fetchGetCollectionAllPins = async (collectionId: number) => {
     const data: APIResponse = await res.json();
     console.log("fetchGetCollectionAllPins data", data);
     const pinList: PinForPlace[] = data.results;
+    if (pinList.length === 0) {
+      return {
+        pinList: null,
+        errorMessage: "해당 컬렉션에 등록된 핀이 없습니다.",
+      };
+    }
     console.log("pinList", pinList);
     return { pinList, errorMessage: "" };
   } catch (err: any) {
     console.error(err);
     return {
       pinList: null,
-      errorMessage: "핀 리스트F 가져오기에 실패했습니다.",
+      errorMessage: "핀 리스트 가져오기에 실패했습니다.",
     };
   }
 };

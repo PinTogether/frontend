@@ -2,21 +2,22 @@ import PresignedUrl from "@/types/PresingedUrl";
 import APIResponse from "@/types/APIResponse";
 
 const fetchPutCollection = async (
+  collectionId: number,
   title: string,
-  thumnail: string,
+  thumbnail: string,
   details: string,
   tags: string[]
 ) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${collectionId}`,
       {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: title,
-          thumnail: thumnail,
+          thumbnail: thumbnail,
           details: details,
           tags: tags,
         }),
