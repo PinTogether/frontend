@@ -27,13 +27,15 @@ import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
 import fetchPostPinPresignedUrl from "@/utils/fetchPostPinPresignedUrl";
 
 import PresignedUrl from "@/types/PresingedUrl";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import fetchPutPin from "@/utils/fetchPutPin";
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { clearPinEditState } from "@/redux/pinEditSlice";
 import AlertModal from "@/components/AlertModal";
 import fetchDeletePin from "@/utils/fetchDeletePin";
+import fetchPostPin from "@/utils/fetchPostPin";
+import Pin from "@/types/Pin";
 
 interface Place {
   id: number;
@@ -54,9 +56,35 @@ export interface ImageData {
   preview: string;
 }
 
+// TODO : Refactor
+const samplePinData: Pin = {
+  id: 0,
+  collectionId: 0,
+  writer: "writer",
+  review: "",
+  createdAt: "",
+  saveCnt: 0,
+  roadNameAddress: "",
+  placeName: "",
+  longtitude: 0,
+  latitude: 0,
+  starred: false,
+  category: "",
+  tags: [],
+  collectionTitle: "",
+  imagePaths: [],
+};
+
 export default function PinEditPage({ pinId }: { pinId?: string }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const [createInfo, setCreateInfo] = useState<{
+    placeId: number;
+    placeName: string;
+    collectionId: number;
+    collectionTitle: string;
+  } | null>(null);
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   /* 기존 데이터 */
@@ -68,21 +96,48 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
 
   /* 기존 데이터 적용 */
   useEffect(() => {
-    setImageFiles(
-      pinData.imagePaths.map((imagePath, index) => ({
-        id: index + 1,
-        file: null,
-        preview: imagePath,
-      }))
-    );
-    setTagList(pinData.tags);
-    reviewTextareaRef.current!.value = pinData.review;
+    if (!pinId) {
+      dispatch(clearPinEditState());
+      const placeId = searchParams.get("placeId");
+      const placeName = searchParams.get("placeName");
+      const collectionTitle = searchParams.get("collectionTitle");
+      const collectionId = searchParams.get("collectionId");
+      if (placeId && placeName && collectionTitle && collectionId)
+        setCreateInfo({
+          placeId: Number(placeId),
+          placeName,
+          collectionId: Number(collectionId),
+          collectionTitle,
+        });
+      return;
+    } else {
+      setImageFiles(
+        pinData.imagePaths.map((imagePath, index) => ({
+          id: index + 1,
+          file: null,
+          preview: imagePath,
+        }))
+      );
+      setTagList(pinData.tags);
+      reviewTextareaRef.current!.value = pinData.review;
+    }
   }, []);
 
   /* submit */
   const handleSubmit = async () => {
-    if (isLoading || !pinId || !reviewTextareaRef.current) return;
+    // TODO : Refactor
+    if (isLoading) return;
     setIsLoading(true);
+    if (pinId) {
+      editPin();
+    } else {
+      (await addPin()) && (await editPin());
+    }
+    setIsLoading(false);
+  };
+
+  const editPin = async () => {
+    if (!pinId || !reviewTextareaRef.current) return;
     // 업로드할 파일 분리
     const originalFiles = imageFiles.filter((imageFile) => {
       return imageFile.file === null;
@@ -99,7 +154,6 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
       );
     if (!presignedUrlDataList) {
       setAlertMessage(errorMessage);
-      setIsLoading(false);
       return;
     }
     // presigned-url S3 업로드
@@ -109,7 +163,6 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     );
     if (!success) {
       setAlertMessage("S3 업로드 실패");
-      setIsLoading(false);
       return;
     }
     // 핀 수정
@@ -133,13 +186,34 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     );
     if (!result) {
       setAlertMessage("핀 수정 실패");
-      setIsLoading(false);
       return;
     }
     // 핀 수정 성공
-    setIsLoading(false);
     dispatch(clearPinEditState());
     router.push(`/collection/${pinData.collectionId}`);
+  };
+
+  const addPin = async () => {
+    if (isLoading || !createInfo || !reviewTextareaRef.current) return;
+    setIsLoading(true);
+
+    const { success, errorMessage } = await fetchPostPin(
+      createInfo.placeId,
+      createInfo.collectionId,
+      reviewTextareaRef.current.value,
+      tagList,
+      imageFiles.map((fileData) => fileData.file?.type || "")
+    );
+    if (!success) {
+      setAlertMessage(errorMessage);
+      return false;
+    } else if (!imageFiles.length) {
+      // 이미지 없이 핀 생성 성공
+      dispatch(clearPinEditState());
+      router.push(`/collection/${createInfo.collectionId}`);
+      return true;
+    }
+    return true; // 핀 생성 성공 후 이미지 업로드
   };
 
   const putImageToS3 = async (
@@ -184,9 +258,21 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
         <Section>
           <SectionTitle>
             <LocationIcon />
-            {`"${pinData.collectionTitle}" 컬렉션`}
+            {pinId
+              ? `"${pinData.collectionTitle}" 컬렉션`
+              : `"${createInfo?.collectionTitle}" 컬렉션`}
           </SectionTitle>
-          <SimplePinCard pinData={pinData} showEditButton={false} />
+          <SimplePinCard
+            pinData={
+              pinId
+                ? pinData
+                : {
+                    ...samplePinData,
+                    placeName: createInfo?.placeName || "",
+                  }
+            }
+            showEditButton={false}
+          />
           {pinId && (
             <div className={styles.deleteButton}>
               <button onClick={deletePin} disabled={isLoading}>

@@ -66,7 +66,7 @@ const CollectionSelectPage = () => {
   >([]);
 
   const fetchCollectionData = async () => {
-    if (isFetching || !userId) return;
+    if (isFetching || !userId || !placeId) return;
     setIsFetching(true);
     const { collectionDatas, errorMessage } = await fetchGetProfileCollections(
       userId,
@@ -134,7 +134,18 @@ const CollectionSelectPage = () => {
       setAlertMessage("한번에 10개까지 선택 가능합니다.");
       return;
     }
-
+    if (selectedCollection.length === 1) {
+      // 1개면 핀 편집 페이지로 이동
+      const placeName = placeFetchData?.placeInfo?.name;
+      const collectionTitle = collectionDataList.find(
+        (collection) => collection.id === selectedCollection[0]
+      )?.title;
+      router.push(
+        `/pin/edit?placeId=${placeId}&placeName=${placeName}&collectionId=${selectedCollection[0]}&collectionTitle=${collectionTitle}`
+      );
+      return;
+    }
+    // 여러개면 핀 편집없이 여러 컬렉션에 추가
     const { success, errorMessage } = await fetchPostPinToCollections(
       placeId,
       selectedCollection
@@ -156,8 +167,11 @@ const CollectionSelectPage = () => {
       onClickCompleteButton={submitAddPin}
     >
       {/* 선택된 장소 정보 */}
+
       <section>
-        {!placeFetchData?.placeInfo ? (
+        {!placeId ? (
+          <p className={styles.errorMessage}>잘못된 접근입니다.</p>
+        ) : !placeFetchData?.placeInfo ? (
           <p className={styles.errorMessage}>{placeFetchData?.errorMessage}</p>
         ) : (
           <SimplePlaceCard place={placeFetchData.placeInfo} />
@@ -175,7 +189,7 @@ const CollectionSelectPage = () => {
               전체 취소
             </button>
           ) : (
-            <Link className={styles.subButton} href="/collection/create">
+            <Link className={styles.subButton} href="/collection/edit">
               <span>{`새 컬렉션 만들기`}</span>
               <ExpandRightIcon className={styles.expandIcon} />
             </Link>
