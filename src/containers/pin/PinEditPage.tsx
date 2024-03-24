@@ -48,7 +48,7 @@ export interface ImageData {
   preview: string;
 }
 
-export default function PinEditPage({ pinId }: { pinId: string }) {
+export default function PinEditPage({ pinId }: { pinId?: string }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [alertMessage, setAlertMessage] = useState<string>("");
