@@ -15,6 +15,9 @@ import Collection, { CollectionDetail } from "@/types/Collection";
 import { useState, HTMLAttributes } from "react";
 import Link from "next/link";
 
+import { useAppDispatch } from "@/redux/hooks";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
+
 interface CollectionCardProps extends HTMLAttributes<HTMLButtonElement> {
   collectionData: CollectionDetail;
   horizontal?: boolean;
@@ -125,8 +128,17 @@ const ShareButton = ({
   linkDisabled: boolean;
   displayIconFirst?: boolean;
 }) => {
+  const dispatch = useAppDispatch();
+
+  const handleShare = async () => {
+    navigator.clipboard.writeText(`
+      ${process.env.NEXT_PUBLIC_FRONTEND_URL}/collection/${collectionId}
+    `);
+    dispatch(addAlertMessage("클립보드에 복사되었습니다."));
+  };
+
   return (
-    <button disabled={linkDisabled}>
+    <button disabled={linkDisabled} onClick={handleShare}>
       {displayIconFirst ? (
         <>
           <LinkIcon />
