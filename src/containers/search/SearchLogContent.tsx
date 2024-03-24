@@ -3,23 +3,23 @@ import styles from "@/styles/containers/search/_searchPage.module.scss";
 import Link from "next/link";
 
 function SearchLogContent({
-  searchString,
+  searchKeyword,
   searchCategory,
 }: {
-  searchString: string;
+  searchKeyword: string;
   searchCategory: string;
 }) {
-  // if (searchString.length >= 7) {
-  //   searchString = searchString.substring(0, 7);
-  //   searchString = searchString + "...";
+  // if (searchKeyword.length >= 7) {
+  //   searchKeyword = searchKeyword.substring(0, 7);
+  //   searchKeyword = searchKeyword + "...";
   // }
   return (
     <Link
-      href={`/search?searchString=${searchString}`}
+      href={`/search?keyword=${searchKeyword}`}
       className={styles.searchLog}
     >
       <SearchIcon className={styles.searchIcon} />
-      <p className={styles.searchString}>{searchString}</p>
+      <p className={styles.searchKeyword}>{searchKeyword}</p>
       {/* <p className={styles.searchCategory}>{searchCategory}</p> */}
       {/* <CloseRoundIcon className={styles.deleteIcon} /> */}
     </Link>
