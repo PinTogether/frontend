@@ -46,7 +46,11 @@ const CollectionReplyRenderer = ({
 
   return (
     <section className={styles.collectionReplyContainer}>
-      <ReplyInputContent collectionId={collectionInfo.id} />
+      <ReplyInputContent
+        collectionId={collectionInfo.id}
+        replyDatas={replys}
+        setReplyDatas={setReplyDatas}
+      />
       {errorMessage ? (
         <div className={styles.errorMessage}>{errorMessage}</div>
       ) : (

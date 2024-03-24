@@ -10,7 +10,17 @@ import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
 import fetchPostCollectionComments from "@/utils/fetchPostCollectionComment";
 import AlertModal from "@/components/AlertModal";
 
-const ReplyInputContent = ({ collectionId }: { collectionId: number }) => {
+import CollectionReply from "@/types/CollectionReply";
+
+const ReplyInputContent = ({
+  collectionId,
+  replyDatas,
+  setReplyDatas,
+}: {
+  collectionId: number;
+  replyDatas: CollectionReply[];
+  setReplyDatas: (replyDatas: CollectionReply[]) => void;
+}) => {
   const sizeImage = 100;
 
   const [inputText, setInputText] = useState("");
@@ -37,7 +47,7 @@ const ReplyInputContent = ({ collectionId }: { collectionId: number }) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (isPosting) return;
+    if (isPosting || !profile) return;
     setIsPosting(true);
 
     const { success, errorMessage } = await fetchPostCollectionComments(
@@ -48,7 +58,18 @@ const ReplyInputContent = ({ collectionId }: { collectionId: number }) => {
       setAlertMessage(errorMessage);
       setIsPosting(false);
       return;
-    }
+    } // TODO Api reply => CollectionReply
+    setReplyDatas([
+      {
+        id: -1,
+        writerId: profile?.id,
+        writer: profile?.nickname,
+        writerAvatar: profile?.avatar,
+        contents: inputText,
+        createdAt: "방금 전",
+      },
+      ...replyDatas,
+    ]);
     setInputText("");
     setIsPosting(false);
     setAlertMessage("댓글이 등록되었습니다.");
