@@ -130,6 +130,10 @@ export default function CollectionPage({
     }
   }, [myProfile, collectionFetchDatas]);
 
+  const setReplyDatas = (replyDatas: CollectionReply[]) => {
+    setReplyFetchDatas({ replyDatas, errorMessage: "" });
+  };
+
   return (
     <SubPageLayout
       topperMsg={"컬렉션 조회"}
@@ -196,6 +200,7 @@ export default function CollectionPage({
           {showState === 3 && collectionFetchDatas.collectionInfo && (
             <CollectionReplyRenderer
               replys={replyFetchDatas.replyDatas || []}
+              setReplyDatas={setReplyDatas}
               errorMessage={replyFetchDatas.errorMessage}
               collectionInfo={collectionFetchDatas.collectionInfo}
               myId={myProfile?.id}
