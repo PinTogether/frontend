@@ -3,6 +3,7 @@
 import styles from "@/styles/containers/place/_placePage.module.scss";
 import { PinForPlace } from "@/types/Pin";
 import { PlaceDetail } from "@/types/Place";
+import MarkerData from "@/types/Marker";
 import ReviewCard from "@/components/ReviewCard";
 import PlaceCard from "@/components/PlaceCard";
 
@@ -10,6 +11,8 @@ import { useEffect, useState, useRef } from "react";
 import fetchGetPlacePins from "@/utils/fetchGetPlacePins";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import fetchGetPlaceInfo from "@/utils/fetchGetPlaceInfo";
+import { useAppDispatch } from "@/redux/hooks";
+import { markerDataByAmount } from "@/redux/locationSlice";
 
 const PlacePage = ({ placeId }: { placeId: string }) => {
   /* fetch data */
@@ -64,6 +67,27 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
     };
     if (isIntersecting && !isEnd) fetchData();
   }, [placeId, isIntersecting]);
+
+  const dispatchMarker = useAppDispatch();
+  const makeMarker = () => {
+    // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
+    if (!pinData[0]) return;
+    const markerList: MarkerData[] = [];
+      markerList.push({
+        id: pinData[0].id,
+        placeName: pinData[0].placeName,
+        pinCount: pinData[0].saveCnt,
+        xPos: pinData[0].longtitude,
+        yPos: pinData[0].latitude,
+      });
+    dispatchMarker(markerDataByAmount(markerList));
+  };
+
+  useEffect(()=>{
+    if (pinData[0]){
+      makeMarker();
+    }
+  },[pinData])
 
   return (
     <>
