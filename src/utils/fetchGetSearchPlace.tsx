@@ -6,13 +6,12 @@ const fetchGetSearchPlace = async (
   page: number = 0,
   size: number = 10
 ): Promise<{
-  collectionDatas: PlaceDetail[];
+  placeDatas: PlaceDetail[];
   errorMessage: string;
 }> => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/places?query=${searchKeyword}&page=${page}&size=${size}`,
-      // `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${userId}/scraps?page=${page}&size=${size}`,
       {
         credentials: "include",
       }
@@ -23,16 +22,16 @@ const fetchGetSearchPlace = async (
     console.log("fetchGetSearchPlace data", data);
     if (data.metadata.resultCount == 0) {
       return {
-        collectionDatas: [],
+        placeDatas: [],
         errorMessage: "검색 키워드에 맞는 장소가 없습니다.",
       };
     }
-    const collectionDatas: PlaceDetail[] = data.results;
-    return { collectionDatas, errorMessage: "" };
+    const placeDatas: PlaceDetail[] = data.results;
+    return { placeDatas, errorMessage: "" };
   } catch (err: any) {
     console.error(err);
     return {
-      collectionDatas: [],
+      placeDatas: [],
       errorMessage: "검색에 실패했습니다.",
     };
   }
