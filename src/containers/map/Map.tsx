@@ -170,7 +170,7 @@ const MapNaverDefault = () => {
       return [
         '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px;">',
         '<img src="/icons/map_pin.svg" alt="" style="width:40px; height:40px;" >',
-        '<b style="background-color: rgba(120,120,120,0.15); padding: 3px; border-radius: 10px; font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
+        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
@@ -183,7 +183,7 @@ const MapNaverDefault = () => {
         `${markerdata.pinCount}`,
         '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:16px; height:16px;">',
         "</b>",
-        '<b style="background-color: rgba(120,120,120,0.15); padding: 3px; border-radius: 10px; font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
@@ -196,7 +196,7 @@ const MapNaverDefault = () => {
         `99+`,
         '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:16px; height:16px;">',
         "</b>",
-        '<b style="background-color: rgba(120,120,120,0.15); padding: 3px; border-radius: 10px; font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
@@ -359,6 +359,8 @@ const MapNaverDefault = () => {
               anchor: new naver.maps.Point(35, 60),
             },
           });
+          if(ClusteredMarkerData.innerMarkerList[0])
+            ClusteredMarkerData.clusteredMarker.setZIndex(ClusteredMarkerData.innerMarkerList[0].getZIndex() + 1);
         } else {
           ClusteredMarkerData.clusteredMarker =
             ClusteredMarkerData.innerMarkerList[0];
