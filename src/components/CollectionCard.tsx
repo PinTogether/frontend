@@ -19,6 +19,8 @@ import { useAppDispatch } from "@/redux/hooks";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
 import fetchPostCollectionLikes from "@/utils/fetchPostCollectionLikes";
 import fetchDeleteCollectionLikes from "@/utils/fetchDeleteCollectionLikes";
+import fetchPostCollectionScraps from "@/utils/fetchPostCollectionScraps";
+import fetchDeleteCollectionScraps from "@/utils/fetchDeleteCollectionScraps";
 
 interface CollectionCardProps extends HTMLAttributes<HTMLButtonElement> {
   collectionData: CollectionDetail;
@@ -79,12 +81,34 @@ export default function CollectionCard({
 }
 
 /* utils */
-const BookMark = () => {
-  const [isBookMarked, setIsBookMarked] = useState(false);
-  const handleBookMark = () => {
-    setIsBookMarked(!isBookMarked);
+const BookMark = ({ collectionId }: { collectionId: number }) => {
+  const [isScrapped, setIsScrapped] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const handleBookMark = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    // 스크랩
+    if (!isScrapped) {
+      const { success, errorMessage } =
+        await fetchPostCollectionScraps(collectionId);
+      if (success) {
+        setIsScrapped(true);
+      } else dispatch(addAlertMessage(errorMessage));
+    }
+    // 스크랩 취소
+    else {
+      const { success, errorMessage } =
+        await fetchDeleteCollectionScraps(collectionId);
+      if (!success) {
+        setIsScrapped(false);
+      } else dispatch(addAlertMessage(errorMessage));
+    }
+    setIsLoading(false);
   };
-  return isBookMarked ? (
+
+  return isScrapped ? (
     <BookMarkFillIcon className={styles.bookmarked} onClick={handleBookMark} />
   ) : (
     <BookMarkIcon onClick={handleBookMark} />
@@ -232,7 +256,7 @@ const DefaultCollectionCard = ({
             <span>{collectionData.title}</span>
           </div>
         </Link>
-        <BookMark />
+        <BookMark collectionId={collectionData.id} />
       </div>
       <div className={styles.textContainer}>
         {/* <Link
@@ -292,7 +316,7 @@ const SimpleCollectionCard = ({
             className={styles.userAvatar}
           />
         </div>
-        <BookMark />
+        <BookMark collectionId={collectionData.id} />
       </div>
       <Link
         href={`/collection/${collectionData.id}`}
@@ -337,7 +361,7 @@ const HorizontalCollectionCard = ({
           className={styles.nickname}
           aria-disabled={linkDisabled}
         >{`by ${collectionData.writer}`}</Link>
-        <BookMark />
+        <BookMark collectionId={collectionData.id} />
       </div>
       <div className={styles.buttonContainer}>
         <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
@@ -426,7 +450,7 @@ const HorizontalDetailCollectionCard = ({
           className={styles.nickname}
           aria-disabled={linkDisabled}
         >{`by ${collectionData.writer}`}</Link>
-        <BookMark />
+        <BookMark collectionId={collectionData.id} />
       </div>
       <div className={styles.buttonContainer}>
         <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
