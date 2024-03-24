@@ -328,7 +328,11 @@ export default function CollectionEditPage({
             <EditIcon />
             <p>컬렉션 태그</p>
           </SectionTitle>
-          <TagEditor tagList={tagList} setTagList={setTagList} />
+          <TagEditor
+            tagList={tagList}
+            setTagList={setTagList}
+            disabled={isUploading}
+          />
           <Line />
           {/* 컬렉션 설명 */}
           <SectionTitle>
