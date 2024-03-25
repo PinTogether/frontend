@@ -134,9 +134,9 @@ export default function Overlay() {
           }
         });
       });
-      setMarkerList(markerLists);
+      //setMarkerList(markerLists);
     }
-    dispatch(markerDataByAmount(markerList));
+    dispatch(markerDataByAmount(markerLists));
   }
 
   function OverlayCollectionSelector(){
@@ -279,7 +279,6 @@ export default function Overlay() {
   }
 
   useEffect(() => {
-    if(markerDatas[0])
       makeMarkerList();
   }, [markerDatas]);
 
