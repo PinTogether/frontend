@@ -183,7 +183,7 @@ const EditButton = ({ pinId, pinData }: { pinId: number; pinData: Pin }) => {
     if (pinData) {
       dispatch(initialPinEditState(pinData));
     }
-    router.push(`/collection/select/${pinId}`);
+    router.push(`/pin/edit/${pinId}`);
   };
 
   return (
