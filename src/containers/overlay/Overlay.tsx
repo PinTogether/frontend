@@ -48,7 +48,10 @@ export default function Overlay() {
   const [markerList, setMarkerList] = useState<MarkerData[]>([]);
 
   const getTopCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`,
+    {
+      credentials: "include",
+    })
     .then((res) => {
       if (!res.ok){
         throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
@@ -64,7 +67,10 @@ export default function Overlay() {
   }
 
   const getMyCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/collections?page=1&size=20`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/collections?page=1&size=20`,
+    {
+      credentials: "include",
+    })
     .then((res) => {
       if (!res.ok){
         throw new Error(`내 컬렉션 정보 가져오기를 실패했습니다.`);
@@ -80,7 +86,10 @@ export default function Overlay() {
   }
 
   const getScrappedCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/scraps?page=1&size=20`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/scraps?page=1&size=20`,
+    {
+      credentials: "include",
+    })
     .then((res) => {
       if (!res.ok){
         throw new Error(`스크랩한 컬렉션 정보 가져오기를 실패했습니다.`);
@@ -130,7 +139,10 @@ export default function Overlay() {
   };
 
   const addMarkerData = async (id: number) => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`,
+    {
+      credentials: "include",
+    })
       .then((res) => {
         if (!res.ok) {
           throw new Error(`컬렉션 '${id}'의 정보 가져오기를 실패했습니다.`);
