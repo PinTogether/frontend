@@ -18,7 +18,7 @@ const GlobalAlertModal = () => {
 
   const dispatch = useAppDispatch();
   const messageList: AlertMessage[] = useAppSelector(
-    (state) => state.globalAlertSlice
+    (state) => state.globalAlert
   );
 
   useEffect(() => {
