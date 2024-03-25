@@ -160,7 +160,7 @@ export default function CollectionEditPage({
         const { success, errorMessage } = await fetchPutCollection(
           newCollectionId,
           inputTitle,
-          imgSrc,
+          presingedUrlData.imageUrl,
           inputDetails,
           tagList
         );
