@@ -2,15 +2,80 @@
 
 import { LogoHorizontal } from "../../components/LogoSvg";
 import styles from "@/styles/containers/main/_mainPage.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import CardSlider2 from "@/components/CardSlider2";
 import CardSlider from "@/components/CardSlider";
 import GlobalAlertModal from "@/components/GlobalAlertModal";
+import {
+  DefaultCollectionCard,
+  SimpleCollectionCard,
+} from "@/components/CollectionCard";
+import { CollectionDetail } from "@/types/Collection";
+import { DefaultCollectionSkeleton } from "@/components/loading/SkeletonImage";
 
 export default function MainPage() {
+  const [isLoading1, setIsLoading1] = useState<boolean>(false);
+  const [isLoading2, setIsLoading2] = useState<boolean>(false);
   const [inputCollectionSearch, setInputCollectionSearch] = useState("");
+  const [topCollectionDatas, setTopCollectionDatas] = useState<
+    CollectionDetail[]
+  >([]);
+  const [officialRecomendedCollectionDatas, setOfficialRecomendedCollectionDatas] = useState<
+  CollectionDetail[]
+>([]);
   const onChangeCollection = (e: any) => {
     setInputCollectionSearch(e.target.value);
   };
+
+  const SkeletonRenderer = ()=>{
+    return(
+      <CardSlider scrollCardNumber={1}>
+        <DefaultCollectionSkeleton />
+        <DefaultCollectionSkeleton />
+        <DefaultCollectionSkeleton />
+        <DefaultCollectionSkeleton />
+      </CardSlider>
+    )
+  }
+
+  const getTopCollectionData = async () => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
+        }
+        return res.json();
+      })
+      .then((res) => {
+        setTopCollectionDatas(res.results);
+        setIsLoading1(true);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const getOfficialCollectionData = async() => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=1&size=20`)
+    .then((res) => {
+      if (!res.ok){
+        throw new Error(`12 컬렉션 정보 가져오기를 실패했습니다.`);
+      }
+      return(res.json());
+    })
+    .then((res) => {
+      setOfficialRecomendedCollectionDatas(res.results);
+      setIsLoading2(true);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  }
+
+  useEffect(() => {
+    getTopCollectionData();
+    getOfficialCollectionData();
+  }, []);
 
   return (
     <section className={styles.container}>
@@ -61,27 +126,35 @@ export default function MainPage() {
       <section className={styles.recommendListContainer}>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
-          <CardSlider scrollCardNumber={5}>
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
+          {isLoading1 ? (
+          <CardSlider >
+            {topCollectionDatas.map((collection, index) => (
+              <DefaultCollectionCard
+                key={index}
+                collectionData={collection}
+                linkDisabled={true}
+              />
+            ))}
           </CardSlider>
+          ):(
+            <SkeletonRenderer />
+          )}
         </section>
         <section className={styles.popularTop}>
-          <p className={styles.popularTopText}>별로 안 추천 컬렉션 TOP10</p>
-          <CardSlider scrollCardNumber={5}>
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
+          <p className={styles.popularTopText}>수석 디자이너의 컬렉션 추천</p>
+          {isLoading2 ? (
+          <CardSlider >
+            {officialRecomendedCollectionDatas.map((collection, index) => (
+              <DefaultCollectionCard
+                key={index}
+                collectionData={collection}
+                linkDisabled={true}
+              />
+            ))}
           </CardSlider>
+          ):(
+            <SkeletonRenderer />
+          )}
         </section>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>적당히 추천 컬렉션 TOP10</p>

@@ -66,7 +66,7 @@ const samplePinData: Pin = {
   saveCnt: 0,
   roadNameAddress: "",
   placeName: "",
-  longtitude: 0,
+  longitude: 0,
   latitude: 0,
   starred: false,
   category: "",

@@ -8,14 +8,14 @@ export default interface Place {
 
 // 특정 장소 정보 조회
 export interface PlaceDetail extends Place {
-  longtitude: number;
+  longitude: number;
   latitude: number;
   starred: boolean;
 }
 
 // 찜한 모든 장소 조회
 export interface PlaceStarred extends Place {
-  longtitude: number;
+  longitude: number;
   latitude: number;
   starred: boolean;
   updatedAt: string;

@@ -8,7 +8,7 @@ export default interface Pin {
   roadNameAddress: string;
   placeName: string;
   // TODO : (placeId) 필요
-  longtitude: number;
+  longitude: number;
   latitude: number;
   starred: boolean;
   category: string;
@@ -20,7 +20,7 @@ export default interface Pin {
 export default interface MarkerData {
   id: number;
   placeName: string;
-  longtitude: number;
+  longitude: number;
   latitude: number;
 }
 

@@ -24,7 +24,6 @@ import { ProfileMine } from "@/types/Profile";
 
 export default function Sidebar() {
   const size = 500;
-  const userId = 1; // 나중에 수정해야함
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useAppDispatch();
@@ -119,7 +118,7 @@ export default function Sidebar() {
               className={`${styles.profile}`}
               width={size}
               height={size}
-              onClick={() => moveURL(`/profile/${userId}`)}
+              onClick={() => moveURL(`/profile/${myProfile.id}`)}
             />
           </div>
         ) : (

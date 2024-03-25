@@ -31,7 +31,7 @@ export async function GET(
   //   },
   //   results: [{
   //     id: 123,
-  //     longtitude: 37.5665,
+  //     longitude: 37.5665,
   //     latitude: 126.978,
   //     name: "Queenstown",
   //     roadNameAddress: "123 Queen Street, Queenstown, New Zealand",

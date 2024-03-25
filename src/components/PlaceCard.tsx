@@ -19,10 +19,12 @@ import fetchDeleteStarPlace from "@/utils/fetchDeleteStarPlace";
 
 import { useAppDispatch } from "@/redux/hooks";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
+import { makeMarker } from "@/utils/makeMarker";
 
 export { PlaceCard, SimpleBoxPlaceCard as SimplePlaceCard };
 
 const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
+  const dispatchMarker = useAppDispatch();
   return (
     <article className={styles.placeCard}>
       {"starred" in place && (
@@ -50,7 +52,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
             {`컬렉션에 추가하기`}
             <AddRoundIcon />
           </Link>
-          <button>
+          <button onClick={(e)=>{makeMarker(place.id, place.name, 0, place.longitude, place.latitude, dispatchMarker)}}>
             {`지도에서 보기`}
             <AddRoundIcon />
           </button>

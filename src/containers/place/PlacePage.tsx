@@ -3,6 +3,7 @@
 import styles from "@/styles/containers/place/_placePage.module.scss";
 import { PinForPlace } from "@/types/Pin";
 import { PlaceDetail } from "@/types/Place";
+import MarkerData from "@/types/Marker";
 import ReviewCard from "@/components/ReviewCard";
 import PlaceCard from "@/components/PlaceCard";
 
@@ -10,6 +11,8 @@ import { useEffect, useState, useRef } from "react";
 import fetchGetPlacePins from "@/utils/fetchGetPlacePins";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import fetchGetPlaceInfo from "@/utils/fetchGetPlaceInfo";
+import { useAppDispatch } from "@/redux/hooks";
+import { makeMarker } from "@/utils/makeMarker";
 
 const PlacePage = ({ placeId }: { placeId: string }) => {
   /* fetch data */
@@ -20,6 +23,7 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
   const [placeData, setPlaceData] = useState<PlaceDetail | null>(null);
   const [placeErrorMessage, setPlaceErrorMessage] = useState<string>("");
   const [pinErrorMessage, setPinErrorMessage] = useState<string>("");
+  const dispatchMarker = useAppDispatch();
 
   /* infinite scroll */
   const pageEndRef = useRef<HTMLDivElement>(null);
@@ -64,6 +68,12 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
     };
     if (isIntersecting && !isEnd) fetchData();
   }, [placeId, isIntersecting]);
+
+  useEffect(()=>{
+    if (pinData[0]){
+      makeMarker(pinData[0].id, pinData[0].placeName, pinData[0].saveCnt, pinData[0].longitude, pinData[0].latitude, dispatchMarker);
+    }
+  },[pinData])
 
   return (
     <>

@@ -5,10 +5,13 @@ import styles from "@/styles/containers/overlay/_overlay.module.scss";
 import CardSlider from "@/components/CardSlider";
 import CardSlider2 from "@/components/CardSlider2";
 import MarkerData from "@/types/Marker";
+import { CollectionDetail } from "@/types/Collection";
+import Collection from "@/types/Collection";
 import Pin from "@/types/Pin";
 import { useState, useEffect } from "react";
 import { locationGetterByAmount } from "@/redux/locationSlice";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
+import fetchGetProfileCollections from "@/utils/fetchGetProfileCollections";
 
 import collectionDummyData from "@/../../public/dummy-data/dummy-collection.json";
 import pinDummyData from "@/../../public/dummy-data/dummy-pin.json";
@@ -37,12 +40,65 @@ export default function Overlay() {
   const sidoName = useAppSelector((state) => state.location.sido);
   const sggName = useAppSelector((state) => state.location.sgg);
   const emdongName = useAppSelector((state) => state.location.emdong);
+  const outerMarkerdata = useAppSelector((state) => state.location.markerData);
   const locationGetter = useAppSelector(
     (state) => state.location.locationGetter
   );
   const [selectedCardId, setSelectedCardId] = useState<number[]>([]);
   const [markerDatas, setMarkerDatas] = useState<markerDataByCollection[]>([]);
+  const [topCollectionDatas, setTopCollectionDatas] = useState<CollectionDetail[]>([]);
+  const [myCollectionDatas, setMyCollectionDatas] = useState<Collection[]>([]);
+  const [scrappedCollectionDatas, setScrappedCollectionDatas] = useState<Collection[]>([]);
   const myProfile = useGetMyProfile();
+  const [markerList, setMarkerList] = useState<MarkerData[]>([]);
+
+  const getTopCollectionData = async() => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`)
+    .then((res) => {
+      if (!res.ok){
+        throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
+      }
+      return(res.json());
+    })
+    .then((res) => {
+      setTopCollectionDatas(res.results);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  }
+
+  const getMyCollectionData = async() => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/collections?page=1&size=20`)
+    .then((res) => {
+      if (!res.ok){
+        throw new Error(`내 컬렉션 정보 가져오기를 실패했습니다.`);
+      }
+      return(res.json());
+    })
+    .then((res) => {
+      setMyCollectionDatas(res.results);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  }
+
+  const getScrappedCollectionData = async() => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/scraps?page=1&size=20`)
+    .then((res) => {
+      if (!res.ok){
+        throw new Error(`스크랩한 컬렉션 정보 가져오기를 실패했습니다.`);
+      }
+      return(res.json());
+    })
+    .then((res) => {
+      setScrappedCollectionDatas(res.results);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  }
 
   function getLocation() {
     dispatch(locationGetterByAmount(true));
@@ -105,13 +161,13 @@ export default function Overlay() {
   };
 
   function makeMarkerList() {
-    let markerList: MarkerData[] = [];
-
+    let markerLists: MarkerData[] = [];
+    setMarkerList([]);
     //최종 마커 리스트를 생성하고 Map에 전달
 
-    function checkList(id: number) {
-      for (let i = 0; i < markerList.length; i++) {
-        if (markerList[i].id == id) {
+    function checkList(id:number){
+      for(let i = 0 ; i < markerLists.length ; i++){
+        if(markerLists[i].id == id){
           return false;
         }
       }
@@ -122,176 +178,155 @@ export default function Overlay() {
         collectionData.pinDatas.forEach((pinData) => {
           if (checkList(pinData.id)) {
             let newData: MarkerData = {
-              id: pinData.id,
-              placeName: pinData.placeName,
-              pinCount: pinData.saveCnt,
-              xPos: pinData.longtitude,
-              yPos: pinData.latitude,
+              id:pinData.id,
+              placeName:pinData.placeName,
+              pinCount:pinData.saveCnt,
+              xPos:pinData.longitude,
+              yPos:pinData.latitude,
             };
-            markerList.push(newData);
+            markerLists.push(newData);
           }
         });
       });
+      //setMarkerList(markerLists);
     }
-    dispatch(markerDataByAmount(markerList));
+    dispatch(markerDataByAmount(markerLists));
   }
 
   function OverlayCollectionSelector() {
     return (
       <>
-        {myProfile ? (
-          <div className={styles.bottom}>
-            <div
-              className={`${styles.bottomContent} ${isCardSliderOn ? styles.visible : ""}`}
-            >
-              <>
-                {collectionSelector == 0 && (
-                  <CardSlider2
-                    height={150}
-                    selectedCardIndexList={selectedCardId}
-                  >
-                    {collectionDummyData.map((collection, index) => (
-                      <SimpleCollectionCard
-                        key={index}
-                        collectionData={collection}
-                        linkDisabled={true}
-                        onClick={() => handleClickedCard(index)}
-                      />
-                    ))}
-                  </CardSlider2>
-                )}
-                {collectionSelector == 1 && (
-                  <CardSlider2
-                    height={150}
-                    selectedCardIndexList={selectedCardId}
-                  >
-                    {collectionDummyData.map((collection, index) => (
-                      <SimpleCollectionCard
-                        key={index}
-                        collectionData={collection}
-                        linkDisabled={true}
-                        onClick={() => handleClickedCard(index)}
-                      />
-                    ))}
-                  </CardSlider2>
-                )}
-                {collectionSelector == 2 && (
-                  <CardSlider2
-                    height={160}
-                    selectedCardIndexList={selectedCardId}
-                  >
-                    {collectionDummyData.map((collection, index) => (
-                      <SimpleCollectionCard
-                        key={index}
-                        collectionData={collection}
-                        linkDisabled={true}
-                        onClick={() => handleClickedCard(index)}
-                      />
-                    ))}
-                  </CardSlider2>
-                )}
-              </>
-            </div>
-            <div className={styles.buttonBox}>
-              <button
-                className={`${styles.bottomButton} ${collectionSelector == 0 ? styles.clickedButtons : ""}`}
-                onClick={() => handleClickBottomButton(0)}
-              >
-                내 컬렉션
-              </button>
-              <button
-                className={`${styles.bottomButton} ${collectionSelector == 1 ? styles.clickedButtons : ""}`}
-                onClick={() => handleClickBottomButton(1)}
-              >
-                스크랩한 컬렉션
-              </button>
-              <button
-                className={`${styles.bottomButton} ${collectionSelector == 2 ? styles.clickedButtons : ""}`}
-                onClick={() => handleClickBottomButton(2)}
-              >
-                팔로우한 컬렉션
-              </button>
-              <button
-                className={styles.bottomButton}
-                onClick={toggleCardSlider}
-              >
-                {showCardSlider ? (
-                  <>
-                    {"컬렉션 보기"}
-                    <ExpendUpIcon />
-                  </>
-                ) : (
-                  <>
-                    {"컬렉션 숨기기"}
-                    <ExpendDownIcon />
-                  </>
-                )}
-              </button>
-            </div>
+      {myProfile ? (
+        <div className={styles.bottom}>
+          <div
+            className={`${styles.bottomContent} ${isCardSliderOn ? styles.visible : ""}`}
+          >
+            <>
+              {collectionSelector == 0 && (
+                <CardSlider2 height={150} selectedCardIndexList={selectedCardId}>
+                  {myCollectionDatas.map((collection, index) => (
+                    <SimpleCollectionCard
+                      key={index}
+                      collectionData={collection}
+                      linkDisabled={true}
+                      onClick={() => handleClickedCard(index)}
+                    />
+                  ))}
+                </CardSlider2>
+              )}
+              {collectionSelector == 1 && (
+                <CardSlider2 height={150} selectedCardIndexList={selectedCardId}>
+                  {scrappedCollectionDatas.map((collection, index) => (
+                    <SimpleCollectionCard
+                      key={index}
+                      collectionData={collection}
+                      linkDisabled={true}
+                      onClick={() => handleClickedCard(index)}
+                    />
+                  ))}
+                </CardSlider2>
+              )}
+            </>
           </div>
-        ) : (
-          <div className={styles.bottom} style={{ minWidth: "800px" }}>
-            <div
-              className={`${styles.bottomContent} ${isCardSliderOn ? styles.visible : ""}`}
+          <div className={styles.buttonBox}>
+            <button
+              className={`${styles.bottomButton} ${collectionSelector == 0 ? styles.clickedButtons : ""}`}
+              onClick={() => handleClickBottomButton(0)}
             >
-              <>
-                {collectionSelector == 0 && (
-                  <CardSlider2
-                    height={150}
-                    selectedCardIndexList={selectedCardId}
-                  >
-                    {collectionDummyData.map((collection, index) => (
-                      <SimpleCollectionCard
-                        key={index}
-                        collectionData={collection}
-                        linkDisabled={true}
-                        onClick={() => handleClickedCard(index)}
-                      />
-                    ))}
-                  </CardSlider2>
-                )}
-              </>
-            </div>
-            <div className={styles.buttonBox}>
-              <div></div>
-              <button className={`${styles.disabledBottomButton}`}>
-                내 컬렉션
-              </button>
-              <button className={`${styles.disabledBottomButton}`}>
-                스크랩한 컬렉션
-              </button>
-              <button className={`${styles.disabledBottomButton}`}>
-                팔로우한 컬렉션
-              </button>
-              <div></div>
-              <button
-                className={styles.bottomButton}
-                onClick={toggleCardSlider}
-              >
-                {showCardSlider ? (
-                  <>
-                    {"컬렉션 보기"}
-                    <ExpendUpIcon />
-                  </>
-                ) : (
-                  <>
-                    {"컬렉션 숨기기"}
-                    <ExpendDownIcon />
-                  </>
-                )}
-              </button>
-            </div>
+              내 컬렉션
+            </button>
+            <button
+              className={`${styles.bottomButton} ${collectionSelector == 1 ? styles.clickedButtons : ""}`}
+              onClick={() => handleClickBottomButton(1)}
+            >
+              스크랩한 컬렉션
+            </button>
+            <button className={styles.bottomButton} onClick={toggleCardSlider}>
+              {showCardSlider ? (
+                <>
+                  {"컬렉션 보기"}
+                  <ExpendUpIcon />
+                </>
+              ) : (
+                <>
+                  {"컬렉션 숨기기"}
+                  <ExpendDownIcon />
+                </>
+              )}
+            </button>
           </div>
+        </div>
+        ):(
+          <div className={styles.bottom} style={{minWidth:"800px"}}>
+          <div
+            className={`${styles.bottomContent} ${isCardSliderOn ? styles.visible : ""}`}
+          >
+            <>
+              {collectionSelector == 0 && (
+                <CardSlider2 height={150} selectedCardIndexList={selectedCardId}>
+                  {topCollectionDatas.map((collection, index) => (
+                    <SimpleCollectionCard
+                      key={index}
+                      collectionData={collection}
+                      linkDisabled={true}
+                      onClick={() => handleClickedCard(index)}
+                    />
+                  ))}
+                </CardSlider2>
+              )}
+            </>
+          </div>
+          <div className={styles.buttonBox}>
+            <div></div>
+            <button
+              className={`${styles.disabledBottomButton}`}
+            >
+              내 컬렉션
+            </button>
+            <button
+              className={`${styles.disabledBottomButton}`}
+            >
+              스크랩한 컬렉션
+            </button>
+            <div></div>
+            <button className={styles.bottomButton} onClick={toggleCardSlider}>
+              {showCardSlider ? (
+                <>
+                  {"컬렉션 보기"}
+                  <ExpendUpIcon />
+                </>
+              ) : (
+                <>
+                  {"컬렉션 숨기기"}
+                  <ExpendDownIcon />
+                </>
+              )}
+            </button>
+          </div>
+        </div>
         )}
       </>
     );
   }
 
   useEffect(() => {
-    makeMarkerList();
+      makeMarkerList();
   }, [markerDatas]);
 
-  useEffect(() => {}, []);
+  // useEffect(() => {
+  //   if(outerMarkerdata != markerList)
+  //   setSelectedCardId([])
+  // }, [outerMarkerdata])
+
+  useEffect(() => {}, []); // 로그인 정보 변경 redux 추가
+
+  useEffect(()=>{
+    getTopCollectionData();
+    if(myProfile){
+      getMyCollectionData();
+      getScrappedCollectionData();
+    }
+  },[myProfile])
 
   return (
     <section className={styles.overlay}>

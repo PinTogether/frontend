@@ -74,7 +74,7 @@ const PinSelectPage = () => {
               name: place.name,
               roadNameAddress: place.roadNameAddress,
               category: place.category || "ETC",
-              longitude: place.longtitude,
+              longitude: place.longitude,
               latitude: place.latitude,
               starred: place.starred || false,
               pinCnt: place.pinCnt,
