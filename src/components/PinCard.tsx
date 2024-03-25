@@ -46,7 +46,7 @@ export default function PinCard({
         </div>
         {showSubButtons && (
           <div className={styles.buttonContainer}>
-            <Link href={`/collection/select`}>
+            <Link href={`/collection/select?placeId=${pinData.placeId}`}>
               {`내 컬렉션에 추가하기`}
               <AddRoundIcon />
             </Link>
@@ -55,7 +55,18 @@ export default function PinCard({
               {`장소 더보기`}
               <AddRoundIcon />
             </Link>
-            <button onClick={(e)=>{makeMarker(pinData.id, pinData.placeName, 0, pinData.longitude, pinData.latitude, dispatch)}}>
+            <button
+              onClick={(e) => {
+                makeMarker(
+                  pinData.id,
+                  pinData.placeName,
+                  0,
+                  pinData.longitude,
+                  pinData.latitude,
+                  dispatch
+                );
+              }}
+            >
               {`지도에서 보기`}
               <AddRoundIcon />
             </button>
@@ -154,7 +165,7 @@ const SimplePinCard = ({
       )}
       {showSubButtons && (
         <div className={styles.buttonContainer}>
-          <Link href={`/collection/select`}>
+          <Link href={`/collection/select?placeId=${pinData.placeId}`}>
             {`내 컬렉션에 추가하기`}
             <AddRoundIcon />
           </Link>
@@ -162,7 +173,18 @@ const SimplePinCard = ({
             {`장소 더보기`}
             <AddRoundIcon />
           </Link>
-          <button onClick={(e)=>{makeMarker(pinData.id, pinData.placeName, 0, pinData.longitude, pinData.latitude, dispatch)}}>
+          <button
+            onClick={(e) => {
+              makeMarker(
+                pinData.id,
+                pinData.placeName,
+                0,
+                pinData.longitude,
+                pinData.latitude,
+                dispatch
+              );
+            }}
+          >
             {`지도에서 보기`}
             <AddRoundIcon />
           </button>
