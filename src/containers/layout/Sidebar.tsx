@@ -35,9 +35,6 @@ export default function Sidebar() {
   );
   const [beforeWidth, setBeforeWidth] = useState<string>("500px");
   const [profile, setProfile] = useState<ProfileMine | null>(null);
-  const [imgSrc, setImgSrc] = useState<string>(
-    "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/profile1.png"
-  );
 
   function moveURL(url: string) {
     if (FlexbarWidth == "0px") {
@@ -73,18 +70,6 @@ export default function Sidebar() {
     };
     fetchMyProfile();
   }, []);
-
-  useEffect(() => {
-    if (profile) {
-      setImgSrc(profile.avatar);
-    } else if (process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL) {
-      setImgSrc(process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL);
-    } else {
-      setImgSrc(
-        "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/profile1.png"
-      );
-    }
-  }, [profile]);
 
   return (
     <section className={styles.container}>
@@ -122,10 +107,10 @@ export default function Sidebar() {
       <button
         className={`${styles.button} ${usePathname().startsWith("/login") ? styles.currPath : ""}`}
       >
-        {imgSrc && profile && profile.id ? (
+        {profile && profile.id ? (
           <div className={styles.profilebox}>
             <Image
-              src={imgSrc}
+              src={profile.avatar}
               alt="profile image"
               className={`${styles.profile}`}
               width={size}
