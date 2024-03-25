@@ -73,10 +73,12 @@ export default function PinCard({
           </div>
         )}
       </div>
-      {showReview && (
+      {showReview && (pinData.review || pinData.imagePaths.length) ? (
         <ul className={styles.commentContaier}>
           <MyReviewCard reviewData={pinData} />
         </ul>
+      ) : (
+        <></>
       )}
       {showEditButton && <EditButton pinId={pinData.id} pinData={pinData} />}
     </article>
