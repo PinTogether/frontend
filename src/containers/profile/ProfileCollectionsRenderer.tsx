@@ -59,7 +59,7 @@ const ProfileCollectionsRenderer = ({
 
   return (
     <section className={`${styles.profileListContainer} ${className}`}>
-      {data.errorMessage || !data.collectionDatas ? (
+      {!data.collectionDatas ? (
         <p className={styles.errorMessage}>{data.errorMessage}</p>
       ) : (
         <>
