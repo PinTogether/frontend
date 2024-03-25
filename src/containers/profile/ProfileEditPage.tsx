@@ -17,7 +17,7 @@ import { EditIcon, ImgLoadIcon, CloseRoundIcon } from "@/components/IconSvg";
 import { InputComponent } from "@/components/InputComponent";
 
 import checkFileValid from "@/utils/checkFileValid";
-import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage"; // TODO
+import useGetMyProfile from "@/hooks/useGetMyProfile";
 import fetchPutMyProfile from "@/utils/fetchPutMyProfile";
 import fetchPostAvatarPresignedUrl from "@/utils/fetchPostAvatarPresignedUrl";
 import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
@@ -29,7 +29,7 @@ export default function ProfileEditPage() {
   const [isUploading, setIsUploading] = useState(false);
 
   /* 프로필 변경전 정보 */
-  const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
+  const myProfile = useGetMyProfile();
   /* 프로필 변경후 정보 */
   const [inputNickname, setInputNickname] = useState("");
   const [imageSrc, setImageSrc] = useState("");
@@ -38,14 +38,7 @@ export default function ProfileEditPage() {
   const [imageFileCheckMessage, setImageFileCheckMessage] = useState("");
   const [nicknameCheckMessage, setNicknameCheckMessage] = useState("");
 
-  useEffect(() => {
-    const myProfile = getMyProfileFromLocalStorage();
-    setMyProfile(myProfile);
-    if (myProfile) {
-      setInputNickname(myProfile.nickname);
-      setImageSrc(myProfile.avatar);
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   // 닉네임
   const handleChangeNickname = (e: any) => {

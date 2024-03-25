@@ -6,13 +6,18 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/navigation";
-import fetchGetMyProfile from "@/utils/fetchGetMyProfile";
+import { useAppDispatch } from "@/redux/hooks";
+import { initialMyProfile, clearMyProfile } from "@/redux/profileSlice";
+
+// for development
+// import { ProfileMine } from "@/types/Profile";
 
 export default function LoginPage() {
   const [externalPopup, setExternalPopup] = useState<Window | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const oauth = new Cookies().get("Authorization");
@@ -51,19 +56,8 @@ export default function LoginPage() {
   };
 
   const getMyInfo = async () => {
-    const fetch = async () => {
-      setIsLoading(true);
-      const { profileInfo, errorMessage } = await fetchGetMyProfile();
-      if (errorMessage != "" || !profileInfo) {
-        setErrorMessage(errorMessage);
-      } else {
-        const myProfile = profileInfo;
-        localStorage.setItem("myProfile", JSON.stringify(myProfile));
-      }
-      setIsLoading(false);
-      router.push("/");
-    };
-    fetch();
+    dispatch(initialMyProfile());
+    router.push("/");
   };
 
   /* popup */

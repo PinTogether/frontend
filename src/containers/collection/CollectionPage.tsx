@@ -6,7 +6,7 @@ import { markerDataByAmount } from "@/redux/locationSlice";
 import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
 import fetchGetCollectionAllPins from "@/utils/fetchGetCollectionAllPins";
 import fetchGetCollectionComments from "@/utils/fetchGetCollectionComments";
-import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+import useGetMyProfile from "@/hooks/useGetMyProfile";
 
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import MarkerData from "@/types/Marker";
@@ -28,7 +28,7 @@ export default function CollectionPage({
   collectionId: number;
 }) {
   const router = useRouter();
-  const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
+  const myProfile = useGetMyProfile();
   const [isMyCollection, setIsMyCollection] = useState(false);
 
   /* fetch data */
@@ -111,7 +111,6 @@ export default function CollectionPage({
     getCollectionData();
     getPinData();
     getReplyData();
-    setMyProfile(getMyProfileFromLocalStorage());
   }, []);
 
   useEffect(() => {
