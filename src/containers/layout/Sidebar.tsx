@@ -19,7 +19,7 @@ import {
 } from "@/components/IconSvg";
 import styles from "@/styles/layout/_sidebar.module.scss";
 import Image from "next/image";
-import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+import useGetMyProfile from "@/hooks/useGetMyProfile";
 import { ProfileMine } from "@/types/Profile";
 
 export default function Sidebar() {
@@ -32,7 +32,7 @@ export default function Sidebar() {
     (state) => state.location.mainContentWidth
   );
   const [beforeWidth, setBeforeWidth] = useState<string>("500px");
-  const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
+  const myProfile = useGetMyProfile();
   const [imgSrc, setImgSrc] = useState<string>(
     "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/profile1.png"
   );
@@ -61,9 +61,7 @@ export default function Sidebar() {
     }
   }
 
-  useEffect(() => {
-    setMyProfile(getMyProfileFromLocalStorage);
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     if (myProfile) {

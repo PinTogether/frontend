@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
-import { ProfileMine } from "@/types/Profile";
-import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+import useGetMyProfile from "@/hooks/useGetMyProfile";
+
 import fetchPostCollectionComments from "@/utils/fetchPostCollectionComment";
 import AlertModal from "@/components/AlertModal";
 
@@ -24,7 +24,7 @@ const ReplyInputContent = ({
   const sizeImage = 100;
 
   const [inputText, setInputText] = useState("");
-  const [profile, setProfile] = useState<ProfileMine | null>(null);
+  const myProfile = useGetMyProfile();
   const [isProfileLoading, setIsProfileLoading] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -36,8 +36,6 @@ const ReplyInputContent = ({
   const getMyProfile = async () => {
     if (isProfileLoading) return;
     setIsProfileLoading(true);
-    const profile = getMyProfileFromLocalStorage();
-    setProfile(profile);
     setIsProfileLoading(false);
   };
 
@@ -47,7 +45,7 @@ const ReplyInputContent = ({
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (isPosting || !profile) return;
+    if (isPosting || !myProfile) return;
     setIsPosting(true);
 
     const { success, errorMessage } = await fetchPostCollectionComments(
@@ -62,9 +60,9 @@ const ReplyInputContent = ({
     setReplyDatas([
       {
         id: -1,
-        writerId: profile?.id,
-        writer: profile?.nickname,
-        writerAvatar: profile?.avatar,
+        writerId: myProfile?.id,
+        writer: myProfile?.nickname,
+        writerAvatar: myProfile?.avatar,
         contents: inputText,
         createdAt: "방금 전",
       },
@@ -77,10 +75,10 @@ const ReplyInputContent = ({
 
   return (
     <>
-      {profile ? (
+      {myProfile ? (
         <form className={styles.replyInputContainer} onSubmit={handleSubmit}>
           <Image
-            src={profile?.avatar}
+            src={myProfile?.avatar}
             alt="profile image"
             width={sizeImage}
             height={sizeImage}

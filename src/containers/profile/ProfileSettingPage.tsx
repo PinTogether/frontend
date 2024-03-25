@@ -1,12 +1,15 @@
 "use client";
 
-import styles from "@/styles/containers/profile/_profileSettingPage.module.scss";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+
+import styles from "@/styles/containers/profile/_profileSettingPage.module.scss";
 import LoginAccount from "@/containers/profile/LoginAccount";
 import InfoListLayout, { UlWrapper, LiWrapper } from "../layout/InfoListLayout";
-import Link from "next/link";
-import { ProfileMine } from "@/types/Profile";
-import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+
+import useGetMyProfile from "@/hooks/useGetMyProfile";
+import { useAppDispatch } from "@/redux/hooks";
+import { clearMyProfile } from "@/redux/profileSlice";
 
 export enum LoginType {
   KAKAO = 1,
@@ -20,19 +23,17 @@ enum LoginStatus {
 }
 
 export default function ProfileSettingPage() {
+  const dispatch = useAppDispatch();
   const [loginType, setLoginType] = useState<LoginType | undefined>(undefined);
   const [loginStatus, setLoginStatus] = useState<LoginStatus>(
     LoginStatus.LOGOUT
   );
-
-  const [myInfo, setMyInfo] = useState<ProfileMine | null>(null);
+  const profile = useGetMyProfile();
 
   useEffect(() => {
-    const myInfo = getMyProfileFromLocalStorage();
-    setMyInfo(myInfo);
-    if (myInfo) {
+    if (profile) {
       setLoginStatus(LoginStatus.LOGIN);
-      const loginType = myInfo.registrationSource;
+      const loginType = profile.registrationSource;
       setLoginType(
         loginType === "KAKAO"
           ? LoginType.KAKAO
@@ -46,18 +47,12 @@ export default function ProfileSettingPage() {
   }, []);
 
   const handleClickLogout = () => {
-    // TODO : 로그아웃 처리
-    // TODO : "myProfile", "Authorization"을 env로 변경하기
-
-    // delete cookies
     deleteCookie("Authorization");
-    // clear local storage
-    localStorage.removeItem("myProfile");
-    // redirect to login page
+    dispatch(clearMyProfile());
     window.location.href = "/login";
   };
 
-  // TODO : react-cookie 사용으로 변경하기
+  // TODO : react-cookie 사용으로 변경하기 ?
   const deleteCookie = (name: string, path: string = "/") => {
     const domain = window.location.hostname.replace("www", "");
     let cookieString =
