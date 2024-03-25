@@ -25,6 +25,7 @@ import { markerDataByAmount } from "@/redux/locationSlice";
 
 import useGetMyProfile from "@/hooks/useGetMyProfile";
 import { ProfileMine } from "@/types/Profile";
+import OverlayTopper from "./OverlayTopper";
 
 interface markerDataByCollection {
   collectionId: number;
@@ -37,13 +38,7 @@ export default function Overlay() {
   const [collectionSelector, setCollectionSelector] = useState(0);
   const [isCardSliderOn, setIsCardSliderOn] = useState(1);
   const [showCardSlider, setShowCardSlider] = useState(false);
-  const sidoName = useAppSelector((state) => state.location.sido);
-  const sggName = useAppSelector((state) => state.location.sgg);
-  const emdongName = useAppSelector((state) => state.location.emdong);
   const outerMarkerdata = useAppSelector((state) => state.location.markerData);
-  const locationGetter = useAppSelector(
-    (state) => state.location.locationGetter
-  );
   const [selectedCardId, setSelectedCardId] = useState<number[]>([]);
   const [markerDatas, setMarkerDatas] = useState<markerDataByCollection[]>([]);
   const [topCollectionDatas, setTopCollectionDatas] = useState<CollectionDetail[]>([]);
@@ -98,10 +93,6 @@ export default function Overlay() {
     .catch((e) => {
       console.error(e);
     });
-  }
-
-  function getLocation() {
-    dispatch(locationGetterByAmount(true));
   }
 
   const toggleCardSlider = () => {
@@ -330,34 +321,7 @@ export default function Overlay() {
 
   return (
     <section className={styles.overlay}>
-      <div className={styles.top}>
-        <button className={styles.topButton} onClick={getLocation}>
-          {locationGetter && (
-            <div className={styles.loader}>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-            </div>
-          )}
-          {!locationGetter && (
-            <img
-              src="/icon/location_plain.svg"
-              alt="location button"
-              className={styles.icon}
-            ></img>
-          )}
-        </button>
-        <div className={styles.topLocation}>
-          <div>{sidoName}</div>
-          <div>{sggName}</div>
-          <div>{emdongName}</div>
-        </div>
-      </div>
+      <OverlayTopper />
       <div></div>
       <OverlayCollectionSelector />
     </section>

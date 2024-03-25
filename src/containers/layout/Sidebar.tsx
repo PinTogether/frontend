@@ -65,12 +65,6 @@ export default function Sidebar() {
   useEffect(() => {
     if (myProfile) {
       setImgSrc(myProfile.avatar);
-    } else if (process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL) {
-      setImgSrc(process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL);
-    } else {
-      setImgSrc(
-        "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/profile1.png"
-      );
     }
   }, [myProfile]);
 
