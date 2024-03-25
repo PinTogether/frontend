@@ -23,7 +23,7 @@ import {
 
 import { markerDataByAmount } from "@/redux/locationSlice";
 
-import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+import useGetMyProfile from "@/hooks/useGetMyProfile";
 import { ProfileMine } from "@/types/Profile";
 
 interface markerDataByCollection {
@@ -49,7 +49,7 @@ export default function Overlay() {
   const [topCollectionDatas, setTopCollectionDatas] = useState<CollectionDetail[]>([]);
   const [myCollectionDatas, setMyCollectionDatas] = useState<Collection[]>([]);
   const [scrappedCollectionDatas, setScrappedCollectionDatas] = useState<Collection[]>([]);
-  const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
+  const myProfile = useGetMyProfile();
   const [markerList, setMarkerList] = useState<MarkerData[]>([]);
 
   const getTopCollectionData = async() => {
@@ -128,37 +128,37 @@ export default function Overlay() {
     setSelectedCardId([]);
   };
 
-  const removeMarkerData = (id:number) => {
-    const newMarkerData:markerDataByCollection[] = [];
-    markerDatas.forEach((data)=>{
-      if(data.collectionId != id){
+  const removeMarkerData = (id: number) => {
+    const newMarkerData: markerDataByCollection[] = [];
+    markerDatas.forEach((data) => {
+      if (data.collectionId != id) {
         newMarkerData.push(data);
       }
-    })
-    setMarkerDatas(newMarkerData);
-  }
-
-  const addMarkerData = async(id:number) => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`)
-    .then((res) => {
-      if (!res.ok){
-        throw new Error(`컬렉션 '${id}'의 정보 가져오기를 실패했습니다.`);
-      }
-      return(res.json());
-    })
-    .then((res) => {
-      const newMarkerData:markerDataByCollection = {
-        collectionId: id,
-        pinDatas: res.results,
-      }
-      setMarkerDatas((prev)=>{
-        return [...prev, newMarkerData];
-      })
-    })
-    .catch((e) => {
-      console.error(e);
     });
-  }
+    setMarkerDatas(newMarkerData);
+  };
+
+  const addMarkerData = async (id: number) => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`컬렉션 '${id}'의 정보 가져오기를 실패했습니다.`);
+        }
+        return res.json();
+      })
+      .then((res) => {
+        const newMarkerData: markerDataByCollection = {
+          collectionId: id,
+          pinDatas: res.results,
+        };
+        setMarkerDatas((prev) => {
+          return [...prev, newMarkerData];
+        });
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
 
   function makeMarkerList() {
     let markerLists: MarkerData[] = [];
@@ -173,10 +173,10 @@ export default function Overlay() {
       }
       return true;
     }
-    if(markerDatas[0]){
+    if (markerDatas[0]) {
       markerDatas.forEach((collectionData) => {
         collectionData.pinDatas.forEach((pinData) => {
-          if(checkList(pinData.id)){
+          if (checkList(pinData.id)) {
             let newData: MarkerData = {
               id:pinData.id,
               placeName:pinData.placeName,
@@ -193,8 +193,8 @@ export default function Overlay() {
     dispatch(markerDataByAmount(markerLists));
   }
 
-  function OverlayCollectionSelector(){
-    return(
+  function OverlayCollectionSelector() {
+    return (
       <>
       {myProfile ? (
         <div className={styles.bottom}>
@@ -305,7 +305,7 @@ export default function Overlay() {
           </div>
         </div>
         )}
-        </>
+      </>
     );
   }
 
@@ -318,9 +318,7 @@ export default function Overlay() {
   //   setSelectedCardId([])
   // }, [outerMarkerdata])
 
-  useEffect(() => {
-    setMyProfile(getMyProfileFromLocalStorage);
-  }, []); // 로그인 정보 변경 redux 추가
+  useEffect(() => {}, []); // 로그인 정보 변경 redux 추가
 
   useEffect(()=>{
     getTopCollectionData();

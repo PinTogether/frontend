@@ -5,16 +5,26 @@ import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
-import { ProfileMine } from "@/types/Profile";
-import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+import useGetMyProfile from "@/hooks/useGetMyProfile";
+
 import fetchPostCollectionComments from "@/utils/fetchPostCollectionComment";
 import AlertModal from "@/components/AlertModal";
 
-const ReplyInputContent = ({ collectionId }: { collectionId: number }) => {
+import CollectionReply from "@/types/CollectionReply";
+
+const ReplyInputContent = ({
+  collectionId,
+  replyDatas,
+  setReplyDatas,
+}: {
+  collectionId: number;
+  replyDatas: CollectionReply[];
+  setReplyDatas: (replyDatas: CollectionReply[]) => void;
+}) => {
   const sizeImage = 100;
 
   const [inputText, setInputText] = useState("");
-  const [profile, setProfile] = useState<ProfileMine | null>(null);
+  const myProfile = useGetMyProfile();
   const [isProfileLoading, setIsProfileLoading] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -26,8 +36,6 @@ const ReplyInputContent = ({ collectionId }: { collectionId: number }) => {
   const getMyProfile = async () => {
     if (isProfileLoading) return;
     setIsProfileLoading(true);
-    const profile = getMyProfileFromLocalStorage();
-    setProfile(profile);
     setIsProfileLoading(false);
   };
 
@@ -37,7 +45,7 @@ const ReplyInputContent = ({ collectionId }: { collectionId: number }) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (isPosting) return;
+    if (isPosting || !myProfile) return;
     setIsPosting(true);
 
     const { success, errorMessage } = await fetchPostCollectionComments(
@@ -48,7 +56,18 @@ const ReplyInputContent = ({ collectionId }: { collectionId: number }) => {
       setAlertMessage(errorMessage);
       setIsPosting(false);
       return;
-    }
+    } // TODO Api reply => CollectionReply
+    setReplyDatas([
+      {
+        id: -1,
+        writerId: myProfile?.id,
+        writer: myProfile?.nickname,
+        writerAvatar: myProfile?.avatar,
+        contents: inputText,
+        createdAt: "방금 전",
+      },
+      ...replyDatas,
+    ]);
     setInputText("");
     setIsPosting(false);
     setAlertMessage("댓글이 등록되었습니다.");
@@ -56,10 +75,10 @@ const ReplyInputContent = ({ collectionId }: { collectionId: number }) => {
 
   return (
     <>
-      {profile ? (
+      {myProfile ? (
         <form className={styles.replyInputContainer} onSubmit={handleSubmit}>
           <Image
-            src={profile?.avatar}
+            src={myProfile?.avatar}
             alt="profile image"
             width={sizeImage}
             height={sizeImage}

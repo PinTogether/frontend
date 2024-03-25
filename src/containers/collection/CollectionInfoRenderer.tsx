@@ -18,7 +18,7 @@ import fetchPostCollectionLikes from "@/utils/fetchPostCollectionLikes";
 import fetchDeleteCollectionLikes from "@/utils/fetchDeleteCollectionLikes";
 import fetchPostCollectionScraps from "@/utils/fetchPostCollectionScraps";
 import fetchDeleteCollectionScraps from "@/utils/fetchDeleteCollectionScraps";
-import getMyProfileFromLocalStorage from "@/utils/getMyProfileFromLocalStorage";
+import useGetMyProfile from "@/hooks/useGetMyProfile";
 
 const CollectionInfoRenderer = ({
   collectionData,
@@ -27,7 +27,7 @@ const CollectionInfoRenderer = ({
   collectionData: CollectionDetail;
   isMyCollection: boolean;
 }) => {
-  const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
+  const myProfile = useGetMyProfile();
   const [isScraped, setIsScraped] = useState<boolean>(collectionData.scrapped);
   const [isLiked, setIsLiked] = useState<boolean>(collectionData.liked);
   const [isScrapedLoading, setIsScrapedLoading] = useState(false);
@@ -101,10 +101,7 @@ const CollectionInfoRenderer = ({
     setIsScrapedLoading(false);
   };
 
-  useEffect(() => {
-    const myProfile = getMyProfileFromLocalStorage();
-    setMyProfile(myProfile);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <section id={styles.collectionInfo}>

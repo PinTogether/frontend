@@ -5,6 +5,7 @@ import styles from "@/styles/containers/main/_mainPage.module.scss";
 import { useEffect, useState } from "react";
 import CardSlider2 from "@/components/CardSlider2";
 import CardSlider from "@/components/CardSlider";
+import GlobalAlertModal from "@/components/GlobalAlertModal";
 import {
   DefaultCollectionCard,
   SimpleCollectionCard,
@@ -92,7 +93,7 @@ export default function MainPage() {
             className={styles.input}
             onChange={onChangeCollection}
             value={inputCollectionSearch}
-            placeholder="다른 사람의 컬렉션을 검색해 보세요 !  추천 키워드  :  강릉, 맛집,  디저트 ... !"
+            placeholder="다른 사람의 컬렉션을 검색해 보세요 ! 강릉, 맛집,  디저트 ... !"
           />
           <select className={styles.selectSearchType}>
             <option value="0">전체 검색</option>
@@ -168,6 +169,7 @@ export default function MainPage() {
           </CardSlider>
         </section>
       </section>
+      <GlobalAlertModal />
     </section>
   );
 }

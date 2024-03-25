@@ -5,6 +5,7 @@ import { ReactNode, forwardRef, useRef, useEffect, useState } from "react";
 import styles from "@/styles/layout/_subPageLayout.module.scss";
 import { ExpandLeftIcon, ExpendUpIcon } from "@/components/IconSvg";
 import { useRouter } from "next/navigation";
+import GlobalAlertModal from "@/components/GlobalAlertModal";
 
 export { SubPageLayout };
 
@@ -64,6 +65,7 @@ const SubPageLayout = forwardRef<HTMLDivElement, SubPageLayoutProps>(
             <ExpendUpIcon />
           </button>
         )}
+        <GlobalAlertModal />
       </section>
     );
   }

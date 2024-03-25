@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 import styles from "@/styles/containers/collection/_collectionEditPage.module.scss";
 import Pin from "@/types/Pin";
+import { CollectionDetail } from "@/types/Collection";
 import {
   ImgLoadIcon,
   EditIcon,
@@ -30,6 +31,7 @@ import fetchPutCollection from "@/utils/fetchPutCollection";
 import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
 import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
 import fetchGetCollectionAllPins from "@/utils/fetchGetCollectionAllPins";
+import fetchDeleteCollection from "@/utils/fetchDeleteCollection";
 
 export default function CollectionEditPage({
   collectionId,
@@ -45,6 +47,11 @@ export default function CollectionEditPage({
 
   /* 핀 리스트 */
   const [pinDataList, setPinDataList] = useState<Pin[]>([]);
+
+  /* 컬렉션 변경전 정보 */
+  const [collectionInfo, setCollectionInfo] = useState<CollectionDetail | null>(
+    null
+  );
 
   /* 컬렉션 정보 */
   const [inputTitle, setInputTitle] = useState("");
@@ -94,7 +101,6 @@ export default function CollectionEditPage({
 
   /* submit */
   const submitCollectionEdit = async () => {
-    console.log("submit");
     if (isUploading) {
       setAlertMessage("업로드 중입니다. 잠시만 기다려주세요.");
     }
@@ -107,6 +113,19 @@ export default function CollectionEditPage({
       await createCollection();
     } else {
       await editCollection(collectionId);
+    }
+    setIsUploading(false);
+  };
+
+  const deleteCollection = async () => {
+    if (isUploading || !collectionId || !collectionInfo) return;
+    setIsUploading(true);
+    // 컬렉션 삭제
+    const { success, errorMessage } = await fetchDeleteCollection(collectionId);
+    if (!success) {
+      setAlertMessage(errorMessage);
+    } else {
+      router.push(`/profile/${collectionInfo?.writerId}`);
     }
     setIsUploading(false);
   };
@@ -202,7 +221,7 @@ export default function CollectionEditPage({
     router.push(`/collection/${collectionId}`);
   };
 
-  /* 컬렉션 정보 불러오기 */
+  /* 컬렉션 정보 불러오기 (초기화) */
   const getAndSetCollectionInfo = async (collectionId: number) => {
     setIsUploading(true);
     const { collectionInfo, errorMessage } =
@@ -212,6 +231,7 @@ export default function CollectionEditPage({
       setIsUploading(false);
       return;
     }
+    setCollectionInfo(collectionInfo);
     setInputTitle(collectionInfo.title);
     setInputDetails(collectionInfo.details);
     setImgSrc(collectionInfo.thumbnail);
@@ -219,7 +239,7 @@ export default function CollectionEditPage({
     setIsUploading(false);
   };
 
-  /* 핀 리스트 불러오기 */
+  /* 핀 리스트 불러오기 (초기화) */
   const getAndSetPinList = async (collectionId: number) => {
     setIsUploading(true);
     const { pinList, errorMessage } =
@@ -247,7 +267,7 @@ export default function CollectionEditPage({
   return (
     <SubPageLayout
       topperMsg={topperMsg}
-      completeButtonMsg={collectionId ? "완료" : "완료"}
+      completeButtonMsg={collectionId ? "수정" : "생성"}
       onClickCompleteButton={submitCollectionEdit}
     >
       <EditPageLayout>
@@ -308,7 +328,11 @@ export default function CollectionEditPage({
             <EditIcon />
             <p>컬렉션 태그</p>
           </SectionTitle>
-          <TagEditor tagList={tagList} setTagList={setTagList} />
+          <TagEditor
+            tagList={tagList}
+            setTagList={setTagList}
+            disabled={isUploading}
+          />
           <Line />
           {/* 컬렉션 설명 */}
           <SectionTitle>
@@ -359,13 +383,30 @@ export default function CollectionEditPage({
         )}
         <Section className={styles.buttonContainer}>
           {collectionId && (
-            <button className={styles.confirmButton} disabled={isUploading}>
-              수정 완료
-            </button>
+            <>
+              <button
+                className={styles.confirmButton}
+                disabled={isUploading}
+                onClick={submitCollectionEdit}
+              >
+                컬렉션 수정
+              </button>
+              <button
+                className={styles.confirmButton}
+                disabled={isUploading}
+                onClick={deleteCollection}
+              >
+                컬렉션 삭제
+              </button>
+            </>
           )}
           {!collectionId && (
-            <button className={styles.confirmButton} disabled={isUploading}>
-              생성 완료
+            <button
+              className={styles.confirmButton}
+              disabled={isUploading}
+              onClick={submitCollectionEdit}
+            >
+              컬렉션 생성
             </button>
           )}
         </Section>
