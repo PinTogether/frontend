@@ -88,8 +88,8 @@ const MapNaverDefault = () => {
           dispatch(sidoByAmount(data.result[0].sido_nm));
         } else if (data.errCd === -100) {
           dispatch(emdongByAmount(""));
-          dispatch(sggByAmount(""));
-          dispatch(sidoByAmount("위치정보없음"));
+          dispatch(sggByAmount("위치정보없음"));
+          dispatch(sidoByAmount(""));
         }
       } else {
         console.error("INVALID geoApiAuth");
