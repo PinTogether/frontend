@@ -11,6 +11,7 @@ import { SearchLogContent } from "./SearchLogContent";
 import SearchPlaceRender from "./SearchPlaceRenderer";
 import SearchCollectionRender from "./SearchCollectionRenderer";
 import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
+import GlobalAlertModal from "@/components/GlobalAlertModal";
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -22,25 +23,27 @@ export default function Page() {
   const searchParams = useSearchParams();
   const [searchKeyword, setSearchKeyword] = useState("");
 
+  /* 검색어 초기화 */
   useEffect(() => {
     // URL에 searchParams가 있으면 해당 검색어로 검색
-    const param = searchParams.get("searchString");
-    console.log("param", param);
+    const param = searchParams.get("keyword");
     if (param) {
       setSearchInputValue(param);
       setShowSearchLog(false);
       setSearchKeyword(param);
     }
-  }, []);
+  }, [searchParams]);
 
   const onChangeSearchInput = (e: any) => {
     setSearchInputValue(e.target.value);
   };
 
+  /* submit */
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (searchInputValue === "") {
       setShowSearchLog(true);
+      setSearchKeyword("");
     } else {
       setShowSearchLog(false);
       setSearchKeyword(searchInputValue);
@@ -49,6 +52,8 @@ export default function Page() {
 
   const clearInputValue = () => {
     setSearchInputValue("");
+    setSearchKeyword("");
+    setShowSearchLog(true);
   };
 
   // Topper & ScrollTop
@@ -124,6 +129,7 @@ export default function Page() {
           </SlideMenu>
         )}
       </section>
+      <GlobalAlertModal />
     </section>
   );
 }
@@ -178,7 +184,7 @@ const SearchLogRenderer = () => {
               {searchLogs.map((searchLog) => (
                 <SearchLogContent
                   key={searchLog.id}
-                  searchString={searchLog.query}
+                  searchKeyword={searchLog.query}
                   searchCategory={"total"} // searchCategory는 미사용
                 />
               ))}

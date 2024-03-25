@@ -15,6 +15,13 @@ import Collection, { CollectionDetail } from "@/types/Collection";
 import { useState, HTMLAttributes } from "react";
 import Link from "next/link";
 
+import { useAppDispatch } from "@/redux/hooks";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
+import fetchPostCollectionLikes from "@/utils/fetchPostCollectionLikes";
+import fetchDeleteCollectionLikes from "@/utils/fetchDeleteCollectionLikes";
+import fetchPostCollectionScraps from "@/utils/fetchPostCollectionScraps";
+import fetchDeleteCollectionScraps from "@/utils/fetchDeleteCollectionScraps";
+
 interface CollectionCardProps extends HTMLAttributes<HTMLButtonElement> {
   collectionData: CollectionDetail;
   horizontal?: boolean;
@@ -74,12 +81,34 @@ export default function CollectionCard({
 }
 
 /* utils */
-const BookMark = () => {
-  const [isBookMarked, setIsBookMarked] = useState(false);
-  const handleBookMark = () => {
-    setIsBookMarked(!isBookMarked);
+const BookMark = ({ collectionId }: { collectionId: number }) => {
+  const [isScrapped, setIsScrapped] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const handleBookMark = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    // 스크랩
+    if (!isScrapped) {
+      const { success, errorMessage } =
+        await fetchPostCollectionScraps(collectionId);
+      if (success) {
+        setIsScrapped(true);
+      } else dispatch(addAlertMessage(errorMessage));
+    }
+    // 스크랩 취소
+    else {
+      const { success, errorMessage } =
+        await fetchDeleteCollectionScraps(collectionId);
+      if (!success) {
+        setIsScrapped(false);
+      } else dispatch(addAlertMessage(errorMessage));
+    }
+    setIsLoading(false);
   };
-  return isBookMarked ? (
+
+  return isScrapped ? (
     <BookMarkFillIcon className={styles.bookmarked} onClick={handleBookMark} />
   ) : (
     <BookMarkIcon onClick={handleBookMark} />
@@ -87,18 +116,44 @@ const BookMark = () => {
 };
 
 const LikedButton = ({
+  collectionId,
   likeCnt,
   linkDisabled = false,
   displayIconFirst = true,
 }: {
+  collectionId: number;
   likeCnt: number;
   linkDisabled: boolean;
   displayIconFirst?: boolean;
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const handleLike = () => {
-    setIsLiked(!isLiked);
+  const dispatch = useAppDispatch();
+
+  const handleLike = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    // 좋아요
+    if (!isLiked) {
+      const { success, errorMessage } =
+        await fetchPostCollectionLikes(collectionId);
+      if (success) {
+        setIsLiked(true);
+        likeCnt += 1; // 왜 되는 걸까?
+      } else dispatch(addAlertMessage(errorMessage));
+    }
+    // 좋아요 취소
+    else {
+      const { success, errorMessage } =
+        await fetchDeleteCollectionLikes(collectionId);
+      if (success) {
+        setIsLiked(false);
+        likeCnt -= 1;
+      } else dispatch(addAlertMessage(errorMessage));
+    }
+    setIsLoading(false);
   };
+
   return (
     <button onClick={linkDisabled ? undefined : handleLike}>
       {displayIconFirst ? (
@@ -125,8 +180,17 @@ const ShareButton = ({
   linkDisabled: boolean;
   displayIconFirst?: boolean;
 }) => {
+  const dispatch = useAppDispatch();
+
+  const handleShare = async () => {
+    navigator.clipboard.writeText(`
+      ${process.env.NEXT_PUBLIC_FRONTEND_URL}/collection/${collectionId}
+    `);
+    dispatch(addAlertMessage("클립보드에 복사되었습니다."));
+  };
+
   return (
-    <button disabled={linkDisabled}>
+    <button disabled={linkDisabled} onClick={handleShare}>
       {displayIconFirst ? (
         <>
           <LinkIcon />
@@ -192,7 +256,7 @@ const DefaultCollectionCard = ({
             <span>{collectionData.title}</span>
           </div>
         </Link>
-        <BookMark />
+        <BookMark collectionId={collectionData.id} />
       </div>
       <div className={styles.textContainer}>
         {/* <Link
@@ -224,6 +288,7 @@ const DefaultCollectionCard = ({
           displayIconFirst={false}
         />
         <LikedButton
+          collectionId={collectionData.id}
           likeCnt={collectionData.likeCnt}
           linkDisabled={linkDisabled}
           displayIconFirst={false}
@@ -251,7 +316,7 @@ const SimpleCollectionCard = ({
             className={styles.userAvatar}
           />
         </div>
-        <BookMark />
+        <BookMark collectionId={collectionData.id} />
       </div>
       <Link
         href={`/collection/${collectionData.id}`}
@@ -296,7 +361,7 @@ const HorizontalCollectionCard = ({
           className={styles.nickname}
           aria-disabled={linkDisabled}
         >{`by ${collectionData.writer}`}</Link>
-        <BookMark />
+        <BookMark collectionId={collectionData.id} />
       </div>
       <div className={styles.buttonContainer}>
         <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
@@ -305,6 +370,7 @@ const HorizontalCollectionCard = ({
           linkDisabled={linkDisabled}
         />
         <LikedButton
+          collectionId={collectionData.id}
           likeCnt={collectionData.likeCnt}
           linkDisabled={linkDisabled}
         />
@@ -384,7 +450,7 @@ const HorizontalDetailCollectionCard = ({
           className={styles.nickname}
           aria-disabled={linkDisabled}
         >{`by ${collectionData.writer}`}</Link>
-        <BookMark />
+        <BookMark collectionId={collectionData.id} />
       </div>
       <div className={styles.buttonContainer}>
         <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
@@ -393,6 +459,7 @@ const HorizontalDetailCollectionCard = ({
           linkDisabled={linkDisabled}
         />
         <LikedButton
+          collectionId={collectionData.id}
           likeCnt={collectionData.likeCnt}
           linkDisabled={linkDisabled}
         />

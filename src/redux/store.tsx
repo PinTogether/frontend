@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import counter from "./counterSlice";
 import location from "./locationSlice";
 import pinEdit from "./pinEditSlice";
+import globalAlertSlice from "./globalAlertSlice";
 
 const store = configureStore({
   reducer: {
     counter,
     location,
     pinEdit,
+    globalAlertSlice,
   }, // 리듀서를 등록
   // middleware: [ReduxThunk, logger], // 사용할 미들웨어들을 나열
   devTools: true, // 기본은 true로 설정되어있다. 개발자 도구의 사용 여부를 정한다.

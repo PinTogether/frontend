@@ -15,11 +15,13 @@ import AlertModal from "@/components/AlertModal";
 
 const CollectionReplyRenderer = ({
   replys,
+  setReplyDatas,
   errorMessage,
   collectionInfo,
   myId,
 }: {
   replys: CollectionReply[];
+  setReplyDatas: (replyDatas: CollectionReply[]) => void;
   errorMessage: string;
   collectionInfo: CollectionDetail;
   myId?: number;
@@ -33,13 +35,22 @@ const CollectionReplyRenderer = ({
     const { success, errorMessage } =
       await fetchDeleteCollectionComment(replyId);
     if (!success) setAlertMessage(errorMessage);
+    else {
+      setAlertMessage("댓글이 삭제되었습니다.");
+      const newReplys = replys.filter((reply) => reply.id !== replyId); //tmp
+      setReplyDatas(newReplys);
+    }
     setIsDeleteReplyLoading(false);
     return;
   };
 
   return (
     <section className={styles.collectionReplyContainer}>
-      <ReplyInputContent collectionId={collectionInfo.id} />
+      <ReplyInputContent
+        collectionId={collectionInfo.id}
+        replyDatas={replys}
+        setReplyDatas={setReplyDatas}
+      />
       {errorMessage ? (
         <div className={styles.errorMessage}>{errorMessage}</div>
       ) : (

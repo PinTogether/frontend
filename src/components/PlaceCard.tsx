@@ -14,6 +14,11 @@ import Link from "next/link";
 import Place, { PlaceDetail, PlaceStarred } from "@/types/Place";
 import { useState } from "react";
 import { StarFilledIcon } from "@/components/IconSvg";
+import fetchPostStarPlace from "@/utils/fetchPostStarPlace";
+import fetchDeleteStarPlace from "@/utils/fetchDeleteStarPlace";
+
+import { useAppDispatch } from "@/redux/hooks";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
 
 export { PlaceCard, SimpleBoxPlaceCard as SimplePlaceCard };
 
@@ -22,7 +27,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
     <article className={styles.placeCard}>
       {"starred" in place && (
         <div className={styles.starredContainer}>
-          <Starred starred={place.starred ? true : false} />
+          <Starred placeId={place.id} starred={place.starred ? true : false} />
         </div>
       )}
 
@@ -80,17 +85,52 @@ const SimpleBoxPlaceCard = ({
 };
 
 /* utils */
-const Starred = ({ starred }: { starred?: boolean }) => {
+const Starred = ({
+  placeId,
+  starred,
+}: {
+  placeId: number;
+  starred: boolean;
+}) => {
   const [isStared, setIsStarred] = useState(starred ? starred : false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+
   const handleStar = () => {
-    setIsStarred(!isStared);
+    if (isStared) {
+      unStarPlace();
+    } else {
+      starPlace();
+    }
   };
+
+  const starPlace = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    const { success, errorMessage } = await fetchPostStarPlace(placeId);
+    if (!success) {
+      dispatch(addAlertMessage(errorMessage));
+    } else {
+      setIsStarred(!isStared);
+    }
+    setIsLoading(false);
+  };
+
+  const unStarPlace = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    const { success, errorMessage } = await fetchDeleteStarPlace(placeId); //
+    if (!success) {
+      dispatch(addAlertMessage(errorMessage));
+    } else {
+      setIsStarred(!isStared);
+    }
+    setIsLoading(false);
+  };
+
   return isStared ? (
-    // <ZimmIcon className={styles.starred} onClick={handleStar} />
     <StarFilledIcon className={styles.starred} onClick={handleStar} />
   ) : (
-    // <ZimmIcon onClick={handleStar} />
-    // <StarFilledIcon onClick={handleStar} />
     <StarIcon onClick={handleStar} />
   );
 };

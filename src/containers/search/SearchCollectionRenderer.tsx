@@ -37,7 +37,6 @@ export default function SearchCollectionRender({
 
   useEffect(() => {
     if (isIntersecting && !isLoading && !isEnd) {
-      console.log("Intersect", pageNum);
       searchCollection(searchKeyword, pageNum);
     }
   }, [isIntersecting]);
