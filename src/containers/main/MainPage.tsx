@@ -39,7 +39,10 @@ export default function MainPage() {
   }
 
   const getTopCollectionData = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`,
+    {
+      credentials: "include",
+    })
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
@@ -56,7 +59,10 @@ export default function MainPage() {
   };
 
   const getOfficialCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=1&size=20`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=1&size=20`,
+    {
+      credentials: "include",
+    })
     .then((res) => {
       if (!res.ok){
         throw new Error(`12 컬렉션 정보 가져오기를 실패했습니다.`);
