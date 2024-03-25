@@ -7,7 +7,8 @@ import Image from "next/image";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
-import { initialMyProfile, clearMyProfile } from "@/redux/profileSlice";
+import { clearMyProfile, setMyProfile } from "@/redux/profileSlice";
+import fetchGetMyProfile from "@/utils/fetchGetMyProfile";
 
 // for development
 // import { ProfileMine } from "@/types/Profile";
@@ -56,7 +57,12 @@ export default function LoginPage() {
   };
 
   const getMyInfo = async () => {
-    dispatch(initialMyProfile());
+    const { profileInfo, errorMessage } = await fetchGetMyProfile();
+    if (errorMessage || !profileInfo) {
+      setErrorMessage(errorMessage);
+      return;
+    }
+    dispatch(setMyProfile(profileInfo));
     router.push("/");
   };
 

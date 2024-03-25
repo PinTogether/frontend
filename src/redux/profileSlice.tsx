@@ -11,21 +11,11 @@ const initialState: ProfileMine | null = null;
 export const myProfile = createSlice({
   name: "counter",
   // `createSlice` will infer the state type from the `initialState` argument
-  initialState: initialState,
+  initialState: initialState as ProfileMine | null,
   reducers: {
-    initialMyProfile: () => {
-      const myProfile = localStorage.getItem("myProfile");
-      if (myProfile) {
-        const profile = JSON.parse(myProfile);
-        return profile;
-      } else {
-        fetchGetMyProfile().then((data) => {
-          if (!data.errorMessage)
-            localStorage.setItem("myProfile", JSON.stringify(data.profileInfo));
-          return data.profileInfo;
-        });
-      }
-      return initialState;
+    setMyProfile: (state, action: PayloadAction<ProfileMine>) => {
+      localStorage.setItem("myProfile", JSON.stringify(action.payload));
+      return action.payload;
     },
     clearMyProfile: () => {
       return initialState;
@@ -33,7 +23,7 @@ export const myProfile = createSlice({
   },
 });
 
-export const { initialMyProfile, clearMyProfile } = myProfile.actions;
+export const { setMyProfile, clearMyProfile } = myProfile.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectPinEdit = (state: RootState) => state.counter.value;

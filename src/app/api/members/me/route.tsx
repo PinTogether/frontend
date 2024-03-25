@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
         nickname: "호기심 많은 도마뱀",
         registrationSource: "KAKAO | NAVER | GOOGLE",
         role: "ROLE_ADMIN | ROLE_MEMBER",
-        avatar: "/path/to/avatar/user1.png",
+        avatar: "https://picsum.photos/200",
         collectionCnt: 0,
         scrappedCollectionCnt: 0,
         followerCnt: 2,

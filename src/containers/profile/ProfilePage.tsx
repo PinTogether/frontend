@@ -14,11 +14,11 @@ import { useRouter } from "next/navigation";
 
 import { ProfileOthers } from "@/types/Profile";
 import fetchGetProfileInfo from "@/utils/fetchGetProfileInfo";
-import checkIsMyId from "@/utils/checkIsMyId";
+import useCheckIsMyId from "@/hooks/useCheckIsMyId";
 
 export default function ProfilePage({ userId }: { userId: number }) {
   const router = useRouter();
-  const [isMyProfile, setIsMyProfile] = useState(false);
+  const isMyProfile = useCheckIsMyId(userId);
 
   /* fetch data */
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,6 @@ export default function ProfilePage({ userId }: { userId: number }) {
     const result = await fetchGetProfileInfo(userId);
     setProfileFetchData(result);
     setIsLoading(false);
-    checkIsMyId(userId) && setIsMyProfile(true);
   };
 
   useEffect(() => {
