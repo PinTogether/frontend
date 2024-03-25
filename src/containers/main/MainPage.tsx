@@ -59,7 +59,7 @@ export default function MainPage() {
   };
 
   const getOfficialCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=1&size=20`,
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=0&size=20`,
     {
       credentials: "include",
     })

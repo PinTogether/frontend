@@ -557,7 +557,7 @@ const MapNaverDefault = () => {
                   newMap.panToBounds(
                     data.markersBounds,
                     { easing: "linear", duration: 300 }, // 애니메이션
-                    { top: 400, right: 400, bottom: 400, left: 400 }
+                    { top: 400, right: 400, bottom: 400, left: sideWidth +  400 }
                   );
                 }
               } else {
