@@ -135,13 +135,13 @@ export default function Page() {
 }
 
 import SearchLog from "@/types/SearchLog";
-import checkIsLogin from "@/utils/checkLogin";
+import useCheckIsLogin from "@/hooks/useCheckLogin";
 
 const SearchLogRenderer = () => {
   const [searchLogs, setSearchLogs] = useState<SearchLog[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const isLogin = useCheckIsLogin();
 
   useEffect(() => {
     // 최근 검색어 불러오기
@@ -154,8 +154,6 @@ const SearchLogRenderer = () => {
       setIsLoading(false);
     };
     fetch();
-
-    setIsLogin(checkIsLogin());
   }, []);
 
   return (

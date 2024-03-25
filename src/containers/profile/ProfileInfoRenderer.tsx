@@ -9,7 +9,7 @@ import Link from "next/link";
 
 import fetchPostFollow from "@/utils/fetchPostFollow";
 import fetchDeleteFollow from "@/utils/fetchDeleteFollow";
-import checkIsLogin from "@/utils/checkLogin";
+import useCheckIsLogin from "@/hooks/useCheckLogin";
 
 const ProfileInfoRenderer = ({
   userId,
@@ -23,7 +23,7 @@ const ProfileInfoRenderer = ({
   isMyProfile: boolean;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const isLogin = useCheckIsLogin();
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const router = useRouter();
 
@@ -65,8 +65,6 @@ const ProfileInfoRenderer = ({
 
   useEffect(() => {
     if (profileInfo) setIsFollowed(profileInfo.followed);
-    const isLogin = checkIsLogin();
-    setIsLogin(isLogin);
   }, [profileInfo]);
 
   return (

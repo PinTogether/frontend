@@ -21,12 +21,15 @@ import useGetMyProfile from "@/hooks/useGetMyProfile";
 import fetchPutMyProfile from "@/utils/fetchPutMyProfile";
 import fetchPostAvatarPresignedUrl from "@/utils/fetchPostAvatarPresignedUrl";
 import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
+import { useAppDispatch } from "@/redux/hooks";
+import { setMyProfile } from "@/redux/profileSlice";
 
 export default function ProfileEditPage() {
   const imageSize = 300;
   const router = useRouter();
   const inputNicknameMaxLength = 16;
   const [isUploading, setIsUploading] = useState(false);
+  const dispatch = useAppDispatch();
 
   /* 프로필 변경전 정보 */
   const myProfile = useGetMyProfile();
@@ -120,6 +123,7 @@ export default function ProfileEditPage() {
     );
     if (!success || errorMessage) {
       setImageFileCheckMessage(errorMessage);
+
       return null;
     }
     return presignedUrlData.imageUrl;
@@ -132,19 +136,20 @@ export default function ProfileEditPage() {
       imageFileUrl
     );
     if (success) {
-      updateLocalstorageMyProfile();
+      updateMyProfile();
+
       router.push(`/profile/${myProfile.id}`);
     } else setNicknameCheckMessage(errorMessage);
   };
 
-  const updateLocalstorageMyProfile = async () => {
+  const updateMyProfile = async () => {
     if (!myProfile) return;
     const newProfile = {
       ...myProfile,
       nickname: inputNickname,
       avatar: imageSrc,
     };
-    localStorage.setItem("myProfile", JSON.stringify(newProfile));
+    dispatch(setMyProfile(newProfile));
   };
 
   return (
