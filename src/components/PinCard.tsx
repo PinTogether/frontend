@@ -6,6 +6,8 @@ import Pin from "@/types/Pin";
 import { ReviewCard, MyReviewCard } from "./ReviewCard";
 import { HTMLAttributes, use, useRef, useState } from "react";
 import Link from "next/link";
+import { makeMarker } from "@/utils/makeMarker";
+import { AppDispatch } from "@/redux/store";
 
 // pinEdit
 import { useRouter } from "next/navigation";
@@ -27,6 +29,7 @@ export default function PinCard({
   showEditButton = true,
   ...props
 }: PinCardProps) {
+  const dispatch = useAppDispatch();
   return (
     <article className={styles.pinCard} {...props}>
       <div className={styles.mainInfo}>
@@ -52,7 +55,7 @@ export default function PinCard({
               {`장소 더보기`}
               <AddRoundIcon />
             </Link>
-            <button>
+            <button onClick={(e)=>{makeMarker(pinData.id, pinData.placeName, 0, pinData.longitude, pinData.latitude, dispatch)}}>
               {`지도에서 보기`}
               <AddRoundIcon />
             </button>
@@ -88,6 +91,7 @@ const SimplePinCard = ({
 }: SimplePinCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [showDetail, setShowDetail] = useState(false);
+  const dispatch = useAppDispatch();
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     console.log("click");
@@ -158,7 +162,7 @@ const SimplePinCard = ({
             {`장소 더보기`}
             <AddRoundIcon />
           </Link>
-          <button>
+          <button onClick={(e)=>{makeMarker(pinData.id, pinData.placeName, 0, pinData.longitude, pinData.latitude, dispatch)}}>
             {`지도에서 보기`}
             <AddRoundIcon />
           </button>

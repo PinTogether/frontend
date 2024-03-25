@@ -25,6 +25,7 @@ import { markerDataByAmount } from "@/redux/locationSlice";
 
 import useGetMyProfile from "@/hooks/useGetMyProfile";
 import { ProfileMine } from "@/types/Profile";
+import OverlayTopper from "./OverlayTopper";
 
 interface markerDataByCollection {
   collectionId: number;
@@ -37,13 +38,7 @@ export default function Overlay() {
   const [collectionSelector, setCollectionSelector] = useState(0);
   const [isCardSliderOn, setIsCardSliderOn] = useState(1);
   const [showCardSlider, setShowCardSlider] = useState(false);
-  const sidoName = useAppSelector((state) => state.location.sido);
-  const sggName = useAppSelector((state) => state.location.sgg);
-  const emdongName = useAppSelector((state) => state.location.emdong);
   const outerMarkerdata = useAppSelector((state) => state.location.markerData);
-  const locationGetter = useAppSelector(
-    (state) => state.location.locationGetter
-  );
   const [selectedCardId, setSelectedCardId] = useState<number[]>([]);
   const [markerDatas, setMarkerDatas] = useState<markerDataByCollection[]>([]);
   const [topCollectionDatas, setTopCollectionDatas] = useState<CollectionDetail[]>([]);
@@ -53,7 +48,10 @@ export default function Overlay() {
   const [markerList, setMarkerList] = useState<MarkerData[]>([]);
 
   const getTopCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`,
+    {
+      credentials: "include",
+    })
     .then((res) => {
       if (!res.ok){
         throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
@@ -69,7 +67,10 @@ export default function Overlay() {
   }
 
   const getMyCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/collections?page=1&size=20`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/collections?page=1&size=20`,
+    {
+      credentials: "include",
+    })
     .then((res) => {
       if (!res.ok){
         throw new Error(`내 컬렉션 정보 가져오기를 실패했습니다.`);
@@ -85,7 +86,10 @@ export default function Overlay() {
   }
 
   const getScrappedCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/scraps?page=1&size=20`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/scraps?page=1&size=20`,
+    {
+      credentials: "include",
+    })
     .then((res) => {
       if (!res.ok){
         throw new Error(`스크랩한 컬렉션 정보 가져오기를 실패했습니다.`);
@@ -98,10 +102,6 @@ export default function Overlay() {
     .catch((e) => {
       console.error(e);
     });
-  }
-
-  function getLocation() {
-    dispatch(locationGetterByAmount(true));
   }
 
   const toggleCardSlider = () => {
@@ -139,7 +139,10 @@ export default function Overlay() {
   };
 
   const addMarkerData = async (id: number) => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`)
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`,
+    {
+      credentials: "include",
+    })
       .then((res) => {
         if (!res.ok) {
           throw new Error(`컬렉션 '${id}'의 정보 가져오기를 실패했습니다.`);
@@ -330,34 +333,7 @@ export default function Overlay() {
 
   return (
     <section className={styles.overlay}>
-      <div className={styles.top}>
-        <button className={styles.topButton} onClick={getLocation}>
-          {locationGetter && (
-            <div className={styles.loader}>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-              <div className={styles.ball}></div>
-            </div>
-          )}
-          {!locationGetter && (
-            <img
-              src="/icon/location_plain.svg"
-              alt="location button"
-              className={styles.icon}
-            ></img>
-          )}
-        </button>
-        <div className={styles.topLocation}>
-          <div>{sidoName}</div>
-          <div>{sggName}</div>
-          <div>{emdongName}</div>
-        </div>
-      </div>
+      <OverlayTopper />
       <div></div>
       <OverlayCollectionSelector />
     </section>
