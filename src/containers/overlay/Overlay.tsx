@@ -5,10 +5,13 @@ import styles from "@/styles/containers/overlay/_overlay.module.scss";
 import CardSlider from "@/components/CardSlider";
 import CardSlider2 from "@/components/CardSlider2";
 import MarkerData from "@/types/Marker";
+import { CollectionDetail } from "@/types/Collection";
+import Collection from "@/types/Collection";
 import Pin from "@/types/Pin";
 import { useState, useEffect } from "react";
 import { locationGetterByAmount } from "@/redux/locationSlice";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
+import fetchGetProfileCollections from "@/utils/fetchGetProfileCollections";
 
 import collectionDummyData from "@/../../public/dummy-data/dummy-collection.json";
 import pinDummyData from "@/../../public/dummy-data/dummy-pin.json";
@@ -43,8 +46,59 @@ export default function Overlay() {
   );
   const [selectedCardId, setSelectedCardId] = useState<number[]>([]);
   const [markerDatas, setMarkerDatas] = useState<markerDataByCollection[]>([]);
+  const [topCollectionDatas, setTopCollectionDatas] = useState<CollectionDetail[]>([]);
+  const [myCollectionDatas, setMyCollectionDatas] = useState<Collection[]>([]);
+  const [scrappedCollectionDatas, setScrappedCollectionDatas] = useState<Collection[]>([]);
   const [myProfile, setMyProfile] = useState<ProfileMine | null>(null);
   const [markerList, setMarkerList] = useState<MarkerData[]>([]);
+
+  const getTopCollectionData = async() => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`)
+    .then((res) => {
+      if (!res.ok){
+        throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
+      }
+      return(res.json());
+    })
+    .then((res) => {
+      setTopCollectionDatas(res.results);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  }
+
+  const getMyCollectionData = async() => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/collections?page=1&size=20`)
+    .then((res) => {
+      if (!res.ok){
+        throw new Error(`내 컬렉션 정보 가져오기를 실패했습니다.`);
+      }
+      return(res.json());
+    })
+    .then((res) => {
+      setMyCollectionDatas(res.results);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  }
+
+  const getScrappedCollectionData = async() => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/scraps?page=1&size=20`)
+    .then((res) => {
+      if (!res.ok){
+        throw new Error(`스크랩한 컬렉션 정보 가져오기를 실패했습니다.`);
+      }
+      return(res.json());
+    })
+    .then((res) => {
+      setScrappedCollectionDatas(res.results);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  }
 
   function getLocation() {
     dispatch(locationGetterByAmount(true));
@@ -150,7 +204,7 @@ export default function Overlay() {
             <>
               {collectionSelector == 0 && (
                 <CardSlider2 height={150} selectedCardIndexList={selectedCardId}>
-                  {collectionDummyData.map((collection, index) => (
+                  {myCollectionDatas.map((collection, index) => (
                     <SimpleCollectionCard
                       key={index}
                       collectionData={collection}
@@ -162,19 +216,7 @@ export default function Overlay() {
               )}
               {collectionSelector == 1 && (
                 <CardSlider2 height={150} selectedCardIndexList={selectedCardId}>
-                  {collectionDummyData.map((collection, index) => (
-                    <SimpleCollectionCard
-                      key={index}
-                      collectionData={collection}
-                      linkDisabled={true}
-                      onClick={() => handleClickedCard(index)}
-                    />
-                  ))}
-                </CardSlider2>
-              )}
-              {collectionSelector == 2 && (
-                <CardSlider2 height={160} selectedCardIndexList={selectedCardId}>
-                  {collectionDummyData.map((collection, index) => (
+                  {scrappedCollectionDatas.map((collection, index) => (
                     <SimpleCollectionCard
                       key={index}
                       collectionData={collection}
@@ -199,12 +241,6 @@ export default function Overlay() {
             >
               스크랩한 컬렉션
             </button>
-            <button
-              className={`${styles.bottomButton} ${collectionSelector == 2 ? styles.clickedButtons : ""}`}
-              onClick={() => handleClickBottomButton(2)}
-            >
-              팔로우한 컬렉션
-            </button>
             <button className={styles.bottomButton} onClick={toggleCardSlider}>
               {showCardSlider ? (
                 <>
@@ -228,7 +264,7 @@ export default function Overlay() {
             <>
               {collectionSelector == 0 && (
                 <CardSlider2 height={150} selectedCardIndexList={selectedCardId}>
-                  {collectionDummyData.map((collection, index) => (
+                  {topCollectionDatas.map((collection, index) => (
                     <SimpleCollectionCard
                       key={index}
                       collectionData={collection}
@@ -251,11 +287,6 @@ export default function Overlay() {
               className={`${styles.disabledBottomButton}`}
             >
               스크랩한 컬렉션
-            </button>
-            <button
-              className={`${styles.disabledBottomButton}`}
-            >
-              팔로우한 컬렉션
             </button>
             <div></div>
             <button className={styles.bottomButton} onClick={toggleCardSlider}>
@@ -289,7 +320,15 @@ export default function Overlay() {
 
   useEffect(() => {
     setMyProfile(getMyProfileFromLocalStorage);
-  }, []);
+  }, []); // 로그인 정보 변경 redux 추가
+
+  useEffect(()=>{
+    getTopCollectionData();
+    if(myProfile){
+      getMyCollectionData();
+      getScrappedCollectionData();
+    }
+  },[myProfile])
 
   return (
     <section className={styles.overlay}>

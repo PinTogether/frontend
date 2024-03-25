@@ -91,10 +91,11 @@
   justify-content: center;
   gap: 10px;
   border-bottom: 1px solid $color-grey;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .recommendListContainer {
+  width: 100%;
   flex: 1;
   display: grid;
   align-items: center;
@@ -110,14 +111,14 @@
   display: grid;
   grid-template-rows: 50px 1fr;
   font-size: $font-size-large;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   flex: 1;
   display: grid;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 10px;
-  overflow-x: hidden;
+  overflow: scroll;
 }
 .popularTopText {
   align-items: center;
