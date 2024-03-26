@@ -376,7 +376,7 @@ const MapNaverDefault = () => {
       const newMarkerList: naver.maps.Marker[] = [];
       markerDatas.forEach((data) => {
         var marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(data.yPos, data.xPos),
+          position: new naver.maps.LatLng(data.latitude, data.longitude),
           icon: {
             content: markerIconRenderer(data),
             //마커의 기준위치 지정

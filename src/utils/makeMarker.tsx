@@ -11,8 +11,8 @@ function makeMarker(id:number, placeName:string, saveCnt:number, latitude:number
         id: id,
         placeName: placeName,
         pinCount: saveCnt,
-        xPos: longitude,
-        yPos: latitude,
+        longitude: longitude,
+        latitude: latitude,
       });
     dispatchMarker(markerDataByAmount(markerList));
 };

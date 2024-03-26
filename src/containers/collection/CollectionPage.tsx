@@ -100,8 +100,8 @@ export default function CollectionPage({
         id: pinFetchDatas.pinList[i].id,
         placeName: pinFetchDatas.pinList[i].placeName,
         pinCount: pinFetchDatas.pinList[i].saveCnt,
-        yPos: pinFetchDatas.pinList[i].latitude,
-        xPos: pinFetchDatas.pinList[i].longitude,
+        latitude: pinFetchDatas.pinList[i].latitude,
+        longitude: pinFetchDatas.pinList[i].longitude,
       });
     }
     dispatchMarker(markerDataByAmount(markerList));
