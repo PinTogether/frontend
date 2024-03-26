@@ -111,7 +111,7 @@ const ScrapButton = ({
     else {
       const { success, errorMessage } =
         await fetchDeleteCollectionScraps(collectionId);
-      if (!success) {
+      if (success) {
         setIsScrapped(false);
       } else dispatch(addAlertMessage(errorMessage));
     }
