@@ -63,16 +63,16 @@ export default function Sidebar() {
     }
   }
 
-  // useEffect(() => {
-  //   const fetchMyProfile = async () => {
-  //     const myProfile = await fetchGetMyProfile();
-  //     if (myProfile.profileInfo) {
-  //       dispatch(setMyProfile(myProfile.profileInfo));
-  //       setProfile(myProfile.profileInfo);
-  //     } else clearMyProfile();
-  //   };
-  //   fetchMyProfile();
-  // }, []);
+  useEffect(() => {
+    const fetchMyProfile = async () => {
+      const myProfile = await fetchGetMyProfile();
+      if (myProfile.profileInfo) {
+        dispatch(setMyProfile(myProfile.profileInfo));
+        setProfile(myProfile.profileInfo);
+      } else clearMyProfile();
+    };
+    fetchMyProfile();
+  }, []);
 
   useEffect(() => {
     if (myProfile) setProfile(myProfile);
