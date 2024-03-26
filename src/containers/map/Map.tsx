@@ -58,8 +58,8 @@ const MapNaverDefault = () => {
   const getLocation = async () => {
     function success(pos: any) {
       const newLocation: LatLng = {
-        lat: pos.coords.longitude,
-        lng: pos.coords.latitude,
+        lng: pos.coords.longitude,
+        lat: pos.coords.latitude,
       };
       dispatch(latLngByAmount(newLocation));
       dispatch(locationGetterByAmount(false));
