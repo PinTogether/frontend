@@ -46,7 +46,7 @@ export default function PinCard({
         </div>
         {showSubButtons && (
           <div className={styles.buttonContainer}>
-            <Link href={`/collection/select`}>
+            <Link href={`/collection/select?placeId=${pinData.placeId}`}>
               {`내 컬렉션에 추가하기`}
               <AddRoundIcon />
             </Link>
@@ -62,10 +62,12 @@ export default function PinCard({
           </div>
         )}
       </div>
-      {showReview && (
+      {showReview && (pinData.review || pinData.imagePaths.length) ? (
         <ul className={styles.commentContaier}>
           <MyReviewCard reviewData={pinData} />
         </ul>
+      ) : (
+        <></>
       )}
       {showEditButton && <EditButton pinId={pinData.id} pinData={pinData} />}
     </article>
@@ -154,7 +156,7 @@ const SimplePinCard = ({
       )}
       {showSubButtons && (
         <div className={styles.buttonContainer}>
-          <Link href={`/collection/select`}>
+          <Link href={`/collection/select?placeId=${pinData.placeId}`}>
             {`내 컬렉션에 추가하기`}
             <AddRoundIcon />
           </Link>
@@ -183,7 +185,7 @@ const EditButton = ({ pinId, pinData }: { pinId: number; pinData: Pin }) => {
     if (pinData) {
       dispatch(initialPinEditState(pinData));
     }
-    router.push(`/collection/select/${pinId}`);
+    router.push(`/pin/edit/${pinId}`);
   };
 
   return (

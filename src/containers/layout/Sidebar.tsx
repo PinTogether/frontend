@@ -36,6 +36,7 @@ export default function Sidebar() {
     (state) => state.location.mainContentWidth
   );
   const [beforeWidth, setBeforeWidth] = useState<string>("500px");
+  const myProfile = useGetMyProfile();
   const [profile, setProfile] = useState<ProfileMine | null>(null);
 
   function moveURL(url: string) {
@@ -72,6 +73,10 @@ export default function Sidebar() {
   //   };
   //   fetchMyProfile();
   // }, []);
+
+  useEffect(() => {
+    if (myProfile) setProfile(myProfile);
+  }, [myProfile]);
 
   return (
     <section className={styles.container}>

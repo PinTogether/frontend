@@ -14,12 +14,10 @@ import CollectionReply from "@/types/CollectionReply";
 
 const ReplyInputContent = ({
   collectionId,
-  replyDatas,
-  setReplyDatas,
+  getReplyDatas,
 }: {
   collectionId: number;
-  replyDatas: CollectionReply[];
-  setReplyDatas: (replyDatas: CollectionReply[]) => void;
+  getReplyDatas: () => void;
 }) => {
   const sizeImage = 100;
 
@@ -57,17 +55,7 @@ const ReplyInputContent = ({
       setIsPosting(false);
       return;
     } // TODO Api reply => CollectionReply
-    setReplyDatas([
-      {
-        id: -1,
-        writerId: myProfile?.id,
-        writer: myProfile?.nickname,
-        writerAvatar: myProfile?.avatar,
-        contents: inputText,
-        createdAt: "방금 전",
-      },
-      ...replyDatas,
-    ]);
+    getReplyDatas();
     setInputText("");
     setIsPosting(false);
     setAlertMessage("댓글이 등록되었습니다.");

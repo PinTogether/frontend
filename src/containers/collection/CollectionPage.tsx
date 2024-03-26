@@ -199,7 +199,7 @@ export default function CollectionPage({
           {showState === 3 && collectionFetchDatas.collectionInfo && (
             <CollectionReplyRenderer
               replys={replyFetchDatas.replyDatas || []}
-              setReplyDatas={setReplyDatas}
+              getReplyDatas={getReplyData}
               errorMessage={replyFetchDatas.errorMessage}
               collectionInfo={collectionFetchDatas.collectionInfo}
               myId={myProfile?.id}

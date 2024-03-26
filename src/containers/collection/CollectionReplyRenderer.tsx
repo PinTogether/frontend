@@ -15,13 +15,13 @@ import AlertModal from "@/components/AlertModal";
 
 const CollectionReplyRenderer = ({
   replys,
-  setReplyDatas,
+  getReplyDatas,
   errorMessage,
   collectionInfo,
   myId,
 }: {
   replys: CollectionReply[];
-  setReplyDatas: (replyDatas: CollectionReply[]) => void;
+  getReplyDatas: () => void;
   errorMessage: string;
   collectionInfo: CollectionDetail;
   myId?: number;
@@ -37,8 +37,7 @@ const CollectionReplyRenderer = ({
     if (!success) setAlertMessage(errorMessage);
     else {
       setAlertMessage("댓글이 삭제되었습니다.");
-      const newReplys = replys.filter((reply) => reply.id !== replyId); //tmp
-      setReplyDatas(newReplys);
+      getReplyDatas();
     }
     setIsDeleteReplyLoading(false);
     return;
@@ -48,8 +47,7 @@ const CollectionReplyRenderer = ({
     <section className={styles.collectionReplyContainer}>
       <ReplyInputContent
         collectionId={collectionInfo.id}
-        replyDatas={replys}
-        setReplyDatas={setReplyDatas}
+        getReplyDatas={getReplyDatas}
       />
       {errorMessage ? (
         <div className={styles.errorMessage}>{errorMessage}</div>
