@@ -16,6 +16,8 @@ import {
   SearchFillIcon,
   SearchIcon,
   SignInSquareIcon,
+  UserBoxIcon,
+  UserBoxFillIcon
 } from "@/components/IconSvg";
 import styles from "@/styles/layout/_sidebar.module.scss";
 import Image from "next/image";
@@ -60,16 +62,16 @@ export default function Sidebar() {
     }
   }
 
-  useEffect(() => {
-    const fetchMyProfile = async () => {
-      const myProfile = await fetchGetMyProfile();
-      if (myProfile.profileInfo) {
-        dispatch(setMyProfile(myProfile.profileInfo));
-        setProfile(myProfile.profileInfo);
-      } else clearMyProfile();
-    };
-    fetchMyProfile();
-  }, []);
+  // useEffect(() => {
+  //   const fetchMyProfile = async () => {
+  //     const myProfile = await fetchGetMyProfile();
+  //     if (myProfile.profileInfo) {
+  //       dispatch(setMyProfile(myProfile.profileInfo));
+  //       setProfile(myProfile.profileInfo);
+  //     } else clearMyProfile();
+  //   };
+  //   fetchMyProfile();
+  // }, []);
 
   return (
     <section className={styles.container}>
@@ -119,7 +121,10 @@ export default function Sidebar() {
             />
           </div>
         ) : (
-          <SignInSquareIcon onClick={() => moveURL(`/login`)} />
+          <>
+            <UserBoxIcon className={styles.icon} onClick={() => moveURL(`/login`)} />
+            <UserBoxFillIcon className={styles.hoveredIcon} onClick={() => moveURL(`/login`)} />
+          </>
         )}
       </button>
       <div></div>

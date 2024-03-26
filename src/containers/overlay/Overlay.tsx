@@ -283,6 +283,7 @@ export default function Overlay() {
           </div>
           <div className={styles.buttonBox}>
             <div></div>
+            <div style={{width:100}}/>
             <button
               className={`${styles.disabledBottomButton}`}
             >
@@ -307,6 +308,7 @@ export default function Overlay() {
                 </>
               )}
             </button>
+            <div style={{width:100}}/>
           </div>
         </div>
         )}
