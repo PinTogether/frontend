@@ -26,7 +26,9 @@
       display: flex;
       align-items: flex-end;
       line-height: 1;
-      gap: 0.5rem;
+      flex-wrap: wrap;
+      column-gap: 0.5rem;
+      row-gap: 0.25rem;
       .placeName {
         font-size: $font-size-large;
         font-weight: 600;
@@ -37,6 +39,7 @@
       }
     }
     .address {
+      margin-top: 0.25rem;
       font-size: $font-size-medium;
       color: $color-text-caption;
     }
