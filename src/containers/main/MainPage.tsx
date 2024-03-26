@@ -20,29 +20,32 @@ export default function MainPage() {
   const [topCollectionDatas, setTopCollectionDatas] = useState<
     CollectionDetail[]
   >([]);
-  const [officialRecomendedCollectionDatas, setOfficialRecomendedCollectionDatas] = useState<
-  CollectionDetail[]
->([]);
+  const [
+    officialRecomendedCollectionDatas,
+    setOfficialRecomendedCollectionDatas,
+  ] = useState<CollectionDetail[]>([]);
   const onChangeCollection = (e: any) => {
     setInputCollectionSearch(e.target.value);
   };
 
-  const SkeletonRenderer = ()=>{
-    return(
+  const SkeletonRenderer = () => {
+    return (
       <CardSlider scrollCardNumber={1}>
         <DefaultCollectionSkeleton />
         <DefaultCollectionSkeleton />
         <DefaultCollectionSkeleton />
         <DefaultCollectionSkeleton />
       </CardSlider>
-    )
-  }
+    );
+  };
 
   const getTopCollectionData = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`,
-    {
-      credentials: "include",
-    })
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`,
+      {
+        credentials: "include",
+      }
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
@@ -58,25 +61,27 @@ export default function MainPage() {
       });
   };
 
-  const getOfficialCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=1&size=20`,
-    {
-      credentials: "include",
-    })
-    .then((res) => {
-      if (!res.ok){
-        throw new Error(`12 컬렉션 정보 가져오기를 실패했습니다.`);
+  const getOfficialCollectionData = async () => {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=0&size=20`,
+      {
+        credentials: "include",
       }
-      return(res.json());
-    })
-    .then((res) => {
-      setOfficialRecomendedCollectionDatas(res.results);
-      setIsLoading2(true);
-    })
-    .catch((e) => {
-      console.error(e);
-    });
-  }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`12 컬렉션 정보 가져오기를 실패했습니다.`);
+        }
+        return res.json();
+      })
+      .then((res) => {
+        setOfficialRecomendedCollectionDatas(res.results);
+        setIsLoading2(true);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
 
   useEffect(() => {
     getTopCollectionData();
@@ -110,14 +115,14 @@ export default function MainPage() {
         </div>
       </section>
       <section className={styles.gradationBox}>
-        <p>
-          내가 좋아하는 <b>장소</b>에 <b>핀</b>을 찍고
+        <div>
+          <span>내가 좋아하는 </span><span className={styles.bold}>장소</span><span>에</span> <span className={styles.bold}>핀</span><span>을 찍고</span>
           <br />
-          <b>컬렉션</b>을 만들고, 친구들과 공유해보세요!
-        </p>
+          <span className={styles.bold}>컬렉션</span><span>을 만들고, 친구들과 공유해보세요!</span>
+        </div>
       </section>
       <section className={styles.recommendCard}>
-        <CardSlider scrollCardNumber={2}>
+        <CardSlider scrollCardNumber={1}>
           <img src="https://picsum.photos/500/300" alt="image" />
           <img src="https://picsum.photos/500/300" alt="image" />
           <img src="https://picsum.photos/500/300" alt="image" />
@@ -132,38 +137,43 @@ export default function MainPage() {
       <section className={styles.recommendListContainer}>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
+          <div className={styles.popularTopSlider}></div>
           {isLoading1 ? (
-          <CardSlider >
-            {topCollectionDatas.map((collection, index) => (
-              <DefaultCollectionCard
-                key={index}
-                collectionData={collection}
-                linkDisabled={true}
-              />
-            ))}
-          </CardSlider>
-          ):(
+            <CardSlider scrollCardNumber={5}>
+              {topCollectionDatas.map((collection, index) => (
+                <DefaultCollectionCard
+                  key={index}
+                  collectionData={collection}
+                  linkDisabled={true}
+                />
+              ))}
+            </CardSlider>
+          ) : (
             <SkeletonRenderer />
           )}
+          <div />
         </section>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>수석 디자이너의 컬렉션 추천</p>
-          {isLoading2 ? (
-          <CardSlider >
-            {officialRecomendedCollectionDatas.map((collection, index) => (
-              <DefaultCollectionCard
-                key={index}
-                collectionData={collection}
-                linkDisabled={true}
-              />
-            ))}
-          </CardSlider>
-          ):(
-            <SkeletonRenderer />
-          )}
+          <div className={styles.popularTopSlider}>
+            {isLoading2 ? (
+              <CardSlider scrollCardNumber={5}>
+                {officialRecomendedCollectionDatas.map((collection, index) => (
+                  <DefaultCollectionCard
+                    key={index}
+                    collectionData={collection}
+                    linkDisabled={true}
+                  />
+                ))}
+              </CardSlider>
+            ) : (
+              <SkeletonRenderer />
+            )}
+          </div>
         </section>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>적당히 추천 컬렉션 TOP10</p>
+          <div className={styles.popularTopSlider}></div>
           <CardSlider scrollCardNumber={5}>
             <img src="https://picsum.photos/170/200" alt="image" />
             <img src="https://picsum.photos/170/200" alt="image" />
@@ -173,6 +183,7 @@ export default function MainPage() {
             <img src="https://picsum.photos/170/200" alt="image" />
             <img src="https://picsum.photos/170/200" alt="image" />
           </CardSlider>
+          <div />
         </section>
       </section>
       <GlobalAlertModal />

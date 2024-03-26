@@ -21,8 +21,8 @@ const fetchGetStars = async (userId: number) => {
       name: result.name,
       category: result.category,
       roadNameAddress: result.address.roadNameAddress,
-      latitude: result.address.latitude,
       longitude: result.address.longitude,
+      latitude: result.address.latitude,
       updatedAt: result.address.updatedAt,
       starred: true,
     }));

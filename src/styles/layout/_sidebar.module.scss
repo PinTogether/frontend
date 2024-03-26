@@ -77,3 +77,20 @@
 	border : solid 3px $color-primary-light;
 	transition: opacity 0.1s ease-in-out;
 }
+
+.loginIcon{
+  transition: opacity 0.2s ease-in-out;
+	opacity: 1;
+}
+.loginIcon:hover{
+	opacity: 0;
+}
+
+.loginIconHover{
+	transition: opacity 0.2s ease-in-out;
+	opacity: 0;
+}
+
+.loginIconHover:hover{
+	opacity: 1;
+}

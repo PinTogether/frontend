@@ -45,14 +45,14 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
         <address className={styles.address}>{place.roadNameAddress}</address>
         <div className={styles.buttonContainer}>
           <div className={styles.pinCnt}>
-            {`52개 핀`}
+            {place.pinCnt}
             <PinIcon />
           </div>
           <Link href={`/collection/select?placeId=${place.id}`}>
             {`컬렉션에 추가하기`}
             <AddRoundIcon />
           </Link>
-          <button onClick={(e)=>{makeMarker(place.id, place.name, 0, place.longitude, place.latitude, dispatchMarker)}}>
+          <button onClick={(e)=>{makeMarker(place.id, place.name, 0, place.latitude, place.longitude, dispatchMarker)}}>
             {`지도에서 보기`}
             <AddRoundIcon />
           </button>
