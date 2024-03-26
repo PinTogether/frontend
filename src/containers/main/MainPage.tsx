@@ -115,14 +115,14 @@ export default function MainPage() {
         </div>
       </section>
       <section className={styles.gradationBox}>
-        <p>
-          내가 좋아하는 <b>장소</b>에 <b>핀</b>을 찍고
+        <div>
+          <span>내가 좋아하는 </span><span className={styles.bold}>장소</span><span>에</span> <span className={styles.bold}>핀</span><span>을 찍고</span>
           <br />
-          <b>컬렉션</b>을 만들고, 친구들과 공유해보세요!
-        </p>
+          <span className={styles.bold}>컬렉션</span><span>을 만들고, 친구들과 공유해보세요!</span>
+        </div>
       </section>
       <section className={styles.recommendCard}>
-        <CardSlider scrollCardNumber={2}>
+        <CardSlider scrollCardNumber={1}>
           <img src="https://picsum.photos/500/300" alt="image" />
           <img src="https://picsum.photos/500/300" alt="image" />
           <img src="https://picsum.photos/500/300" alt="image" />
@@ -139,7 +139,7 @@ export default function MainPage() {
           <p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
           <div className={styles.popularTopSlider}></div>
           {isLoading1 ? (
-            <CardSlider>
+            <CardSlider scrollCardNumber={5}>
               {topCollectionDatas.map((collection, index) => (
                 <DefaultCollectionCard
                   key={index}
@@ -157,7 +157,7 @@ export default function MainPage() {
           <p className={styles.popularTopText}>수석 디자이너의 컬렉션 추천</p>
           <div className={styles.popularTopSlider}>
             {isLoading2 ? (
-              <CardSlider>
+              <CardSlider scrollCardNumber={5}>
                 {officialRecomendedCollectionDatas.map((collection, index) => (
                   <DefaultCollectionCard
                     key={index}
