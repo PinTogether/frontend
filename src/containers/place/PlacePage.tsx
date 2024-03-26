@@ -71,7 +71,7 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
 
   useEffect(()=>{
     if (pinData[0]){
-      makeMarker(pinData[0].id, pinData[0].placeName, pinData[0].saveCnt, pinData[0].longitude, pinData[0].latitude, dispatchMarker);
+      makeMarker(pinData[0].id, pinData[0].placeName, pinData[0].saveCnt, pinData[0].latitude, pinData[0].longitude, dispatchMarker);
     }
   },[pinData])
 

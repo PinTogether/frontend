@@ -67,7 +67,7 @@ export default function Overlay() {
   }
 
   const getMyCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/collections?page=1&size=20`,
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/collections?page=0&size=20`,
     {
       credentials: "include",
     })
@@ -86,7 +86,7 @@ export default function Overlay() {
   }
 
   const getScrappedCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/scraps?page=1&size=20`,
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${myProfile?.id}/scraps?page=0&size=20`,
     {
       credentials: "include",
     })
@@ -184,8 +184,8 @@ export default function Overlay() {
               id:pinData.id,
               placeName:pinData.placeName,
               pinCount:pinData.saveCnt,
-              xPos:pinData.longitude,
-              yPos:pinData.latitude,
+              latitude:pinData.latitude,
+              longitude:pinData.longitude,
             };
             markerLists.push(newData);
           }
@@ -232,6 +232,7 @@ export default function Overlay() {
             </>
           </div>
           <div className={styles.buttonBox}>
+            <div style={{width:100}}/>
             <button
               className={`${styles.bottomButton} ${collectionSelector == 0 ? styles.clickedButtons : ""}`}
               onClick={() => handleClickBottomButton(0)}
@@ -257,6 +258,7 @@ export default function Overlay() {
                 </>
               )}
             </button>
+            <div style={{width:100}}/>
           </div>
         </div>
         ):(
@@ -281,6 +283,7 @@ export default function Overlay() {
           </div>
           <div className={styles.buttonBox}>
             <div></div>
+            <div style={{width:100}}/>
             <button
               className={`${styles.disabledBottomButton}`}
             >
@@ -305,6 +308,7 @@ export default function Overlay() {
                 </>
               )}
             </button>
+            <div style={{width:100}}/>
           </div>
         </div>
         )}

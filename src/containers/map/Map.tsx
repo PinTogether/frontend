@@ -58,8 +58,8 @@ const MapNaverDefault = () => {
   const getLocation = async () => {
     function success(pos: any) {
       const newLocation: LatLng = {
-        lat: pos.coords.latitude,
         lng: pos.coords.longitude,
+        lat: pos.coords.latitude,
       };
       dispatch(latLngByAmount(newLocation));
       dispatch(locationGetterByAmount(false));
@@ -88,8 +88,8 @@ const MapNaverDefault = () => {
           dispatch(sidoByAmount(data.result[0].sido_nm));
         } else if (data.errCd === -100) {
           dispatch(emdongByAmount(""));
-          dispatch(sggByAmount(""));
-          dispatch(sidoByAmount("위치정보없음"));
+          dispatch(sggByAmount("위치정보없음"));
+          dispatch(sidoByAmount(""));
         }
       } else {
         console.error("INVALID geoApiAuth");
@@ -376,7 +376,7 @@ const MapNaverDefault = () => {
       const newMarkerList: naver.maps.Marker[] = [];
       markerDatas.forEach((data) => {
         var marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(data.xPos, data.yPos),
+          position: new naver.maps.LatLng(data.latitude, data.longitude),
           icon: {
             content: markerIconRenderer(data),
             //마커의 기준위치 지정
@@ -557,7 +557,7 @@ const MapNaverDefault = () => {
                   newMap.panToBounds(
                     data.markersBounds,
                     { easing: "linear", duration: 300 }, // 애니메이션
-                    { top: 400, right: 400, bottom: 400, left: 400 }
+                    { top: 400, right: 400, bottom: 400, left: sideWidth +  400 }
                   );
                 }
               } else {

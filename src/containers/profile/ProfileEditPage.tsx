@@ -206,7 +206,7 @@ export default function ProfileEditPage() {
             className={isUploading ? styles.disabled : ""}
             onChange={handleChangeNickname}
             value={inputNickname}
-            placeholder="김고양"
+            placeholder={myProfile?.nickname}
             maxLength={inputNicknameMaxLength}
             ref={(input) => input && input.focus()}
             disabled={isUploading}

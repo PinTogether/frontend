@@ -12,8 +12,8 @@
 	      "https://picsum.photos/200"
 	    ],
 	    "tags": ["city", "street", "photography"],
-	    "xPos": 37.5665,
-	    "yPos": 126.9780,
+	    "longitude": 37.5665,
+	    "latitude": 126.9780,
 	    "placeName": "Downtown Crossing",
 	    "saveCnt": 10,
 	    "address": "500 City Street, Metro City, Urbania",
@@ -33,8 +33,8 @@
 	      "https://picsum.photos/200"
 	    ],
 	    "tags": ["mountains", "adventure", "nature"],
-	    "xPos": 34.0522,
-	    "yPos": -118.2437,
+	    "longitude": 34.0522,
+	    "latitude": -118.2437,
 	    "placeName": "High Peaks",
 	    "saveCnt": 20,
 	    "address": "1000 Mountain Pass, Highland, Natureland",
@@ -54,8 +54,8 @@
 	      "https://picsum.photos/200"
 	    ],
 	    "tags": ["seaside", "tranquility", "beach"],
-	    "xPos": 40.7128,
-	    "yPos": -74.0060,
+	    "longitude": 40.7128,
+	    "latitude": -74.0060,
 	    "placeName": "Sunny Shores",
 	    "saveCnt": 30,
 	    "address": "250 Coastal Road, Seaview, Oceanville",

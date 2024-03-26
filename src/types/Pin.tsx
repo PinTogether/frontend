@@ -8,8 +8,8 @@ export default interface Pin {
   roadNameAddress: string;
   placeName: string;
   placeId?: number; // TODO
-  longitude: number;
   latitude: number;
+  longitude: number;
   starred: boolean;
   category: string;
   tags: string[];
@@ -20,8 +20,8 @@ export default interface Pin {
 export default interface MarkerData {
   id: number;
   placeName: string;
-  longitude: number;
   latitude: number;
+  longitude: number;
 }
 
 // 장소에 대한 모든 핀 조회
