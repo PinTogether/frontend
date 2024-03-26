@@ -20,10 +20,10 @@ function generateMarkerData(count: number): MarkerData[] {
     const id = i;
     const placeName = placeNames[getRandomNumber(0, placeNames.length - 1)];
     const pinCount = getRandomNumber(0, 200);
-    const xPos = getRandomNumber(33000, 38500) / 1000; // 위도
-    const yPos = getRandomNumber(125000, 131000) / 1000; // 경도
+    const yPos = getRandomNumber(33000, 38500) / 1000; // 위도
+    const xPos = getRandomNumber(125000, 131000) / 1000; // 경도
 
-    markerData.push({ id, placeName, pinCount, xPos, yPos });
+    markerData.push({ id, placeName, pinCount, yPos, xPos });
   }
 
   return markerData;

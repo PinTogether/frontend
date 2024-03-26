@@ -55,7 +55,7 @@ export default function PinCard({
               {`장소 더보기`}
               <AddRoundIcon />
             </Link>
-            <button onClick={(e)=>{makeMarker(pinData.id, pinData.placeName, 0, pinData.longitude, pinData.latitude, dispatch)}}>
+            <button onClick={(e)=>{makeMarker(pinData.id, pinData.placeName, 0, pinData.latitude, pinData.longitude, dispatch)}}>
               {`지도에서 보기`}
               <AddRoundIcon />
             </button>
@@ -162,7 +162,7 @@ const SimplePinCard = ({
             {`장소 더보기`}
             <AddRoundIcon />
           </Link>
-          <button onClick={(e)=>{makeMarker(pinData.id, pinData.placeName, 0, pinData.longitude, pinData.latitude, dispatch)}}>
+          <button onClick={(e)=>{makeMarker(pinData.id, pinData.placeName, 0, pinData.latitude, pinData.longitude, dispatch)}}>
             {`지도에서 보기`}
             <AddRoundIcon />
           </button>

@@ -184,8 +184,8 @@ export default function Overlay() {
               id:pinData.id,
               placeName:pinData.placeName,
               pinCount:pinData.saveCnt,
-              xPos:pinData.longitude,
               yPos:pinData.latitude,
+              xPos:pinData.longitude,
             };
             markerLists.push(newData);
           }

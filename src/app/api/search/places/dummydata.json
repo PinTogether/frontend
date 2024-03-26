@@ -4,159 +4,159 @@
 			"name": "고기하다",
 			"roadNameAddress": "서울특별시 종로구 대학로 133-6, 1층 (명륜4가) 서울특별시 종로구 대학로 133-6, 1층 (명륜4가) 서울특별시 종로구 대학로 133-6, 1층 (명륜4가)",
 			"pinCnt": 12,
-			"latitude": 200032.0776,
-			"longitude": 453403.9145
+			"longitude": 200032.0776,
+			"latitude": 453403.9145
 	},
 	{
 			"id": 525679,
 			"name": "대학로 고기집 한판도",
 			"roadNameAddress": "서울특별시 종로구 대명길 18, 1층 (명륜2가)",
 			"pinCnt": 3,
-			"latitude": 199973.8997,
-			"longitude": 453466.2673
+			"longitude": 126.90859376254605,
+			"latitude": 37.549784768166326
 	},
 	{
 			"id": 526438,
 			"name": "효자동 목고기",
 			"roadNameAddress": "서울특별시 종로구 종로16길 24, 1,2층 (관철동)",
 			"pinCnt": 0,
-			"latitude": 198922.6894,
-			"longitude": 451854.0417
+			"longitude": 198922.6894,
+			"latitude": 451854.0417
 	},
 	{
 			"id": 526945,
 			"name": "익선동 고기집",
 			"roadNameAddress": "서울특별시 종로구 수표로28길 47, 1층 (익선동)",
 			"pinCnt": 1,
-			"latitude": 199120.5623,
-			"longitude": 452342.3471
+			"longitude": 199120.5623,
+			"latitude": 452342.3471
 	},
 	{
 			"id": 527063,
 			"name": "엉터리생고기 대학로점",
 			"roadNameAddress": "서울특별시 종로구 대명길 22 (명륜2가,(지상3층))",
 			"pinCnt": 0,
-			"latitude": 199965.5525,
-			"longitude": 453459.1068
+			"longitude": 199965.5525,
+			"latitude": 453459.1068
 	},
 	{
 			"id": 527201,
 			"name": "고기와 찌개마을",
 			"roadNameAddress": "서울특별시 종로구 종로51길 15, 1층 (창신동)",
 			"pinCnt": 0,
-			"latitude": 200971.7589,
-			"longitude": 452264.0219
+			"longitude": 200971.7589,
+			"latitude": 452264.0219
 	},
 	{
 			"id": 527297,
 			"name": "창신생고기",
 			"roadNameAddress": "서울특별시 종로구 지봉로7길 16 (창신동)",
 			"pinCnt": 0,
-			"latitude": 201274.8899,
-			"longitude": 452535.0403
+			"longitude": 201274.8899,
+			"latitude": 452535.0403
 	},
 	{
 			"id": 527335,
 			"name": "때때로 고기",
 			"roadNameAddress": "서울특별시 종로구 종로16길 22, 1층 (관철동)",
 			"pinCnt": 4,
-			"latitude": 198922.06,
-			"longitude": 451864.1772
+			"longitude": 198922.06,
+			"latitude": 451864.1772
 	},
 	{
 			"id": 527356,
 			"name": "광화문고기집",
 			"roadNameAddress": "서울특별시 종로구 새문안로5가길 11, 1층 (내수동)",
 			"pinCnt": 1,
-			"latitude": 197618.4597,
-			"longitude": 452311.2852
+			"longitude": 197618.4597,
+			"latitude": 452311.2852
 	},
 	{
 			"id": 527383,
 			"name": "고기공방",
 			"roadNameAddress": "서울특별시 종로구 대명1길 16-17, 지상1층 (명륜4가)",
 			"pinCnt": 0,
-			"latitude": 199926.8282,
-			"longitude": 453390.2333
+			"longitude": 199926.8282,
+			"latitude": 453390.2333
 	},
 	{
 		"id": 325482,
 		"name": "고기하다",
 		"roadNameAddress": "서울특별시 종로구 대학로 133-6, 1층 (명륜4가) 서울특별시 종로구 대학로 133-6, 1층 (명륜4가) 서울특별시 종로구 대학로 133-6, 1층 (명륜4가)",
 		"pinCnt": 12,
-		"latitude": 200032.0776,
-		"longitude": 453403.9145
+		"longitude": 200032.0776,
+		"latitude": 453403.9145
 },
 {
 		"id": 325679,
 		"name": "대학로 고기집 한판도",
 		"roadNameAddress": "서울특별시 종로구 대명길 18, 1층 (명륜2가)",
 		"pinCnt": 3,
-		"latitude": 199973.8997,
-		"longitude": 453466.2673
+		"longitude": 199973.8997,
+		"latitude": 453466.2673
 },
 {
 		"id": 326438,
 		"name": "효자동 목고기",
 		"roadNameAddress": "서울특별시 종로구 종로16길 24, 1,2층 (관철동)",
 		"pinCnt": 0,
-		"latitude": 198922.6894,
-		"longitude": 451854.0417
+		"longitude": 198922.6894,
+		"latitude": 451854.0417
 },
 {
 		"id": 326945,
 		"name": "익선동 고기집",
 		"roadNameAddress": "서울특별시 종로구 수표로28길 47, 1층 (익선동)",
 		"pinCnt": 1,
-		"latitude": 199120.5623,
-		"longitude": 452342.3471
+		"longitude": 199120.5623,
+		"latitude": 452342.3471
 },
 {
 		"id": 327063,
 		"name": "엉터리생고기 대학로점",
 		"roadNameAddress": "서울특별시 종로구 대명길 22 (명륜2가,(지상3층))",
 		"pinCnt": 0,
-		"latitude": 199965.5525,
-		"longitude": 453459.1068
+		"longitude": 199965.5525,
+		"latitude": 453459.1068
 },
 {
 		"id": 327201,
 		"name": "고기와 찌개마을",
 		"roadNameAddress": "서울특별시 종로구 종로51길 15, 1층 (창신동)",
 		"pinCnt": 0,
-		"latitude": 200971.7589,
-		"longitude": 452264.0219
+		"longitude": 200971.7589,
+		"latitude": 452264.0219
 },
 {
 		"id": 327297,
 		"name": "창신생고기",
 		"roadNameAddress": "서울특별시 종로구 지봉로7길 16 (창신동)",
 		"pinCnt": 0,
-		"latitude": 201274.8899,
-		"longitude": 452535.0403
+		"longitude": 201274.8899,
+		"latitude": 452535.0403
 },
 {
 		"id": 327335,
 		"name": "때때로 고기",
 		"roadNameAddress": "서울특별시 종로구 종로16길 22, 1층 (관철동)",
 		"pinCnt": 4,
-		"latitude": 198922.06,
-		"longitude": 451864.1772
+		"longitude": 198922.06,
+		"latitude": 451864.1772
 },
 {
 		"id": 327356,
 		"name": "광화문고기집",
 		"roadNameAddress": "서울특별시 종로구 새문안로5가길 11, 1층 (내수동)",
 		"pinCnt": 1,
-		"latitude": 197618.4597,
-		"longitude": 452311.2852
+		"longitude": 197618.4597,
+		"latitude": 452311.2852
 },
 {
 		"id": 327383,
 		"name": "고기공방",
 		"roadNameAddress": "서울특별시 종로구 대명1길 16-17, 지상1층 (명륜4가)",
 		"pinCnt": 0,
-		"latitude": 199926.8282,
-		"longitude": 453390.2333
+		"longitude": 199926.8282,
+		"latitude": 453390.2333
 }
 ]

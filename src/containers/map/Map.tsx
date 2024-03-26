@@ -58,8 +58,8 @@ const MapNaverDefault = () => {
   const getLocation = async () => {
     function success(pos: any) {
       const newLocation: LatLng = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude,
+        lat: pos.coords.longitude,
+        lng: pos.coords.latitude,
       };
       dispatch(latLngByAmount(newLocation));
       dispatch(locationGetterByAmount(false));
@@ -376,7 +376,7 @@ const MapNaverDefault = () => {
       const newMarkerList: naver.maps.Marker[] = [];
       markerDatas.forEach((data) => {
         var marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(data.xPos, data.yPos),
+          position: new naver.maps.LatLng(data.yPos, data.xPos),
           icon: {
             content: markerIconRenderer(data),
             //마커의 기준위치 지정
