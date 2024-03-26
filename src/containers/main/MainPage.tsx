@@ -20,29 +20,32 @@ export default function MainPage() {
   const [topCollectionDatas, setTopCollectionDatas] = useState<
     CollectionDetail[]
   >([]);
-  const [officialRecomendedCollectionDatas, setOfficialRecomendedCollectionDatas] = useState<
-  CollectionDetail[]
->([]);
+  const [
+    officialRecomendedCollectionDatas,
+    setOfficialRecomendedCollectionDatas,
+  ] = useState<CollectionDetail[]>([]);
   const onChangeCollection = (e: any) => {
     setInputCollectionSearch(e.target.value);
   };
 
-  const SkeletonRenderer = ()=>{
-    return(
+  const SkeletonRenderer = () => {
+    return (
       <CardSlider scrollCardNumber={1}>
         <DefaultCollectionSkeleton />
         <DefaultCollectionSkeleton />
         <DefaultCollectionSkeleton />
         <DefaultCollectionSkeleton />
       </CardSlider>
-    )
-  }
+    );
+  };
 
   const getTopCollectionData = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`,
-    {
-      credentials: "include",
-    })
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`,
+      {
+        credentials: "include",
+      }
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
@@ -58,25 +61,27 @@ export default function MainPage() {
       });
   };
 
-  const getOfficialCollectionData = async() => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=0&size=20`,
-    {
-      credentials: "include",
-    })
-    .then((res) => {
-      if (!res.ok){
-        throw new Error(`12 컬렉션 정보 가져오기를 실패했습니다.`);
+  const getOfficialCollectionData = async () => {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=0&size=20`,
+      {
+        credentials: "include",
       }
-      return(res.json());
-    })
-    .then((res) => {
-      setOfficialRecomendedCollectionDatas(res.results);
-      setIsLoading2(true);
-    })
-    .catch((e) => {
-      console.error(e);
-    });
-  }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`12 컬렉션 정보 가져오기를 실패했습니다.`);
+        }
+        return res.json();
+      })
+      .then((res) => {
+        setOfficialRecomendedCollectionDatas(res.results);
+        setIsLoading2(true);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
 
   useEffect(() => {
     getTopCollectionData();
@@ -132,38 +137,43 @@ export default function MainPage() {
       <section className={styles.recommendListContainer}>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
+          <div className={styles.popularTopSlider}></div>
           {isLoading1 ? (
-          <CardSlider >
-            {topCollectionDatas.map((collection, index) => (
-              <DefaultCollectionCard
-                key={index}
-                collectionData={collection}
-                linkDisabled={true}
-              />
-            ))}
-          </CardSlider>
-          ):(
+            <CardSlider>
+              {topCollectionDatas.map((collection, index) => (
+                <DefaultCollectionCard
+                  key={index}
+                  collectionData={collection}
+                  linkDisabled={true}
+                />
+              ))}
+            </CardSlider>
+          ) : (
             <SkeletonRenderer />
           )}
+          <div />
         </section>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>수석 디자이너의 컬렉션 추천</p>
-          {isLoading2 ? (
-          <CardSlider >
-            {officialRecomendedCollectionDatas.map((collection, index) => (
-              <DefaultCollectionCard
-                key={index}
-                collectionData={collection}
-                linkDisabled={true}
-              />
-            ))}
-          </CardSlider>
-          ):(
-            <SkeletonRenderer />
-          )}
+          <div className={styles.popularTopSlider}>
+            {isLoading2 ? (
+              <CardSlider>
+                {officialRecomendedCollectionDatas.map((collection, index) => (
+                  <DefaultCollectionCard
+                    key={index}
+                    collectionData={collection}
+                    linkDisabled={true}
+                  />
+                ))}
+              </CardSlider>
+            ) : (
+              <SkeletonRenderer />
+            )}
+          </div>
         </section>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>적당히 추천 컬렉션 TOP10</p>
+          <div className={styles.popularTopSlider}></div>
           <CardSlider scrollCardNumber={5}>
             <img src="https://picsum.photos/170/200" alt="image" />
             <img src="https://picsum.photos/170/200" alt="image" />
@@ -173,6 +183,7 @@ export default function MainPage() {
             <img src="https://picsum.photos/170/200" alt="image" />
             <img src="https://picsum.photos/170/200" alt="image" />
           </CardSlider>
+          <div />
         </section>
       </section>
       <GlobalAlertModal />
