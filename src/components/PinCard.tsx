@@ -50,12 +50,22 @@ export default function PinCard({
               {`내 컬렉션에 추가하기`}
               <AddRoundIcon />
             </Link>
-            {/* TODO : (장소Id) 필요 */}
-            <Link href={`/search?keyword=${pinData.placeName}`}>
+            <Link href={`/place/${pinData.placeId}`}>
               {`장소 더보기`}
               <AddRoundIcon />
             </Link>
-            <button onClick={(e)=>{makeMarker(pinData.id, pinData.placeName, 0, pinData.latitude, pinData.longitude, dispatch)}}>
+            <button
+              onClick={(e) => {
+                makeMarker(
+                  pinData.id,
+                  pinData.placeName,
+                  0,
+                  pinData.latitude,
+                  pinData.longitude,
+                  dispatch
+                );
+              }}
+            >
               {`지도에서 보기`}
               <AddRoundIcon />
             </button>
@@ -160,11 +170,22 @@ const SimplePinCard = ({
             {`내 컬렉션에 추가하기`}
             <AddRoundIcon />
           </Link>
-          <Link href={`/search?keyword=${pinData.placeName}`}>
+          <Link href={`/place/${pinData.placeId}`}>
             {`장소 더보기`}
             <AddRoundIcon />
           </Link>
-          <button onClick={(e)=>{makeMarker(pinData.id, pinData.placeName, 0, pinData.latitude, pinData.longitude, dispatch)}}>
+          <button
+            onClick={(e) => {
+              makeMarker(
+                pinData.id,
+                pinData.placeName,
+                0,
+                pinData.latitude,
+                pinData.longitude,
+                dispatch
+              );
+            }}
+          >
             {`지도에서 보기`}
             <AddRoundIcon />
           </button>
