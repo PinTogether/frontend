@@ -78,9 +78,9 @@ export default function ProfileStarredRenderer({
           <div className={styles.bookmarkButtonContainer}>
             {selectMode && (
               <>
-                <button className={styles.bookmarkButton}>선택 찜 삭제</button>
+                <button className={styles.bookmarkButton}>선택한 찜 삭제하기</button>
                 <button className={styles.bookmarkButton}>
-                  선택 찜 컬렉션에 추가
+                  선택한 찜 컬렉션에 추가하기
                 </button>
                 <button
                   className={styles.bookmarkButton}
@@ -88,7 +88,7 @@ export default function ProfileStarredRenderer({
                     setSelectMode(false), setClickedBookmarks([]);
                   }}
                 >
-                  전체 취소
+                  취소
                 </button>
               </>
             )}
