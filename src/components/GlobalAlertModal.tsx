@@ -28,11 +28,11 @@ const GlobalAlertModal = () => {
       if (message.timer === null) {
         const timer = setTimeout(() => {
           dispatch(deleteAlertMessage(message.id));
-        }, 2000);
+        }, 3000);
         dispatch(setTimer({ id: message.id, timer }));
       }
     });
-  }, [messageList]);
+  }, [messageList, dispatch]);
 
   return (
     <>
