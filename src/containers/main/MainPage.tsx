@@ -148,30 +148,27 @@ export default function MainPage() {
       <section className={styles.recommendListContainer}>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
-          <div className={styles.popularTopSlider}>
-          {isLoading1 ? (
-            <section className={styles.cardSliderContainer}>
-              <CardSlider scrollCardNumber={5}>
-                {topCollectionDatas.map((collection, index) => (
-                  <DefaultCollectionCard
-                    key={index}
-                    collectionData={collection}
-                    linkDisabled={true}
-                  />
-                ))}
-              </CardSlider>
-            </section>
-          ) : (
-            <SkeletonRenderer />
-          )}
-          </div>
+            <div className={styles.cardSliderContainer}>
+              {isLoading1 ? (
+                  <CardSlider scrollCardNumber={2}>
+                    {topCollectionDatas.map((collection, index) => (
+                      <DefaultCollectionCard
+                        key={index}
+                        collectionData={collection}
+                        linkDisabled={true}
+                      />
+                    ))}
+                  </CardSlider>
+              ) : (
+                <SkeletonRenderer />
+              )}
+            </div>
         </section>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>수석 디자이너의 컬렉션 추천</p>
-          <div className={styles.popularTopSlider}>
+          <div className={styles.cardSliderContainer}>
             {isLoading2 ? (
-              <section className={styles.cardSliderContainer}>
-                <CardSlider scrollCardNumber={5}>
+                <CardSlider scrollCardNumber={2}>
                   {officialRecomendedCollectionDatas.map((collection, index) => (
                     <DefaultCollectionCard
                       key={index}
@@ -180,7 +177,6 @@ export default function MainPage() {
                     />
                   ))}
                 </CardSlider>
-              </section>
             ) : (
               <SkeletonRenderer />
             )}
@@ -188,9 +184,8 @@ export default function MainPage() {
         </section>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>적당히 추천 컬렉션 TOP10</p>
-          <div className={styles.popularTopSlider}></div>
-          <section className={styles.cardSliderContainer}>
-            <CardSlider scrollCardNumber={5}>
+          <div className={styles.cardSliderContainer}>
+            <CardSlider scrollCardNumber={2}>
               <img src="https://picsum.photos/170/200" alt="image" />
               <img src="https://picsum.photos/170/200" alt="image" />
               <img src="https://picsum.photos/170/200" alt="image" />
@@ -199,7 +194,7 @@ export default function MainPage() {
               <img src="https://picsum.photos/170/200" alt="image" />
               <img src="https://picsum.photos/170/200" alt="image" />
             </CardSlider>
-          </section>
+          </div>
           <div />
         </section>
       </section>
