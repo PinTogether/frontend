@@ -57,7 +57,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
               makeMarker(
                 place.id,
                 place.name,
-                0,
+                place.pinCnt,
                 place.latitude,
                 place.longitude,
                 dispatchMarker

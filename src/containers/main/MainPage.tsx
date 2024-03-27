@@ -12,18 +12,34 @@ import {
 } from "@/components/CollectionCard";
 import { CollectionDetail } from "@/types/Collection";
 import { DefaultCollectionSkeleton } from "@/components/loading/SkeletonImage";
+import { useRouter } from "next/navigation";
 
 export default function MainPage() {
+  const router = useRouter();
   const [isLoading1, setIsLoading1] = useState<boolean>(false);
   const [isLoading2, setIsLoading2] = useState<boolean>(false);
+  const [isLoading3, setIsLoading3] = useState<boolean>(false);
   const [inputCollectionSearch, setInputCollectionSearch] = useState("");
   const [topCollectionDatas, setTopCollectionDatas] = useState<
     CollectionDetail[]
   >([]);
   const [
-    officialRecomendedCollectionDatas,
-    setOfficialRecomendedCollectionDatas,
+    JWRecomendedCollectionDatas,
+    setJWRecomendedCollectionDatas,
   ] = useState<CollectionDetail[]>([]);
+  const [
+    JYRecomendedCollectionDatas,
+    setJYRecomendedCollectionDatas,
+  ] = useState<CollectionDetail[]>([]);
+  const [
+  THRecomendedCollectionDatas,
+    setTHRecomendedCollectionDatas,
+  ] = useState<CollectionDetail[]>([]);
+  const [
+    EJRecomendedCollectionDatas,
+    setEJRecomendedCollectionDatas,
+  ] = useState<CollectionDetail[]>([]);
+
   const onChangeCollection = (e: any) => {
     setInputCollectionSearch(e.target.value);
   };
@@ -61,22 +77,44 @@ export default function MainPage() {
       });
   };
 
-  const getOfficialCollectionData = async () => {
+  const getJWCollectionData = async () => {
     await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=0&size=20`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${process.env.NEXT_PUBLIC_JW_ID}/collections?page=0&size=20`,
       {
         credentials: "include",
       }
     )
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`12 컬렉션 정보 가져오기를 실패했습니다.`);
+          throw new Error(`${process.env.NEXT_PUBLIC_JW_ID} 컬렉션 정보 가져오기를 실패했습니다.`);
         }
         return res.json();
       })
       .then((res) => {
-        setOfficialRecomendedCollectionDatas(res.results);
+        setJWRecomendedCollectionDatas(res.results);
         setIsLoading2(true);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const getJYCollectionData = async () => {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${process.env.NEXT_PUBLIC_JY_ID}/collections?page=0&size=20`,
+      {
+        credentials: "include",
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`${process.env.NEXT_PUBLIC_JY_ID} 컬렉션 정보 가져오기를 실패했습니다.`);
+        }
+        return res.json();
+      })
+      .then((res) => {
+        setJYRecomendedCollectionDatas(res.results);
+        setIsLoading3(true);
       })
       .catch((e) => {
         console.error(e);
@@ -85,8 +123,21 @@ export default function MainPage() {
 
   useEffect(() => {
     getTopCollectionData();
-    getOfficialCollectionData();
+    getJWCollectionData();
+    getJYCollectionData();
   }, []);
+
+  const enterKeyDown = (e:any) => {
+    if (e.key === "Enter" && inputCollectionSearch != ""){
+      router.push(`/search?keyword=${inputCollectionSearch}`);
+    }
+  }
+
+  const searchButtonClick = () => {
+    if (inputCollectionSearch != ""){
+      router.push(`/search?keyword=${inputCollectionSearch}`);
+    }
+  }
 
   return (
     <section className={styles.container}>
@@ -98,20 +149,16 @@ export default function MainPage() {
               src="/icon/search_plain.svg"
               alt="search icon"
               className={styles.icon}
+              onClick={searchButtonClick}
             />
           </button>
           <input
             className={styles.input}
             onChange={onChangeCollection}
             value={inputCollectionSearch}
-            placeholder="다른 사람의 컬렉션을 검색해 보세요 ! 강릉, 맛집,  디저트 ... !"
+            placeholder="장소와 컬렉션을 검색해 보세요 ! 강릉, 맛집,  디저트 ... !"
+            onKeyDown={enterKeyDown}
           />
-          <select className={styles.selectSearchType}>
-            <option value="0">전체 검색</option>
-            <option value="1">컬렉션 검색</option>
-            <option value="2">핀 검색</option>
-            <option value="3">장소 검색</option>
-          </select>
         </div>
       </section>
       <section className={styles.gradationBox}>
@@ -137,53 +184,57 @@ export default function MainPage() {
       <section className={styles.recommendListContainer}>
         <section className={styles.popularTop}>
           <p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
-          <div className={styles.popularTopSlider}></div>
-          {isLoading1 ? (
-            <CardSlider scrollCardNumber={5}>
-              {topCollectionDatas.map((collection, index) => (
-                <DefaultCollectionCard
-                  key={index}
-                  collectionData={collection}
-                  linkDisabled={true}
-                />
-              ))}
-            </CardSlider>
-          ) : (
-            <SkeletonRenderer />
-          )}
-          <div />
+            <div className={styles.cardSliderContainer}>
+              {isLoading1 ? (
+                  <CardSlider scrollCardNumber={2}>
+                    {topCollectionDatas.map((collection, index) => (
+                      <DefaultCollectionCard
+                        key={index}
+                        collectionData={collection}
+                        linkDisabled={true}
+                      />
+                    ))}
+                  </CardSlider>
+              ) : (
+                <SkeletonRenderer />
+              )}
+            </div>
         </section>
         <section className={styles.popularTop}>
-          <p className={styles.popularTopText}>수석 디자이너의 컬렉션 추천</p>
-          <div className={styles.popularTopSlider}>
+          <p className={styles.popularTopText}>JW의 컬렉션 추천</p>
+          <div className={styles.cardSliderContainer}>
             {isLoading2 ? (
-              <CardSlider scrollCardNumber={5}>
-                {officialRecomendedCollectionDatas.map((collection, index) => (
-                  <DefaultCollectionCard
-                    key={index}
-                    collectionData={collection}
-                    linkDisabled={true}
-                  />
-                ))}
-              </CardSlider>
+                <CardSlider scrollCardNumber={2}>
+                  {JWRecomendedCollectionDatas.map((collection, index) => (
+                    <DefaultCollectionCard
+                      key={index}
+                      collectionData={collection}
+                      linkDisabled={true}
+                    />
+                  ))}
+                </CardSlider>
             ) : (
               <SkeletonRenderer />
             )}
           </div>
         </section>
         <section className={styles.popularTop}>
-          <p className={styles.popularTopText}>적당히 추천 컬렉션 TOP10</p>
-          <div className={styles.popularTopSlider}></div>
-          <CardSlider scrollCardNumber={5}>
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-            <img src="https://picsum.photos/170/200" alt="image" />
-          </CardSlider>
-          <div />
+          <p className={styles.popularTopText}>JY의 컬렉션 추천</p>
+          <div className={styles.cardSliderContainer}>
+            {isLoading3 ? (
+                <CardSlider scrollCardNumber={2}>
+                  {JYRecomendedCollectionDatas.map((collection, index) => (
+                    <DefaultCollectionCard
+                      key={index}
+                      collectionData={collection}
+                      linkDisabled={true}
+                    />
+                  ))}
+                </CardSlider>
+            ) : (
+              <SkeletonRenderer />
+            )}
+          </div>
         </section>
       </section>
       <GlobalAlertModal />
