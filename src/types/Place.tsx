@@ -18,7 +18,7 @@ export interface PlaceStarred extends Place {
   latitude: number;
   longitude: number;
   starred: boolean;
-  updatedAt: string;
+  // updatedAt: string;
 }
 
 interface ERDPlace {
