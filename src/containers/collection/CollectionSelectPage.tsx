@@ -6,19 +6,19 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import styles from "@/styles/containers/collection/_collectionSelectPage.module.scss";
-import { CollectionDetail } from "@/types/Collection";
+import { PlaceDetail } from "@/types/Place";
+import { CollectionForAddPin } from "@/types/Collection";
 import SubPageLayout from "@/containers/layout/SubPageLayout";
 import { CheckRingRoundIcon, ExpandRightIcon } from "@/components/IconSvg";
 import { SimpleBoxCollectionCard } from "@/components/CollectionCard";
 import AlertModal from "@/components/AlertModal";
 import { SimplePlaceCard } from "@/components/PlaceCard";
 
-import fetchGetProfileCollections from "@/utils/fetchGetProfileCollections";
+import useGetMyId from "@/hooks/useGetMyId";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
+import fetchGetCollectionForAddPin from "@/utils/fetchGetCollectionForAddPin";
 import fetchPostPinToCollections from "@/utils/fetchPostPinToCollections";
 import fetchGetPlaceInfo from "@/utils/fetchGetPlaceInfo";
-import useGetMyId from "@/hooks/useGetMyId";
-import { PlaceDetail } from "@/types/Place";
 import { Line } from "../layout/EditPageLayout";
 
 const CollectionSelectPage = () => {
@@ -58,17 +58,15 @@ const CollectionSelectPage = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [collectionDataList, setCollectionDataList] = useState<
-    CollectionDetail[]
+    CollectionForAddPin[]
   >([]);
 
   const fetchCollectionData = async () => {
     if (isFetching || !userId || !placeId) return;
     setIsFetching(true);
-    const { collectionDatas, errorMessage } = await fetchGetProfileCollections(
-      userId,
-      pageNum,
-      pageSize
-    );
+
+    const { collectionDatas, errorMessage } =
+      await fetchGetCollectionForAddPin(placeId);
     if (errorMessage) {
       setErrorMessage(errorMessage);
       setIsFetching(false);
@@ -199,16 +197,32 @@ const CollectionSelectPage = () => {
           </>
         ) : (
           <ul className={styles.listContainer}>
-            {collectionDataList.map((collection) => (
-              <li
-                key={collection.id}
-                className={`${styles.list}  ${selectedCollection.includes(collection.id) ? styles.active : null}`}
-                onClick={() => handleClickedCollection(collection.id)}
-              >
-                <SimpleBoxCollectionCard collectionData={collection} />
-                <CheckRingRoundIcon className={styles.checkIcon} />
-              </li>
-            ))}
+            {collectionDataList.map((collection) =>
+              collection.pinned ? null : (
+                <li
+                  key={collection.id}
+                  className={`${styles.list}  ${selectedCollection.includes(collection.id) ? styles.active : null}`}
+                  onClick={() => handleClickedCollection(collection.id)}
+                >
+                  <SimpleBoxCollectionCard
+                    collectionData={{
+                      id: collection.id,
+                      title: collection.title,
+                      thumbnail: collection.thumbnail,
+                      likeCnt: collection.likeCnt,
+                      pinCnt: collection.pinCnt,
+                      scrapCnt: collection.scrapCnt,
+                      // unneeded props
+                      writerId: userId || 0,
+                      writer: "myslef",
+                      liked: false,
+                      scrapped: false,
+                    }}
+                  />
+                  <CheckRingRoundIcon className={`${styles.checkIcon}`} />
+                </li>
+              )
+            )}
           </ul>
         )}
       </section>
