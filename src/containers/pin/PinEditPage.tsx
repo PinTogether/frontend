@@ -1,41 +1,38 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { clearPinEditState } from "@/redux/pinEditSlice";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
+
+import styles from "@/styles/containers/pin/_pinEditPage.module.scss";
+import PresignedUrl from "@/types/PresingedUrl";
+import Pin from "@/types/Pin";
+import SubPageLayout from "@/containers/layout/SubPageLayout";
 import EditPageLayout, {
   SectionTitle,
   Section,
   Line,
 } from "../layout/EditPageLayout";
-import styles from "@/styles/containers/pin/_pinEditPage.module.scss";
 import {
   EditIcon,
   ImgLoadIcon,
   LocationIcon,
   PinIcon,
 } from "@/components/IconSvg";
-import ImagePreviewBox from "./ImagePreviewBox";
 import { TextareaComponent } from "@/components/InputComponent";
 import { AddRoundIcon } from "@/components/IconSvg";
-import checkFileValid from "@/utils/checkFileValid";
 import { SimplePinCard } from "@/components/PinCard";
 import TagEditor from "@/components/TagEditor";
+import ImagePreviewBox from "./ImagePreviewBox";
 
-// import pinDataList from "@/../../public/dummy-data/dummy-pin.json";
-import SubPageLayout from "@/containers/layout/SubPageLayout";
-
+import checkFileValid from "@/utils/checkFileValid";
 import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
 import fetchPostPinPresignedUrl from "@/utils/fetchPostPinPresignedUrl";
-
-import PresignedUrl from "@/types/PresingedUrl";
-import { useRouter, useSearchParams } from "next/navigation";
 import fetchPutPin from "@/utils/fetchPutPin";
-
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { clearPinEditState } from "@/redux/pinEditSlice";
-import AlertModal from "@/components/AlertModal";
 import fetchDeletePin from "@/utils/fetchDeletePin";
 import fetchPostPin from "@/utils/fetchPostPin";
-import Pin from "@/types/Pin";
 
 interface Place {
   id: number;
@@ -79,13 +76,13 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
+
   const [createInfo, setCreateInfo] = useState<{
     placeId: number;
     placeName: string;
     collectionId: number;
     collectionTitle: string;
   } | null>(null);
-  const [alertMessage, setAlertMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   /* 기존 데이터 */
   const pinData = useAppSelector((state) => state.pinEdit);
@@ -125,18 +122,47 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
 
   /* submit */
   const handleSubmit = async () => {
-    // TODO : Refactor
+    // TODO : Refactor!
     if (isLoading) return;
     setIsLoading(true);
     if (pinId) {
-      editPin();
+      if (imageFiles.length === 0) {
+        await editPin();
+      } else {
+        await editPinWithImage(Number(pinId));
+      }
     } else {
-      (await addPin()) && (await editPin());
+      const newPinId = await addPin();
+      if (newPinId) {
+        if (imageFiles.length) {
+          await editPinWithImage(newPinId);
+        }
+        router.push(`/collection/${createInfo?.collectionId}`);
+      }
     }
     setIsLoading(false);
   };
 
   const editPin = async () => {
+    if (!pinId || !reviewTextareaRef.current) return;
+
+    const imagePaths = [...imageFiles.map((data) => data.preview[0])];
+    const { success, errorMessage } = await fetchPutPin(
+      Number(pinId),
+      reviewTextareaRef.current?.value,
+      imagePaths,
+      tagList
+    );
+    if (!success) {
+      dispatch(addAlertMessage(errorMessage));
+      return;
+    }
+    // 핀 수정 성공
+    dispatch(clearPinEditState());
+    router.push(`/collection/${pinData.collectionId}`);
+  };
+
+  const editPinWithImage = async (targetPinId: number) => {
     if (!pinId || !reviewTextareaRef.current) return;
     // 업로드할 파일 분리
     const originalFiles = imageFiles.filter((imageFile) => {
@@ -153,16 +179,16 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
         uploadFiles.map((fileData) => fileData.file?.type || "")
       );
     if (!presignedUrlDataList) {
-      setAlertMessage(errorMessage);
+      dispatch(addAlertMessage(errorMessage));
       return;
     }
     // presigned-url S3 업로드
-    const success = await putImageToS3(
+    const success = await putImagesToS3(
       presignedUrlDataList,
       uploadFiles.map((fileData) => fileData.file as File) // null 은 위에서 필터링
     );
     if (!success) {
-      setAlertMessage("S3 업로드 실패");
+      dispatch(addAlertMessage("핀 이미지 업로드에 실패하였습니다."));
       return;
     }
     // 핀 수정
@@ -178,14 +204,14 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
         preview: data.imageUrl,
       })),
     ]);
-    const result = await fetchPutPin(
+    const putPinResult = await fetchPutPin(
       Number(pinId),
       reviewTextareaRef.current.value,
       imagePaths,
       tagList
     );
-    if (!result) {
-      setAlertMessage("핀 수정 실패");
+    if (!putPinResult.success) {
+      dispatch(addAlertMessage(putPinResult.errorMessage));
       return;
     }
     // 핀 수정 성공
@@ -193,11 +219,11 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     router.push(`/collection/${pinData.collectionId}`);
   };
 
-  const addPin = async () => {
-    if (isLoading || !createInfo || !reviewTextareaRef.current) return;
+  const addPin = async (): Promise<number | null> => {
+    if (isLoading || !createInfo || !reviewTextareaRef.current) return null;
     setIsLoading(true);
 
-    const { success, errorMessage } = await fetchPostPin(
+    const { success, newPinId, errorMessage } = await fetchPostPin(
       createInfo.placeId,
       createInfo.collectionId,
       reviewTextareaRef.current.value,
@@ -205,18 +231,18 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
       imageFiles.map((fileData) => fileData.file?.type || "")
     );
     if (!success) {
-      setAlertMessage(errorMessage);
-      return false;
+      dispatch(addAlertMessage(errorMessage));
+      return null;
     } else if (!imageFiles.length) {
       // 이미지 없이 핀 생성 성공
       dispatch(clearPinEditState());
       router.push(`/collection/${createInfo.collectionId}`);
-      return true;
+      return null;
     }
-    return true; // 핀 생성 성공 후 이미지 업로드
+    return newPinId; // 핀 생성 성공 후 이미지 업로드
   };
 
-  const putImageToS3 = async (
+  const putImagesToS3 = async (
     presignedUrlDataList: PresignedUrl[],
     imageFile: File[]
   ) => {
@@ -227,7 +253,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
         imageFile[index]
       );
       if (!success) {
-        setAlertMessage(errorMessage);
+        dispatch(addAlertMessage(errorMessage));
         result = false;
       }
     }
@@ -239,7 +265,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     setIsLoading(true);
     const result = await fetchDeletePin(Number(pinId));
     if (!result) {
-      setAlertMessage("핀 삭제 실패");
+      dispatch(addAlertMessage("핀 삭제에 실패하였습니다."));
       return;
     }
     setIsLoading(false);
@@ -282,6 +308,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
           )}
           <Line />
         </Section>
+
         <Section>
           {/* 핀 리뷰 */}
           <SectionTitle>
@@ -327,7 +354,6 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
           </button>
         </Section>
       </EditPageLayout>
-      <AlertModal message={alertMessage} setMessage={setAlertMessage} />
     </SubPageLayout>
   );
 }
@@ -355,14 +381,17 @@ const ImageUploadBox = ({
       setErrMsg("이미지는 5개까지 업로드 가능합니다.");
       return;
     }
-    setImageFiles((prev) => [
-      ...prev,
-      ...newFiles.map((file) => ({
-        id: !prev.length ? 0 : prev[prev.length - 1].id + 1,
-        file: file,
-        preview: URL.createObjectURL(file),
-      })),
-    ]);
+    setImageFiles((prev) => {
+      let startId = !prev.length ? 0 : prev[prev.length - 1].id + 1;
+      return [
+        ...prev,
+        ...newFiles.map((file) => ({
+          id: startId++,
+          file: file,
+          preview: URL.createObjectURL(file),
+        })),
+      ];
+    });
   };
 
   const handleDeleteImage = (id: number) => {

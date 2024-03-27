@@ -2,8 +2,9 @@ import Image from "next/image";
 import styles from "@/styles/components/_review.module.scss";
 import Pin from "@/types/Pin";
 import { CommentIcon } from "./IconSvg";
+import Link from "next/link";
 
-export { ReviewCard, MyReviewCard};
+export { ReviewCard, MyReviewCard };
 
 export default function ReviewCard({
   reviewData,
@@ -50,9 +51,12 @@ export default function ReviewCard({
           className={styles.button}
         >{`+${reviewData.imagePaths.length} 사진 더보기`}</button>
         {activeGoCollectionBtn && (
-          <button className={styles.button}>
+          <Link
+            className={styles.button}
+            href={`/collection/${reviewData.collectionId}`}
+          >
             {`"${reviewData.collectionTitle}" 컬렉션 보러가기`}
-          </button>
+          </Link>
         )}
         <br />
       </div>

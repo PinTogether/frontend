@@ -2,11 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PlaceStarred } from "@/types/Place";
+import { useAppDispatch } from "@/redux/hooks";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
+
 import styles from "@/styles/containers/profile/_profilePage.module.scss";
-import placeDatas from "@/../../public/dummy-data/dummy-place.json";
+import { PlaceStarred } from "@/types/Place";
 import { SimplePlaceCard } from "@/components/PlaceCard";
+
 import fetchGetStars from "@/utils/fetchGetStars";
+import fetchDeleteStarPlace from "@/utils/fetchDeleteStarPlace";
 
 export default function ProfileStarredRenderer({
   userId,
@@ -15,6 +19,8 @@ export default function ProfileStarredRenderer({
   userId: number;
   className?: string;
 }) {
+  const dispatch = useAppDispatch();
+
   /* fetch data */
   const [isLoading, setIsLoading] = useState(false);
   const [starredFetchData, setStarredFetchData] = useState<{
@@ -22,14 +28,15 @@ export default function ProfileStarredRenderer({
     errorMessage: string;
   } | null>(null);
 
+  const fetchStarsData = async () => {
+    setIsLoading(true);
+    const result = await fetchGetStars(userId);
+    setStarredFetchData(result);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const result = await fetchGetStars(userId);
-      setStarredFetchData(result);
-      setIsLoading(false);
-    };
-    if (!isLoading) fetchData();
+    if (!isLoading) fetchStarsData();
   }, [userId]);
 
   /* card click */
@@ -80,6 +87,25 @@ export default function ProfileStarredRenderer({
     }
   };
 
+  /* delete stars */
+  const handleDeleteStarred = async () => {
+    if (clickedBookmarks.length === 0) return;
+    // TODO Implement delete starred
+    console.log("delete starred", clickedBookmarks);
+
+    clickedBookmarks.forEach(async (id) => {
+      const { success, errorMessage } = await fetchDeleteStarPlace(id);
+      if (!success) dispatch(addAlertMessage(errorMessage));
+    });
+    fetchStarsData();
+  };
+
+  const handleAddToCollection = async () => {
+    if (clickedBookmarks.length === 0) return;
+    // TODO Implement add to collection
+    console.log("add to collection", clickedBookmarks);
+  };
+
   return (
     <section className={`${styles.bookmarkOuterContainer} ${className}`}>
       {!starredFetchData ? (
@@ -91,10 +117,18 @@ export default function ProfileStarredRenderer({
           <div className={styles.bookmarkButtonContainer}>
             {selectMode && (
               <>
-                <button className={styles.bookmarkButton}>선택한 찜 삭제하기</button>
-                <button className={styles.bookmarkButton}>
-                  선택한 찜 컬렉션에 추가하기
+                <button
+                  className={styles.bookmarkButton}
+                  onClick={handleDeleteStarred}
+                >
+                  선택한 찜 삭제하기
                 </button>
+                {/* <button
+                  className={styles.bookmarkButton}
+                  onClick={handleAddToCollection}
+                >
+                  선택한 찜 컬렉션에 추가하기
+                </button> */}
                 <button
                   className={styles.bookmarkButton}
                   onClick={() => {

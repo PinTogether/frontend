@@ -10,6 +10,7 @@ import InfoListLayout, { UlWrapper, LiWrapper } from "../layout/InfoListLayout";
 import useGetMyProfile from "@/hooks/useGetMyProfile";
 import { useAppDispatch } from "@/redux/hooks";
 import { clearMyProfile } from "@/redux/profileSlice";
+import { useLogout } from "@/hooks/useLogout";
 
 export enum LoginType {
   KAKAO = 1,
@@ -24,6 +25,7 @@ enum LoginStatus {
 
 export default function ProfileSettingPage() {
   const dispatch = useAppDispatch();
+  const logout = useLogout();
   const [loginType, setLoginType] = useState<LoginType | undefined>(undefined);
   const [loginStatus, setLoginStatus] = useState<LoginStatus>(
     LoginStatus.LOGOUT
@@ -46,30 +48,13 @@ export default function ProfileSettingPage() {
     }
   }, []);
 
-  const handleClickLogout = () => {
-    deleteCookie("Authorization");
-    dispatch(clearMyProfile());
-    window.location.href = "/login";
-  };
-
-  // TODO : react-cookie 사용으로 변경하기 ?
-  const deleteCookie = (name: string, path: string = "/") => {
-    const domain = window.location.hostname.replace("www", "");
-    let cookieString =
-      name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=" + path;
-    if (domain) {
-      cookieString += "; domain=" + domain;
-    }
-    document.cookie = cookieString;
-  };
-
   return (
     <InfoListLayout>
       <UlWrapper categoryTitle="계정관리">
         <LiWrapper>
           <LoginAccount isLogin={loginStatus} loginType={loginType} />
           {loginStatus === LoginStatus.LOGIN && (
-            <button className={styles.logoutButton} onClick={handleClickLogout}>
+            <button className={styles.logoutButton} onClick={logout}>
               로그아웃
             </button>
           )}

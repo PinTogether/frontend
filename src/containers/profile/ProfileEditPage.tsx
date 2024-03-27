@@ -41,7 +41,10 @@ export default function ProfileEditPage() {
   const [imageFileCheckMessage, setImageFileCheckMessage] = useState("");
   const [nicknameCheckMessage, setNicknameCheckMessage] = useState("");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setInputNickname(myProfile?.nickname || "");
+    setImageSrc(myProfile?.avatar || "");
+  }, []);
 
   // 닉네임
   const handleChangeNickname = (e: any) => {

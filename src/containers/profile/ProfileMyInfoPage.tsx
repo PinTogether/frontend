@@ -4,9 +4,11 @@ import { useState } from "react";
 import InfoListLayout, { UlWrapper, LiWrapper } from "../layout/InfoListLayout";
 import fetchDeleteAccount from "@/utils/fetchDeleteAccount";
 import AlertModal from "@/components/AlertModal";
+import { useLogout } from "@/hooks/useLogout";
 
 export default function ProfileMyInfoPage() {
   const [alertMessage, setAlertMessage] = useState<string>("");
+  const logout = useLogout();
 
   const handleClickDeleteAccount = async () => {
     const confirmMessage = "정말로 탈퇴하시겠습니까? 😔";
@@ -15,6 +17,7 @@ export default function ProfileMyInfoPage() {
       // TODO : logout 로직 추가
       if (success) {
         alert("탈퇴되었습니다.");
+        logout();
         location.href = "/";
       } else {
         setAlertMessage(errorMessage);

@@ -93,7 +93,7 @@ const CollectionInfoRenderer = ({
       const { success, errorMessage } = await fetchDeleteCollectionScraps(
         collectionData.id
       );
-      if (!success) {
+      if (success) {
         collectionData.scrapCnt -= 1;
         setIsScraped(false);
       } else setAlertMessage(errorMessage);

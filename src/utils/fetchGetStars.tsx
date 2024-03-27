@@ -20,10 +20,10 @@ const fetchGetStars = async (userId: number) => {
       id: result.id,
       name: result.name,
       category: result.category,
-      roadNameAddress: result.address.roadNameAddress,
-      longitude: result.address.longitude,
-      latitude: result.address.latitude,
-      updatedAt: result.address.updatedAt,
+      roadNameAddress: result.roadNameAddress,
+      longitude: result.longitude,
+      latitude: result.latitude,
+      pinCnt: result.pinCnt,
       starred: true,
     }));
     return { starredDatas, errorMessage: "" };
