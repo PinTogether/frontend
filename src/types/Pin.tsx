@@ -2,6 +2,8 @@ export default interface Pin {
   id: number;
   collectionId: number;
   writer: string;
+  writerId?: number; // TODO
+  avatarImage?: string; // TODO
   review: string;
   createdAt: string;
   saveCnt: number;
