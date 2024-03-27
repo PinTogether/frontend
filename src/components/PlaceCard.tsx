@@ -35,13 +35,14 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
 
       <div className={styles.mainInfo}>
         <LocationIcon className={styles.pinIcon} />
-        <button
+        <Link
+          href={`/place/${place.id}`}
           className={styles.placeNameContainer}
           // aria-label={`${place.name} - ${place.category}`}
         >
           <h3 className={styles.placeName}>{place.name}</h3>
           <span className={styles.category}>{place.category}</span>
-        </button>
+        </Link>
         <address className={styles.address}>{place.roadNameAddress}</address>
         <div className={styles.buttonContainer}>
           <div className={styles.pinCnt}>
