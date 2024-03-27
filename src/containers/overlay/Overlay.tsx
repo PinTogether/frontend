@@ -13,8 +13,6 @@ import { locationGetterByAmount } from "@/redux/locationSlice";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
 import fetchGetProfileCollections from "@/utils/fetchGetProfileCollections";
 
-import collectionDummyData from "@/../../public/dummy-data/dummy-collection.json";
-import pinDummyData from "@/../../public/dummy-data/dummy-pin.json";
 import {
   ArrowDropDownIcon,
   ExpendDownIcon,
@@ -38,7 +36,6 @@ export default function Overlay() {
   const [collectionSelector, setCollectionSelector] = useState(0);
   const [isCardSliderOn, setIsCardSliderOn] = useState(1);
   const [showCardSlider, setShowCardSlider] = useState(false);
-  const outerMarkerdata = useAppSelector((state) => state.location.markerData);
   const [selectedCardId, setSelectedCardId] = useState<number[]>([]);
   const [markerDatas, setMarkerDatas] = useState<markerDataByCollection[]>([]);
   const [topCollectionDatas, setTopCollectionDatas] = useState<CollectionDetail[]>([]);
@@ -112,13 +109,13 @@ export default function Overlay() {
     setShowCardSlider((prevState) => !prevState);
   };
 
-  const handleClickedCard = (index: number) => {
+  const handleClickedCard = (index: number, collection:Collection) => {
     setSelectedCardId((prev) => {
       if (prev.includes(index)) {
-        removeMarkerData(collectionDummyData[index].id); //마커리스트 데이터에서 해당하는 컬렉션 제거
+        removeMarkerData(collection.id); //마커리스트 데이터에서 해당하는 컬렉션 제거
         return prev.filter((id) => id !== index);
       }
-      addMarkerData(collectionDummyData[index].id); //마커리스트 데이터에 해당하는 컬렉션 추가
+      addMarkerData(collection.id); //마커리스트 데이터에 해당하는 컬렉션 추가
       return [...prev, index];
     });
   };
@@ -212,7 +209,7 @@ export default function Overlay() {
                       key={index}
                       collectionData={collection}
                       linkDisabled={true}
-                      onClick={() => handleClickedCard(index)}
+                      onClick={() => handleClickedCard(index, collection)}
                     />
                   ))}
                 </CardSlider2>
@@ -224,7 +221,7 @@ export default function Overlay() {
                       key={index}
                       collectionData={collection}
                       linkDisabled={true}
-                      onClick={() => handleClickedCard(index)}
+                      onClick={() => handleClickedCard(index, collection)}
                     />
                   ))}
                 </CardSlider2>
@@ -274,7 +271,7 @@ export default function Overlay() {
                       key={index}
                       collectionData={collection}
                       linkDisabled={true}
-                      onClick={() => handleClickedCard(index)}
+                      onClick={() => handleClickedCard(index, collection)}
                     />
                   ))}
                 </CardSlider2>
