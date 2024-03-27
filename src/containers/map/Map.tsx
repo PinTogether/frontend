@@ -36,7 +36,7 @@ const MapNaverDefault = () => {
 
   const [sideWidth, setSideWidth] = useState<number>(0);
   const [newMap, setNewMap] = useState<naver.maps.Map>();
-  const [createMarkerList, setCreateMarkerList] = useState<naver.maps.Marker[]>(
+  const [pinMarkerList, setPinMarkerList] = useState<naver.maps.Marker[]>(
     []
   );
   const [clusteredMarkerList, setClusteredMarkerList] = useState<
@@ -138,7 +138,7 @@ const MapNaverDefault = () => {
           }
         }
       });
-      createMarkerList.forEach((marker) => {
+      pinMarkerList.forEach((marker) => {
         // mapBounds와 비교하며 마커가 현재 화면에 보이는 영역에 있는지 확인
         if (newMap.getBounds().hasPoint(marker.getPosition())) {
           // 보이는 영역에 있다면 마커 표시
@@ -153,14 +153,14 @@ const MapNaverDefault = () => {
 
   //기존 마커 삭제
   function deleteMarker() {
-    if (createMarkerList[0]) {
-      createMarkerList.forEach((marker) => {
+    if (pinMarkerList[0]) {
+      pinMarkerList.forEach((marker) => {
         marker.setMap(null);
       });
       clusteredMarkerList.forEach((marker) => {
         if (marker.clusteredMarker) marker.clusteredMarker.setMap(null);
       });
-      setCreateMarkerList([]);
+      setPinMarkerList([]);
       setClusteredMarkerList([]);
     }
   }
@@ -180,8 +180,10 @@ const MapNaverDefault = () => {
         '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
         '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
         '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+        '<div style="width:12px; height:12px justify-content: center; text-align: center;">',
         `${markerdata.pinCount}`,
-        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:16px; height:16px;">',
+        '</div>',
+        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:12px; height:12px;">',
         "</b>",
         '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
@@ -193,8 +195,10 @@ const MapNaverDefault = () => {
         '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
         '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
         '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+        '<div style="width:12px; height:12px justify-content: center; text-align: center;">',
         `99+`,
-        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:16px; height:16px;">',
+        '</div>',
+        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:12px; height:12px;">',
         "</b>",
         '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
@@ -254,7 +258,7 @@ const MapNaverDefault = () => {
     }
 
     const newClusteredMarkers: ClusteredMarkerData[] = [];
-    createMarkerList.forEach((marker, markerIndex) => {
+    pinMarkerList.forEach((marker, markerIndex) => {
       if (newClusteredMarkers[0] && marker.getMap()) {
         let isIntersect: boolean = false;
         for (
@@ -391,18 +395,21 @@ const MapNaverDefault = () => {
         });
         newMarkerList.push(marker);
       });
-      setCreateMarkerList(newMarkerList);
+      setPinMarkerList(newMarkerList);
     }
   }
 
   //마커 리스트가 있을시 화면의 bounds를 구해 적절한 위치, 줌으로 이동 및 화면에 보이는 마커 표시
   useEffect(() => {
-    if (window.naver && createMarkerList[0] && newMap) {
+    if (window.naver && pinMarkerList[0] && newMap) {
+      var distance = 0;
+      if(pinMarkerList.length == 1)
+        distance = 1000;
       var centerBounds = new naver.maps.LatLng(
-        createMarkerList[0].getPosition()
+        pinMarkerList[0].getPosition()
       );
       var bounds = new naver.maps.LatLngBounds(centerBounds, centerBounds);
-      createMarkerList.forEach((marker) => {
+      pinMarkerList.forEach((marker) => {
         bounds.extend(marker.getPosition());
       });
       if (newMap.getCenter() != bounds.getCenter() && geoApiAuth != "") {
@@ -411,13 +418,13 @@ const MapNaverDefault = () => {
           bounds,
           { easing: "linear", duration: 300 },
           {
-            top: 100,
-            right: 100,
-            bottom: 100,
-            left: sideWidth / 2 + 100,
+            top: 100 + distance,
+            right: 100 + distance,
+            bottom: 100 + distance,
+            left: sideWidth / 2 + 100 + distance,
           }
         );
-        createMarkerList.forEach((marker) => {
+        pinMarkerList.forEach((marker) => {
           marker.setMap(newMap); //없을시 업데이트 마커가 일어나야 마커가 표시됨
         });
         makeClusteredMarkerList();
@@ -425,7 +432,7 @@ const MapNaverDefault = () => {
       const center = newMap.getCenter();
       handleGetAddress(center.x, center.y);
     }
-  }, [createMarkerList, geoApiAuth]);
+  }, [pinMarkerList, geoApiAuth]);
 
   //오버레이의 내 위치로 이동 버튼 눌렀을때
   useEffect(() => {
@@ -451,7 +458,7 @@ const MapNaverDefault = () => {
 
   useEffect(() => {
     if (window.naver && geoApiAuth != "" && newMap) {
-      if (!markerDatas[0] && !createMarkerList[0]) {
+      if (!markerDatas[0] && !pinMarkerList[0]) {
         dispatch(locationGetterByAmount(true));
       }
     }
@@ -468,7 +475,7 @@ const MapNaverDefault = () => {
         function (e) {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
-          if (createMarkerList[0]) {
+          if (pinMarkerList[0]) {
             updateMarkers();
             makeClusteredMarkerList();
           }
@@ -481,7 +488,7 @@ const MapNaverDefault = () => {
         function (e) {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
-          if (createMarkerList[0]) {
+          if (pinMarkerList[0]) {
             updateMarkers();
             makeClusteredMarkerList();
           }

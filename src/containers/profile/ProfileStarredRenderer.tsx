@@ -59,6 +59,19 @@ export default function ProfileStarredRenderer({
     document.addEventListener("mouseup", handleMouseUp);
   };
 
+  const handleTouchDown = () => {
+    const intervalId = setTimeout(() => {
+      setSelectMode(true);
+      setClickedBookmarks([]);
+    }, 300);
+    setIsButtonPressed(true);
+    const handleTouchUp = () => {
+      clearTimeout(intervalId);
+      setIsButtonPressed(false);
+    };
+    document.addEventListener("touchend", handleTouchUp);
+  };
+
   const onChangeClickedBookmark = (id: number) => {
     if (selectMode) {
       const newList = [...clickedBookmarks];
@@ -140,7 +153,9 @@ export default function ProfileStarredRenderer({
                     (!selectMode && router.push(`/pin/${bookmark.id}`));
                 }}
                 onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchDown}
                 onMouseUp={() => setIsButtonPressed(false)}
+                onTouchEnd={()=>setIsButtonPressed(false)}
                 key={index}
                 className={`${styles.bookmarkContainer} ${clickedBookmarks.includes(bookmark.id) ? styles.bookmarkContainerClicked : ""}`}
               >

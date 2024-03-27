@@ -59,7 +59,7 @@ export default function PinCard({
                 makeMarker(
                   pinData.id,
                   pinData.placeName,
-                  0,
+                  pinData.saveCnt,
                   pinData.latitude,
                   pinData.longitude,
                   dispatch
@@ -179,7 +179,7 @@ const SimplePinCard = ({
               makeMarker(
                 pinData.id,
                 pinData.placeName,
-                0,
+                1,
                 pinData.latitude,
                 pinData.longitude,
                 dispatch
