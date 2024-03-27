@@ -119,6 +119,7 @@
   display: grid;
   align-items: center;
   justify-content: start;
+  border-bottom: 1px solid $color-grey;
   gap: 10px;
 }
 .popularTopText {

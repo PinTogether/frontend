@@ -18,13 +18,26 @@ export default function MainPage() {
   const router = useRouter();
   const [isLoading1, setIsLoading1] = useState<boolean>(false);
   const [isLoading2, setIsLoading2] = useState<boolean>(false);
+  const [isLoading3, setIsLoading3] = useState<boolean>(false);
   const [inputCollectionSearch, setInputCollectionSearch] = useState("");
   const [topCollectionDatas, setTopCollectionDatas] = useState<
     CollectionDetail[]
   >([]);
   const [
-    officialRecomendedCollectionDatas,
-    setOfficialRecomendedCollectionDatas,
+    JWRecomendedCollectionDatas,
+    setJWRecomendedCollectionDatas,
+  ] = useState<CollectionDetail[]>([]);
+  const [
+    JYRecomendedCollectionDatas,
+    setJYRecomendedCollectionDatas,
+  ] = useState<CollectionDetail[]>([]);
+  const [
+  THRecomendedCollectionDatas,
+    setTHRecomendedCollectionDatas,
+  ] = useState<CollectionDetail[]>([]);
+  const [
+    EJRecomendedCollectionDatas,
+    setEJRecomendedCollectionDatas,
   ] = useState<CollectionDetail[]>([]);
 
   const onChangeCollection = (e: any) => {
@@ -64,22 +77,44 @@ export default function MainPage() {
       });
   };
 
-  const getOfficialCollectionData = async () => {
+  const getJWCollectionData = async () => {
     await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/12/collections?page=0&size=20`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${process.env.NEXT_PUBLIC_JW_ID}/collections?page=0&size=20`,
       {
         credentials: "include",
       }
     )
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`12 컬렉션 정보 가져오기를 실패했습니다.`);
+          throw new Error(`${process.env.NEXT_PUBLIC_JW_ID} 컬렉션 정보 가져오기를 실패했습니다.`);
         }
         return res.json();
       })
       .then((res) => {
-        setOfficialRecomendedCollectionDatas(res.results);
+        setJWRecomendedCollectionDatas(res.results);
         setIsLoading2(true);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const getJYCollectionData = async () => {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${process.env.NEXT_PUBLIC_JY_ID}/collections?page=0&size=20`,
+      {
+        credentials: "include",
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`${process.env.NEXT_PUBLIC_JY_ID} 컬렉션 정보 가져오기를 실패했습니다.`);
+        }
+        return res.json();
+      })
+      .then((res) => {
+        setJYRecomendedCollectionDatas(res.results);
+        setIsLoading3(true);
       })
       .catch((e) => {
         console.error(e);
@@ -88,7 +123,8 @@ export default function MainPage() {
 
   useEffect(() => {
     getTopCollectionData();
-    getOfficialCollectionData();
+    getJWCollectionData();
+    getJYCollectionData();
   }, []);
 
   const enterKeyDown = (e:any) => {
@@ -165,11 +201,11 @@ export default function MainPage() {
             </div>
         </section>
         <section className={styles.popularTop}>
-          <p className={styles.popularTopText}>수석 디자이너의 컬렉션 추천</p>
+          <p className={styles.popularTopText}>JW의 컬렉션 추천</p>
           <div className={styles.cardSliderContainer}>
             {isLoading2 ? (
                 <CardSlider scrollCardNumber={2}>
-                  {officialRecomendedCollectionDatas.map((collection, index) => (
+                  {JWRecomendedCollectionDatas.map((collection, index) => (
                     <DefaultCollectionCard
                       key={index}
                       collectionData={collection}
@@ -183,19 +219,22 @@ export default function MainPage() {
           </div>
         </section>
         <section className={styles.popularTop}>
-          <p className={styles.popularTopText}>적당히 추천 컬렉션 TOP10</p>
+          <p className={styles.popularTopText}>JY의 컬렉션 추천</p>
           <div className={styles.cardSliderContainer}>
-            <CardSlider scrollCardNumber={2}>
-              <img src="https://picsum.photos/170/200" alt="image" />
-              <img src="https://picsum.photos/170/200" alt="image" />
-              <img src="https://picsum.photos/170/200" alt="image" />
-              <img src="https://picsum.photos/170/200" alt="image" />
-              <img src="https://picsum.photos/170/200" alt="image" />
-              <img src="https://picsum.photos/170/200" alt="image" />
-              <img src="https://picsum.photos/170/200" alt="image" />
-            </CardSlider>
+            {isLoading3 ? (
+                <CardSlider scrollCardNumber={2}>
+                  {JYRecomendedCollectionDatas.map((collection, index) => (
+                    <DefaultCollectionCard
+                      key={index}
+                      collectionData={collection}
+                      linkDisabled={true}
+                    />
+                  ))}
+                </CardSlider>
+            ) : (
+              <SkeletonRenderer />
+            )}
           </div>
-          <div />
         </section>
       </section>
       <GlobalAlertModal />
