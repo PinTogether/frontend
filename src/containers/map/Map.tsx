@@ -166,7 +166,7 @@ const MapNaverDefault = () => {
   }
 
   function markerIconRenderer(markerdata: MarkerData) {
-    if (markerdata.pinCount == 1) {
+    if (markerdata.pinCount <= 1) {
       return [
         '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px;">',
         '<img src="/icons/map_pin.svg" alt="" style="width:40px; height:40px;" >',
