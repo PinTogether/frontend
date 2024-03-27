@@ -27,7 +27,7 @@ const initialState: Pin = {
 };
 
 export const pinEditSlice = createSlice({
-  name: "counter",
+  name: "pinEditSlice",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState: initialState,
   reducers: {

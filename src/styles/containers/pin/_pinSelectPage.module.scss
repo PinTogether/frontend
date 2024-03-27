@@ -1,6 +1,13 @@
 @import "../../base/placeholders";
 @import "../../base/variables";
 
+.errorMessage {
+  color: $color-grey-dark;
+  font-size: $font-size-small;
+  text-align: center;
+  margin-top: 1.25rem;
+}
+
 .searchForm {
 	margin: 0 0.1rem;	
 	position: relative;

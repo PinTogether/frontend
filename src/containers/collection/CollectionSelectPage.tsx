@@ -17,7 +17,7 @@ import fetchGetProfileCollections from "@/utils/fetchGetProfileCollections";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import fetchPostPinToCollections from "@/utils/fetchPostPinToCollections";
 import fetchGetPlaceInfo from "@/utils/fetchGetPlaceInfo";
-import getMyId from "@/utils/getMyId";
+import useGetMyId from "@/hooks/useGetMyId";
 import { PlaceDetail } from "@/types/Place";
 import { Line } from "../layout/EditPageLayout";
 
@@ -26,14 +26,10 @@ const CollectionSelectPage = () => {
 
   /* 기본 id 가져오기 */
   const searchParams = useSearchParams();
+  const userId = useGetMyId();
   const [placeId, setPlaceId] = useState<number | null>(null);
-  const [userId, setUserId] = useState<number | null>(null);
 
   useEffect(() => {
-    const userId = getMyId();
-    if (userId) {
-      setUserId(userId);
-    }
     const placeId = searchParams.get("placeId");
     if (placeId) {
       setPlaceId(parseInt(placeId));

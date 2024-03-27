@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { markerDataByAmount } from "@/redux/locationSlice";
+import { initialPinSelectPageState } from "@/redux/pinSelectPageSlice";
+
 import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
 import fetchGetCollectionAllPins from "@/utils/fetchGetCollectionAllPins";
 import fetchGetCollectionComments from "@/utils/fetchGetCollectionComments";
@@ -90,7 +92,7 @@ export default function CollectionPage({
   };
 
   /* 지도 */
-  const dispatchMarker = useAppDispatch();
+  const dispatch = useAppDispatch();
   const makeMarker = () => {
     // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
     if (!pinFetchDatas.pinList) return;
@@ -104,7 +106,7 @@ export default function CollectionPage({
         longitude: pinFetchDatas.pinList[i].longitude,
       });
     }
-    dispatchMarker(markerDataByAmount(markerList));
+    dispatch(markerDataByAmount(markerList));
   };
 
   useEffect(() => {
@@ -129,8 +131,15 @@ export default function CollectionPage({
     }
   }, [myProfile, collectionFetchDatas]);
 
-  const setReplyDatas = (replyDatas: CollectionReply[]) => {
-    setReplyFetchDatas({ replyDatas, errorMessage: "" });
+  const routeToPinSelectPage = () => {
+    dispatch(
+      initialPinSelectPageState({
+        collectionId: collectionId,
+        pinPlaceId:
+          pinFetchDatas.pinList?.map((pin) => pin.placeId || -1) || [],
+      })
+    );
+    router.push(`/pin/select?collectionId=${collectionId}`);
   };
 
   return (
@@ -175,9 +184,11 @@ export default function CollectionPage({
             >
               컬렉션 댓글 보기
             </button>
-            {/* {isMyCollection && (
-              <button className={styles.buttons}>+ 핀 추가</button>
-            )} */}
+            {isMyCollection && (
+              <button className={styles.buttons} onClick={routeToPinSelectPage}>
+                + 핀 추가
+              </button>
+            )}
           </section>
           {/* 메뉴 페이지 */}
           {showState === 1 &&

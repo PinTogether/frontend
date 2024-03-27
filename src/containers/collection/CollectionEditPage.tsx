@@ -32,6 +32,7 @@ import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
 import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
 import fetchGetCollectionAllPins from "@/utils/fetchGetCollectionAllPins";
 import fetchDeleteCollection from "@/utils/fetchDeleteCollection";
+import fetchDeletePin from "@/utils/fetchDeletePin";
 
 export default function CollectionEditPage({
   collectionId,
@@ -88,16 +89,16 @@ export default function CollectionEditPage({
   };
 
   /* 핀 리스트 */
-  const [selectedPin, setSelectedPin] = useState<number[]>([]);
-  const onClickPin = (index: number) => {
-    if (selectedPin.includes(index)) {
-      const newSelectedPin = selectedPin.filter((i) => i !== index);
-      setSelectedPin(newSelectedPin);
-    } else {
-      const newSelectedPin = [...selectedPin, index];
-      setSelectedPin(newSelectedPin);
-    }
-  };
+  // const [selectedPin, setSelectedPin] = useState<number[]>([]);
+  // const onClickPin = (index: number) => {
+  //   if (selectedPin.includes(index)) {
+  //     const newSelectedPin = selectedPin.filter((i) => i !== index);
+  //     setSelectedPin(newSelectedPin);
+  //   } else {
+  //     const newSelectedPin = [...selectedPin, index];
+  //     setSelectedPin(newSelectedPin);
+  //   }
+  // };
 
   /* submit */
   const submitCollectionEdit = async () => {
@@ -264,6 +265,21 @@ export default function CollectionEditPage({
     }
   }, [collectionId]);
 
+  const deletePin = async (pinId: number) => {
+    if (isUploading) return;
+    setIsUploading(true);
+    const { success, errorMessage } = await fetchDeletePin(pinId);
+    if (!success) {
+      setAlertMessage(errorMessage);
+    } else {
+      const newPinDataList = pinDataList.filter((pin, index) => {
+        return index !== pinId;
+      });
+      setPinDataList(newPinDataList);
+    }
+    setIsUploading(false);
+  };
+
   return (
     <SubPageLayout
       topperMsg={topperMsg}
@@ -355,12 +371,12 @@ export default function CollectionEditPage({
             <SectionTitle className={styles.titleContainer}>
               <PinIcon />
               <span>핀 리스트</span>
-              <Link
+              {/* <Link
                 href={`/pin/select?collectionId=${collectionId}`}
                 className={styles.pinAddButton}
               >
                 {"핀 추가하기 >"}
-              </Link>
+              </Link> */}
             </SectionTitle>
             {/* List */}
             <ul className={styles.pinCardContainer}>
@@ -374,7 +390,10 @@ export default function CollectionEditPage({
                   <Link href={`/pin/edit/${pin.id}`}>
                     <EditIcon className={styles.editButton} />
                   </Link>
-                  <CloseRoundIcon className={styles.closeButton} />
+                  <CloseRoundIcon
+                    className={styles.closeButton}
+                    onClick={() => deletePin(pin.id)}
+                  />
                 </div>
               ))}
             </ul>

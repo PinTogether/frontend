@@ -12,7 +12,7 @@ import {
   CommentIcon,
 } from "@/components/IconSvg";
 import Collection, { CollectionDetail } from "@/types/Collection";
-import { useState, HTMLAttributes } from "react";
+import { useState, useEffect, HTMLAttributes } from "react";
 import Link from "next/link";
 
 import { useAppDispatch } from "@/redux/hooks";
@@ -81,10 +81,20 @@ export default function CollectionCard({
 }
 
 /* utils */
-const BookMark = ({ collectionId }: { collectionId: number }) => {
+const ScrapButton = ({
+  collectionId,
+  scrapped,
+}: {
+  collectionId: number;
+  scrapped: boolean;
+}) => {
   const [isScrapped, setIsScrapped] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setIsScrapped(scrapped);
+  }, []);
 
   const handleBookMark = async () => {
     if (isLoading) return;
@@ -101,7 +111,7 @@ const BookMark = ({ collectionId }: { collectionId: number }) => {
     else {
       const { success, errorMessage } =
         await fetchDeleteCollectionScraps(collectionId);
-      if (!success) {
+      if (success) {
         setIsScrapped(false);
       } else dispatch(addAlertMessage(errorMessage));
     }
@@ -118,17 +128,23 @@ const BookMark = ({ collectionId }: { collectionId: number }) => {
 const LikedButton = ({
   collectionId,
   likeCnt,
+  liked,
   linkDisabled = false,
   displayIconFirst = true,
 }: {
   collectionId: number;
   likeCnt: number;
+  liked: boolean;
   linkDisabled: boolean;
   displayIconFirst?: boolean;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setIsLiked(liked);
+  }, []);
 
   const handleLike = async () => {
     if (isLoading) return;
@@ -139,7 +155,7 @@ const LikedButton = ({
         await fetchPostCollectionLikes(collectionId);
       if (success) {
         setIsLiked(true);
-        likeCnt += 1; // 왜 되는 걸까?
+        likeCnt += 1; // TODO 여기서는 왜 안되고 pin에서는 되는 걸까? 
       } else dispatch(addAlertMessage(errorMessage));
     }
     // 좋아요 취소
@@ -256,7 +272,10 @@ const DefaultCollectionCard = ({
             <span>{collectionData.title}</span>
           </div>
         </Link>
-        <BookMark collectionId={collectionData.id} />
+        <ScrapButton
+          collectionId={collectionData.id}
+          scrapped={collectionData.scrapped}
+        />
       </div>
       <div className={styles.textContainer}>
         {/* <Link
@@ -290,6 +309,7 @@ const DefaultCollectionCard = ({
         <LikedButton
           collectionId={collectionData.id}
           likeCnt={collectionData.likeCnt}
+          liked={collectionData.liked}
           linkDisabled={linkDisabled}
           displayIconFirst={false}
         />
@@ -316,7 +336,10 @@ const SimpleCollectionCard = ({
             className={styles.userAvatar}
           />
         </div>
-        <BookMark collectionId={collectionData.id} />
+        <ScrapButton
+          collectionId={collectionData.id}
+          scrapped={collectionData.scrapped}
+        />
       </div>
       <Link
         href={`/collection/${collectionData.id}`}
@@ -361,7 +384,10 @@ const HorizontalCollectionCard = ({
           className={styles.nickname}
           aria-disabled={linkDisabled}
         >{`by ${collectionData.writer}`}</Link>
-        <BookMark collectionId={collectionData.id} />
+        <ScrapButton
+          collectionId={collectionData.id}
+          scrapped={collectionData.scrapped}
+        />
       </div>
       <div className={styles.buttonContainer}>
         <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
@@ -372,6 +398,7 @@ const HorizontalCollectionCard = ({
         <LikedButton
           collectionId={collectionData.id}
           likeCnt={collectionData.likeCnt}
+          liked={collectionData.liked}
           linkDisabled={linkDisabled}
         />
       </div>
@@ -450,7 +477,10 @@ const HorizontalDetailCollectionCard = ({
           className={styles.nickname}
           aria-disabled={linkDisabled}
         >{`by ${collectionData.writer}`}</Link>
-        <BookMark collectionId={collectionData.id} />
+        <ScrapButton
+          collectionId={collectionData.id}
+          scrapped={collectionData.scrapped}
+        />
       </div>
       <div className={styles.buttonContainer}>
         <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
@@ -461,6 +491,7 @@ const HorizontalDetailCollectionCard = ({
         <LikedButton
           collectionId={collectionData.id}
           likeCnt={collectionData.likeCnt}
+          liked={collectionData.liked}
           linkDisabled={linkDisabled}
         />
       </div>

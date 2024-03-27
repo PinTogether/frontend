@@ -13,7 +13,7 @@ export default function SearchPlaceRender({
 }: {
   searchKeyword: string;
 }) {
-  const [pageNum, setPageNum] = useState<number>(0);
+  const pageNum = useRef(0);
   const pageEndDiv = useRef<HTMLDivElement>(null);
   const [placeDatas, setPlaceDatas] = useState<PlaceDetail[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -23,37 +23,41 @@ export default function SearchPlaceRender({
   const option = {
     root: null,
     rootMargin: "0px", // viewport 기준으로 얼마나 더 감지할 것인가
-    threshold: 0.8, // 0.0 ~ 1.0, 1.0이면 완전히 보이는 상태
+    threshold: 0.5, // 0.0 ~ 1.0, 1.0이면 완전히 보이는 상태
   };
   const isIntersecting = useIntersectionObserver(pageEndDiv, option);
 
   useEffect(() => {
-    setPlaceDatas([]);
-    setPageNum(0);
-    setIsEnd(false);
+    const resetSearch = () => {
+      pageNum.current = 0;
+      setPlaceDatas([]);
+      setIsEnd(false);
+      setIsLoading(false);
+      setErrorMessage("");
+    };
+    resetSearch();
   }, [searchKeyword]);
 
   useEffect(() => {
     if (isIntersecting && !isLoading && !isEnd) {
-      searchPlace(searchKeyword, pageNum);
+      searchPlace(searchKeyword);
     }
-  }, [isIntersecting]);
+  }, [isIntersecting, searchKeyword, isEnd]);
 
-  const searchPlace = async (searchKeyword: string, page: number) => {
+  const searchPlace = async (searchKeyword: string) => {
     const size = 10;
+    const page = pageNum.current;
+
+    if (isLoading || isEnd) return;
     setIsLoading(true);
-    const { placeDatas, errorMessage } = await fetchGetSearchPlace(
-      searchKeyword,
-      page,
-      size
-    );
-    if (placeDatas.length > 0) setPageNum((prev) => prev + 1);
-    setPlaceDatas((prev) => [...prev, ...placeDatas]);
-    if (placeDatas.length === 0) {
-      setErrorMessage(errorMessage);
+    const { placeDatas: newPlaceDatas, errorMessage } =
+      await fetchGetSearchPlace(searchKeyword, page, size);
+    if (newPlaceDatas.length > 0) {
+      setPlaceDatas((prev) => [...prev, ...newPlaceDatas]);
+      pageNum.current += 1;
     } else {
-      setErrorMessage("");
-      setIsEnd(placeDatas.length < size);
+      setErrorMessage(errorMessage);
+      setIsEnd(true);
     }
     setIsLoading(false);
   };
@@ -75,7 +79,10 @@ export default function SearchPlaceRender({
         </>
       )}
       <br />
-      {!isEnd && <div ref={pageEndDiv} style={{ height: "5px" }}></div>}
+      <div
+        ref={pageEndDiv}
+        style={{ height: "5px", display: `${isEnd ? "none" : "block"}` }}
+      ></div>
     </section>
   );
 }

@@ -11,6 +11,20 @@ export async function GET(
   console.log("GET /api/members/[user_id]/collections/route.tsx");
   console.log("params", params);
   console.log("page, size", page, size);
+
+  if (Number(page) == 3) {
+    return NextResponse.json({
+      status: {
+        code: 200,
+        message: "OK",
+      },
+      metadata: {
+        resultCount: 0,
+      },
+      results: [],
+    });
+  }
+
   return NextResponse.json({
     status: {
       code: 200,

@@ -21,7 +21,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
 import { makeMarker } from "@/utils/makeMarker";
 
-export { PlaceCard, SimpleBoxPlaceCard as SimplePlaceCard };
+export { PlaceCard, SimplePlaceCard as SimplePlaceCard };
 
 const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
   const dispatchMarker = useAppDispatch();
@@ -45,14 +45,25 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
         <address className={styles.address}>{place.roadNameAddress}</address>
         <div className={styles.buttonContainer}>
           <div className={styles.pinCnt}>
-            {place.pinCnt}
+            {`${place.pinCnt}개 핀`}
             <PinIcon />
           </div>
           <Link href={`/collection/select?placeId=${place.id}`}>
             {`컬렉션에 추가하기`}
             <AddRoundIcon />
           </Link>
-          <button onClick={(e)=>{makeMarker(place.id, place.name, 0, place.latitude, place.longitude, dispatchMarker)}}>
+          <button
+            onClick={(e) => {
+              makeMarker(
+                place.id,
+                place.name,
+                0,
+                place.latitude,
+                place.longitude,
+                dispatchMarker
+              );
+            }}
+          >
             {`지도에서 보기`}
             <AddRoundIcon />
           </button>
@@ -63,7 +74,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
 };
 export default PlaceCard;
 
-const SimpleBoxPlaceCard = ({
+const SimplePlaceCard = ({
   place,
 }: {
   place: PlaceDetail | PlaceStarred;
