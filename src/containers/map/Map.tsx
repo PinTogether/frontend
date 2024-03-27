@@ -398,6 +398,9 @@ const MapNaverDefault = () => {
   //마커 리스트가 있을시 화면의 bounds를 구해 적절한 위치, 줌으로 이동 및 화면에 보이는 마커 표시
   useEffect(() => {
     if (window.naver && createMarkerList[0] && newMap) {
+      var distance = 0;
+      if(createMarkerList.length == 1)
+        distance = 1000;
       var centerBounds = new naver.maps.LatLng(
         createMarkerList[0].getPosition()
       );
@@ -411,10 +414,10 @@ const MapNaverDefault = () => {
           bounds,
           { easing: "linear", duration: 300 },
           {
-            top: 100,
-            right: 100,
-            bottom: 100,
-            left: sideWidth / 2 + 100,
+            top: 100 + distance,
+            right: 100 + distance,
+            bottom: 100 + distance,
+            left: sideWidth / 2 + 100 + distance,
           }
         );
         createMarkerList.forEach((marker) => {
