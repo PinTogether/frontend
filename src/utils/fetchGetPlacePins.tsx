@@ -8,7 +8,7 @@ const fetchGetPlacePins = async (
 ): Promise<{ placeInfo: PinForPlace[] | null; errorMessage: string }> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/places/${placeId}/pins?page=${page}&size=${size}}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/places/${placeId}/pins?page=${page}&size=${size}`,
       {
         credentials: "include",
       }

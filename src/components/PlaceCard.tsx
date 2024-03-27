@@ -35,13 +35,14 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
 
       <div className={styles.mainInfo}>
         <LocationIcon className={styles.pinIcon} />
-        <button
+        <Link
+          href={`/place/${place.id}`}
           className={styles.placeNameContainer}
           // aria-label={`${place.name} - ${place.category}`}
         >
           <h3 className={styles.placeName}>{place.name}</h3>
           <span className={styles.category}>{place.category}</span>
-        </button>
+        </Link>
         <address className={styles.address}>{place.roadNameAddress}</address>
         <div className={styles.buttonContainer}>
           <div className={styles.pinCnt}>
@@ -81,7 +82,7 @@ const SimplePlaceCard = ({
   phoneNumber?: string;
 }) => {
   return (
-    <article className={styles.simpleBoxPlaceCard}>
+    <article className={styles.simplePlaceCard}>
       <div className={styles.titleContainer}>
         {/* <LocationIcon className={styles.pinIcon} /> */}
         <h3 className={styles.placeName}>{place.name}</h3>
@@ -90,7 +91,10 @@ const SimplePlaceCard = ({
       {/* <div className={styles.subDataContainer}> */}
       <address className={styles.address}>{place.roadNameAddress}</address>
       {place.pinCnt ? (
-        <div className={styles.pinCnt}>{`${place.pinCnt}개 핀`}</div>
+        <div className={styles.pinCnt}>
+          <PinIcon />
+          <div>{`${place.pinCnt}개 핀`}</div>
+        </div>
       ) : null}
       {/* </div> */}
     </article>

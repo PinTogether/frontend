@@ -535,7 +535,7 @@ const SimpleBoxCollectionCard = ({
           {`핀 ${collectionData.pinCnt}`}
           {/* <PinIcon /> */}
         </span>
-        <span>{`북마크 ${collectionData.scrapCnt}`}</span>
+        <span>{`스크랩 ${collectionData.scrapCnt}`}</span>
         <span>{`좋아요 ${collectionData.likeCnt}`}</span>
       </div>
     </article>

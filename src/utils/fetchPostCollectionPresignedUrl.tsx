@@ -2,7 +2,7 @@ import APIResponse from "@/types/APIResponse";
 import PresignedUrl from "@/types/PresingedUrl";
 
 // TODO : POST
-const fetchGetCollectionPresignedUrl = async (
+const fetchPostCollectionPresignedUrl = async (
   collectionId: number,
   contentType: string
 ) => {
@@ -30,4 +30,4 @@ const fetchGetCollectionPresignedUrl = async (
     };
   }
 };
-export default fetchGetCollectionPresignedUrl;
+export default fetchPostCollectionPresignedUrl;
