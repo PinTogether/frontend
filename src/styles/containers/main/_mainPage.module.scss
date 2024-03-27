@@ -59,7 +59,6 @@
   font-size: $font-size-medium;
   overflow: hidden;
   height: 100%;
-  border-right: 1px solid $color-primary;
 }
 
 .inputButton {
@@ -133,9 +132,14 @@
   display: grid;
   align-items: center;
   justify-content: start;
+  overflow: hidden;
 }
 
 .icon {
   width: 25px;
   height: 25px;
+}
+
+.cardSliderContainer{
+  min-width: 100%;
 }
