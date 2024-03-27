@@ -26,7 +26,7 @@ import TagEditor from "@/components/TagEditor";
 import AlertModal from "@/components/AlertModal";
 
 import fetchPostCollection from "@/utils/fetchPostCollection";
-import fetchGetCollectionPresignedUrl from "@/utils/fetchGetCollectionPresignedUrl";
+import fetchPostCollectionPresignedUrl from "@/utils/fetchPostCollectionPresignedUrl";
 import fetchPutCollection from "@/utils/fetchPutCollection";
 import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
 import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
@@ -180,7 +180,7 @@ export default function CollectionEditPage({
     if (imgFile) {
       // presinged URL 발급
       const { presignedUrlData, errorMessage: errorMessage1 } =
-        await fetchGetCollectionPresignedUrl(collectionId, imgFile.type);
+        await fetchPostCollectionPresignedUrl(collectionId, imgFile.type);
       if (errorMessage1 || !presignedUrlData) {
         setAlertMessage(errorMessage1);
         return;
