@@ -108,7 +108,7 @@
   }
 }
 
-.simpleBoxPlaceCard {
+.simplePlaceCard {
   padding: 1rem 0;
   display: grid;
   grid-template-columns: 1fr auto;
@@ -139,14 +139,26 @@
     }
     .address {
       grid-column: 1 / 2;
-      font-size: $font-size-medium;
+      font-size: $font-size-small;
       color: $color-text-caption;
+      text-align: start;
+      word-break: keep-all;
     }
     .pinCnt {
+      // background-color: tomato;
+      margin-left: 0.5rem;
       grid-column: 2 / -1;
       justify-self: end;
       font-size: $font-size-small;
       color: $color-text-caption;
+      
+      display: flex;
+      align-items: center;
+
+      svg {
+        width: 1rem;
+        color: $color-text-caption;
+      }
     }
 }
 

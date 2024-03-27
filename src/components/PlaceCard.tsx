@@ -82,7 +82,7 @@ const SimplePlaceCard = ({
   phoneNumber?: string;
 }) => {
   return (
-    <article className={styles.simpleBoxPlaceCard}>
+    <article className={styles.simplePlaceCard}>
       <div className={styles.titleContainer}>
         {/* <LocationIcon className={styles.pinIcon} /> */}
         <h3 className={styles.placeName}>{place.name}</h3>
@@ -91,7 +91,10 @@ const SimplePlaceCard = ({
       {/* <div className={styles.subDataContainer}> */}
       <address className={styles.address}>{place.roadNameAddress}</address>
       {place.pinCnt ? (
-        <div className={styles.pinCnt}>{`${place.pinCnt}개 핀`}</div>
+        <div className={styles.pinCnt}>
+          <PinIcon />
+          <div>{`${place.pinCnt}개 핀`}</div>
+        </div>
       ) : null}
       {/* </div> */}
     </article>
