@@ -129,12 +129,13 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
       if (imageFiles.length === 0) {
         await editPin();
       } else {
-        await editPinWithImage();
+        await editPinWithImage(Number(pinId));
       }
     } else {
-      if (await addPin()) {
+      const newPinId = await addPin();
+      if (newPinId) {
         if (imageFiles.length) {
-          await editPinWithImage();
+          await editPinWithImage(newPinId);
         }
         router.push(`/collection/${createInfo?.collectionId}`);
       }
@@ -161,7 +162,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     router.push(`/collection/${pinData.collectionId}`);
   };
 
-  const editPinWithImage = async () => {
+  const editPinWithImage = async (targetPinId: number) => {
     if (!pinId || !reviewTextareaRef.current) return;
     // 업로드할 파일 분리
     const originalFiles = imageFiles.filter((imageFile) => {
@@ -218,11 +219,11 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     router.push(`/collection/${pinData.collectionId}`);
   };
 
-  const addPin = async () => {
-    if (isLoading || !createInfo || !reviewTextareaRef.current) return;
+  const addPin = async (): Promise<number | null> => {
+    if (isLoading || !createInfo || !reviewTextareaRef.current) return null;
     setIsLoading(true);
 
-    const { success, errorMessage } = await fetchPostPin(
+    const { success, newPinId, errorMessage } = await fetchPostPin(
       createInfo.placeId,
       createInfo.collectionId,
       reviewTextareaRef.current.value,
@@ -231,14 +232,14 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     );
     if (!success) {
       dispatch(addAlertMessage(errorMessage));
-      return false;
+      return null;
     } else if (!imageFiles.length) {
       // 이미지 없이 핀 생성 성공
       dispatch(clearPinEditState());
       router.push(`/collection/${createInfo.collectionId}`);
-      return true;
+      return null;
     }
-    return true; // 핀 생성 성공 후 이미지 업로드
+    return newPinId; // 핀 생성 성공 후 이미지 업로드
   };
 
   const putImagesToS3 = async (

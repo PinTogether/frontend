@@ -1,3 +1,5 @@
+import APIResponse from "../types/APIResponse";
+
 const fetchPostPin = async (
   placeId: number,
   collectionId: number,
@@ -22,15 +24,22 @@ const fetchPostPin = async (
     if (res.status === 403) {
       return {
         success: false,
+        newPinId: null,
         errorMessage: "로그인이 필요합니다.",
       };
     }
     if (!res.ok) throw new Error("핀 등록에 실패했습니다.");
-    return { success: true, errorMessage: "" };
+    const data: APIResponse = await res.json();
+    return {
+      success: true,
+      newPinId: data.results[0].id,
+      errorMessage: "",
+    };
   } catch (err: any) {
     console.error(err);
     return {
       success: false,
+      newPinId: null,
       errorMessage: "핀 등록에 실패했습니다.",
     };
   }
