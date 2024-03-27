@@ -17,7 +17,7 @@ const initialState: AlertMessage = {
 };
 
 export const globalAlertSlice = createSlice({
-  name: "counter",
+  name: "globalAlertSlice",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState: [] as AlertMessage[],
   reducers: {

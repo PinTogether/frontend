@@ -9,7 +9,7 @@ import fetchGetMyProfile from "@/utils/fetchGetMyProfile";
 const initialState: ProfileMine | null = null;
 
 export const myProfile = createSlice({
-  name: "counter",
+  name: "myProfile",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState: initialState as ProfileMine | null,
   reducers: {
