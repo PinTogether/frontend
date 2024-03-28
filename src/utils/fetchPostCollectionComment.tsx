@@ -1,4 +1,5 @@
 import APIResponse from "@/types/APIResponse";
+import { logout } from "@/hooks/useLogout";
 
 const fetchPostCollectionComments = async (
   collectionId: number,
@@ -18,6 +19,10 @@ const fetchPostCollectionComments = async (
       }
     );
     console.log("fetchPostCollectionComments res", res);
+    if (res.status === 401) {
+      logout();
+      return { success: false, errorMessage: "로그인이 필요합니다." };
+    }
     if (!res.ok) throw new Error("댓글 등록에 실패했습니다.");
     return { success: true, errorMessage: "" };
   } catch (err: any) {

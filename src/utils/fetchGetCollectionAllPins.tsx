@@ -1,5 +1,6 @@
 import { PinForPlace } from "@/types/Pin";
 import APIResponse from "@/types/APIResponse";
+import { logout } from "@/hooks/useLogout";
 
 const fetchGetCollectionAllPins = async (collectionId: number) => {
   try {
@@ -10,6 +11,13 @@ const fetchGetCollectionAllPins = async (collectionId: number) => {
       }
     );
     console.log("fetchGetCollectionAllPins res", res);
+    if (res.status === 401) {
+      logout();
+      return {
+        pinList: null,
+        errorMessage: "로그인이 필요합니다.",
+      };
+    }
     if (!res.ok) throw new Error("핀 리스트 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
     console.log("fetchGetCollectionAllPins data", data);

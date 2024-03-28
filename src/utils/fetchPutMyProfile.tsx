@@ -1,3 +1,5 @@
+import { logout } from "@/hooks/useLogout";
+
 const fetchPutMyProfile = async (nickname: string, avatar: string) => {
   try {
     const res = await fetch(
@@ -13,6 +15,10 @@ const fetchPutMyProfile = async (nickname: string, avatar: string) => {
       }
     );
     console.log("fetchPutMyProfile res", res);
+    if (res.status === 401) {
+      logout();
+      return { success: false, errorMessage: "로그인이 필요합니다." };
+    }
     if (!res.ok) throw new Error("프로필 수정에 실패했습니다.");
     return { success: true, errorMessage: "" };
   } catch (err: any) {

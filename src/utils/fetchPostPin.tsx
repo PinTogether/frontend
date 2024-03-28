@@ -1,4 +1,5 @@
 import APIResponse from "../types/APIResponse";
+import { logout } from "@/hooks/useLogout";
 
 const fetchPostPin = async (
   placeId: number,
@@ -21,6 +22,14 @@ const fetchPostPin = async (
       }),
     });
     console.log("fetchPostPin", res);
+    if (res.status === 401) {
+      logout();
+      return {
+        success: false,
+        newPinId: null,
+        errorMessage: "로그인이 필요합니다.",
+      };
+    }
     if (res.status === 403) {
       return {
         success: false,

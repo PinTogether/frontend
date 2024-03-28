@@ -1,5 +1,6 @@
 import { CollectionDetail } from "@/types/Collection";
 import APIResponse from "@/types/APIResponse";
+import { logout } from "@/hooks/useLogout";
 
 const fetchGetCollectionInfo = async (collectionId: number) => {
   try {
@@ -10,7 +11,13 @@ const fetchGetCollectionInfo = async (collectionId: number) => {
       }
     );
     console.log("fetchGetCollectionInfo res", res);
-    if (res.status === 404) {
+    if (res.status === 401) {
+      logout();
+      return {
+        collectionInfo: null,
+        errorMessage: "로그인이 필요합니다.",
+      };
+    } else if (res.status === 404) {
       return {
         collectionInfo: null,
         errorMessage: "컬렉션 정보를 찾을 수 없습니다.",

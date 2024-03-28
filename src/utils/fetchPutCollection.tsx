@@ -1,5 +1,6 @@
 import PresignedUrl from "@/types/PresingedUrl";
 import APIResponse from "@/types/APIResponse";
+import { logout } from "@/hooks/useLogout";
 
 const fetchPutCollection = async (
   collectionId: number,
@@ -24,6 +25,10 @@ const fetchPutCollection = async (
       }
     );
     console.log("fetchPutCollection res", res);
+    if (res.status === 401) {
+      logout();
+      return { success: false, errorMessage: "로그인이 필요합니다." };
+    }
     if (!res.ok) throw new Error("컬렉션 수정을 실패했습니다.");
     return { success: true, errorMessage: "" };
   } catch (err: any) {
