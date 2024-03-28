@@ -3,7 +3,6 @@
 import styles from "@/styles/containers/place/_placePage.module.scss";
 import { PinForPlace } from "@/types/Pin";
 import { PlaceDetail } from "@/types/Place";
-import MarkerData from "@/types/Marker";
 import ReviewCard from "@/components/ReviewCard";
 import PlaceCard from "@/components/PlaceCard";
 
@@ -72,7 +71,7 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
 
   useEffect(()=>{
     if (placeData){
-      makeMarker(placeData.id, placeData.name, placeData.pinCnt, placeData.latitude, placeData.longitude, dispatchMarker);
+      makeMarker(placeData.id, placeData.id, placeData.name, placeData.pinCnt, placeData.latitude, placeData.longitude, dispatchMarker);
     }
   },[placeData])
 

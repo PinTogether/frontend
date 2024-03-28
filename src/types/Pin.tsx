@@ -19,13 +19,6 @@ export default interface Pin {
   imagePaths: string[];
 }
 
-export default interface MarkerData {
-  id: number;
-  placeName: string;
-  latitude: number;
-  longitude: number;
-}
-
 // 장소에 대한 모든 핀 조회
 export interface PinForPlace extends Pin {
   // pinId: number;

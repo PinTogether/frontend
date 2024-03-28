@@ -56,6 +56,7 @@ export interface ImageData {
 // TODO : Refactor
 const samplePinData: Pin = {
   id: 0,
+  placeId: 0,
   collectionId: 0,
   writer: "writer",
   review: "",

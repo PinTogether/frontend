@@ -42,7 +42,6 @@ export default function Overlay() {
   const [myCollectionDatas, setMyCollectionDatas] = useState<Collection[]>([]);
   const [scrappedCollectionDatas, setScrappedCollectionDatas] = useState<Collection[]>([]);
   const myProfile = useGetMyProfile();
-  const [markerList, setMarkerList] = useState<MarkerData[]>([]);
 
   const getTopCollectionData = async() => {
     await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`,
@@ -162,7 +161,6 @@ export default function Overlay() {
 
   function makeMarkerList() {
     let markerLists: MarkerData[] = [];
-    setMarkerList([]);
     //최종 마커 리스트를 생성하고 Map에 전달
 
     function checkList(id:number){
@@ -179,6 +177,7 @@ export default function Overlay() {
           if (checkList(pinData.id)) {
             let newData: MarkerData = {
               id:pinData.id,
+              placeId:pinData.placeId,
               placeName:pinData.placeName,
               pinCount:pinData.saveCnt,
               latitude:pinData.latitude,

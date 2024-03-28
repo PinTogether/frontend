@@ -26,6 +26,7 @@ const collection: CollectionDetail = {
 
 const pinData: Pin = {
   id: 1,
+  placeId: 13,
   collectionId: 1,
   writer: "잠자는_짱구의_콧털",
   review: "포카리스웨트 강남역점은 맛있는 음식을 먹을 수 있는 곳입니다.",
@@ -48,6 +49,7 @@ const pinData: Pin = {
 
 const reviewData: Pin = {
   id: 1,
+  placeId: 13,
   collectionId: 2,
   writer: "JaneDoe",
   review: "Great place to visit, loved the atmosphere!",
@@ -72,6 +74,7 @@ const reviewData: Pin = {
 const commentList: Pin[] = [
   {
     id: 1,
+    placeId: 13,
     collectionId: 1,
     writer: "user123",
     review: "아름다운 경치와 맛있는 음식",
@@ -93,6 +96,7 @@ const commentList: Pin[] = [
   },
   {
     id: 2,
+    placeId: 13,
     collectionId: 2,
     writer: "user456",
     review: "편안한 분위기에서 즐기는 최고의 커피",
@@ -110,6 +114,7 @@ const commentList: Pin[] = [
   },
   {
     id: 3,
+    placeId: 13,
     collectionId: 3,
     writer: "user789",
     review: "경치가 뛰어나고 음식도 훌륭한 곳",

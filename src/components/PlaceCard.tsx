@@ -57,6 +57,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
             onClick={(e) => {
               makeMarker(
                 place.id,
+                place.id,
                 place.name,
                 place.pinCnt,
                 place.latitude,

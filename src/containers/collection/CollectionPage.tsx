@@ -100,6 +100,7 @@ export default function CollectionPage({
     for (let i = 0; i < pinFetchDatas.pinList.length; i++) {
       markerList.push({
         id: pinFetchDatas.pinList[i].id,
+        placeId: pinFetchDatas.pinList[i].placeId,
         placeName: pinFetchDatas.pinList[i].placeName,
         pinCount: pinFetchDatas.pinList[i].saveCnt,
         latitude: pinFetchDatas.pinList[i].latitude,

@@ -1,12 +1,4 @@
-
-
-interface MarkerData {
-  id: number;
-  placeName: string;
-  pinCount: number;
-  longitude: number;
-  latitude: number;
-}
+import MarkerData from "@/types/Marker";
 
 function getRandomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -18,12 +10,13 @@ function generateMarkerData(count: number): MarkerData[] {
 
   for (let i = 1; i <= count; i++) {
     const id = i;
+    const placeId = i * 10;
     const placeName = placeNames[getRandomNumber(0, placeNames.length - 1)];
     const pinCount = getRandomNumber(0, 200);
     const latitude = getRandomNumber(33000, 38500) / 1000; // 위도
     const longitude = getRandomNumber(125000, 131000) / 1000; // 경도
 
-    markerData.push({ id, placeName, pinCount, latitude, longitude });
+    markerData.push({ id, placeId, placeName, pinCount, latitude, longitude });
   }
 
   return markerData;
