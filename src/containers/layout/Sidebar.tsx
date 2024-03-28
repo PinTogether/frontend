@@ -108,8 +108,8 @@ export default function Sidebar() {
       </button>
       <div></div>
       <button className={styles.button}>
-        <BellIcon className={styles.icon} />
-        <BellFillIcon className={styles.hoveredIcon} />
+        <BellIcon className={styles.icon} onClick={() => moveURL(`/notify`)} />
+        <BellFillIcon className={styles.hoveredIcon} onClick={() => moveURL(`/notify`)} />
       </button>
       <button
         className={`${styles.button} ${usePathname().startsWith("/login") ? styles.currPath : ""}`}

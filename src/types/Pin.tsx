@@ -9,7 +9,7 @@ export default interface Pin {
   saveCnt: number;
   roadNameAddress: string;
   placeName: string;
-  placeId?: number; // TODO
+  placeId: number; // TODO
   latitude: number;
   longitude: number;
   starred: boolean;
@@ -17,13 +17,6 @@ export default interface Pin {
   tags: string[];
   collectionTitle: string;
   imagePaths: string[];
-}
-
-export default interface MarkerData {
-  id: number;
-  placeName: string;
-  latitude: number;
-  longitude: number;
 }
 
 // 장소에 대한 모든 핀 조회

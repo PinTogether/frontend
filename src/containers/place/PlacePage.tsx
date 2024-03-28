@@ -3,7 +3,6 @@
 import styles from "@/styles/containers/place/_placePage.module.scss";
 import { PinForPlace } from "@/types/Pin";
 import { PlaceDetail } from "@/types/Place";
-import MarkerData from "@/types/Marker";
 import ReviewCard from "@/components/ReviewCard";
 import PlaceCard from "@/components/PlaceCard";
 
@@ -70,18 +69,11 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
     if (isIntersecting && !isEnd) fetchData();
   }, [placeId, isIntersecting]);
 
-  useEffect(() => {
-    if (pinData[0]) {
-      makeMarker(
-        pinData[0].id,
-        pinData[0].placeName,
-        pinData[0].saveCnt,
-        pinData[0].latitude,
-        pinData[0].longitude,
-        dispatchMarker
-      );
+  useEffect(()=>{
+    if (placeData){
+      makeMarker(placeData.id, placeData.id, placeData.name, placeData.pinCnt, placeData.latitude, placeData.longitude, dispatchMarker);
     }
-  }, [pinData]);
+  },[placeData])
 
   return (
     <>

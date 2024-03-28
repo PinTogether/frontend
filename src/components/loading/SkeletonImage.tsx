@@ -11,10 +11,11 @@ const CollectionImageSkeleton = () => {
 const DefaultCollectionSkeleton = () => {
   return (
     <div className={styles.skeletonCollection}>
-      <div className={styles.skeletonTextBox} style={{width:"12rem", height:"12rem"}}/>
+      <div className={styles.skeletonTextBox} style={{width:"8rem", height:"8rem"}}/>
       <div className={styles.bottomBox}>
-        <div className={styles.skeletonTextBox} style={{width:"40px",height:"40px", borderRadius:"50%"}}/>
-        <div className={styles.skeletonTextBox} style={{width:"100%",height:"15px"}}/>
+        <div />
+        <div className={styles.skeletonTextBox} style={{width:"60%",height:"15px", placeSelf:"end", alignSelf:"center"}}/>
+        <div className={styles.skeletonTextBox} style={{width:"80%",height:"15px", placeSelf:"end", alignSelf:"center"}}/>
       </div>
     </div>
   );

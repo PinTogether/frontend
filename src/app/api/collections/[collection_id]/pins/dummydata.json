@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "placeId": 13,
     "collectionId": 1,
     "writer": "사용자1233",
     "review": "멋진 전망을 가진 평화로운 장소입니다.",
@@ -20,6 +21,7 @@
   },
   {
     "id": 2,
+    "placeId": 15,
     "collectionId": 1,
     "writer": "사용자1233",
     "review": "멋진 전망을 가진 평화로운 장소입니다.",
@@ -39,6 +41,7 @@
   },
   {
     "id": 3,
+    "placeId": 17,
     "collectionId": 1,
     "writer": "사용자1233",
     "review": "멋진 전망을 가진 평화로운 장소입니다.",
@@ -58,6 +61,7 @@
   },
   {
     "id": 4,
+    "placeId": 23,
     "collectionId": 1,
     "writer": "사용자13",
     "review": "멋진 전망을 가진 평화로운 장소입니다.",

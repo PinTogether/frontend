@@ -1,6 +1,7 @@
 [
   {
     "id": 12,
+    "placeId": 17893,
     "collectionId": 8,
     "writer": "사용자8",
     "review": "아름다운 꽃과 함께 휴식을 취할 수 있는 공원입니다.",
@@ -20,6 +21,7 @@
   },
   {
     "id": 13,
+    "placeId": 135552,
     "collectionId": 9,
     "writer": "사용자9",
     "review": "최신 기술을 경험할 수 있는 혁신적인 전시관입니다.",
@@ -39,6 +41,7 @@
   },
   {
     "id": 14,
+    "placeId": 1315,
     "collectionId": 10,
     "writer": "사용자10",
     "review": "힙한 디자인과 다양한 커피 메뉴가 있는 카페입니다.",

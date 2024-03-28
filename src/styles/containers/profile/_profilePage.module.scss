@@ -93,14 +93,16 @@
     color: $color-grey-dark;
     background-color: $color-grey;
     border-radius: $border-radius;
+    border: 2px solid $color-grey;
     &:hover {
       background-color: $color-button-active;
-      //border: 2px solid $color-border-active;
-      // border-radius: $border-radius;
+      border: 2px solid $color-border-active;
+      border-radius: $border-radius;
     }
   }
   .clickedButtons {
     background-color: $color-primary-light;
+    border: 2px solid $color-border-active;
   }
 }
 

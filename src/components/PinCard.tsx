@@ -58,6 +58,7 @@ export default function PinCard({
               onClick={(e) => {
                 makeMarker(
                   pinData.id,
+                  pinData.placeId,
                   pinData.placeName,
                   pinData.saveCnt,
                   pinData.latitude,
@@ -178,6 +179,7 @@ const SimplePinCard = ({
             onClick={(e) => {
               makeMarker(
                 pinData.id,
+                pinData.placeId,
                 pinData.placeName,
                 1,
                 pinData.latitude,

@@ -20,7 +20,7 @@
 
   position: relative;
   transition: all 0.2s ease;
-  overflow-y: scroll;
+  overflow-y: overlay;
   pointer-events: auto;
   -ms-overflow-style: none; /* IE, Edge */
   scrollbar-width: none; /* Firefox */
