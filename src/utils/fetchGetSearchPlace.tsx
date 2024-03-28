@@ -1,5 +1,6 @@
 import APIResponse from "@/types/APIResponse";
 import { PlaceDetail } from "@/types/Place";
+import { logout } from "@/hooks/useLogout";
 
 const fetchGetSearchPlace = async (
   searchKeyword: string,
@@ -17,6 +18,13 @@ const fetchGetSearchPlace = async (
       }
     );
     console.log("fetchGetSearchPlace res", res);
+    if (res.status === 401) {
+      logout();
+      return {
+        placeDatas: [],
+        errorMessage: "로그인이 필요합니다.",
+      };
+    }
     if (!res.ok) throw new Error("검색에 실패했습니다.");
     const data: APIResponse = await res.json();
     console.log("fetchGetSearchPlace data", data);

@@ -1,5 +1,6 @@
 import Pin from "@/types/Pin";
 import APIResponse from "@/types/APIResponse";
+import { logout } from "@/hooks/useLogout";
 
 const fetchGetPinInfo = async (
   placeId: number
@@ -12,6 +13,13 @@ const fetchGetPinInfo = async (
       }
     );
     console.log("fetchGetPinInfo res", res);
+    if (res.status === 401) {
+      logout();
+      return {
+        pinInfo: null,
+        errorMessage: "로그인이 필요합니다.",
+      };
+    }
     if (res.status === 404) {
       return { pinInfo: null, errorMessage: "장소 정보가 없습니다." };
     }

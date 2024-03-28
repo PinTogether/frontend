@@ -1,3 +1,5 @@
+import { logout } from "@/hooks/useLogout";
+
 const fetchPostStarPlace = async (placeId: number) => {
   try {
     const res = await fetch(
@@ -8,7 +10,10 @@ const fetchPostStarPlace = async (placeId: number) => {
       }
     );
     console.log("fetchPostStarPlace", res);
-    if (res.status === 403) {
+    if (res.status === 401) {
+      logout();
+      return { success: false, errorMessage: "로그인이 필요합니다." };
+    } else if (res.status === 403) {
       return {
         success: false,
         errorMessage: "로그인이 필요합니다.",

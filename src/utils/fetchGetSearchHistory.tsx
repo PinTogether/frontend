@@ -1,4 +1,5 @@
 import APIResponse from "@/types/APIResponse";
+import { logout } from "@/hooks/useLogout";
 
 enum SearchType {
   TOTAL = "TOTAL",
@@ -25,6 +26,7 @@ const fetchGetSearchLog = async (): Promise<{
     );
     console.log("fetchGetSearchLog res", res);
     if (res.status === 401) {
+      logout();
       return {
         searchLogs: [],
         errorMessage: "검색 기록은 로그인이 필요합니다.", // local storage
