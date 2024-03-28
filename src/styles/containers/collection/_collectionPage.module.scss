@@ -24,6 +24,7 @@
     padding: 0.25rem 0.75rem;
     color: $color-grey-dark;
     background-color: $color-grey;
+    border: 2px solid $color-grey;
     &:hover {
       background-color: $color-button-active;
       border: 2px solid $color-border-active;
