@@ -13,18 +13,24 @@ export default function ReviewCard({
   reviewData: Pin;
   activeGoCollectionBtn?: boolean;
 }) {
+  const defaultAvatarUrl = process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL;
+
   return (
     <article className={styles.review}>
-      <Image
-        src="/images/cat_dummy.jpeg" // avatar
-        alt="user profile image"
-        width={100}
-        height={100}
-        className={styles.userAvatar}
-      />
-      <span
-        className={styles.userNick}
-      >{`${reviewData.writer} 님의 리뷰`}</span>
+      <Link href={`/profile/${reviewData.writerId}`}>
+        <Image
+          src={reviewData.avatarImage || defaultAvatarUrl || ""} // avatar
+          alt="user profile image"
+          width={100}
+          height={100}
+          className={styles.userAvatar}
+        />
+      </Link>
+      <Link href={`/profile/${reviewData.writerId}`}>
+        <span
+          className={styles.userNick}
+        >{`${reviewData.writer} 님의 리뷰`}</span>
+      </Link>
       <span className={styles.text}>{`${reviewData.review}`}</span>
 
       <div className={styles.content}>

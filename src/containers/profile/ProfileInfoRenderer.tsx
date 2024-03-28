@@ -116,10 +116,17 @@ const ProfileInfoRenderer = ({
               </b>
               <p className={styles.text}>스크랩</p>
             </div>
-            <div className={styles.profileLogBox}>
-              <b className={styles.number}>{profileInfo.followerCnt}</b>
-              <p className={styles.text}>팔로워</p>
-            </div>
+            {isMyProfile ? (
+              <Link className={styles.profileLogBox} href={`/profile/follow`}>
+                <b className={styles.number}>{profileInfo.followerCnt}</b>
+                <p className={styles.text}>팔로워</p>
+              </Link>
+            ) : (
+              <div className={styles.profileLogBox}>
+                <b className={styles.number}>{profileInfo.followerCnt}</b>
+                <p className={styles.text}>팔로워</p>
+              </div>
+            )}
           </div>
         </div>
       )}

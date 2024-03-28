@@ -20,6 +20,17 @@ export interface CollectionDetail extends Collection {
   commentCnt: number;
 }
 
+//핀 추가할 내 콜렉션들 조회
+export interface CollectionForAddPin {
+  id: number;
+  title: string;
+  thumbnail: string;
+  likeCnt: number;
+  pinCnt: number;
+  scrapCnt: number;
+  pinned: boolean;
+}
+
 export interface ERDCollection {
   id: number;
   writer_id: number;

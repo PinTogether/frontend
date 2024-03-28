@@ -93,11 +93,25 @@ export default function ProfileStarredRenderer({
     // TODO Implement delete starred
     console.log("delete starred", clickedBookmarks);
 
+    let error = true;
     clickedBookmarks.forEach(async (id) => {
       const { success, errorMessage } = await fetchDeleteStarPlace(id);
-      if (!success) dispatch(addAlertMessage(errorMessage));
+      if (!success) {
+        dispatch(addAlertMessage(errorMessage));
+        error = false;
+      }
     });
-    fetchStarsData();
+    if (!error) {
+      setStarredFetchData((prev) => {
+        if (!prev) return prev;
+        return {
+          starredDatas: prev.starredDatas.filter(
+            (bookmark) => !clickedBookmarks.includes(bookmark.id)
+          ),
+          errorMessage: prev.errorMessage,
+        };
+      });
+    }
   };
 
   const handleAddToCollection = async () => {
@@ -155,7 +169,7 @@ export default function ProfileStarredRenderer({
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchDown}
                 onMouseUp={() => setIsButtonPressed(false)}
-                onTouchEnd={()=>setIsButtonPressed(false)}
+                onTouchEnd={() => setIsButtonPressed(false)}
                 key={index}
                 className={`${styles.bookmarkContainer} ${clickedBookmarks.includes(bookmark.id) ? styles.bookmarkContainerClicked : ""}`}
               >
