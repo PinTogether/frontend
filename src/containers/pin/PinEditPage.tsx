@@ -126,7 +126,11 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     if (isLoading) return;
     setIsLoading(true);
     if (pinId) {
-      if (imageFiles.length === 0) {
+      console.log(
+        "editPin",
+        imageFiles.find((imageFile) => imageFile.file !== null)
+      );
+      if (!imageFiles.find((imageFile) => imageFile.file !== null)) {
         await editPin();
       } else {
         await editPinWithImage(Number(pinId));
@@ -146,7 +150,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
   const editPin = async () => {
     if (!pinId || !reviewTextareaRef.current) return;
 
-    const imagePaths = [...imageFiles.map((data) => data.preview[0])];
+    const imagePaths = [...imageFiles.map((data) => data.preview)];
     const { success, errorMessage } = await fetchPutPin(
       Number(pinId),
       reviewTextareaRef.current?.value,
@@ -175,7 +179,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     // presigned-url 발급
     const { presignedUrlDataList, errorMessage } =
       await fetchPostPinPresignedUrl(
-        Number(pinId),
+        targetPinId,
         uploadFiles.map((fileData) => fileData.file?.type || "")
       );
     if (!presignedUrlDataList) {
@@ -193,7 +197,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     }
     // 핀 수정
     const imagePaths = [
-      ...originalFiles.map((data) => data.preview[0]),
+      ...originalFiles.map((data) => data.preview),
       ...presignedUrlDataList.map((data) => data.imageUrl),
     ];
     setImageFiles((prev) => [
