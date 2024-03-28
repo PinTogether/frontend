@@ -7,7 +7,7 @@ export default interface Pin {
   saveCnt: number;
   roadNameAddress: string;
   placeName: string;
-  placeId?: number; // TODO
+  placeId: number; // TODO
   latitude: number;
   longitude: number;
   starred: boolean;

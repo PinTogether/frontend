@@ -70,10 +70,10 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
   }, [placeId, isIntersecting]);
 
   useEffect(()=>{
-    if (pinData[0]){
-      makeMarker(pinData[0].id, pinData[0].placeName, pinData[0].saveCnt, pinData[0].latitude, pinData[0].longitude, dispatchMarker);
+    if (placeData){
+      makeMarker(placeData.id, placeData.name, placeData.pinCnt, placeData.latitude, placeData.longitude, dispatchMarker);
     }
-  },[pinData])
+  },[placeData])
 
   return (
     <>
