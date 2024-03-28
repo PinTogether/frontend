@@ -10,7 +10,7 @@ const fetchGetCollectionForAddPin = async (
 }> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/collections?placeId=${placeId}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/collections?place-id=${placeId}`,
       {
         credentials: "include",
       }
