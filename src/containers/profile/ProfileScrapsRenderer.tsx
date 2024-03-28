@@ -54,7 +54,7 @@ const ProfileScrapsCollectionRenderer = ({
     <section className={`${styles.profileListContainer} ${className}`}>
       {!scrappedFetchData ? (
         <p className={styles.errorMessage}>Loading</p>
-      ) : scrappedFetchData.errorMessage ? (
+      ) : !scrappedFetchData.scrapDatas.length ? (
         <p className={styles.errorMessage}>{scrappedFetchData.errorMessage}</p>
       ) : (
         scrappedFetchData.scrapDatas.map((collection) => (
