@@ -22,8 +22,29 @@
   transition: all 0.2s ease;
   overflow-y: scroll;
   pointer-events: auto;
-  -ms-overflow-style: none; /* IE, Edge */
-  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    outline: none;
+    border-radius: 10px;
+    border: 4px solid transparent;
+    box-shadow: inset 6px 6px 0 rgba(68, 68, 68, 0.15);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    border: 4px solid transparent;
+    box-shadow: inset 6px 6px 0 rgba(68, 68, 68, 0.3);
+  }
+
+  &::-webkit-scrollbar-track {
+    box-shadow: none;
+    background-color: transparent;
+  }
+  // -ms-overflow-style: none; /* IE, Edge */
+  // scrollbar-width: none; /* Firefox */
 
   // .container {
   // display: grid;
@@ -36,9 +57,9 @@
   // padding-right: 7%;
   // // // }
 }
-.maincontent::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
-}
+// .maincontent::-webkit-scrollbar {
+//   display: none; /* Chrome, Safari, Opera*/
+// }
 
 .mainButton {
   display: flex;
