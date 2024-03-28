@@ -1,5 +1,6 @@
 import { CollectionDetail } from "@/types/Collection";
 import APIResponse from "@/types/APIResponse";
+import { logout } from "@/hooks/useLogout";
 
 const fetchGetProfileCollections = async (
   userId: number,
@@ -17,6 +18,13 @@ const fetchGetProfileCollections = async (
       }
     );
     console.log("fetchGetProfileCollections res", res);
+    if (res.status === 401) {
+      logout();
+      return {
+        collectionDatas: [],
+        errorMessage: "로그인이 필요합니다.",
+      };
+    }
     if (!res.ok) throw new Error("유저의 컬렉션 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
     console.log("fetchGetProfileCollections data", data);

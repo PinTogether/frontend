@@ -1,7 +1,13 @@
 "use client";
 
-import styles from "@/styles/components/_collectioncard.module.scss";
+import { useState, useEffect, HTMLAttributes } from "react";
+import Link from "next/link";
 import Image from "next/image";
+import { useAppDispatch } from "@/redux/hooks";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
+
+import styles from "@/styles/components/_collectioncard.module.scss";
+import Collection, { CollectionDetail } from "@/types/Collection";
 import {
   HeartIcon,
   HeartFillIcon,
@@ -11,12 +17,8 @@ import {
   BookMarkFillIcon,
   CommentIcon,
 } from "@/components/IconSvg";
-import Collection, { CollectionDetail } from "@/types/Collection";
-import { useState, useEffect, HTMLAttributes } from "react";
-import Link from "next/link";
 
-import { useAppDispatch } from "@/redux/hooks";
-import { addAlertMessage } from "@/redux/globalAlertSlice";
+import useGetMyId from "@/hooks/useGetMyId";
 import fetchPostCollectionLikes from "@/utils/fetchPostCollectionLikes";
 import fetchDeleteCollectionLikes from "@/utils/fetchDeleteCollectionLikes";
 import fetchPostCollectionScraps from "@/utils/fetchPostCollectionScraps";
@@ -81,13 +83,17 @@ export default function CollectionCard({
 }
 
 /* utils */
+// scrap button
 const ScrapButton = ({
+  writerId,
   collectionId,
   scrapped,
 }: {
+  writerId: number;
   collectionId: number;
   scrapped: boolean;
 }) => {
+  const myId = useGetMyId();
   const [isScrapped, setIsScrapped] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -118,7 +124,7 @@ const ScrapButton = ({
     setIsLoading(false);
   };
 
-  return isScrapped ? (
+  return myId === writerId || !myId ? null : isScrapped ? (
     <BookMarkFillIcon className={styles.bookmarked} onClick={handleBookMark} />
   ) : (
     <BookMarkIcon onClick={handleBookMark} />
@@ -155,7 +161,7 @@ const LikedButton = ({
         await fetchPostCollectionLikes(collectionId);
       if (success) {
         setIsLiked(true);
-        likeCnt += 1; // TODO 여기서는 왜 안되고 pin에서는 되는 걸까? 
+        likeCnt += 1; // TODO 여기서는 왜 안되고 pin에서는 되는 걸까?
       } else dispatch(addAlertMessage(errorMessage));
     }
     // 좋아요 취소
@@ -273,6 +279,7 @@ const DefaultCollectionCard = ({
           </div>
         </Link>
         <ScrapButton
+          writerId={collectionData.writerId}
           collectionId={collectionData.id}
           scrapped={collectionData.scrapped}
         />
@@ -337,6 +344,7 @@ const SimpleCollectionCard = ({
           />
         </div>
         <ScrapButton
+          writerId={collectionData.writerId}
           collectionId={collectionData.id}
           scrapped={collectionData.scrapped}
         />
@@ -385,6 +393,7 @@ const HorizontalCollectionCard = ({
           aria-disabled={linkDisabled}
         >{`by ${collectionData.writer}`}</Link>
         <ScrapButton
+          writerId={collectionData.writerId}
           collectionId={collectionData.id}
           scrapped={collectionData.scrapped}
         />
@@ -478,6 +487,7 @@ const HorizontalDetailCollectionCard = ({
           aria-disabled={linkDisabled}
         >{`by ${collectionData.writer}`}</Link>
         <ScrapButton
+          writerId={collectionData.writerId}
           collectionId={collectionData.id}
           scrapped={collectionData.scrapped}
         />

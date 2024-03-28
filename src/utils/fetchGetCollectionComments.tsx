@@ -1,5 +1,6 @@
 import CollectionReply from "@/types/CollectionReply";
 import APIResponse from "@/types/APIResponse";
+import { logout } from "@/hooks/useLogout";
 
 const fetchGetCollectionComments = async (
   collectionId: number
@@ -15,6 +16,13 @@ const fetchGetCollectionComments = async (
       }
     );
     console.log("fetchGetCollectionComments res", res);
+    if (res.status === 401) {
+      logout();
+      return {
+        replyDatas: [],
+        errorMessage: "로그인이 필요합니다.",
+      };
+    }
     if (!res.ok) throw new Error("컬렉션 댓글 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
     console.log("fetchGetCollectionComments data", data);

@@ -1,6 +1,6 @@
 import PresignedUrl from "@/types/PresingedUrl";
 import APIResponse from "@/types/APIResponse";
-
+import { logout } from "@/hooks/useLogout";
 // TODO
 
 const fetchPostCollection = async (
@@ -25,6 +25,14 @@ const fetchPostCollection = async (
       }
     );
     console.log("fetchPostCollection res", res);
+    if (res.status === 401) {
+      logout();
+      return {
+        presingedUrlData: null,
+        newCollectionId: null,
+        errorMessage: "로그인이 필요합니다.",
+      };
+    }
     if (!res.ok) throw new Error("컬렉션 생성을 실패했습니다.");
     const data: APIResponse = await res.json();
     console.log("fetchPostCollection data", data);

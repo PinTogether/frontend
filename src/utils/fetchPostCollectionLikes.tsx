@@ -1,3 +1,5 @@
+import { logout } from "@/hooks/useLogout";
+
 const fetchPostCollectionLikes = async (collectionId: number) => {
   try {
     const res = await fetch(
@@ -8,6 +10,10 @@ const fetchPostCollectionLikes = async (collectionId: number) => {
       }
     );
     console.log("fetchPostCollectionLikes", res);
+    if (res.status === 401) {
+      logout();
+      return { success: false, errorMessage: "로그인이 필요합니다." };
+    }
     if (!res.ok) throw new Error("좋아요에 실패했습니다.");
     return { success: true, errorMessage: "" };
   } catch (err: any) {

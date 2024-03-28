@@ -1,5 +1,6 @@
 import { PinForPlace } from "@/types/Pin";
 import APIResponse from "@/types/APIResponse";
+import { logout } from "@/hooks/useLogout";
 
 const fetchGetPlacePins = async (
   placeId: number,
@@ -14,6 +15,13 @@ const fetchGetPlacePins = async (
       }
     );
     console.log("fetchGetPlacePins res", res);
+    if (res.status === 401) {
+      logout();
+      return {
+        placeInfo: [],
+        errorMessage: "로그인이 필요합니다.",
+      };
+    }
     if (res.status === 404) {
       return { placeInfo: [], errorMessage: "장소 정보가 없습니다." };
     }
