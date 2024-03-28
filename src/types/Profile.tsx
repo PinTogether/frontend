@@ -23,8 +23,11 @@ export interface ProfileOthers extends Profile {
   followed: boolean;
 }
 
-export interface ProfileFollow extends Profile {
+export interface ProfileFollower {
   id: number;
+  nickname: string;
+  avatar: string;
+  collectionCnt: number;
 }
 
 interface ERDMember {

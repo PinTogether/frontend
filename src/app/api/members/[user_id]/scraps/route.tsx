@@ -11,24 +11,36 @@ export async function GET(
   console.log("GET /api/members/[user_id]/scraps/route.tsx");
   console.log("params", params);
   console.log("page, size", page, size);
-  return NextResponse.json({
-    status: {
-      code: 200,
-      message: "OK",
-    },
-    metadata: {
-      resultCount: 0,
-    },
-    results: [],
-  });
   // return NextResponse.json({
   //   status: {
   //     code: 200,
   //     message: "OK",
   //   },
   //   metadata: {
-  //     resultCount: dummydata.length,
+  //     resultCount: 0,
   //   },
-  //   results: dummydata,
+  //   results: [],
   // });
+  if (Number(page) == 3) {
+    return NextResponse.json({
+      status: {
+        code: 200,
+        message: "OK",
+      },
+      metadata: {
+        resultCount: 0,
+      },
+      results: [],
+    });
+  }
+  return NextResponse.json({
+    status: {
+      code: 200,
+      message: "OK",
+    },
+    metadata: {
+      resultCount: dummydata.length,
+    },
+    results: dummydata,
+  });
 }

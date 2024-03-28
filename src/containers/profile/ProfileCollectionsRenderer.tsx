@@ -59,11 +59,13 @@ const ProfileCollectionsRenderer = ({
 
   return (
     <section className={`${styles.profileListContainer} ${className}`}>
-      {!data.collectionDatas ? (
+      {!data ? (
+        <p className={styles.errorMessage}>Loading</p>
+      ) : !data.collectionDatas?.length ? (
         <p className={styles.errorMessage}>{data.errorMessage}</p>
       ) : (
         <>
-          {data.collectionDatas.map((collection, index) => (
+          {data.collectionDatas.map((collection) => (
             <DefaultCollectionCard
               key={collection.id}
               collectionData={collection}

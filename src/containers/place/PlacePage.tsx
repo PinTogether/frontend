@@ -15,6 +15,8 @@ import { useAppDispatch } from "@/redux/hooks";
 import { makeMarker } from "@/utils/makeMarker";
 
 const PlacePage = ({ placeId }: { placeId: string }) => {
+  const dispatchMarker = useAppDispatch();
+
   /* fetch data */
   const size = 50;
   const [page, setPage] = useState(0);
@@ -23,7 +25,6 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
   const [placeData, setPlaceData] = useState<PlaceDetail | null>(null);
   const [placeErrorMessage, setPlaceErrorMessage] = useState<string>("");
   const [pinErrorMessage, setPinErrorMessage] = useState<string>("");
-  const dispatchMarker = useAppDispatch();
 
   /* infinite scroll */
   const pageEndRef = useRef<HTMLDivElement>(null);
@@ -52,17 +53,17 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
     const fetchData = async () => {
       if (isLoading) return;
       setIsLoading(true);
-      const { placeInfo, errorMessage } = await fetchGetPlacePins(
+      const { placeInfo: newPlaceInfo, errorMessage } = await fetchGetPlacePins(
         Number(placeId),
         page,
         size
       );
-      if (placeErrorMessage || !placeInfo) {
-        setPinErrorMessage(placeErrorMessage);
+      if (newPlaceInfo.length === 0) {
+        setIsEnd(true);
+        setPinErrorMessage(errorMessage);
       } else {
-        setPinData(placeInfo);
+        setPinData((prev) => [...prev, ...newPlaceInfo]);
         setPage((prev) => prev + 1);
-        if (placeInfo.length === 0) setIsEnd(true);
       }
       setIsLoading(false);
     };
@@ -85,13 +86,12 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
         )}
       </div>
       <ul className={styles.commentList}>
-        {pinErrorMessage ? (
+        {pinData.length === 0 ? (
           <span>{pinErrorMessage}</span>
         ) : (
           pinData.map((pin) => (
             <li key={pin.id}>
               <ReviewCard reviewData={pin} />
-              {/* PinReviewCard */}
             </li>
           ))
         )}
