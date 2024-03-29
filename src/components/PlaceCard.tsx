@@ -14,8 +14,8 @@ import Link from "next/link";
 import Place, { PlaceDetail, PlaceStarred } from "@/types/Place";
 import { useState } from "react";
 import { StarFilledIcon } from "@/components/IconSvg";
-import fetchPostStarPlace from "@/utils/fetchPostStarPlace";
-import fetchDeleteStarPlace from "@/utils/fetchDeleteStarPlace";
+import fetchPostStarPlace from "@/utils/stars/fetchPostStarPlace";
+import fetchDeleteStarPlace from "@/utils/stars/fetchDeleteStarPlace";
 
 import { useAppDispatch } from "@/redux/hooks";
 import { addAlertMessage } from "@/redux/globalAlertSlice";

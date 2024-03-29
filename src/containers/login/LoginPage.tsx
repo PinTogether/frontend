@@ -8,7 +8,7 @@ import { Cookies } from "react-cookie";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { clearMyProfile, setMyProfile } from "@/redux/profileSlice";
-import fetchGetMyProfile from "@/utils/fetchGetMyProfile";
+import fetchGetMyProfile from "@/utils/members/fetchGetMyProfile";
 
 // for development
 // import { ProfileMine } from "@/types/Profile";

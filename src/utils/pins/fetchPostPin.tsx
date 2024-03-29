@@ -1,4 +1,4 @@
-import APIResponse from "../types/APIResponse";
+import APIResponse from "@/types/APIResponse";
 import { logout } from "@/hooks/useLogout";
 
 const fetchPostPin = async (

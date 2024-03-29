@@ -7,7 +7,7 @@ const pinData: Pin = {
   id: 1,
   placeId: 13,
   collectionId: 1,
-  writer: "잠자는_짱구의_콧털",
+  writerMembername: "잠자는_짱구의_콧털",
   review: `포카리스웨트 강남역점은
 맛있는 음식을 먹을 수 있는 곳입니다.
 무엇보다도 가격이 저렴하고
@@ -31,7 +31,7 @@ const commentList: Pin[] = [
     id: 1,
     placeId: 13,
     collectionId: 1,
-    writer: "user123",
+    writerMembername: "user123",
     review: "아름다운 경치와 맛있는 음식",
     createdAt: "2023-02-15T12:34:56",
     saveCnt: 25,
@@ -49,7 +49,7 @@ const commentList: Pin[] = [
     id: 2,
     placeId: 13,
     collectionId: 2,
-    writer: "user456",
+    writerMembername: "user456",
     review: "편안한 분위기에서 즐기는 최고의 커피",
     createdAt: "2023-03-01T15:20:30",
     saveCnt: 40,
@@ -67,7 +67,7 @@ const commentList: Pin[] = [
     id: 3,
     placeId: 13,
     collectionId: 3,
-    writer: "user789",
+    writerMembername: "user789",
     review: "경치가 뛰어나고 음식도 훌륭한 곳",
     createdAt: "2023-04-10T18:45:00",
     saveCnt: 55,

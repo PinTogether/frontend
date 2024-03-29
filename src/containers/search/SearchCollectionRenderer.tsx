@@ -6,7 +6,7 @@ import { CollectionDetail } from "@/types/Collection";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
 import { HorizontalDetailCollectionCard } from "@/components/CollectionCard";
 import BouncingLoader from "@/components/BouncingLoader";
-import fetchGetSearchCollection from "@/utils/fetchGetSearchCollection";
+import fetchGetSearchCollection from "@/utils/search/fetchGetSearchCollection";
 
 export default function SearchCollectionRender({
   searchKeyword,

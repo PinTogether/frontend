@@ -14,10 +14,10 @@ import {
 } from "@/components/IconSvg";
 import AlertModal from "@/components/AlertModal";
 
-import fetchPostCollectionLikes from "@/utils/fetchPostCollectionLikes";
-import fetchDeleteCollectionLikes from "@/utils/fetchDeleteCollectionLikes";
-import fetchPostCollectionScraps from "@/utils/fetchPostCollectionScraps";
-import fetchDeleteCollectionScraps from "@/utils/fetchDeleteCollectionScraps";
+import fetchPostCollectionLikes from "@/utils/collections/fetchPostCollectionLikes";
+import fetchDeleteCollectionLikes from "@/utils/collections/fetchDeleteCollectionLikes";
+import fetchPostCollectionScraps from "@/utils/collections/fetchPostCollectionScraps";
+import fetchDeleteCollectionScraps from "@/utils/collections/fetchDeleteCollectionScraps";
 import useGetMyProfile from "@/hooks/useGetMyProfile";
 
 const CollectionInfoRenderer = ({
@@ -132,7 +132,7 @@ const CollectionInfoRenderer = ({
         <Link
           href={`/profile/${collectionData.writerId}`}
           className={styles.collectionWriter}
-        >{`by ${collectionData.writer}`}</Link>
+        >{`@${collectionData.writerMembername}`}</Link>
         <p className={styles.collectionTags}>
           {collectionData.tags.map((tag, index) => (
             <span key={index} className={styles.tag}>

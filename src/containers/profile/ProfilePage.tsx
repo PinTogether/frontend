@@ -13,7 +13,7 @@ import ProfileScrapsRenderer from "./ProfileScrapsRenderer";
 import { useRouter } from "next/navigation";
 
 import { ProfileOthers } from "@/types/Profile";
-import fetchGetProfileInfo from "@/utils/fetchGetProfileInfo";
+import fetchGetProfileInfo from "@/utils/members/fetchGetProfileInfo";
 import useCheckIsMyId from "@/hooks/useCheckIsMyId";
 
 export default function ProfilePage({ userId }: { userId: number }) {
@@ -79,7 +79,7 @@ export default function ProfilePage({ userId }: { userId: number }) {
             >
               {isMyProfile || !profileFetchData.profileInfo
                 ? `내 컬렉션`
-                : `${profileFetchData.profileInfo.nickname}의 컬렉션`}
+                : `${profileFetchData.profileInfo.name}의 컬렉션`}
             </button>
             <button
               className={`${styles.buttons} ${showState == 2 ? styles.clickedButtons : ""}`}

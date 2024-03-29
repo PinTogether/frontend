@@ -1,7 +1,7 @@
 export default interface Pin {
   id: number;
   collectionId: number;
-  writer: string;
+  writerMembername: string;
   writerId?: number; // TODO
   avatarImage?: string; // TODO
   review: string;

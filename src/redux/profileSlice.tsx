@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "@/redux/store";
 import { ProfileMine } from "@/types/Profile";
-import fetchGetMyProfile from "@/utils/fetchGetMyProfile";
+import fetchGetMyProfile from "@/utils/members/fetchGetMyProfile";
 
 // Define a type for the slice state
 

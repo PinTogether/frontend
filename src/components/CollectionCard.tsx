@@ -19,10 +19,10 @@ import {
 } from "@/components/IconSvg";
 
 import useGetMyId from "@/hooks/useGetMyId";
-import fetchPostCollectionLikes from "@/utils/fetchPostCollectionLikes";
-import fetchDeleteCollectionLikes from "@/utils/fetchDeleteCollectionLikes";
-import fetchPostCollectionScraps from "@/utils/fetchPostCollectionScraps";
-import fetchDeleteCollectionScraps from "@/utils/fetchDeleteCollectionScraps";
+import fetchPostCollectionLikes from "@/utils/collections/fetchPostCollectionLikes";
+import fetchDeleteCollectionLikes from "@/utils/collections/fetchDeleteCollectionLikes";
+import fetchPostCollectionScraps from "@/utils/collections/fetchPostCollectionScraps";
+import fetchDeleteCollectionScraps from "@/utils/collections/fetchDeleteCollectionScraps";
 
 interface CollectionCardProps extends HTMLAttributes<HTMLButtonElement> {
   collectionData: CollectionDetail;
@@ -153,6 +153,7 @@ const LikedButton = ({
   }, []);
 
   const handleLike = async () => {
+    console.log("handleLike");
     if (isLoading) return;
     setIsLoading(true);
     // 좋아요
@@ -285,20 +286,10 @@ const DefaultCollectionCard = ({
         />
       </div>
       <div className={styles.textContainer}>
-        {/* <Link
+        <Link
+          className={styles.nickname}
           href={`/profile/${collectionData.writerId}`}
-          className={styles.profile}
-          aria-disabled={linkDisabled}
-        >
-          <Image
-            src="/images/cat_dummy.jpeg"
-            alt="user profile image"
-            width={100}
-            height={100}
-            className={styles.userAvatar}
-          />
-        </Link> */}
-        <p className={styles.nickname}>{`by ${collectionData.writer}`}</p>
+        >{`@${collectionData.writerMembername}`}</Link>
         <Link
           href={`/collection/${collectionData.id}`}
           className={styles.title}
@@ -391,7 +382,7 @@ const HorizontalCollectionCard = ({
           href={`/profile/${collectionData.writerId}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
-        >{`by ${collectionData.writer}`}</Link>
+        >{`@${collectionData.writerMembername}`}</Link>
         <ScrapButton
           writerId={collectionData.writerId}
           collectionId={collectionData.id}
@@ -485,7 +476,7 @@ const HorizontalDetailCollectionCard = ({
           href={`/profile/${collectionData.writerId}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
-        >{`by ${collectionData.writer}`}</Link>
+        >{`@${collectionData.writerMembername}`}</Link>
         <ScrapButton
           writerId={collectionData.writerId}
           collectionId={collectionData.id}

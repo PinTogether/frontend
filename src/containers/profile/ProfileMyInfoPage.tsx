@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import InfoListLayout, { UlWrapper, LiWrapper } from "../layout/InfoListLayout";
-import fetchDeleteAccount from "@/utils/fetchDeleteAccount";
+import fetchDeleteAccount from "@/utils/members/fetchDeleteAccount";
 import AlertModal from "@/components/AlertModal";
 import { useLogout } from "@/hooks/useLogout";
 

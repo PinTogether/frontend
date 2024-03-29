@@ -15,7 +15,7 @@ import GlobalAlertModal from "@/components/GlobalAlertModal";
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import fetchGetSearchHistory from "@/utils/fetchGetSearchHistory";
+import fetchGetSearchHistory from "@/utils/search/fetchGetSearchHistory";
 
 export default function Page() {
   const [searchInputValue, setSearchInputValue] = useState("");

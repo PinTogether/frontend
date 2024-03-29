@@ -1,33 +1,30 @@
 export default interface Profile {
-  // id: number;
-  nickname: string;
+  name: string;
+  membername: string;
   avatar: string;
   collectionCnt: number;
 }
 
 export interface ProfileMine extends Profile {
   id: number;
+  bio: string;
   scrappedCollectionCnt: number;
   followerCnt: number;
   followingCnt: number;
   registrationSource?: "KAKAO" | "NAVER" | "GOOGLE";
-  role?: "ROLE_ADMIN" | "ROLE_MEMBER";
+  role: "ROLE_ADMIN" | "ROLE_MEMBER";
 }
 
 export interface ProfileOthers extends Profile {
-  // id: number;
-  // collectionCnt: number;
+  bio: string;
   scrappedCollectionCnt: number;
   followerCnt: number;
   followingCnt: number;
   followed: boolean;
 }
 
-export interface ProfileFollower {
+export interface ProfileFollower extends Profile {
   id: number;
-  nickname: string;
-  avatar: string;
-  collectionCnt: number;
 }
 
 interface ERDMember {

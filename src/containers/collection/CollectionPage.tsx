@@ -5,9 +5,9 @@ import { useAppDispatch } from "@/redux/hooks";
 import { markerDataByAmount } from "@/redux/locationSlice";
 import { initialPinSelectPageState } from "@/redux/pinSelectPageSlice";
 
-import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
-import fetchGetCollectionAllPins from "@/utils/fetchGetCollectionAllPins";
-import fetchGetCollectionComments from "@/utils/fetchGetCollectionComments";
+import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
+import fetchGetCollectionAllPins from "@/utils/collections/fetchGetCollectionAllPins";
+import fetchGetCollectionComments from "@/utils/collections/fetchGetCollectionComments";
 import useGetMyProfile from "@/hooks/useGetMyProfile";
 
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";

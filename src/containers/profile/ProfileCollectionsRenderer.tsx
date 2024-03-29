@@ -3,7 +3,7 @@ import { CollectionDetail } from "@/types/Collection";
 import { DefaultCollectionCard } from "@/components/CollectionCard";
 import { useState, useRef, useEffect } from "react";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
-import fetchGetProfileCollections from "@/utils/fetchGetProfileCollections";
+import fetchGetProfileCollections from "@/utils/members/fetchGetProfileCollections";
 
 const ProfileCollectionsRenderer = ({
   userId,

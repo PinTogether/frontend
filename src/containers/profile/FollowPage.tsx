@@ -10,8 +10,8 @@ import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
 import { ProfileFollower } from "@/types/Profile";
 
 import useGetMyProfile from "@/hooks/useGetMyProfile";
-import fetchGetMyFollowers from "@/utils/fetchGetMyFollowers";
-import fetchGetMyFollowings from "@/utils/fetchGetMyFollowings";
+import fetchGetMyFollowers from "@/utils/members/fetchGetMyFollowers";
+import fetchGetMyFollowings from "@/utils/members/fetchGetMyFollowings";
 
 const FollowPage = ({ userId }: { userId: number }) => {
   const profile = useGetMyProfile(); // 유저 정보 가져오기
@@ -81,7 +81,7 @@ const UserCard = ({ user }: { user: ProfileFollower }) => {
         className={styles.userAvatar}
       />
 
-      <div className={styles.userNick}>{user.nickname}</div>
+      <div className={styles.userNick}>{`@${user.membername}`}</div>
       <div
         className={styles.userCollectionCnt}
       >{`${user.collectionCnt}개 컬렉션`}</div>

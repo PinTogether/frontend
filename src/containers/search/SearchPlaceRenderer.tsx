@@ -6,7 +6,7 @@ import { PlaceDetail } from "@/types/Place";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
 import PlaceCard from "@/components/PlaceCard";
 import BouncingLoader from "@/components/BouncingLoader";
-import fetchGetSearchPlace from "@/utils/fetchGetSearchPlace";
+import fetchGetSearchPlace from "@/utils/search/fetchGetSearchPlace";
 
 export default function SearchPlaceRender({
   searchKeyword,

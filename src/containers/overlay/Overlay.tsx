@@ -11,7 +11,7 @@ import Pin from "@/types/Pin";
 import { useState, useEffect } from "react";
 import { locationGetterByAmount } from "@/redux/locationSlice";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
-import fetchGetProfileCollections from "@/utils/fetchGetProfileCollections";
+import fetchGetProfileCollections from "@/utils/members/fetchGetProfileCollections";
 
 import {
   ArrowDropDownIcon,

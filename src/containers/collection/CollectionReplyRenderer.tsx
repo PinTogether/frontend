@@ -10,7 +10,7 @@ import CollectionReply from "@/types/CollectionReply";
 import { CloseRoundIcon } from "@/components/IconSvg";
 import ReplyInputContent from "./CollectionReplyInput";
 
-import fetchDeleteCollectionComment from "@/utils/fetchDeleteCollectionComment";
+import fetchDeleteCollectionComment from "@/utils/collections/fetchDeleteCollectionComment";
 import AlertModal from "@/components/AlertModal";
 
 const CollectionReplyRenderer = ({
@@ -88,7 +88,7 @@ const ReplyContent = ({
         className={styles.replyAvatar}
       />
       <section className={styles.replyBox}>
-        <div className={styles.replyName}>{data.writer}</div>
+        <div className={styles.replyName}>{`@${data.writerMembername}`}</div>
         <div>
           <span className={styles.replyText}>{data.contents}</span>
           <span className={styles.replyCreatedAt}>
