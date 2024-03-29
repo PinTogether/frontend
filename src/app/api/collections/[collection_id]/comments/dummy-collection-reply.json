@@ -4,6 +4,7 @@
     "writerId": 2,
     "writer": "도시탐험가",
     "writerAvatar":  "https://picsum.photos/200",
+    "writerMembername": "city_man",
     "contents": "이 콜렉션 정말 멋지네요! 다음 여행 때 꼭 가보고 싶어요.",
     "createdAt": "2023-10-01T10:00:00Z"
   },
@@ -12,6 +13,7 @@
     "writerId": 202,
     "writer": "자연사랑",
     "writerAvatar":  "https://picsum.photos/200",
+    "writerMembername": "city_man",
     "contents": "자연과 함께하는 여행이라니, 생각만 해도 힐링되는 기분입니다.",
     "createdAt": "2023-10-02T15:30:00Z"
   },
@@ -20,6 +22,7 @@
     "writerId": 203,
     "writer": "미식가",
     "writerAvatar":  "https://picsum.photos/200",
+    "writerMembername": "city_man",
     "contents": "맛집 리스트에 추가했습니다. 정보 감사합니다!",
     "createdAt": "2023-10-03T09:20:00Z"
   },
@@ -28,6 +31,7 @@
     "writerId": 204,
     "writer": "역사학자",
     "writerAvatar":  "https://picsum.photos/200",
+    "writerMembername": "city_man",
     "contents": "역사적인 장소를 방문하는 건 언제나 가치 있는 일이죠. 좋은 정보 감사합니다.",
     "createdAt": "2023-10-04T11:45:00Z"
   },
@@ -36,6 +40,7 @@
     "writerId": 205,
     "writer": "밤도깨비",
     "writerAvatar":  "https://picsum.photos/200",
+    "writerMembername": "city_man",
     "contents": "도시의 밤 풍경을 담은 콜렉션이라니, 정말 매력적이네요!",
     "createdAt": "2023-10-05T19:00:00Z"
   }

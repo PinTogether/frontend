@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 
+/* 찜한 모든 장소 조회 */
 export async function GET(request: NextRequest) {
   console.log("GET /api/stars/route.tsx");
   // return NextResponse.json({
