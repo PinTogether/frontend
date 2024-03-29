@@ -82,7 +82,12 @@ const ProfileInfoRenderer = ({
           />
           <div className={styles.profileName}>
             <div></div>
-            <p>{profileInfo.name}</p>
+            <p className={styles.names}>
+              <div className={styles.name}>{profileInfo.name}</div>
+              <div
+                className={styles.membername}
+              >{`@${profileInfo.membername}`}</div>
+            </p>
             {isMyProfile ? (
               <Link href={"/profile/setting"}>
                 <SettingIcon className={styles.icon} />
@@ -104,6 +109,7 @@ const ProfileInfoRenderer = ({
                 팔로우
               </button>
             )}
+            <p className={styles.bio}>{profileInfo.bio}</p>
           </div>
           <div className={styles.profileLog}>
             <div className={styles.profileLogBox}>
