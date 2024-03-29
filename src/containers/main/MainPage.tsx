@@ -23,22 +23,14 @@ export default function MainPage() {
   const [topCollectionDatas, setTopCollectionDatas] = useState<
     CollectionDetail[]
   >([]);
-  const [
-    JWRecomendedCollectionDatas,
-    setJWRecomendedCollectionDatas,
-  ] = useState<CollectionDetail[]>([]);
-  const [
-    JYRecomendedCollectionDatas,
-    setJYRecomendedCollectionDatas,
-  ] = useState<CollectionDetail[]>([]);
-  const [
-  THRecomendedCollectionDatas,
-    setTHRecomendedCollectionDatas,
-  ] = useState<CollectionDetail[]>([]);
-  const [
-    EJRecomendedCollectionDatas,
-    setEJRecomendedCollectionDatas,
-  ] = useState<CollectionDetail[]>([]);
+  const [JWRecomendedCollectionDatas, setJWRecomendedCollectionDatas] =
+    useState<CollectionDetail[]>([]);
+  const [JYRecomendedCollectionDatas, setJYRecomendedCollectionDatas] =
+    useState<CollectionDetail[]>([]);
+  const [THRecomendedCollectionDatas, setTHRecomendedCollectionDatas] =
+    useState<CollectionDetail[]>([]);
+  const [EJRecomendedCollectionDatas, setEJRecomendedCollectionDatas] =
+    useState<CollectionDetail[]>([]);
 
   const onChangeCollection = (e: any) => {
     setInputCollectionSearch(e.target.value);
@@ -86,7 +78,9 @@ export default function MainPage() {
     )
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`${process.env.NEXT_PUBLIC_JW_ID} 컬렉션 정보 가져오기를 실패했습니다.`);
+          throw new Error(
+            `${process.env.NEXT_PUBLIC_JW_ID} 컬렉션 정보 가져오기를 실패했습니다.`
+          );
         }
         return res.json();
       })
@@ -108,7 +102,9 @@ export default function MainPage() {
     )
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`${process.env.NEXT_PUBLIC_JY_ID} 컬렉션 정보 가져오기를 실패했습니다.`);
+          throw new Error(
+            `${process.env.NEXT_PUBLIC_JY_ID} 컬렉션 정보 가져오기를 실패했습니다.`
+          );
         }
         return res.json();
       })
@@ -127,114 +123,120 @@ export default function MainPage() {
     getJYCollectionData();
   }, []);
 
-  const enterKeyDown = (e:any) => {
-    if (e.key === "Enter" && inputCollectionSearch != ""){
+  const enterKeyDown = (e: any) => {
+    if (e.key === "Enter" && inputCollectionSearch != "") {
       router.push(`/search?keyword=${inputCollectionSearch}`);
     }
-  }
+  };
 
   const searchButtonClick = () => {
-    if (inputCollectionSearch != ""){
+    if (inputCollectionSearch != "") {
       router.push(`/search?keyword=${inputCollectionSearch}`);
     }
-  }
+  };
 
   return (
-    <section className={styles.container}>
-      <section className={styles.topper}>
-        <LogoHorizontal />
-        <div className={styles.inputContainer}>
-          <button className={styles.inputButton}>
-            <img
-              src="/icon/search_plain.svg"
-              alt="search icon"
-              className={styles.icon}
-              onClick={searchButtonClick}
+    <section className={styles.alertModalSection}>
+      <section className={styles.container}>
+        <section className={styles.topper}>
+          <LogoHorizontal />
+          <div className={styles.inputContainer}>
+            <button className={styles.inputButton}>
+              <img
+                src="/icon/search_plain.svg"
+                alt="search icon"
+                className={styles.icon}
+                onClick={searchButtonClick}
+              />
+            </button>
+            <input
+              className={styles.input}
+              onChange={onChangeCollection}
+              value={inputCollectionSearch}
+              placeholder="장소와 컬렉션을 검색해 보세요 ! 강릉, 맛집,  디저트 ... !"
+              onKeyDown={enterKeyDown}
             />
-          </button>
-          <input
-            className={styles.input}
-            onChange={onChangeCollection}
-            value={inputCollectionSearch}
-            placeholder="장소와 컬렉션을 검색해 보세요 ! 강릉, 맛집,  디저트 ... !"
-            onKeyDown={enterKeyDown}
-          />
-        </div>
-      </section>
-      <section className={styles.gradationBox}>
-        <div>
-          <span>내가 좋아하는 </span><span className={styles.bold}>장소</span><span>에</span> <span className={styles.bold}>핀</span><span>을 찍고</span>
-          <br />
-          <span className={styles.bold}>컬렉션</span><span>을 만들고, 친구들과 공유해보세요!</span>
-        </div>
-      </section>
-      <section className={styles.recommendCard}>
-        <CardSlider scrollCardNumber={1}>
-          <img src="https://picsum.photos/500/300" alt="image" />
-          <img src="https://picsum.photos/500/300" alt="image" />
-          <img src="https://picsum.photos/500/300" alt="image" />
-          <img src="https://picsum.photos/500/300" alt="image" />
-          <img src="https://picsum.photos/500/300" alt="image" />
-          <img src="https://picsum.photos/500/300" alt="image" />
-          <img src="https://picsum.photos/500/300" alt="image" />
-          <img src="https://picsum.photos/500/300" alt="image" />
-          <img src="https://picsum.photos/500/300" alt="image" />
-        </CardSlider>
-      </section>
-      <section className={styles.recommendListContainer}>
-        <section className={styles.popularTop}>
-          <p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
+          </div>
+        </section>
+        <section className={styles.gradationBox}>
+          <div>
+            <span>내가 좋아하는 </span>
+            <span className={styles.bold}>장소</span>
+            <span>에</span> <span className={styles.bold}>핀</span>
+            <span>을 찍고</span>
+            <br />
+            <span className={styles.bold}>컬렉션</span>
+            <span>을 만들고, 친구들과 공유해보세요!</span>
+          </div>
+        </section>
+        <section className={styles.recommendCard}>
+          <CardSlider scrollCardNumber={1}>
+            <img src="https://picsum.photos/500/300" alt="image" />
+            <img src="https://picsum.photos/500/300" alt="image" />
+            <img src="https://picsum.photos/500/300" alt="image" />
+            <img src="https://picsum.photos/500/300" alt="image" />
+            <img src="https://picsum.photos/500/300" alt="image" />
+            <img src="https://picsum.photos/500/300" alt="image" />
+            <img src="https://picsum.photos/500/300" alt="image" />
+            <img src="https://picsum.photos/500/300" alt="image" />
+            <img src="https://picsum.photos/500/300" alt="image" />
+          </CardSlider>
+        </section>
+        <section className={styles.recommendListContainer}>
+          <section className={styles.popularTop}>
+            <p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
             <div className={styles.cardSliderContainer}>
               {isLoading1 ? (
-                  <CardSlider scrollCardNumber={2}>
-                    {topCollectionDatas.map((collection, index) => (
-                      <DefaultCollectionCard
-                        key={index}
-                        collectionData={collection}
-                        linkDisabled={true}
-                      />
-                    ))}
-                  </CardSlider>
+                <CardSlider scrollCardNumber={2}>
+                  {topCollectionDatas.map((collection, index) => (
+                    <DefaultCollectionCard
+                      key={index}
+                      collectionData={collection}
+                      // linkDisabled={true}
+                    />
+                  ))}
+                </CardSlider>
               ) : (
                 <SkeletonRenderer />
               )}
             </div>
-        </section>
-        <section className={styles.popularTop}>
-          <p className={styles.popularTopText}>JW의 컬렉션 추천</p>
-          <div className={styles.cardSliderContainer}>
-            {isLoading2 ? (
+          </section>
+          <section className={styles.popularTop}>
+            <p className={styles.popularTopText}>JW의 컬렉션 추천</p>
+            <div className={styles.cardSliderContainer}>
+              {isLoading2 ? (
                 <CardSlider scrollCardNumber={2}>
                   {JWRecomendedCollectionDatas.map((collection, index) => (
                     <DefaultCollectionCard
                       key={index}
                       collectionData={collection}
-                      linkDisabled={true}
+                      // linkDisabled={true}
                     />
                   ))}
                 </CardSlider>
-            ) : (
-              <SkeletonRenderer />
-            )}
-          </div>
-        </section>
-        <section className={styles.popularTop}>
-          <p className={styles.popularTopText}>JY의 컬렉션 추천</p>
-          <div className={styles.cardSliderContainer}>
-            {isLoading3 ? (
+              ) : (
+                <SkeletonRenderer />
+              )}
+            </div>
+          </section>
+          <section className={styles.popularTop}>
+            <p className={styles.popularTopText}>JY의 컬렉션 추천</p>
+            <div className={styles.cardSliderContainer}>
+              {isLoading3 ? (
                 <CardSlider scrollCardNumber={2}>
                   {JYRecomendedCollectionDatas.map((collection, index) => (
                     <DefaultCollectionCard
                       key={index}
                       collectionData={collection}
-                      linkDisabled={true}
+                      // linkDisabled={true}
                     />
                   ))}
                 </CardSlider>
-            ) : (
-              <SkeletonRenderer />
-            )}
-          </div>
+              ) : (
+                <SkeletonRenderer />
+              )}
+            </div>
+          </section>
         </section>
       </section>
       <GlobalAlertModal />
