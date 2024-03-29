@@ -9,8 +9,8 @@ import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { PlaceStarred } from "@/types/Place";
 import { SimplePlaceCard } from "@/components/PlaceCard";
 
-import fetchGetStars from "@/utils/fetchGetStars";
-import fetchDeleteStarPlace from "@/utils/fetchDeleteStarPlace";
+import fetchGetStars from "@/utils/stars/fetchGetStars";
+import fetchDeleteStarPlace from "@/utils/stars/fetchDeleteStarPlace";
 
 export default function ProfileStarredRenderer({
   userId,

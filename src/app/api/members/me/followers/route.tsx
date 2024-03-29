@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 
+/* 나를 팔로우하고 있는 사람 목록 조회 */
 export async function GET(request: NextRequest) {
   console.log("GET /api/members/me/followers/route.tsx");
   return NextResponse.json({
@@ -8,26 +9,15 @@ export async function GET(request: NextRequest) {
       message: "OK",
     },
     metadata: {
-      resultCount: 3,
+      resultCount: 1,
     },
     results: [
       {
         id: 3,
-        nickname: "독특한 노오란 소",
-        avatar: "https://picsum.photos/200",
-        collectionCnt: 0,
-      },
-      {
-        id: 1,
-        nickname: "착한 양",
-        avatar: "https://picsum.photos/200",
-        collectionCnt: 0,
-      },
-      {
-        id: 2,
-        nickname: "단호한 푸른 다람쥐",
-        avatar: "https://picsum.photos/200",
-        collectionCnt: 0,
+        name: "",
+        membername: "최고급 짱구 콧털털이",
+        avatar: "",
+        collectionCnt: 59,
       },
     ],
   });

@@ -12,7 +12,7 @@ const initialState: Pin = {
   id: 0,
   placeId: 0,
   collectionId: 0,
-  writer: "",
+  writerMembername: "",
   review: "",
   createdAt: "",
   saveCnt: 0,

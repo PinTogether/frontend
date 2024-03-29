@@ -1,8 +1,19 @@
 @import "../../base/variables";
 
-.container {
+.alertModalSection {
   display: grid;
-  grid-column: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+
+.container {
+  overflow-y: scroll;
+  display: grid;
+  // grid-column: 100%;
   grid-template-rows: auto 80px 400px 1fr;
   margin: 0;
   padding: 0;

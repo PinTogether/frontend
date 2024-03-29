@@ -7,7 +7,7 @@ import Link from "next/link";
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import useGetMyProfile from "@/hooks/useGetMyProfile";
 
-import fetchPostCollectionComments from "@/utils/fetchPostCollectionComment";
+import fetchPostCollectionComments from "@/utils/collections/fetchPostCollectionComment";
 import AlertModal from "@/components/AlertModal";
 
 import CollectionReply from "@/types/CollectionReply";

@@ -1,7 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 
-// import dummydata from "../../dummydata.json";
-
+/* 특정 유저 정보 조회 */
 export async function GET(
   request: NextRequest,
   { params }: { params: { user_id: string } }
@@ -35,12 +34,14 @@ export async function GET(
     },
     results: [
       {
-        nickname: "독특한 노오란 소",
-        avatar: "https://picsum.photos/200",
-        collectionCnt: 0,
-        scrappedCollectionCnt: 0,
-        followerCnt: 0,
-        followingCnt: 0,
+        name: "은지공주",
+        membername: "eunji_princess_11",
+        avatar: "",
+        bio: "최애 음식 초밥, 족발입니다.",
+        collectionCnt: 39,
+        scrappedCollectionCnt: 2,
+        followerCnt: 1,
+        followingCnt: 2,
         followed: false,
       },
     ],

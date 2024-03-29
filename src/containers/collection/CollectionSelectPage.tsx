@@ -16,9 +16,9 @@ import { SimplePlaceCard } from "@/components/PlaceCard";
 
 import useGetMyId from "@/hooks/useGetMyId";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
-import fetchGetCollectionForAddPin from "@/utils/fetchGetCollectionForAddPin";
-import fetchPostPinToCollections from "@/utils/fetchPostPinToCollections";
-import fetchGetPlaceInfo from "@/utils/fetchGetPlaceInfo";
+import fetchGetCollectionForAddPin from "@/utils/members/fetchGetCollectionForAddPin";
+import fetchPostPinToCollections from "@/utils/pins/fetchPostPinToCollections";
+import fetchGetPlaceInfo from "@/utils/places/fetchGetPlaceInfo";
 import { Line } from "../layout/EditPageLayout";
 
 const CollectionSelectPage = () => {
@@ -214,7 +214,7 @@ const CollectionSelectPage = () => {
                       scrapCnt: collection.scrapCnt,
                       // unneeded props
                       writerId: userId || 0,
-                      writer: "myslef",
+                      writerMembername: "myself",
                       liked: false,
                       scrapped: false,
                     }}

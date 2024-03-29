@@ -25,14 +25,14 @@ import { SimplePinCard } from "@/components/PinCard";
 import TagEditor from "@/components/TagEditor";
 import AlertModal from "@/components/AlertModal";
 
-import fetchPostCollection from "@/utils/fetchPostCollection";
-import fetchPostCollectionPresignedUrl from "@/utils/fetchPostCollectionPresignedUrl";
-import fetchPutCollection from "@/utils/fetchPutCollection";
-import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
-import fetchGetCollectionInfo from "@/utils/fetchGetCollectionInfo";
-import fetchGetCollectionAllPins from "@/utils/fetchGetCollectionAllPins";
-import fetchDeleteCollection from "@/utils/fetchDeleteCollection";
-import fetchDeletePin from "@/utils/fetchDeletePin";
+import fetchPostCollection from "@/utils/collections/fetchPostCollection";
+import fetchPostCollectionPresignedUrl from "@/utils/collections/fetchPostCollectionPresignedUrl";
+import fetchPutCollection from "@/utils/collections/fetchPutCollection";
+import fetchPutS3PresignedUrl from "@/utils/s3/fetchPutS3PresingedUrl";
+import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
+import fetchGetCollectionAllPins from "@/utils/collections/fetchGetCollectionAllPins";
+import fetchDeleteCollection from "@/utils/collections/fetchDeleteCollection";
+import fetchDeletePin from "@/utils/pins/fetchDeletePin";
 
 export default function CollectionEditPage({
   collectionId,

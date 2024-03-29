@@ -28,11 +28,11 @@ import TagEditor from "@/components/TagEditor";
 import ImagePreviewBox from "./ImagePreviewBox";
 
 import checkFileValid from "@/utils/checkFileValid";
-import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
-import fetchPostPinPresignedUrl from "@/utils/fetchPostPinPresignedUrl";
-import fetchPutPin from "@/utils/fetchPutPin";
-import fetchDeletePin from "@/utils/fetchDeletePin";
-import fetchPostPin from "@/utils/fetchPostPin";
+import fetchPutS3PresignedUrl from "@/utils/s3/fetchPutS3PresingedUrl";
+import fetchPostPinPresignedUrl from "@/utils/pins/fetchPostPinPresignedUrl";
+import fetchPutPin from "@/utils/pins/fetchPutPin";
+import fetchDeletePin from "@/utils/pins/fetchDeletePin";
+import fetchPostPin from "@/utils/pins/fetchPostPin";
 
 interface Place {
   id: number;
@@ -58,7 +58,7 @@ const samplePinData: Pin = {
   id: 0,
   placeId: 0,
   collectionId: 0,
-  writer: "writer",
+  writerMembername: "writer",
   review: "",
   createdAt: "",
   saveCnt: 0,

@@ -17,14 +17,14 @@ import {
   SearchIcon,
   SignInSquareIcon,
   UserBoxIcon,
-  UserBoxFillIcon
+  UserBoxFillIcon,
 } from "@/components/IconSvg";
 import styles from "@/styles/layout/_sidebar.module.scss";
 import Image from "next/image";
 import useGetMyProfile from "@/hooks/useGetMyProfile";
 import { ProfileMine } from "@/types/Profile";
 
-import fetchGetMyProfile from "@/utils/fetchGetMyProfile";
+import fetchGetMyProfile from "@/utils/members/fetchGetMyProfile";
 import { clearMyProfile, setMyProfile } from "@/redux/profileSlice";
 
 export default function Sidebar() {
@@ -109,7 +109,10 @@ export default function Sidebar() {
       <div></div>
       <button className={styles.button}>
         <BellIcon className={styles.icon} onClick={() => moveURL(`/notify`)} />
-        <BellFillIcon className={styles.hoveredIcon} onClick={() => moveURL(`/notify`)} />
+        <BellFillIcon
+          className={styles.hoveredIcon}
+          onClick={() => moveURL(`/notify`)}
+        />
       </button>
       <button
         className={`${styles.button} ${usePathname().startsWith("/login") ? styles.currPath : ""}`}
@@ -127,8 +130,14 @@ export default function Sidebar() {
           </div>
         ) : (
           <>
-            <UserBoxIcon className={styles.icon} onClick={() => moveURL(`/login`)} />
-            <UserBoxFillIcon className={styles.hoveredIcon} onClick={() => moveURL(`/login`)} />
+            <UserBoxIcon
+              className={styles.icon}
+              onClick={() => moveURL(`/login`)}
+            />
+            <UserBoxFillIcon
+              className={styles.hoveredIcon}
+              onClick={() => moveURL(`/login`)}
+            />
           </>
         )}
       </button>

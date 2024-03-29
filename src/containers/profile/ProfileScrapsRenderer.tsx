@@ -3,7 +3,7 @@ import { CollectionDetail } from "@/types/Collection";
 import { DefaultCollectionCard } from "@/components/CollectionCard";
 import { useState, useRef, useEffect } from "react";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
-import fetchGetProfileScraps from "@/utils/fetchGetProfileScraps";
+import fetchGetProfileScraps from "@/utils/members/fetchGetProfileScraps";
 
 const ProfileScrapsCollectionRenderer = ({
   userId,

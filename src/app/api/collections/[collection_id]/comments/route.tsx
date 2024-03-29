@@ -1,7 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 
-import dummydata from "./dummy-collection-reply.json";
-
+/* 특정 콜렉션의 모든 댓글 조회 */
 export async function GET(
   request: NextRequest,
   { params }: { params: { collection_id: string } }
@@ -15,9 +14,28 @@ export async function GET(
         message: "OK",
       },
       metadata: {
-        resultCount: dummydata.length,
+        resultCount: 2,
       },
-      results: dummydata,
+      results: [
+        {
+          id: 3,
+          writerId: 8,
+          writerName: "은지공주",
+          writerMembername: "eunji_princess_11",
+          writerAvatar: "",
+          contents: "good!",
+          createdAt: "3/15",
+        },
+        {
+          id: 4,
+          writerId: 8,
+          writerName: "은지공주",
+          writerMembername: "eunji_princess_11",
+          writerAvatar: "",
+          contents: "bad bad so bad",
+          createdAt: "3/15",
+        },
+      ],
     });
   }
   return NextResponse.json({

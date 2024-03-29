@@ -17,9 +17,9 @@ import { SimplePlaceCard } from "@/components/PlaceCard";
 import { InputComponent } from "@/components/InputComponent";
 import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
 
-import fetchGetStars from "@/utils/fetchGetStars";
+import fetchGetStars from "@/utils/stars/fetchGetStars";
 import useGetMyId from "@/hooks/useGetMyId";
-import fetchPostPinsToCollection from "@/utils/fetchPostPinsToCollection";
+import fetchPostPinsToCollection from "@/utils/pins/fetchPostPinsToCollection";
 
 // TODO : collection Pin List 의 palceId 랑 비교해야함
 

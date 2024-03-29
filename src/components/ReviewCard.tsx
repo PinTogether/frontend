@@ -29,7 +29,7 @@ export default function ReviewCard({
       <Link href={`/profile/${reviewData.writerId}`}>
         <span
           className={styles.userNick}
-        >{`${reviewData.writer} 님의 리뷰`}</span>
+        >{`@${reviewData.writerMembername}`}</span>
       </Link>
       <span className={styles.text}>{`${reviewData.review}`}</span>
 

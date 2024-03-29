@@ -7,9 +7,9 @@ import ReviewCard from "@/components/ReviewCard";
 import PlaceCard from "@/components/PlaceCard";
 
 import { useEffect, useState, useRef } from "react";
-import fetchGetPlacePins from "@/utils/fetchGetPlacePins";
+import fetchGetPlacePins from "@/utils/places/fetchGetPlacePins";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
-import fetchGetPlaceInfo from "@/utils/fetchGetPlaceInfo";
+import fetchGetPlaceInfo from "@/utils/places/fetchGetPlaceInfo";
 import { useAppDispatch } from "@/redux/hooks";
 import { makeMarker } from "@/utils/makeMarker";
 
@@ -69,11 +69,19 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
     if (isIntersecting && !isEnd) fetchData();
   }, [placeId, isIntersecting]);
 
-  useEffect(()=>{
-    if (placeData){
-      makeMarker(placeData.id, placeData.id, placeData.name, placeData.pinCnt, placeData.latitude, placeData.longitude, dispatchMarker);
+  useEffect(() => {
+    if (placeData) {
+      makeMarker(
+        placeData.id,
+        placeData.id,
+        placeData.name,
+        placeData.pinCnt,
+        placeData.latitude,
+        placeData.longitude,
+        dispatchMarker
+      );
     }
-  },[placeData])
+  }, [placeData]);
 
   return (
     <>

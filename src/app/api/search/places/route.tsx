@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 
 import dummydata from "./dummydata.json";
 
+/* 장소 검색 */
 export async function GET(
   request: NextRequest,
   { params }: { params: { user_id: string } }

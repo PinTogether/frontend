@@ -18,9 +18,9 @@ import { InputComponent } from "@/components/InputComponent";
 
 import checkFileValid from "@/utils/checkFileValid";
 import useGetMyProfile from "@/hooks/useGetMyProfile";
-import fetchPutMyProfile from "@/utils/fetchPutMyProfile";
-import fetchPostAvatarPresignedUrl from "@/utils/fetchPostAvatarPresignedUrl";
-import fetchPutS3PresignedUrl from "@/utils/fetchPutS3PresingedUrl";
+import fetchPutMyProfile from "@/utils/members/fetchPutMyProfile";
+import fetchPostAvatarPresignedUrl from "@/utils/members/fetchPostAvatarPresignedUrl";
+import fetchPutS3PresignedUrl from "@/utils/s3/fetchPutS3PresingedUrl";
 import { useAppDispatch } from "@/redux/hooks";
 import { setMyProfile } from "@/redux/profileSlice";
 
@@ -42,7 +42,7 @@ export default function ProfileEditPage() {
   const [nicknameCheckMessage, setNicknameCheckMessage] = useState("");
 
   useEffect(() => {
-    setInputNickname(myProfile?.nickname || "");
+    setInputNickname(myProfile?.name || "");
     setImageSrc(myProfile?.avatar || "");
   }, []);
 
@@ -79,7 +79,7 @@ export default function ProfileEditPage() {
   // 프로필 수정하기 제출
   const submitEditProfile = async () => {
     if (!myProfile || isUploading) return;
-    if (inputNickname === myProfile.nickname && !imageFile) {
+    if (inputNickname === myProfile.name && !imageFile) {
       setNicknameCheckMessage("변경된 내용이 없습니다.");
       return;
     }
@@ -209,7 +209,7 @@ export default function ProfileEditPage() {
             className={isUploading ? styles.disabled : ""}
             onChange={handleChangeNickname}
             value={inputNickname}
-            placeholder={myProfile?.nickname}
+            placeholder={myProfile?.name}
             maxLength={inputNicknameMaxLength}
             ref={(input) => input && input.focus()}
             disabled={isUploading}

@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 
 import dummydata from "./dummydata.json";
 
+/* 컬렉션 검색 */
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get("query");
   const page = request.nextUrl.searchParams.get("page");

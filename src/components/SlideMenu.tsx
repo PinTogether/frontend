@@ -5,9 +5,13 @@ export { SlideMenu, SlideMenuInnerPage };
 
 const SlideMenu = ({
   menuTitleList,
+  firstSelectedMenu = 0,
+  customSetSelectedMenu,
   children,
 }: {
   menuTitleList: string[];
+  firstSelectedMenu?: number;
+  customSetSelectedMenu?: React.Dispatch<React.SetStateAction<number>>;
   children: React.ReactNode[];
 }) => {
   const [selectedMenu, setSelectedMenu] = useState<number>(0);
@@ -16,10 +20,7 @@ const SlideMenu = ({
   const pageRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    const firstMenu = menuRef.current?.children[0] as HTMLLIElement;
-    if (firstMenu) {
-      resizeMenuSelectLine(firstMenu.clientWidth, firstMenu.offsetLeft);
-    }
+    clickMenu(firstSelectedMenu);
   }, []);
 
   // useEffect(() => {
@@ -52,11 +53,14 @@ const SlideMenu = ({
     e: React.MouseEvent<HTMLLIElement>,
     index: number
   ) => {
-    // slidePage(index);
-    resizeMenuSelectLine(
-      (e.target as HTMLLIElement).clientWidth,
-      (e.target as HTMLLIElement).offsetLeft
-    );
+    clickMenu(index);
+  };
+
+  const clickMenu = (index: number) => {
+    if (index < 0 || index >= menuTitleList.length) return;
+    const selectedPage = menuRef.current?.children[index] as HTMLLIElement;
+    resizeMenuSelectLine(selectedPage.clientWidth, selectedPage.offsetLeft);
+    customSetSelectedMenu && customSetSelectedMenu(index);
     setSelectedMenu(index);
   };
 

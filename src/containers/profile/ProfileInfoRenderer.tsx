@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-import fetchPostFollow from "@/utils/fetchPostFollow";
-import fetchDeleteFollow from "@/utils/fetchDeleteFollow";
+import fetchPostFollow from "@/utils/members/fetchPostFollow";
+import fetchDeleteFollow from "@/utils/members/fetchDeleteFollow";
 import useCheckIsLogin from "@/hooks/useCheckLogin";
 
 const ProfileInfoRenderer = ({
@@ -82,7 +82,7 @@ const ProfileInfoRenderer = ({
           />
           <div className={styles.profileName}>
             <div></div>
-            <p>{profileInfo.nickname}</p>
+            <p>{profileInfo.name}</p>
             {isMyProfile ? (
               <Link href={"/profile/setting"}>
                 <SettingIcon className={styles.icon} />

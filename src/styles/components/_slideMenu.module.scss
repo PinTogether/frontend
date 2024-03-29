@@ -18,6 +18,7 @@
 	margin-bottom: 0.5rem;
 	.menuCategory {
 		color: $color-text-caption;
+		cursor: pointer;
 		&:hover {
 			background-color: $color-grey-light;
 		}

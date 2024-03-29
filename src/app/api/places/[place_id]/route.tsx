@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 
+/* 특정 장소 정보 조회 */
 export async function GET(
   request: NextRequest,
   { params }: { params: { place_id: string } }
@@ -27,18 +28,18 @@ export async function GET(
       message: "OK",
     },
     metadata: {
-      resultCount: 0,
+      resultCount: 1,
     },
     results: [
       {
-        id: 123,
-        latitude: 37.5665,
-        longitude: 126.978,
-        name: "Queenstown",
-        roadNameAddress: "123 Queen Street, Queenstown, New Zealand",
-        phoneNumber: "+123-456-7890",
-        category: "HEALTH",
-        starred: true,
+        id: 524372,
+        name: "왕십리곱창구이 . 혜화점",
+        roadNameAddress: "서울특별시 종로구 명륜길 13, 1층 (명륜3가)",
+        pinCnt: 1,
+        latitude: 37.588027829867926,
+        longitude: 126.99598227828525,
+        category: "음식점>한식",
+        starred: false,
       },
     ],
   });
