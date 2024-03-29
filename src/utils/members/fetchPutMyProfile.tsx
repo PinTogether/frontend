@@ -1,6 +1,11 @@
 import { logout } from "@/hooks/useLogout";
 
-const fetchPutMyProfile = async (nickname: string, avatar: string) => {
+const fetchPutMyProfile = async (
+  name: string,
+  membername: string,
+  bio: string,
+  avatar: string
+) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me`,
@@ -9,7 +14,9 @@ const fetchPutMyProfile = async (nickname: string, avatar: string) => {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nickname: nickname,
+          name: name,
+          membername: membername,
+          bio: bio,
           avatar: avatar,
         }),
       }
