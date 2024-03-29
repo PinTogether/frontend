@@ -44,7 +44,6 @@ export async function GET(
         review: "",
         createdAt: "1일 전",
         imagePaths: [
-          "h",
           "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/pin/REVIEW_IMAGE:140-20240328 07:11:42KST-e053a96b-b31a-4be0-82e3-bc07b4b1cf29.jpeg",
         ],
         tags: ["a", "b"],
