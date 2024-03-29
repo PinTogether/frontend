@@ -4,8 +4,8 @@
 .avartar {
   align-items: end;
   justify-items: start;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
@@ -35,10 +35,17 @@
   @extend %pt-input;
 }
 
-.nicknameCheckMessage {
-  position: absolute;
-  bottom: -1.75rem;
-  font-size: $font-size-medium;
+.checkMessage {
+  height: 0.4rem;
+  left: 10rem;
+  font-size: $font-size-small;
+  color: red;
+  width: 100%;
+}
+.okMessage {
+  height: 0.4rem;
+  left: 10rem;
+  font-size: $font-size-small;
   color: $color-primary;
   width: 100%;
 }

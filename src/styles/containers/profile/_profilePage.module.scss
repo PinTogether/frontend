@@ -10,13 +10,16 @@
   padding: 1.25rem;
   .profileData {
     display: grid;
-    grid-template-rows: 1fr 5rem 3rem;
+    grid-template-rows:  minmax(min-size, 1fr) minmax(5rem, auto) minmax(3rem, auto);
     border-bottom: 1px solid $color-grey;
     justify-content: center;
     align-items: center;
     text-align: center;
     justify-items: center;
     place-items: center;
+    gap: 0.75rem;
+    padding-bottom: 0.75rem;
+
     .profileImage {
       width: 7.813rem;
       height: 7.813rem;
@@ -31,7 +34,18 @@
       align-items: center;
       justify-content: center;
       font-size: $font-size-large;
-
+      .names {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        .name {
+          font-weight: 600;
+        }
+        .membername{
+          font-size: $font-size-small;
+          color: $color-grey-dark;
+        }
+      }
       gap: 15px;
       .icon {
         width: 1rem;
@@ -48,9 +62,19 @@
           color: $color-primary;
         }
       }
+      .bio {
+        grid-column: 1 / -1;
+        width: 100%;
+        text-align: start;
+        font-size: $font-size-small;
+        color: $color-grey-dark;
+        width: 100%;
+        text-align: center;
+      }
     }
   }
   .profileLog {
+    margin-top: 0.75rem;
     display: grid;
     width: 15rem;
     grid-template-columns: 1fr 1fr 1fr;

@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/hooks";
+import { setMyProfile } from "@/redux/profileSlice";
 
 import styles from "@/styles/containers/profile/_profileEditPage.module.scss";
-import { ProfileMine } from "@/types/Profile";
 import PresignedUrl from "@/types/PresingedUrl";
 import SubPageLayout from "@/containers/layout/SubPageLayout";
 import EditPageLayout, {
@@ -15,40 +16,57 @@ import EditPageLayout, {
 } from "@/containers/layout/EditPageLayout";
 import { EditIcon, ImgLoadIcon, CloseRoundIcon } from "@/components/IconSvg";
 import { InputComponent } from "@/components/InputComponent";
+import { TextareaComponent } from "@/components/InputComponent";
 
 import checkFileValid from "@/utils/checkFileValid";
 import useGetMyProfile from "@/hooks/useGetMyProfile";
 import fetchPutMyProfile from "@/utils/members/fetchPutMyProfile";
 import fetchPostAvatarPresignedUrl from "@/utils/members/fetchPostAvatarPresignedUrl";
 import fetchPutS3PresignedUrl from "@/utils/s3/fetchPutS3PresingedUrl";
-import { useAppDispatch } from "@/redux/hooks";
-import { setMyProfile } from "@/redux/profileSlice";
+import fetchGetMemberNameValid from "@/utils/members/fetchGetMemberNameValid";
 
 export default function ProfileEditPage() {
   const imageSize = 300;
   const router = useRouter();
-  const inputNicknameMaxLength = 16;
+  const inputNameMaxLength = 16;
+  const inputMembernameMaxLength = 30;
+  const inputMembernameMinLength = 3;
+  const inputMembernamePattern = /^[a-zA-Z0-9_]{3,30}$/;
+  const inputBioMaxLength = 200;
   const [isUploading, setIsUploading] = useState(false);
   const dispatch = useAppDispatch();
 
   /* 프로필 변경전 정보 */
   const myProfile = useGetMyProfile();
   /* 프로필 변경후 정보 */
-  const [inputNickname, setInputNickname] = useState("");
+  const [inputName, setInputName] = useState("");
+  const [inputMembername, setInputMembername] = useState("");
+  const [inputBio, setInputBio] = useState("");
   const [imageSrc, setImageSrc] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   /* 에러 메시지 */
   const [imageFileCheckMessage, setImageFileCheckMessage] = useState("");
-  const [nicknameCheckMessage, setNicknameCheckMessage] = useState("");
+  const [nameCheckMessage, setNameCheckMessage] = useState("");
+  const [membernameCheckMessage, setMembernameCheckMessage] = useState("");
+  const [vaildMembername, setVaildMembername] = useState(false);
+  const [totalErrorMessage, setTotalErrorMessage] = useState("");
 
   useEffect(() => {
-    setInputNickname(myProfile?.name || "");
     setImageSrc(myProfile?.avatar || "");
-  }, []);
+    setInputName(myProfile?.name || "");
+    setInputMembername(myProfile?.membername || "");
+    setInputBio(myProfile?.bio || "");
+  }, [myProfile]);
 
   // 닉네임
   const handleChangeNickname = (e: any) => {
-    setInputNickname(e.target.value);
+    setInputName(e.target.value);
+  };
+  const handleChangeMembername = (e: any) => {
+    setInputMembername(e.target.value);
+  };
+  const handleChangeBio = (e: any) => {
+    setInputBio(e.target.value);
   };
 
   // 프로필 사진
@@ -79,11 +97,15 @@ export default function ProfileEditPage() {
   // 프로필 수정하기 제출
   const submitEditProfile = async () => {
     if (!myProfile || isUploading) return;
-    if (inputNickname === myProfile.name && !imageFile) {
-      setNicknameCheckMessage("변경된 내용이 없습니다.");
+    if (inputName === myProfile.name && !imageFile) {
+      setNameCheckMessage("변경된 내용이 없습니다.");
       return;
     }
-
+    if (!inputName || !inputMembername) {
+      setNameCheckMessage("이름을 입력해주세요.");
+      setMembernameCheckMessage("사용자 이름을 입력해주세요.");
+      return;
+    }
     setIsUploading(true);
     if (imageFile && checkFileValid(imageFile)) {
       const presignedUrlData = await getPresignedUrl(imageFile);
@@ -97,15 +119,15 @@ export default function ProfileEditPage() {
         return;
       }
       setImageSrc(imageUrl);
-      await uploadProfile(inputNickname, imageUrl);
+      await uploadProfile(inputName, imageUrl);
       setIsUploading(false);
     } else {
-      await uploadProfile(inputNickname, imageSrc);
+      await uploadProfile(inputName, imageSrc);
       setIsUploading(false);
     }
   };
 
-  // 프로필, 이미지 업로드 관련 함수
+  // S3 업로드
   const getPresignedUrl = async (imageFile: File) => {
     const { presignedUrlData, errorMessage } =
       await fetchPostAvatarPresignedUrl(imageFile?.type);
@@ -126,34 +148,66 @@ export default function ProfileEditPage() {
     );
     if (!success || errorMessage) {
       setImageFileCheckMessage(errorMessage);
-
       return null;
     }
     return presignedUrlData.imageUrl;
   };
 
-  const uploadProfile = async (inputNickname: string, imageFileUrl: string) => {
+  // 프로필 업로드
+  const uploadProfile = async (inputName: string, imageFileUrl: string) => {
     if (!myProfile || isUploading) return;
+    if (!vaildMembername) return;
     const { success, errorMessage } = await fetchPutMyProfile(
-      inputNickname,
+      inputName,
+      inputMembername,
+      inputBio,
       imageFileUrl
     );
     if (success) {
-      updateMyProfile();
-
+      updateReduxProfile();
       router.push(`/profile/${myProfile.id}`);
-    } else setNicknameCheckMessage(errorMessage);
+    } else setTotalErrorMessage(errorMessage);
   };
 
-  const updateMyProfile = async () => {
+  const updateReduxProfile = async () => {
     if (!myProfile) return;
     const newProfile = {
       ...myProfile,
-      nickname: inputNickname,
+      nickname: inputName,
       avatar: imageSrc,
     };
     dispatch(setMyProfile(newProfile));
   };
+
+  // 사용자 이름 유효성 검사
+  const checkMembername = async (membername: string) => {
+    setVaildMembername(false);
+    if (!membername) {
+      setMembernameCheckMessage("사용자 이름을 입력해주세요.");
+      return false;
+    }
+    if (!inputMembernamePattern.test(membername)) {
+      setMembernameCheckMessage(
+        "3~30자의 영문, 숫자, _ 만 사용할 수 있습니다."
+      );
+      return false;
+    }
+    const { valid, errorMessage } = await fetchGetMemberNameValid(membername);
+    if (!valid) {
+      setMembernameCheckMessage(errorMessage);
+      return false;
+    }
+    setVaildMembername(true);
+    setMembernameCheckMessage("사용 가능한 사용자 이름입니다.");
+    return true;
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      checkMembername(inputMembername);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [inputMembername]);
 
   return (
     <SubPageLayout
@@ -166,7 +220,7 @@ export default function ProfileEditPage() {
           {/* 프로필 사진 */}
           <SectionTitle>
             <ImgLoadIcon />
-            프로필 사진 변경
+            프로필 사진
           </SectionTitle>
           <div className={styles.avartarChangeContainer}>
             <input
@@ -194,29 +248,62 @@ export default function ProfileEditPage() {
               <CloseRoundIcon />
             </button>
           </div>
-          <span className={styles.nicknameCheckMessage}>
-            {imageFileCheckMessage}
-          </span>
+          <span className={styles.checkMessage}>{imageFileCheckMessage}</span>
         </Section>
         <Line />
-        {/* 닉네임 */}
+        {/* 이름 name */}
         <Section>
           <SectionTitle>
             <EditIcon />
-            닉네임 변경
+            이름
           </SectionTitle>
           <InputComponent
             className={isUploading ? styles.disabled : ""}
             onChange={handleChangeNickname}
-            value={inputNickname}
+            value={inputName}
             placeholder={myProfile?.name}
-            maxLength={inputNicknameMaxLength}
-            ref={(input) => input && input.focus()}
+            maxLength={inputNameMaxLength}
+            // ref={(input) => input && input.focus()}
             disabled={isUploading}
           />
-          <span className={styles.nicknameCheckMessage}>
-            {nicknameCheckMessage}
+          <span className={styles.checkMessage}>{nameCheckMessage}</span>
+        </Section>
+        {/* 사용자 이름  membername */}
+        <Section>
+          <SectionTitle>
+            <EditIcon />
+            사용자 이름
+          </SectionTitle>
+          <InputComponent
+            className={isUploading ? styles.disabled : ""}
+            onChange={handleChangeMembername}
+            value={inputMembername}
+            placeholder={myProfile?.membername}
+            maxLength={inputMembernameMaxLength}
+            minLength={inputMembernameMinLength}
+            disabled={isUploading}
+          />
+          <span
+            className={`${vaildMembername ? styles.okMessage : styles.checkMessage}`}
+          >
+            {membernameCheckMessage}
           </span>
+        </Section>
+        {/* 소개 */}
+        <Section>
+          <SectionTitle>
+            <EditIcon />
+            소개
+          </SectionTitle>
+          <TextareaComponent
+            className={isUploading ? styles.disabled : ""}
+            rows={4}
+            onChange={handleChangeBio}
+            value={inputBio}
+            placeholder={myProfile?.bio}
+            maxLength={inputBioMaxLength}
+            disabled={isUploading}
+          />
         </Section>
         <Line />
         {/* 프로필 수정하기 버튼 */}
@@ -228,6 +315,7 @@ export default function ProfileEditPage() {
           >
             프로필 수정하기
           </button>
+          <span className={styles.checkMessage}>{totalErrorMessage}</span>
         </Section>
       </EditPageLayout>
     </SubPageLayout>

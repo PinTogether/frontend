@@ -5,6 +5,7 @@ import React, {
   TextareaHTMLAttributes,
   RefAttributes,
   useRef,
+  useEffect,
   useState,
   forwardRef,
 } from "react";
@@ -21,6 +22,11 @@ interface InputProps
 const InputComponent = forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...restProps }: InputProps, ref) => {
     const [textLength, setTextLength] = useState(0);
+
+    useEffect(() => {
+      if (typeof restProps.value === "string")
+        setTextLength(restProps.value.length);
+    }, [restProps.value]);
 
     const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setTextLength(event.target.value.length);
@@ -66,6 +72,11 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const [textLength, setTextLength] = useState(0);
+
+    useEffect(() => {
+      if (typeof restProps.value === "string")
+        setTextLength(restProps.value.length);
+    }, [restProps.value]);
 
     const handleTextChange = (
       event: React.ChangeEvent<HTMLTextAreaElement>
