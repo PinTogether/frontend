@@ -17,37 +17,55 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import fetchGetSearchHistory from "@/utils/search/fetchGetSearchHistory";
 
+enum SearchCategory {
+  PLACE = 0,
+  COLLECTION = 1,
+}
+
 export default function Page() {
+  const router = useRouter();
   const [searchInputValue, setSearchInputValue] = useState("");
   const [showSearchLog, setShowSearchLog] = useState(true);
   const searchParams = useSearchParams();
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [selectedMenu, setSelectedMenu] = useState<number>(
+    SearchCategory.PLACE
+  );
 
-  /* 검색어 초기화 */
+  /* 검색하기 */
   useEffect(() => {
-    // URL에 searchParams가 있으면 해당 검색어로 검색
-    const param = searchParams.get("keyword");
-    if (param) {
-      setSearchInputValue(param);
-      setShowSearchLog(false);
-      setSearchKeyword(param);
-    }
+    const search = () => {
+      const param = searchParams.get("keyword");
+      if (param) {
+        setSearchInputValue(param);
+        setShowSearchLog(false);
+        setSearchKeyword(param);
+        setSelectedMenu(
+          searchParams.get("type") === "collection"
+            ? SearchCategory.COLLECTION
+            : SearchCategory.PLACE
+        );
+      }
+    };
+    search();
   }, [searchParams]);
 
-  const onChangeSearchInput = (e: any) => {
-    setSearchInputValue(e.target.value);
-  };
+  /* menu 변경 */
+  useEffect(() => {
+    const type = selectedMenu === SearchCategory.PLACE ? "place" : "collection";
+    router.push(`/search?keyword=${searchInputValue}&type=${type}`);
+  }, [selectedMenu]);
 
   /* submit */
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    if (searchInputValue === "") {
-      setShowSearchLog(true);
-      setSearchKeyword("");
-    } else {
-      setShowSearchLog(false);
-      setSearchKeyword(searchInputValue);
-    }
+    const type = selectedMenu === SearchCategory.PLACE ? "place" : "collection";
+    router.push(`/search?keyword=${searchInputValue}&type=${type}`);
+  };
+
+  /* 검색어 입력 */
+  const onChangeSearchInput = (e: any) => {
+    setSearchInputValue(e.target.value);
   };
 
   const clearInputValue = () => {
@@ -57,7 +75,6 @@ export default function Page() {
   };
 
   // Topper & ScrollTop
-  const router = useRouter();
   const pageRef = useRef<HTMLDivElement>(null);
   const [hasVerticalOverflow, setHasVerticalOverflow] = useState(false);
 
@@ -119,7 +136,11 @@ export default function Page() {
         {showSearchLog ? (
           <SearchLogRenderer />
         ) : (
-          <SlideMenu menuTitleList={["장소 검색", "컬렉션 검색"]}>
+          <SlideMenu
+            menuTitleList={["장소 검색", "컬렉션 검색"]}
+            firstSelectedMenu={selectedMenu}
+            customSetSelectedMenu={setSelectedMenu}
+          >
             <SlideMenuInnerPage>
               <SearchPlaceRender searchKeyword={searchKeyword} />
             </SlideMenuInnerPage>
