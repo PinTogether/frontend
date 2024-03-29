@@ -164,7 +164,7 @@ export default function ProfileStarredRenderer({
               <button
                 onClick={() => {
                   (selectMode && onChangeClickedBookmark(bookmark.id)) ||
-                    (!selectMode && router.push(`/pin/${bookmark.id}`));
+                    (!selectMode && router.push(`/place/${bookmark.id}`));
                 }}
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchDown}
