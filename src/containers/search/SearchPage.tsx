@@ -34,14 +34,16 @@ export default function Page() {
 
   /* 검색하기 */
   useEffect(() => {
+    const type = searchParams.get("type");
+    const keyword = searchParams.get("keyword");
+
     const search = () => {
-      const param = searchParams.get("keyword");
-      if (param) {
-        setSearchInputValue(param);
+      if (keyword) {
+        setSearchInputValue(keyword);
         setShowSearchLog(false);
-        setSearchKeyword(param);
+        setSearchKeyword(keyword);
         setSelectedMenu(
-          searchParams.get("type") === "collection"
+          type === "collection"
             ? SearchCategory.COLLECTION
             : SearchCategory.PLACE
         );
@@ -138,7 +140,7 @@ export default function Page() {
         ) : (
           <SlideMenu
             menuTitleList={["장소 검색", "컬렉션 검색"]}
-            firstSelectedMenu={selectedMenu}
+            customSelectedMenu={selectedMenu}
             customSetSelectedMenu={setSelectedMenu}
           >
             <SlideMenuInnerPage>
