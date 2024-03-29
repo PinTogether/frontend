@@ -69,7 +69,7 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
     if (isIntersecting && !isEnd) fetchData();
   }, [placeId, isIntersecting]);
 
-  useEffect(() => {
+  function moveToMarker(){
     if (placeData) {
       makeMarker(
         placeData.id,
@@ -81,7 +81,7 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
         dispatchMarker
       );
     }
-  }, [placeData]);
+  }
 
   return (
     <>
