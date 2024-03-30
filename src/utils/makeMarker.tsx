@@ -5,7 +5,7 @@ import { AppDispatch } from "@/redux/store";
 
 function makeMarker(id:number, placeId:number, placeName:string, saveCnt:number | undefined, latitude:number, longitude:number, dispatchMarker:AppDispatch){
     // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
-    console.log(id, placeName,longitude, latitude);
+    console.log(id, placeId, placeName,longitude, latitude);
     const markerList: MarkerData[] = [];
     if(saveCnt != undefined)
       markerList.push({

@@ -39,6 +39,7 @@ const MapNaverDefault = () => {
   const [pinMarkerList, setPinMarkerList] = useState<naver.maps.Marker[]>(
     []
   );
+  const [markerDatas, setMarkerDatas] = useState<MarkerData[]>([]);
   const [clusteredMarkerList, setClusteredMarkerList] = useState<
     ClusteredMarkerData[]
   >([]);
@@ -51,7 +52,7 @@ const MapNaverDefault = () => {
   const locationGetter = useAppSelector(
     (state) => state.location.locationGetter
   );
-  const markerDatas = useAppSelector((state) => state.location.markerData);
+  const reduxMarkerDatas = useAppSelector((state) => state.location.markerData);
 
   const isScriptLoaded = useScriptLoaded();
 
@@ -375,7 +376,7 @@ const MapNaverDefault = () => {
     setClusteredMarkerList(newClusteredMarkers);
   }
 
-  function makeMarkerList() {
+  function makeMarkerList(markerDatas:MarkerData[]) {
     if (markerDatas[0] && window.naver) {
       const newMarkerList: naver.maps.Marker[] = [];
       markerDatas.forEach((data) => {
@@ -519,7 +520,6 @@ const MapNaverDefault = () => {
                     const event = document.getElementById(`button${id}`);
                     if (event) {
                       event.addEventListener("click", () => {
-                        console.log("click ", id);
                         movePage(id);
                       });
                       buttonEventList.push(event);
@@ -627,13 +627,44 @@ const MapNaverDefault = () => {
     }
   }, [isScriptLoaded]);
 
+  function checkIsPositionGetter(){
+    for(let i = 0 ; i < pinMarkerList.length ; i++){
+      const markerPosition = pinMarkerList[i].getPosition();
+      if(reduxMarkerDatas[0].longitude == markerPosition.x && reduxMarkerDatas[0].latitude == markerPosition.y)
+        return (true);
+    }
+    return(false);
+  }
   //마커 목록 생성
   useEffect(() => {
-    deleteMarker();
-    if (window.naver && markerDatas[0] && isScriptLoaded) {
-      makeMarkerList();
+    if (window.naver && reduxMarkerDatas[0] && isScriptLoaded) {
+      if(reduxMarkerDatas.length == 1 && checkIsPositionGetter()){
+        var centerBounds = new naver.maps.LatLng({x: reduxMarkerDatas[0].longitude, y:reduxMarkerDatas[0].latitude});
+        var bounds = new naver.maps.LatLngBounds(centerBounds, centerBounds);
+        newMap?.panToBounds(
+          bounds,
+          { easing: "linear", duration: 300 },
+          {
+            top: 1100,
+            right: 1100,
+            bottom: 1100,
+            left: sideWidth / 2 + 1100,
+          }
+        );
+        if (pinMarkerList[0]) {
+          updateMarkers();
+          makeClusteredMarkerList();
+        }
+      }
+      else{
+        deleteMarker();
+        setMarkerDatas(reduxMarkerDatas);
+        makeMarkerList(reduxMarkerDatas);
+      }
+      // 만약 새로 들어온 markerDatas가 1개이고, 기존의 마커에 존재하는 마커 데이터라면 마커들 없에지말고 위치만 이동
+      // 1개지만 기존 마커에 존재하지않다면 기존과 똑같이 작동
     }
-  }, [markerDatas, isScriptLoaded]);
+  }, [reduxMarkerDatas, isScriptLoaded]);
 
   useLayoutEffect(() => {
     if (window.naver && newMap && clusteredMarkerList[0]) {
