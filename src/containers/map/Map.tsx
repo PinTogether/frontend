@@ -651,6 +651,10 @@ const MapNaverDefault = () => {
             left: sideWidth / 2 + 1100,
           }
         );
+        if(newMap){
+          const center = newMap.getCenter();
+          handleGetAddress(center.x, center.y);
+        }
         if (pinMarkerList[0]) {
           updateMarkers();
           makeClusteredMarkerList();
