@@ -170,7 +170,7 @@ const MapNaverDefault = () => {
     if (markerdata.pinCount <= 1) {
       return [
         '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px;">',
-        '<img src="/icons/map_pin.svg" alt="" style="width:40px; height:40px;" >',
+        '<img src="/icons/map_pin.svg" alt="" style="width:50px; height:50px;" >',
         '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
         `${markerdata.placeName}`,
         "</b>",
@@ -179,8 +179,8 @@ const MapNaverDefault = () => {
     } else if (markerdata.pinCount <= 99) {
       return [
         '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
-        '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
-        '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+        '<img src="/icons/map_pin_filled.svg" alt="" style="width:50px; height:50px;">',
+        '<b style="position: absolute; top: 18px; left: 50%; color: #ffffff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         '<div style="width:12px; height:12px justify-content: center; text-align: center;">',
         `${markerdata.pinCount}`,
         '</div>',
@@ -194,12 +194,12 @@ const MapNaverDefault = () => {
     } else {
       return [
         '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
-        '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
-        '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
-        '<div style="width:12px; height:12px justify-content: center; text-align: center;">',
-        `99+`,
+        '<img src="/icons/map_pin_filled.svg" alt="" style="width:50px; height:50px;">',
+        '<b style="position: absolute; top: 18px; left: 50%; color: #ffffff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+        '<div style="width:20px; height:12px justify-content: center; text-align: center;">',
+        ` 99+`,
         '</div>',
-        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:12px; height:12px;">',
+        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:20px; height:12px;">',
         "</b>",
         '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
@@ -655,10 +655,10 @@ const MapNaverDefault = () => {
           const center = newMap.getCenter();
           handleGetAddress(center.x, center.y);
         }
-        if (pinMarkerList[0]) {
+        setTimeout(()=>{if (pinMarkerList[0]) {
           updateMarkers();
           makeClusteredMarkerList();
-        }
+        }}, 300);
       }
       else{
         deleteMarker();
