@@ -19,7 +19,7 @@ import fetchDeleteStarPlace from "@/utils/stars/fetchDeleteStarPlace";
 
 import { useAppDispatch } from "@/redux/hooks";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
-import { makeMarker } from "@/utils/makeMarker";
+import { makeMarker } from "@/utils/map/makeMarker";
 
 export { PlaceCard, SimplePlaceCard as SimplePlaceCard };
 

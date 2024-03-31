@@ -11,7 +11,7 @@ import fetchGetPlacePins from "@/utils/places/fetchGetPlacePins";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import fetchGetPlaceInfo from "@/utils/places/fetchGetPlaceInfo";
 import { useAppDispatch } from "@/redux/hooks";
-import { makeMarker } from "@/utils/makeMarker";
+import { makeMarker } from "@/utils/map/makeMarker";
 
 const PlacePage = ({ placeId }: { placeId: string }) => {
   const dispatchMarker = useAppDispatch();

@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import styles from "@/styles/components/_loading.module.scss";
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getGeoCodingAuth, reverseGeoCoding } from "@/utils/GeoCoding";
+import { getGeoCodingAuth, reverseGeoCoding } from "@/utils/map/GeoCoding";
 import {
   emdongByAmount,
   sggByAmount,
@@ -53,7 +53,6 @@ const MapNaverDefault = () => {
     (state) => state.location.locationGetter
   );
   const reduxMarkerDatas = useAppSelector((state) => state.location.markerData);
-
   const isScriptLoaded = useScriptLoaded();
 
   const getLocation = async () => {

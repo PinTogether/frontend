@@ -9,8 +9,8 @@ import { CollectionDetail } from "@/types/Collection";
 import Collection from "@/types/Collection";
 import Pin from "@/types/Pin";
 import { useState, useEffect } from "react";
-import { locationGetterByAmount } from "@/redux/locationSlice";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
+import { cleanSelectedCollectionByAmount } from "@/redux/locationSlice";
 import fetchGetProfileCollections from "@/utils/members/fetchGetProfileCollections";
 
 import {
@@ -41,6 +41,7 @@ export default function Overlay() {
   const [topCollectionDatas, setTopCollectionDatas] = useState<CollectionDetail[]>([]);
   const [myCollectionDatas, setMyCollectionDatas] = useState<Collection[]>([]);
   const [scrappedCollectionDatas, setScrappedCollectionDatas] = useState<Collection[]>([]);
+  const cleanSelectedCollection = useAppSelector((state) => state.location.cleanSelectedCollection);
   const myProfile = useGetMyProfile();
 
   const getTopCollectionData = async() => {
@@ -315,6 +316,13 @@ export default function Overlay() {
   useEffect(() => {
       makeMarkerList();
   }, [markerDatas]);
+
+  useEffect(() => {
+    if(cleanSelectedCollection){
+      setSelectedCardId([]);
+      dispatch(cleanSelectedCollectionByAmount(false));
+    }
+  },[cleanSelectedCollection])
 
   // useEffect(() => {
   //   if(outerMarkerdata != markerList)

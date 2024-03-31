@@ -6,7 +6,7 @@ import Pin from "@/types/Pin";
 import { ReviewCard, MyReviewCard } from "./ReviewCard";
 import { HTMLAttributes, use, useRef, useState } from "react";
 import Link from "next/link";
-import { makeMarker } from "@/utils/makeMarker";
+import { makeMarker } from "@/utils/map/makeMarker";
 import { AppDispatch } from "@/redux/store";
 
 // pinEdit
