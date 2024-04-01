@@ -1,28 +1,46 @@
-import { CloseRoundIcon, SearchIcon } from "@/components/IconSvg";
-import styles from "@/styles/containers/search/_searchPage.module.scss";
 import Link from "next/link";
+import { useAppDispatch } from "@/redux/hooks";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
+
+import styles from "@/styles/containers/search/_searchPage.module.scss";
+import { CloseRoundIcon, SearchIcon } from "@/components/IconSvg";
+
+import fetchDeleteSearchHistory from "@/utils/search/fetchDeleteSearchHistory";
 
 function SearchLogContent({
+  id,
   searchKeyword,
   searchCategory,
 }: {
+  id: number;
   searchKeyword: string;
   searchCategory: string;
 }) {
-  // if (searchKeyword.length >= 7) {
-  //   searchKeyword = searchKeyword.substring(0, 7);
-  //   searchKeyword = searchKeyword + "...";
-  // }
+  const dispatch = useAppDispatch();
+
+  const handleDeleteSearchLog = async () => {
+    const { success, errorMessage } = await fetchDeleteSearchHistory(id);
+    if (!success) {
+      dispatch(addAlertMessage(errorMessage));
+    }
+  };
+
   return (
-    <Link
-      href={`/search?keyword=${searchKeyword}`}
-      className={styles.searchLog}
-    >
-      <SearchIcon className={styles.searchIcon} />
-      <p className={styles.searchKeyword}>{searchKeyword}</p>
-      {/* <p className={styles.searchCategory}>{searchCategory}</p> */}
-      {/* <CloseRoundIcon className={styles.deleteIcon} /> */}
-    </Link>
+    <div className={styles.searchLogContent}>
+      <Link
+        href={`/search?keyword=${searchKeyword}`}
+        className={styles.searchLog}
+      >
+        <SearchIcon className={styles.searchIcon} />
+        <p className={styles.searchKeyword}>{searchKeyword}</p>
+        {/* <p className={styles.searchCategory}>{searchCategory}</p> */}
+        {/* <CloseRoundIcon className={styles.deleteIcon} /> */}
+      </Link>
+      <CloseRoundIcon
+        className={styles.deleteIcon}
+        onClick={handleDeleteSearchLog}
+      />
+    </div>
   );
 }
 

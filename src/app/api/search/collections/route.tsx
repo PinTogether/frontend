@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get("query");
   const page = request.nextUrl.searchParams.get("page");
   const size = request.nextUrl.searchParams.get("size");
-  console.log("GET /api/bookmarks/[place_id]/route.tsx");
+  console.log("GET /api/search/collections/route.tsx");
   console.log("query, page, size", query, page, size);
   // if (Number(page) === 3) return NextResponse.json([]);
   // return NextResponse.json(dummydata);
