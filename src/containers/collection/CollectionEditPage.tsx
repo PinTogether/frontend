@@ -335,7 +335,7 @@ export default function CollectionEditPage({
             onChange={onChangeNickname}
             value={inputTitle}
             maxLength={15}
-            placeholder="제목을 입력해주세요"
+            placeholder={collectionInfo?.title || "제목을 입력해주세요"}
             disabled={isUploading}
           />
           <Line />
@@ -360,7 +360,7 @@ export default function CollectionEditPage({
             onChange={onChangeDescription}
             value={inputDetails}
             maxLength={250}
-            placeholder="컬렉션 설명을 입력해주세요"
+            placeholder={collectionInfo?.details || "설명을 입력해주세요"}
             disabled={isUploading}
           />
           <Line />
@@ -382,11 +382,7 @@ export default function CollectionEditPage({
             <ul className={styles.pinCardContainer}>
               {pinDataList.map((pin) => (
                 <div key={pin.id} className={styles.pinCard}>
-                  <SimplePinCard
-                    pinData={pin}
-                    showEditButton={false}
-                    activeShowDetail={true}
-                  />
+                  <SimplePinCard pinData={pin} activeShowDetail={true} />
                   <Link href={`/pin/edit/${pin.id}`}>
                     <EditIcon className={styles.editButton} />
                   </Link>
