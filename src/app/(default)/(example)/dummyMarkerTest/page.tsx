@@ -1,6 +1,6 @@
 "use client"
 
-import { generateMarkerData } from "@/utils/dummyMarkerGenereator";
+import { generateMarkerData } from "@/utils/map/dummyMarkerGenereator";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { markerDataByAmount } from "@/redux/locationSlice";
 

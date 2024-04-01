@@ -11,7 +11,7 @@ import fetchGetPlacePins from "@/utils/places/fetchGetPlacePins";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import fetchGetPlaceInfo from "@/utils/places/fetchGetPlaceInfo";
 import { useAppDispatch } from "@/redux/hooks";
-import { makeMarker } from "@/utils/makeMarker";
+import { makeMarker } from "@/utils/map/makeMarker";
 
 const PlacePage = ({ placeId }: { placeId: string }) => {
   const dispatchMarker = useAppDispatch();
@@ -69,7 +69,7 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
     if (isIntersecting && !isEnd) fetchData();
   }, [placeId, isIntersecting]);
 
-  useEffect(() => {
+  function moveToMarker(){
     if (placeData) {
       makeMarker(
         placeData.id,
@@ -81,7 +81,7 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
         dispatchMarker
       );
     }
-  }, [placeData]);
+  }
 
   return (
     <>

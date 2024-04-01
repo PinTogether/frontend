@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import styles from "@/styles/components/_loading.module.scss";
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getGeoCodingAuth, reverseGeoCoding } from "@/utils/GeoCoding";
+import { getGeoCodingAuth, reverseGeoCoding } from "@/utils/map/GeoCoding";
 import {
   emdongByAmount,
   sggByAmount,
@@ -39,6 +39,7 @@ const MapNaverDefault = () => {
   const [pinMarkerList, setPinMarkerList] = useState<naver.maps.Marker[]>(
     []
   );
+  const [markerDatas, setMarkerDatas] = useState<MarkerData[]>([]);
   const [clusteredMarkerList, setClusteredMarkerList] = useState<
     ClusteredMarkerData[]
   >([]);
@@ -51,8 +52,7 @@ const MapNaverDefault = () => {
   const locationGetter = useAppSelector(
     (state) => state.location.locationGetter
   );
-  const markerDatas = useAppSelector((state) => state.location.markerData);
-
+  const reduxMarkerDatas = useAppSelector((state) => state.location.markerData);
   const isScriptLoaded = useScriptLoaded();
 
   const getLocation = async () => {
@@ -168,39 +168,39 @@ const MapNaverDefault = () => {
   function markerIconRenderer(markerdata: MarkerData) {
     if (markerdata.pinCount <= 1) {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px;">',
-        '<img src="/icons/map_pin.svg" alt="" style="width:40px; height:40px;" >',
-        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
+        '<div style="color:#6d56ff; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:50px;">',
+        '<img src="/icons/map_pin.svg" alt="" style="width:50px; height:50px;" >',
+        '<b style="justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-shadow: -2px 0 #fdfdfd, 0 2px #fdfdfd, 2px 0 #fdfdfd, 0 -2px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
       ].join("");
     } else if (markerdata.pinCount <= 99) {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
-        '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
-        '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+        '<div style="color:#6d56ff; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:50px; position: relative;">',
+        '<img src="/icons/map_pin_filled.svg" alt="" style="width:50px; height:50px;">',
+        '<b style="position: absolute; top: 18px; left: 50%; color: #ffffff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         '<div style="width:12px; height:12px justify-content: center; text-align: center;">',
         `${markerdata.pinCount}`,
         '</div>',
         '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:12px; height:12px;">',
         "</b>",
-        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        '<b style="justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-shadow: -2px 0 #fdfdfd, 0 2px #fdfdfd, 2px 0 #fdfdfd, 0 -2px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
       ].join("");
     } else {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
-        '<img src="/icons/map_pin_filled.svg" alt="" style="width:40px; height:40px;">',
-        '<b style="position: absolute; top: 13px; left: 50%; color: #6d56ff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
-        '<div style="width:12px; height:12px justify-content: center; text-align: center;">',
-        `99+`,
+        '<div style="color:#6d56ff; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:50px; position: relative;">',
+        '<img src="/icons/map_pin_filled.svg" alt="" style="width:50px; height:50px;">',
+        '<b style="position: absolute; top: 18px; left: 50%; color: #ffffff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
+        '<div style="width:20px; height:12px justify-content: center; text-align: center;">',
+        ` 99+`,
         '</div>',
-        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:12px; height:12px;">',
+        '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:20px; height:12px;">',
         "</b>",
-        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        '<b style="justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-shadow: -2px 0 #fdfdfd, 0 2px #fdfdfd, 2px 0 #fdfdfd, 0 -2px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
@@ -375,7 +375,7 @@ const MapNaverDefault = () => {
     setClusteredMarkerList(newClusteredMarkers);
   }
 
-  function makeMarkerList() {
+  function makeMarkerList(markerDatas:MarkerData[]) {
     if (markerDatas[0] && window.naver) {
       const newMarkerList: naver.maps.Marker[] = [];
       markerDatas.forEach((data) => {
@@ -384,8 +384,8 @@ const MapNaverDefault = () => {
           icon: {
             content: markerIconRenderer(data),
             //마커의 기준위치 지정
-            size: new naver.maps.Size(60, 50),
-            anchor: new naver.maps.Point(30, 25),
+            size: new naver.maps.Size(80, 50),
+            anchor: new naver.maps.Point(40, 48),
           },
           title: data.placeName,
           //shape: {
@@ -519,7 +519,6 @@ const MapNaverDefault = () => {
                     const event = document.getElementById(`button${id}`);
                     if (event) {
                       event.addEventListener("click", () => {
-                        console.log("click ", id);
                         movePage(id);
                       });
                       buttonEventList.push(event);
@@ -627,13 +626,48 @@ const MapNaverDefault = () => {
     }
   }, [isScriptLoaded]);
 
+  function checkIsPositionGetter(){
+    for(let i = 0 ; i < pinMarkerList.length ; i++){
+      const markerPosition = pinMarkerList[i].getPosition();
+      if(reduxMarkerDatas[0].longitude == markerPosition.x && reduxMarkerDatas[0].latitude == markerPosition.y)
+        return (true);
+    }
+    return(false);
+  }
   //마커 목록 생성
   useEffect(() => {
-    deleteMarker();
-    if (window.naver && markerDatas[0] && isScriptLoaded) {
-      makeMarkerList();
+    if (window.naver && reduxMarkerDatas[0] && isScriptLoaded) {
+      if(reduxMarkerDatas.length == 1 && checkIsPositionGetter()){
+        var centerBounds = new naver.maps.LatLng({x: reduxMarkerDatas[0].longitude, y:reduxMarkerDatas[0].latitude});
+        var bounds = new naver.maps.LatLngBounds(centerBounds, centerBounds);
+        newMap?.panToBounds(
+          bounds,
+          { easing: "linear", duration: 300 },
+          {
+            top: 1100,
+            right: 1100,
+            bottom: 1100,
+            left: sideWidth / 2 + 1100,
+          }
+        );
+        if(newMap){
+          const center = newMap.getCenter();
+          handleGetAddress(center.x, center.y);
+        }
+        setTimeout(()=>{if (pinMarkerList[0]) {
+          updateMarkers();
+          makeClusteredMarkerList();
+        }}, 300);
+      }
+      else{
+        deleteMarker();
+        setMarkerDatas(reduxMarkerDatas);
+        makeMarkerList(reduxMarkerDatas);
+      }
+      // 만약 새로 들어온 markerDatas가 1개이고, 기존의 마커에 존재하는 마커 데이터라면 마커들 없에지말고 위치만 이동
+      // 1개지만 기존 마커에 존재하지않다면 기존과 똑같이 작동
     }
-  }, [markerDatas, isScriptLoaded]);
+  }, [reduxMarkerDatas, isScriptLoaded]);
 
   useLayoutEffect(() => {
     if (window.naver && newMap && clusteredMarkerList[0]) {

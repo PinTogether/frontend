@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
-import { markerDataByAmount } from "@/redux/locationSlice";
+import { markerDataByAmount, cleanSelectedCollectionByAmount } from "@/redux/locationSlice";
 import { initialPinSelectPageState } from "@/redux/pinSelectPageSlice";
 
 import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
@@ -108,6 +108,7 @@ export default function CollectionPage({
       });
     }
     dispatch(markerDataByAmount(markerList));
+    dispatch(cleanSelectedCollectionByAmount(true));
   };
 
   useEffect(() => {
