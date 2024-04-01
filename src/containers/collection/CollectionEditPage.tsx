@@ -272,8 +272,8 @@ export default function CollectionEditPage({
     if (!success) {
       setAlertMessage(errorMessage);
     } else {
-      const newPinDataList = pinDataList.filter((pin, index) => {
-        return index !== pinId;
+      const newPinDataList = pinDataList.filter((pin) => {
+        return pin.id !== pinId;
       });
       setPinDataList(newPinDataList);
     }
