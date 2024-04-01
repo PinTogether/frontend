@@ -122,7 +122,7 @@ export default function ReportPage() {
 
     if (res.success) {
       dispatch(addAlertMessage("신고가 완료되었습니다."));
-      useRouter().back();
+      router.back();
     } else {
       dispatch(addAlertMessage(res.errorMessage));
     }
