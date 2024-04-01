@@ -28,7 +28,7 @@ export async function GET(
         },
         {
           id: 4,
-          writerId: 8,
+          writerId: 1,
           writerName: "은지공주",
           writerMembername: "eunji_princess_11",
           writerAvatar: "",
