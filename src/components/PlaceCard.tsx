@@ -10,6 +10,7 @@ import {
   ZimmIcon,
 } from "@/components/IconSvg";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import Place, { PlaceDetail, PlaceStarred } from "@/types/Place";
 import { useState } from "react";
@@ -19,12 +20,13 @@ import fetchDeleteStarPlace from "@/utils/stars/fetchDeleteStarPlace";
 
 import { useAppDispatch } from "@/redux/hooks";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
-import { makeMarker } from "@/utils/makeMarker";
+import { makeMarker } from "@/utils/map/makeMarker";
 
 export { PlaceCard, SimplePlaceCard as SimplePlaceCard };
 
 const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
   const dispatchMarker = useAppDispatch();
+  const router = useRouter();
   return (
     <article className={styles.placeCard}>
       {"starred" in place && (
@@ -35,14 +37,26 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
 
       <div className={styles.mainInfo}>
         <LocationIcon className={styles.pinIcon} />
-        <Link
-          href={`/place/${place.id}`}
+        <button
+          //href={`/place/${place.id}`}
           className={styles.placeNameContainer}
           // aria-label={`${place.name} - ${place.category}`}
+          onClick={(e) => {
+            makeMarker(
+              place.id,
+              place.id,
+              place.name,
+              place.pinCnt,
+              place.latitude,
+              place.longitude,
+              dispatchMarker
+            );
+            router.push(`/place/${place.id}`);
+          }}
         >
           <h3 className={styles.placeName}>{place.name}</h3>
           <span className={styles.category}>{place.category}</span>
-        </Link>
+        </button>
         <address className={styles.address}>{place.roadNameAddress}</address>
         <div className={styles.buttonContainer}>
           <div className={styles.pinCnt}>

@@ -12,6 +12,7 @@ interface CounterState {
   locationGetter: boolean;
   mainContentWidth: string;
   markerData: MarkerData[];
+  cleanSelectedCollection: boolean;
 }
 
 const initialState: CounterState = {
@@ -25,6 +26,7 @@ const initialState: CounterState = {
   locationGetter: false,
   mainContentWidth: "500px",
   markerData: [],
+  cleanSelectedCollection: false
 };
 
 export const locationSlice = createSlice({
@@ -56,6 +58,9 @@ export const locationSlice = createSlice({
     },
     markerDataByAmount: (state, action:PayloadAction<MarkerData[]>) => {
       state.markerData = action.payload;
+    },
+    cleanSelectedCollectionByAmount: (state, action:PayloadAction<boolean>) => {
+      state.cleanSelectedCollection = action.payload;
     }
   },
 });
@@ -69,6 +74,7 @@ export const {
   locationGetterByAmount,
   mainContentWidthByAmount,
   markerDataByAmount,
+  cleanSelectedCollectionByAmount
 } = locationSlice.actions;
 
 export const selectLocation = (state: RootState) => state.counter.value;
