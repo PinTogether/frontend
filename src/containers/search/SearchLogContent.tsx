@@ -28,7 +28,7 @@ function SearchLogContent({
   return (
     <div className={styles.searchLogContent}>
       <Link
-        href={`/search?keyword=${searchKeyword}`}
+        href={`/search?keyword=${encodeURIComponent(searchKeyword)}`}
         className={styles.searchLog}
       >
         <SearchIcon className={styles.searchIcon} />

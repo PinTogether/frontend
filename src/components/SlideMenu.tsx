@@ -11,7 +11,7 @@ const SlideMenu = ({
 }: {
   menuTitleList: string[];
   customSelectedMenu?: number;
-  customSetSelectedMenu?: React.Dispatch<React.SetStateAction<number>>;
+  customSetSelectedMenu?: (index: number) => void;
   children: React.ReactNode[];
 }) => {
   const [selectedMenu, setSelectedMenu] = useState<number>(0);
