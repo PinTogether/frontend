@@ -280,16 +280,11 @@ export default function Overlay() {
           </div>
           <div className={styles.buttonBox}>
             <div></div>
-            <div style={{width:100}}/>
+            <div style={{width:150}}/>
             <button
-              className={`${styles.disabledBottomButton}`}
+              className={`${styles.bottomButton} ${collectionSelector == 0 ? styles.clickedButtons : ""}`}
             >
-              내 컬렉션
-            </button>
-            <button
-              className={`${styles.disabledBottomButton}`}
-            >
-              스크랩한 컬렉션
+              추천 컬렉션
             </button>
             <div></div>
             <button className={styles.bottomButton} onClick={toggleCardSlider}>
@@ -305,7 +300,7 @@ export default function Overlay() {
                 </>
               )}
             </button>
-            <div style={{width:100}}/>
+            <div style={{width:150}}/>
           </div>
         </div>
         )}
