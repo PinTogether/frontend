@@ -1,8 +1,6 @@
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import PinCard from "../../components/PinCard";
-import ReviewCard from "../../components/ReviewCard";
 import { PinForPlace } from "@/types/Pin";
-import Pin from "@/types/Pin";
 
 export default function CollectionWithPinCommentRenderer({
   data,
