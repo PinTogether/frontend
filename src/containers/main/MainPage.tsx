@@ -125,13 +125,15 @@ export default function MainPage() {
 
   const enterKeyDown = (e: any) => {
     if (e.key === "Enter" && inputCollectionSearch != "") {
-      router.push(`/search?keyword=${inputCollectionSearch}`);
+      const keyword = encodeURIComponent(inputCollectionSearch);
+      router.push(`/search?keyword=${keyword}`);
     }
   };
 
   const searchButtonClick = () => {
     if (inputCollectionSearch != "") {
-      router.push(`/search?keyword=${inputCollectionSearch}`);
+      const keyword = encodeURIComponent(inputCollectionSearch);
+      router.push(`/search?keyword=${keyword}`);
     }
   };
 
