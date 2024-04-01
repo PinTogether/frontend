@@ -4,8 +4,9 @@ import { logout } from "@/hooks/useLogout";
 
 const fetchGetProfileInfoByMembername = async (userMembername: string) => {
   try {
+    const encodedMembername = encodeURIComponent(userMembername);
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${userMembername}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${encodedMembername}`,
       {
         credentials: "include",
       }
