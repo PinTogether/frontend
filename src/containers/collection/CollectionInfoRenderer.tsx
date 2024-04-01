@@ -130,7 +130,7 @@ const CollectionInfoRenderer = ({
           )}
         </div>
         <Link
-          href={`/profile/${collectionData.writerId}`}
+          href={`/profile/${collectionData.writerMembername}`}
           className={styles.collectionWriter}
         >{`@${collectionData.writerMembername}`}</Link>
         <p className={styles.collectionTags}>

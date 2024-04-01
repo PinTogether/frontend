@@ -125,7 +125,7 @@ export default function Sidebar() {
               className={`${styles.profile}`}
               width={size}
               height={size}
-              onClick={() => moveURL(`/profile/${profile.id}`)}
+              onClick={() => moveURL(`/profile/${profile.membername}`)}
             />
           </div>
         ) : (

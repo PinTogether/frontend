@@ -165,7 +165,7 @@ export default function ProfileEditPage() {
     );
     if (success) {
       updateReduxProfile();
-      router.push(`/profile/${myProfile.id}`);
+      router.push(`/profile/${myProfile.membername}`);
     } else setTotalErrorMessage(errorMessage);
   };
 
