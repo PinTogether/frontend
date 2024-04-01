@@ -16,10 +16,11 @@ import { ProfileOthers } from "@/types/Profile";
 import fetchGetProfileInfo from "@/utils/members/fetchGetProfileInfo";
 import fetchGetProfileInfoByMembername from "@/utils/members/fetchGetProfileInfoByMembername"; ///
 import useCheckIsMyId from "@/hooks/useCheckIsMyId";
+import useCheckIsMyMembername from "@/hooks/useCheckIsMyMembername";
 
 export default function ProfilePage({ membername }: { membername: string }) {
   const router = useRouter();
-  const [isMyProfile, setIsMyProfile] = useState(false);
+  const isMyProfile = useCheckIsMyMembername(membername);
 
   /* fetch data */
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +32,6 @@ export default function ProfilePage({ membername }: { membername: string }) {
     setIsLoading(true);
     const result = await fetchGetProfileInfoByMembername(membername);
     setProfileFetchData(result);
-    setIsMyProfile(useCheckIsMyId(result.profileInfo?.id || -1));
     setIsLoading(false);
   };
 
