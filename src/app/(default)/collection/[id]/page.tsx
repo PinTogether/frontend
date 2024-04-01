@@ -28,7 +28,7 @@ export async function generateMetadata({
     authors: [
       {
         name: `${collectionInfo.writerMembername}`,
-        url: `https://pintogether.com/profile/${collectionInfo.writerId}`,
+        url: `https://pintogether.com/profile/${collectionInfo.writerMembername}`,
       },
     ],
     generator: "Next.js 14",
