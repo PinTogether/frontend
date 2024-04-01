@@ -14,12 +14,11 @@ import { useRouter } from "next/navigation";
 
 import { ProfileOthers } from "@/types/Profile";
 import fetchGetProfileInfo from "@/utils/members/fetchGetProfileInfo";
-import fetchGetProfileInfoByMembername from "@/utils/members/fetchGetProfileInfoByMembername"; ///
 import useCheckIsMyId from "@/hooks/useCheckIsMyId";
 
-export default function ProfilePage({ membername }: { membername: string }) {
+export default function ProfilePage({ userId }: { userId: number }) {
   const router = useRouter();
-  const [isMyProfile, setIsMyProfile] = useState(false);
+  const isMyProfile = useCheckIsMyId(userId);
 
   /* fetch data */
   const [isLoading, setIsLoading] = useState(false);
@@ -29,15 +28,14 @@ export default function ProfilePage({ membername }: { membername: string }) {
   } | null>(null);
   const fetchProfileFetchData = async () => {
     setIsLoading(true);
-    const result = await fetchGetProfileInfoByMembername(membername);
+    const result = await fetchGetProfileInfo(userId);
     setProfileFetchData(result);
-    setIsMyProfile(useCheckIsMyId(result.profileInfo?.id || -1));
     setIsLoading(false);
   };
 
   useEffect(() => {
     if (!isLoading) fetchProfileFetchData();
-  }, [membername]);
+  }, [userId]);
 
   /* button state */
   const [showState, setShowState] = useState(1);
@@ -60,7 +58,7 @@ export default function ProfilePage({ membername }: { membername: string }) {
       completeButtonMsg={isMyProfile ? "수정" : undefined}
       onClickCompleteButton={hanldeClickCompleteButton}
     >
-      {!profileFetchData?.profileInfo ? (
+      {!profileFetchData ? (
         <ProfileSkeleton />
       ) : profileFetchData.errorMessage ? (
         <div className={styles.errorMessage}>
@@ -69,7 +67,7 @@ export default function ProfilePage({ membername }: { membername: string }) {
       ) : (
         <>
           <ProfileInfoRenderer
-            userId={profileFetchData.profileInfo.id}
+            userId={userId}
             profileInfo={profileFetchData.profileInfo}
             errorMessage={profileFetchData.errorMessage}
             isMyProfile={isMyProfile}
@@ -112,21 +110,18 @@ export default function ProfilePage({ membername }: { membername: string }) {
           {/* TODO : 버튼 클릭시 마다 재랜더링이 되지 않도록(fetch 여러번) dispaly : none 으로 화면 제어하기*/}
           {showState === 1 && (
             <ProfileCollectionsRenderer
-              userId={profileFetchData.profileInfo.id}
+              userId={userId}
               isMyProfile={isMyProfile}
             />
           )}
           {showState === 2 && (
-            <ProfileScrapsRenderer
-              userId={profileFetchData.profileInfo.id}
-              isMyProfile={isMyProfile}
-            />
+            <ProfileScrapsRenderer userId={userId} isMyProfile={isMyProfile} />
           )}
           {/* {showState === 3 && (
         <ProfileCollectionRenderer collectionList={followCollections} />
       )} */}
           {showState === 4 && isMyProfile && (
-            <ProfileStarredRenderer userId={profileFetchData.profileInfo.id} />
+            <ProfileStarredRenderer userId={userId} />
           )}
         </>
       )}

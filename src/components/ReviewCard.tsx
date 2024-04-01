@@ -17,7 +17,7 @@ export default function ReviewCard({
 
   return (
     <article className={styles.review}>
-      <Link href={`/profile/${reviewData.writerId}`}>
+      <Link href={`/profile/${reviewData.writerMembername}`}>
         <Image
           src={reviewData.avatarImage || defaultAvatarUrl || ""} // avatar
           alt="user profile image"
@@ -26,7 +26,7 @@ export default function ReviewCard({
           className={styles.userAvatar}
         />
       </Link>
-      <Link href={`/profile/${reviewData.writerId}`}>
+      <Link href={`/profile/${reviewData.writerMembername}`}>
         <span
           className={styles.userNick}
         >{`@${reviewData.writerMembername}`}</span>

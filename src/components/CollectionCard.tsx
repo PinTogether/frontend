@@ -288,7 +288,7 @@ const DefaultCollectionCard = ({
       <div className={styles.textContainer}>
         <Link
           className={styles.nickname}
-          href={`/profile/${collectionData.writerId}`}
+          href={`/profile/${collectionData.writerMembername}`}
         >{`@${collectionData.writerMembername}`}</Link>
         <Link
           href={`/collection/${collectionData.id}`}
@@ -379,7 +379,7 @@ const HorizontalCollectionCard = ({
           {collectionData.title}
         </Link>
         <Link
-          href={`/profile/${collectionData.writerId}`}
+          href={`/profile/${collectionData.writerMembername}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
         >{`@${collectionData.writerMembername}`}</Link>
@@ -473,7 +473,7 @@ const HorizontalDetailCollectionCard = ({
           {collectionData.title}
         </Link>
         <Link
-          href={`/profile/${collectionData.writerId}`}
+          href={`/profile/${collectionData.writerMembername}`}
           className={styles.nickname}
           aria-disabled={linkDisabled}
         >{`@${collectionData.writerMembername}`}</Link>
