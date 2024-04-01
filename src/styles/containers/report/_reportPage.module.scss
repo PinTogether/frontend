@@ -1,0 +1,25 @@
+@import "../../base/variables";
+@import "../../base/placeholders";
+
+
+.box {
+	display: grid;
+	grid-template-columns: 3rem 1fr;
+	align-items: center;
+
+	.title {
+		font-size: $font-size-medium;
+		color: $color_grey-dark;
+		// font-weight: bold;
+		// color: $color-text-primary;
+	}
+}
+
+.fixed {
+	color : $color-text-caption;
+}
+
+.select {
+	@extend %pt-input;
+	background-color: $color_grey-light;
+}
