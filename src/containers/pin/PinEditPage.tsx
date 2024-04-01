@@ -302,7 +302,6 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
                     placeName: createInfo?.placeName || "",
                   }
             }
-            showEditButton={false}
           />
           {pinId && (
             <div className={styles.deleteButton}>

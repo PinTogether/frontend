@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useAppDispatch } from "@/redux/hooks";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
 
 import styles from "@/styles/containers/profile/_followPage.module.scss";
 import SubPageLayout from "@/containers/layout/SubPageLayout";
@@ -12,6 +14,8 @@ import { ProfileFollower } from "@/types/Profile";
 import useGetMyProfile from "@/hooks/useGetMyProfile";
 import fetchGetMyFollowers from "@/utils/members/fetchGetMyFollowers";
 import fetchGetMyFollowings from "@/utils/members/fetchGetMyFollowings";
+import fetchDeleteFollow from "@/utils/members/fetchDeleteFollow";
+import fetchPostFollow from "@/utils/members/fetchPostFollow";
 
 const FollowPage = ({ userId }: { userId: number }) => {
   const profile = useGetMyProfile(); // 유저 정보 가져오기
@@ -60,7 +64,7 @@ const FollowPage = ({ userId }: { userId: number }) => {
           )}
           <div className={styles.userCardList}>
             {followings.map((user) => (
-              <UserCard key={user.id} user={user} />
+              <UserCard key={user.id} user={user} showUnfollowButton={true} />
             ))}
           </div>
         </SlideMenuInnerPage>
@@ -70,21 +74,67 @@ const FollowPage = ({ userId }: { userId: number }) => {
 };
 export default FollowPage;
 
-const UserCard = ({ user }: { user: ProfileFollower }) => {
-  return (
-    <Link href={`/profile/${user.id}`} className={styles.userCard}>
-      <Image
-        src={user.avatar}
-        alt="user profile image"
-        width={100}
-        height={100}
-        className={styles.userAvatar}
-      />
+const UserCard = ({
+  user,
+  showUnfollowButton = false,
+}: {
+  user: ProfileFollower;
+  showUnfollowButton?: boolean;
+}) => {
+  const dispatch = useAppDispatch();
+  const [isFollowing, setIsFollowing] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-      <div className={styles.userNick}>{`@${user.membername}`}</div>
+  const handleFollow = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    if (isFollowing) {
+      const res = await fetchDeleteFollow(user.id);
+      if (!res.success) {
+        dispatch(addAlertMessage(res.errorMessage));
+      } else {
+        setIsFollowing((prev) => !prev);
+        dispatch(addAlertMessage("팔로우 취소되었습니다."));
+      }
+    } else {
+      const res = await fetchPostFollow(user.id);
+      if (!res.success) {
+        dispatch(addAlertMessage(res.errorMessage));
+      } else {
+        setIsFollowing((prev) => !prev);
+        dispatch(addAlertMessage("팔로우 되었습니다."));
+      }
+    }
+    setIsLoading(false);
+  };
+
+  return (
+    <article className={styles.userCard}>
+      <Link href={`/profile/${user.id}`} className={styles.userAvatar}>
+        <Image
+          src={user.avatar}
+          alt="user profile image"
+          width={100}
+          height={100}
+        />
+      </Link>
+      <Link href={`/profile/${user.id}`} className={styles.names}>
+        <div className={styles.userMembername}>{`${user.membername}`}</div>
+        <div className={styles.userName}>{`${user.name} name`}</div>
+      </Link>
       <div
         className={styles.userCollectionCnt}
       >{`${user.collectionCnt}개 컬렉션`}</div>
-    </Link>
+      {showUnfollowButton &&
+        (isFollowing ? (
+          <button className={styles.followBtn} onClick={handleFollow}>
+            팔로우 취소
+          </button>
+        ) : (
+          <button className={styles.followBtn} onClick={handleFollow}>
+            팔로우
+          </button>
+        ))}
+    </article>
   );
 };

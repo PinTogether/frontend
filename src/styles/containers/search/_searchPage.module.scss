@@ -146,6 +146,11 @@
 }
 
 /* SearchPlaceRenderer, SearchCollectionRenderer */
+.searchLogContent {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+}
 .searchLog{
 	display: flex;
 	align-items: center;
@@ -157,8 +162,6 @@
 	&:hover{
 		background-color: $color-grey-light;
 	}
-
-	// }
 	.searchIcon {
 		flex-shrink: 0;
 		width: 1.5rem;
@@ -180,11 +183,12 @@
 	}
 }
 .deleteIcon {
-	justify-self: flex-end;
-	align-content: flex-end;
-	width: 1rem;
-	height: 1rem;
+	align-self: start;
+	width: 1.5rem;
+	height: 1.5rem;
+	padding: 0.25rem;
 	color: $color-grey-dark;
+	cursor: pointer;
 }
 
 /* SearchPlaceRenderer, SearchCollectionRenderer */

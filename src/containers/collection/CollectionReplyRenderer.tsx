@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import { CollectionDetail } from "@/types/Collection";
+import { PlatformType } from "@/types/Report";
 import CollectionReply from "@/types/CollectionReply";
 import { CloseRoundIcon } from "@/components/IconSvg";
+import AlertModal from "@/components/AlertModal";
 import ReplyInputContent from "./CollectionReplyInput";
 
 import fetchDeleteCollectionComment from "@/utils/collections/fetchDeleteCollectionComment";
-import AlertModal from "@/components/AlertModal";
 
 const CollectionReplyRenderer = ({
   replys,
@@ -89,16 +90,19 @@ const ReplyContent = ({
       />
       <section className={styles.replyBox}>
         <div className={styles.replyName}>{`@${data.writerMembername}`}</div>
-        <div>
+        <div className={styles.textContainer}>
           <span className={styles.replyText}>{data.contents}</span>
           <span className={styles.replyCreatedAt}>
-            {data.createdAt.slice(0, 10)}
+            {data.createdAt}
           </span>
         </div>
       </section>
 
       {!isMyReply ? (
-        <Link href="/report" className={styles.replyButton}>
+        <Link
+          href={`/report?type=${PlatformType.COLLECTION_COMMENT}&id=${data.id}`}
+          className={styles.replyButton}
+        >
           신고
         </Link>
       ) : (

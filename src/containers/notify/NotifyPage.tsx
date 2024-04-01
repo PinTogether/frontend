@@ -1,9 +1,33 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
+
+import { Report } from "@/types/Report";
 import InfoListLayout, {
   UlWrapper,
   LiWrapper,
 } from "@/containers/layout/InfoListLayout";
+import fetchGetReport from "@/utils/reports/fetchGetReport";
+import { Line } from "../layout/EditPageLayout";
 
 export default function NotifyPage() {
+  const dispatch = useDispatch();
+  const [reportList, setReportList] = useState<Report[]>([]);
+
+  useEffect(() => {
+    fetchReportList();
+  }, []);
+
+  const fetchReportList = async () => {
+    const { reportList, errorMessage } = await fetchGetReport(0, 10);
+    setReportList(reportList);
+    if (errorMessage) {
+      dispatch(addAlertMessage(errorMessage));
+    }
+  };
+
   return (
     <InfoListLayout>
       <UlWrapper categoryTitle="공지">
@@ -11,6 +35,22 @@ export default function NotifyPage() {
           어쩌구 저쩌구 이유로 금일(수) 23:00 ~ 24:00 서비스가 원활하지 않을 수
           있으니 양해 부탁드립니다.
         </LiWrapper>
+      </UlWrapper>
+      <UlWrapper categoryTitle="신고">
+        {reportList.map((report) => (
+          <LiWrapper key={report.id}>
+            <span>
+              {report.targetMembername} 님의 {report.platformType} 에 대한
+              신고를 접수하였습니다.
+            </span>
+            <span>
+              {report.complaintCategory} 사유: {report.reason}
+            </span>
+            <span>
+              {report.createdAt} 신고자: {report.reporterMembername}
+            </span>
+          </LiWrapper>
+        ))}
       </UlWrapper>
       <UlWrapper categoryTitle="알림">
         <LiWrapper>

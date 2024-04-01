@@ -20,6 +20,7 @@ import fetchGetSearchHistory from "@/utils/search/fetchGetSearchHistory";
 enum SearchCategory {
   PLACE = 0,
   COLLECTION = 1,
+  HISTORY = 2,
 }
 
 export default function Page() {
@@ -45,12 +46,24 @@ export default function Page() {
         setSelectedMenu(
           type === "collection"
             ? SearchCategory.COLLECTION
-            : SearchCategory.PLACE
+            : type === "place"
+              ? SearchCategory.PLACE
+              : SearchCategory.HISTORY
         );
+      } else {
+        setShowSearchLog(true);
+        setSearchInputValue("");
       }
     };
     search();
   }, [searchParams]);
+
+  useEffect(() => {
+    if (searchInputValue === "") {
+      setShowSearchLog(true);
+      setSearchKeyword("");
+    }
+  }, [searchInputValue]);
 
   /* menu 변경 */
   useEffect(() => {
@@ -73,7 +86,6 @@ export default function Page() {
   const clearInputValue = () => {
     setSearchInputValue("");
     setSearchKeyword("");
-    setShowSearchLog(true);
   };
 
   // Topper & ScrollTop
@@ -205,6 +217,7 @@ const SearchLogRenderer = () => {
               {searchLogs.map((searchLog) => (
                 <SearchLogContent
                   key={searchLog.id}
+                  id={searchLog.id}
                   searchKeyword={searchLog.query}
                   searchCategory={"total"} // searchCategory는 미사용
                 />

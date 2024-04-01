@@ -13,6 +13,7 @@ import { AppDispatch } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { initialPinEditState } from "@/redux/pinEditSlice";
 import { useAppDispatch } from "@/redux/hooks";
+import useGetMyId from "@/hooks/useGetMyId";
 
 export { PinCard, SimplePinCard };
 
@@ -20,16 +21,16 @@ interface PinCardProps extends HTMLAttributes<HTMLDivElement> {
   pinData: Pin;
   showReview?: boolean;
   showSubButtons?: boolean;
-  showEditButton?: boolean;
 }
 export default function PinCard({
   pinData,
   showReview = true,
   showSubButtons = true,
-  showEditButton = true,
   ...props
 }: PinCardProps) {
   const dispatch = useAppDispatch();
+  const myId = useGetMyId();
+
   return (
     <article className={styles.pinCard} {...props}>
       <div className={styles.mainInfo}>
@@ -80,7 +81,9 @@ export default function PinCard({
       ) : (
         <></>
       )}
-      {showEditButton && <EditButton pinId={pinData.id} pinData={pinData} />}
+      {pinData.writerId === myId && (
+        <EditButton pinId={pinData.id} pinData={pinData} />
+      )}
     </article>
   );
 }
@@ -91,7 +94,6 @@ interface SimplePinCardProps extends HTMLAttributes<HTMLDivElement> {
   showSubButtons?: boolean;
   buttonDisabled?: boolean;
   activeShowDetail?: boolean;
-  showEditButton?: boolean;
 }
 const SimplePinCard = ({
   pinData,
@@ -99,12 +101,12 @@ const SimplePinCard = ({
   showSubButtons = false,
   buttonDisabled = false,
   activeShowDetail = false,
-  showEditButton = true,
   ...props
 }: SimplePinCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [showDetail, setShowDetail] = useState(false);
   const dispatch = useAppDispatch();
+  const myId = useGetMyId();
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     console.log("click");
@@ -138,7 +140,7 @@ const SimplePinCard = ({
             </address>
             <span className={styles.category}>{pinData.category}</span>
           </button>
-          {showEditButton && (
+          {myId === pinData.writerId && (
             <EditButton pinId={pinData.id} pinData={pinData} />
           )}
         </div>
@@ -160,7 +162,7 @@ const SimplePinCard = ({
           <ul className={styles.commentContaier}>
             <MyReviewCard reviewData={pinData} />
           </ul>
-          {showEditButton && (
+          {myId === pinData.writerId && (
             <EditButton pinId={pinData.id} pinData={pinData} />
           )}
         </div>
