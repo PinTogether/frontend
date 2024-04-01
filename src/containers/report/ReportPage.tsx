@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { useAppDispatch } from "@/redux/hooks";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
@@ -59,6 +60,7 @@ const optionCategory = [
 ];
 
 export default function ReportPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -120,6 +122,7 @@ export default function ReportPage() {
 
     if (res.success) {
       dispatch(addAlertMessage("신고가 완료되었습니다."));
+      useRouter().back();
     } else {
       dispatch(addAlertMessage(res.errorMessage));
     }
