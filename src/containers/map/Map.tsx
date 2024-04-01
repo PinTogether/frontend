@@ -168,16 +168,16 @@ const MapNaverDefault = () => {
   function markerIconRenderer(markerdata: MarkerData) {
     if (markerdata.pinCount <= 1) {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px;">',
+        '<div style="color:#6d56ff; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:50px;">',
         '<img src="/icons/map_pin.svg" alt="" style="width:50px; height:50px;" >',
-        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd;">',
+        '<b style="justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-shadow: -2px 0 #fdfdfd, 0 2px #fdfdfd, 2px 0 #fdfdfd, 0 -2px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
       ].join("");
     } else if (markerdata.pinCount <= 99) {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
+        '<div style="color:#6d56ff; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:50px; position: relative;">',
         '<img src="/icons/map_pin_filled.svg" alt="" style="width:50px; height:50px;">',
         '<b style="position: absolute; top: 18px; left: 50%; color: #ffffff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         '<div style="width:12px; height:12px justify-content: center; text-align: center;">',
@@ -185,14 +185,14 @@ const MapNaverDefault = () => {
         '</div>',
         '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:12px; height:12px;">',
         "</b>",
-        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        '<b style="justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-shadow: -2px 0 #fdfdfd, 0 2px #fdfdfd, 2px 0 #fdfdfd, 0 -2px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
       ].join("");
     } else {
       return [
-        '<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:60px; height:50px; position: relative;">',
+        '<div style="color:#6d56ff; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width:80px; height:50px; position: relative;">',
         '<img src="/icons/map_pin_filled.svg" alt="" style="width:50px; height:50px;">',
         '<b style="position: absolute; top: 18px; left: 50%; color: #ffffff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         '<div style="width:20px; height:12px justify-content: center; text-align: center;">',
@@ -200,7 +200,7 @@ const MapNaverDefault = () => {
         '</div>',
         '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:20px; height:12px;">',
         "</b>",
-        '<b style="font-size: 12px; font-weight: 500; text-shadow: -1px 0 #fdfdfd, 0 1px #fdfdfd, 1px 0 #fdfdfd, 0 -1px #fdfdfd; margin-top: 5px;">',
+        '<b style="justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-shadow: -2px 0 #fdfdfd, 0 2px #fdfdfd, 2px 0 #fdfdfd, 0 -2px #fdfdfd; margin-top: 5px;">',
         `${markerdata.placeName}`,
         "</b>",
         "</div>",
@@ -384,8 +384,8 @@ const MapNaverDefault = () => {
           icon: {
             content: markerIconRenderer(data),
             //마커의 기준위치 지정
-            size: new naver.maps.Size(60, 50),
-            anchor: new naver.maps.Point(30, 25),
+            size: new naver.maps.Size(80, 50),
+            anchor: new naver.maps.Point(40, 48),
           },
           title: data.placeName,
           //shape: {
