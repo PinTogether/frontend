@@ -16,6 +16,7 @@ export interface ProfileMine extends Profile {
 }
 
 export interface ProfileOthers extends Profile {
+  id: number;
   bio: string;
   scrappedCollectionCnt: number;
   followerCnt: number;

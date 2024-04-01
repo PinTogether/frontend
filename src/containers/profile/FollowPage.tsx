@@ -110,7 +110,7 @@ const UserCard = ({
 
   return (
     <article className={styles.userCard}>
-      <Link href={`/profile/${user.id}`} className={styles.userAvatar}>
+      <Link href={`/profile/${user.membername}`} className={styles.userAvatar}>
         <Image
           src={user.avatar}
           alt="user profile image"
@@ -118,7 +118,7 @@ const UserCard = ({
           height={100}
         />
       </Link>
-      <Link href={`/profile/${user.id}`} className={styles.names}>
+      <Link href={`/profile/${user.membername}`} className={styles.names}>
         <div className={styles.userMembername}>{`${user.membername}`}</div>
         <div className={styles.userName}>{`${user.name} name`}</div>
       </Link>

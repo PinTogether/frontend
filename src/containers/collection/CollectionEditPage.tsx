@@ -126,7 +126,7 @@ export default function CollectionEditPage({
     if (!success) {
       setAlertMessage(errorMessage);
     } else {
-      router.push(`/profile/${collectionInfo?.writerId}`);
+      router.push(`/profile/${collectionInfo?.writerMembername}`);
     }
     setIsUploading(false);
   };

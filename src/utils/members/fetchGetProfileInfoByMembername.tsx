@@ -2,15 +2,15 @@ import { ProfileOthers } from "@/types/Profile";
 import APIResponse from "@/types/APIResponse";
 import { logout } from "@/hooks/useLogout";
 
-const fetchGetProfileInfo = async (userId: number) => {
+const fetchGetProfileInfoByMembername = async (userMembername: string) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/id/${userId}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${userMembername}`,
       {
         credentials: "include",
       }
     );
-    console.log("fetchGetProfileInfo res", res);
+    console.log("fetchGetProfileInfoByMembername res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -26,7 +26,7 @@ const fetchGetProfileInfo = async (userId: number) => {
     }
     if (!res.ok) throw new Error("프로필 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetProfileInfo data", data);
+    console.log("fetchGetProfileInfoByMembername data", data);
     const profileInfo: ProfileOthers = data.results[0];
     return { profileInfo, errorMessage: "" };
   } catch (err: any) {
@@ -37,4 +37,4 @@ const fetchGetProfileInfo = async (userId: number) => {
     };
   }
 };
-export default fetchGetProfileInfo;
+export default fetchGetProfileInfoByMembername;
