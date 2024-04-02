@@ -18,15 +18,15 @@
   border-bottom: 1px solid $color-grey;
 
   .collectionImg {
-    min-width: 6rem;
-    min-height: 6rem;
+    min-width: 5rem;
+    min-height: 5rem;
     width: 7rem;
     height: 7rem;
     border-radius: $border-radius;
     object-fit: cover;
   }
   .collectionData {
-    min-width: 15rem;
+    min-width: 10rem;
     width: 100%;
     display: grid;
     grid-template-rows: auto auto 1fr;

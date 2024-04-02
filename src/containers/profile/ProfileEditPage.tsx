@@ -180,6 +180,7 @@ export default function ProfileEditPage() {
   const checkMembername = async (membername: string) => {
     // 기존 사용자 이름인지 확인
     if (membername === myProfile?.membername) {
+      setVaildMembername(true);
       setMembernameCheckMessage("사용 가능한 사용자 이름입니다.");
       return true;
     }
