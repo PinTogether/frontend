@@ -123,6 +123,7 @@ export default function Page() {
   const clearInputValue = () => {
     setSearchInputValue("");
     setSearchKeyword("");
+    router.push(`/search`);
   };
 
   // Topper & ScrollTop
