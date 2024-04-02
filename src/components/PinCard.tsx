@@ -48,7 +48,7 @@ export default function PinCard({
         {showSubButtons && (
           <div className={styles.buttonContainer}>
             <Link href={`/collection/select?placeId=${pinData.placeId}`}>
-              {`내 컬렉션에 추가하기`}
+              {`컬렉션에 추가하기`}
               <AddRoundIcon />
             </Link>
             <Link href={`/place/${pinData.placeId}`}>
@@ -170,7 +170,7 @@ const SimplePinCard = ({
       {showSubButtons && (
         <div className={styles.buttonContainer}>
           <Link href={`/collection/select?placeId=${pinData.placeId}`}>
-            {`내 컬렉션에 추가하기`}
+            {`컬렉션에 추가하기`}
             <AddRoundIcon />
           </Link>
           <Link href={`/place/${pinData.placeId}`}>

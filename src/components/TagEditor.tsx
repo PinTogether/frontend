@@ -72,7 +72,7 @@ const TagEditor = ({
         onKeyDown={enterAtTag}
         value={inputTag}
         maxLength={30}
-        placeholder="태그를 등록해보세요 : 맛집, 휴식, 데이트 ..."
+        placeholder="내용을 입력 후 엔터를 누르면 태그가 생성됩니다."
         disabled={disabled}
       />
     </>

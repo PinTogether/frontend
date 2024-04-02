@@ -4,8 +4,8 @@
 %card {
   @extend %pt-card;
   padding: 12px;
-  min-width: 20rem;
-  width: 100%;
+  min-width: 16rem;
+  // width: 100%;
   min-height: fit-content;
   height: 100%;
   margin: 0;
@@ -30,8 +30,9 @@
       column-gap: 0.5rem;
       row-gap: 0.25rem;
       .placeName {
-        font-size: $font-size-large;
+        font-size: $font-size-medium + 0.1rem;
         font-weight: 600;
+        text-align: left;
       }
       .category {
         font-size: $font-size-small;
@@ -128,7 +129,7 @@
       flex-wrap: wrap;
       gap: 0.25rem;
       .placeName {
-        font-size: $font-size-large;
+        font-size: $font-size-medium + 0.1rem;
         font-weight: 600;
       }
       .category {

@@ -28,7 +28,7 @@
       gap: 0.5rem;
       flex-wrap: wrap;
       .placeName {
-        font-size: $font-size-large;
+        font-size: $font-size-medium + 0.1rem;
         font-weight: 600;
       }
       .category {
@@ -48,8 +48,10 @@
     font-size: $font-size-small;
     border-bottom: 1px solid $color-border-inactive;
     & > * {
+      word-break: keep-all;
       display: flex;
       align-items: center;
+      text-align: center;
       color: $color-text-caption;
       cursor: pointer;
       &:hover {
@@ -61,7 +63,6 @@
       svg {
         width: 1rem;
         color: $color-text-caption;
-       
       }
     }
   }
