@@ -77,36 +77,36 @@ export default function NotifyPage() {
       )}
       {notifications?.today && (
         <UlWrapper categoryTitle="오늘">
-          {notifications.today.map((notify) => (
-            <LiWrapper>
-              <NotifyBox key={notify.subjectId} data={notify} />
+          {notifications.today.map((notify, idx) => (
+            <LiWrapper key={idx}>
+              <NotifyBox data={notify} />
             </LiWrapper>
           ))}
         </UlWrapper>
       )}
       {notifications?.yesterday && (
         <UlWrapper categoryTitle="어제">
-          {notifications.yesterday.map((notify) => (
-            <LiWrapper>
-              <NotifyBox key={notify.subjectId} data={notify} />
+          {notifications.yesterday.map((notify, idx) => (
+            <LiWrapper key={idx}>
+              <NotifyBox data={notify} />
             </LiWrapper>
           ))}
         </UlWrapper>
       )}
       {notifications?.aweekAgo && (
         <UlWrapper categoryTitle="일주일">
-          {notifications.aweekAgo.map((notify) => (
-            <LiWrapper>
-              <NotifyBox key={notify.subjectId} data={notify} />
+          {notifications.aweekAgo.map((notify, idx) => (
+            <LiWrapper key={idx}>
+              <NotifyBox data={notify} />
             </LiWrapper>
           ))}
         </UlWrapper>
       )}
       {notifications?.withinAMonth && (
         <UlWrapper categoryTitle="한달">
-          {notifications.withinAMonth.map((notify) => (
-            <LiWrapper>
-              <NotifyBox key={notify.subjectId} data={notify} />
+          {notifications.withinAMonth.map((notify, idx) => (
+            <LiWrapper key={idx}>
+              <NotifyBox data={notify} />
             </LiWrapper>
           ))}
         </UlWrapper>
