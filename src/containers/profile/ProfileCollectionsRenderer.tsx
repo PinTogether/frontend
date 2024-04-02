@@ -51,7 +51,7 @@ const ProfileCollectionsRenderer = ({
         };
       });
       setPage((prev) => prev + 1);
-      result.collectionDatas.length === 0 && setIsEnd(true);
+      result.collectionDatas.length < size && setIsEnd(true);
       setIsLoading(false);
     };
     if (isIntersecting && !isEnd) fetchData();

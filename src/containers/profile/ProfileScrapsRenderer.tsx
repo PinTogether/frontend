@@ -44,7 +44,7 @@ const ProfileScrapsCollectionRenderer = ({
         };
       });
       setPage((prev) => prev + 1);
-      result.scrapDatas.length === 0 && setIsEnd(true);
+      result.scrapDatas.length < size && setIsEnd(true);
       setIsLoading(false);
     };
     if (isIntersecting && !isLoading && !isEnd) fetchData();
