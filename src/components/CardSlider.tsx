@@ -37,7 +37,7 @@ export default function CardSlider({
 
   const withStyle = {
     width: width ? width : "100%",
-    height: height ? height : "100%",
+    // height: height ? height : "100%",
   };
 
   // cardRefs를 초기화하고, children 배열의 변화에 따라 업데이트합니다.
