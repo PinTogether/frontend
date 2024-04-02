@@ -385,6 +385,7 @@ const ImageUploadBox = ({
       setErrMsg("이미지는 5개까지 업로드 가능합니다.");
       return;
     }
+    setErrMsg("");
     setImageFiles((prev) => {
       let startId = !prev.length ? 0 : prev[prev.length - 1].id + 1;
       return [
@@ -399,6 +400,7 @@ const ImageUploadBox = ({
   };
 
   const handleDeleteImage = (id: number) => {
+    setErrMsg("");
     setImageFiles((prev) => prev.filter((imageFile) => imageFile.id !== id));
   };
 

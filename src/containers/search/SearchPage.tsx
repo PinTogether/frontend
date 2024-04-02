@@ -45,10 +45,7 @@ export default function Page() {
       if (keyword) {
         const getDecodeKeyword = (keyword: string) => {
           try {
-            console.log("키워드", keyword);
             const decodeKeyword = decodeURIComponent(keyword);
-            // const decodeKeyword = keyword;
-
             return decodeKeyword;
           } catch (e) {
             console.log("에러", e);
@@ -56,16 +53,18 @@ export default function Page() {
           }
         };
         const decodeKeyword = getDecodeKeyword(keyword);
-        console.log("야호호", decodeKeyword);
         setSearchInputValue(decodeKeyword);
         setShowSearchLog(false);
         setSearchKeyword(decodeKeyword);
-        if (convertToSearchCategory(type) !== selectedMenu)
-          setSelectedMenu(convertToSearchCategory(type));
+        console.log("decodeKeyword", decodeKeyword);
+        if (decodeKeyword && (!type || type === "history")) {
+          setSelectedMenu(SearchCategory.PLACE);
+        } else setSelectedMenu(convertToSearchCategory(type));
       } else {
-        console.log("노노호호", keyword);
+        console.log("검색어가 없습니다.");
         setShowSearchLog(true);
         setSearchInputValue("");
+        setSelectedMenu(SearchCategory.HISTORY);
       }
       setIsLoading(false);
     };
@@ -107,11 +106,11 @@ export default function Page() {
   };
 
   /* submit */
-  const handleSubmit = (
+  const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
-    const type = convertToSearchCategory(searchParams.get("type") || "");
+    const type = searchParams.get("type") || "";
     const keyword = encodeURIComponent(searchInputValue);
     router.push(`/search?keyword=${keyword}&type=${type}`);
   };

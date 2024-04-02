@@ -97,10 +97,6 @@ export default function ProfileEditPage() {
   // 프로필 수정하기 제출
   const submitEditProfile = async () => {
     if (!myProfile || isUploading) return;
-    if (inputName === myProfile.name && !imageFile) {
-      setNameCheckMessage("변경된 내용이 없습니다.");
-      return;
-    }
     if (!inputName || !inputMembername) {
       setNameCheckMessage("이름을 입력해주세요.");
       setMembernameCheckMessage("사용자 이름을 입력해주세요.");
@@ -165,7 +161,8 @@ export default function ProfileEditPage() {
     );
     if (success) {
       updateReduxProfile();
-      router.push(`/profile/${myProfile.membername}`);
+      const membername = inputMembername;
+      router.push(`/profile/${membername}`);
     } else setTotalErrorMessage(errorMessage);
   };
 
@@ -181,6 +178,12 @@ export default function ProfileEditPage() {
 
   // 사용자 이름 유효성 검사
   const checkMembername = async (membername: string) => {
+    // 기존 사용자 이름인지 확인
+    if (membername === myProfile?.membername) {
+      setMembernameCheckMessage("사용 가능한 사용자 이름입니다.");
+      return true;
+    }
+    // 사용자 이름 유효성 검사
     setVaildMembername(false);
     if (!membername) {
       setMembernameCheckMessage("사용자 이름을 입력해주세요.");
