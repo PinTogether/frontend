@@ -124,14 +124,11 @@
   display: grid;
   grid-template-rows: 50px 1fr;
   font-size: $font-size-large;
-  padding-top: 15px;
-  padding-bottom: 15px;
   flex: 1;
   display: grid;
   align-items: center;
   justify-content: start;
   border-bottom: 1px solid $color-grey;
-  gap: 10px;
 }
 .popularTopText {
   align-items: center;

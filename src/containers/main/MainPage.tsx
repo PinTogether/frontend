@@ -10,8 +10,10 @@ import {
   DefaultCollectionCard,
   SimpleCollectionCard,
 } from "@/components/CollectionCard";
+import RecommendCollectionCard from "@/containers/main/RecommendCollectionCard";
 import { CollectionDetail } from "@/types/Collection";
-import { DefaultCollectionSkeleton } from "@/components/loading/SkeletonImage";
+import Pin from "@/types/Pin";
+import { DefaultCollectionSkeleton, DetailCollectionSkeleton } from "@/components/loading/SkeletonImage";
 import { useRouter } from "next/navigation";
 
 export default function MainPage() {
@@ -19,12 +21,15 @@ export default function MainPage() {
   const [isLoading1, setIsLoading1] = useState<boolean>(false);
   const [isLoading2, setIsLoading2] = useState<boolean>(false);
   const [isLoading3, setIsLoading3] = useState<boolean>(false);
+  const [isLoading4, setIsLoading4] = useState<boolean>(false);
   const [inputCollectionSearch, setInputCollectionSearch] = useState("");
   const [topCollectionDatas, setTopCollectionDatas] = useState<
     CollectionDetail[]
   >([]);
   const [JWRecomendedCollectionDatas, setJWRecomendedCollectionDatas] =
     useState<CollectionDetail[]>([]);
+    const [JWRecomendedCollectionPinDatas, setJWRecomendedCollectionPinDatas] =
+    useState<Pin[]>([]);
   const [JYRecomendedCollectionDatas, setJYRecomendedCollectionDatas] =
     useState<CollectionDetail[]>([]);
   const [THRecomendedCollectionDatas, setTHRecomendedCollectionDatas] =
@@ -36,7 +41,7 @@ export default function MainPage() {
     setInputCollectionSearch(e.target.value);
   };
 
-  const SkeletonRenderer = () => {
+  const SkeletonSliderRenderer = () => {
     return (
       <CardSlider scrollCardNumber={1}>
         <DefaultCollectionSkeleton />
@@ -45,6 +50,33 @@ export default function MainPage() {
         <DefaultCollectionSkeleton />
       </CardSlider>
     );
+  };
+
+  const SkeletonCollectionRenderer = () => {
+    return(
+      <DetailCollectionSkeleton />
+    )
+  }
+
+  const getCollectionData = async (id:string) => {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${id}/collections?page=0&size=20`,
+      {
+        credentials: "include",
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(
+            `${id} 컬렉션 정보 가져오기를 실패했습니다.`
+          );
+        }
+        return res.json();
+      })
+      .catch((e) => {
+        console.error(e);
+        return undefined;
+      });
   };
 
   const getTopCollectionData = async () => {
@@ -68,6 +100,30 @@ export default function MainPage() {
         console.error(e);
       });
   };
+
+  const getCollectionPinData = async (id:string) => {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`,
+      {
+        credentials: "include",
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(
+            `${id} 컬렉션 정보 가져오기를 실패했습니다.`
+          );
+        }
+        return res.json();
+      })
+      .then((res) => {
+        setJWRecomendedCollectionPinDatas(res.results);
+        setIsLoading4(true);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
 
   const getJWCollectionData = async () => {
     await fetch(
@@ -122,6 +178,12 @@ export default function MainPage() {
     getJWCollectionData();
     getJYCollectionData();
   }, []);
+
+  useEffect(() => {
+    if(JWRecomendedCollectionDatas[0]){
+      getCollectionPinData(JWRecomendedCollectionDatas[0].id.toString());
+    }
+  },[JWRecomendedCollectionDatas])
 
   const enterKeyDown = (e: any) => {
     if (e.key === "Enter" && inputCollectionSearch != "") {
@@ -199,7 +261,7 @@ export default function MainPage() {
                   ))}
                 </CardSlider>
               ) : (
-                <SkeletonRenderer />
+                <SkeletonSliderRenderer />
               )}
             </div>
           </section>
@@ -217,7 +279,17 @@ export default function MainPage() {
                   ))}
                 </CardSlider>
               ) : (
-                <SkeletonRenderer />
+                <SkeletonSliderRenderer />
+              )}
+            </div>
+          </section>
+          <section className={styles.popularTop} style={{height:"430px"}}>
+            <p className={styles.popularTopText}>JW의 최애 컬렉션</p>
+            <div style={{minWidth:"100%", height:"100%"}}>
+              {isLoading4 ? (
+                <RecommendCollectionCard collection={JWRecomendedCollectionDatas[0]} pinList={JWRecomendedCollectionPinDatas} />
+              ) : (
+                <SkeletonCollectionRenderer />
               )}
             </div>
           </section>
@@ -235,7 +307,7 @@ export default function MainPage() {
                   ))}
                 </CardSlider>
               ) : (
-                <SkeletonRenderer />
+                <SkeletonSliderRenderer />
               )}
             </div>
           </section>
