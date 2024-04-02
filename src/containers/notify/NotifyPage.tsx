@@ -9,15 +9,24 @@ import InfoListLayout, {
   UlWrapper,
   LiWrapper,
 } from "@/containers/layout/InfoListLayout";
+
 import fetchGetReport from "@/utils/reports/fetchGetReport";
-import { Line } from "../layout/EditPageLayout";
+import fetchPostNotifictaions from "@/utils/members/fetchPostNotifications";
+
+import { NotifyResponse } from "@/types/Notify";
+import NotifyBox from "./NotifyBox";
 
 export default function NotifyPage() {
   const dispatch = useDispatch();
   const [reportList, setReportList] = useState<Report[]>([]);
 
+  const [notifications, setNotifications] = useState<NotifyResponse | null>(
+    null
+  );
+
   useEffect(() => {
     fetchReportList();
+    fetchNotifications();
   }, []);
 
   const fetchReportList = async () => {
@@ -28,51 +37,80 @@ export default function NotifyPage() {
     }
   };
 
+  const fetchNotifications = async () => {
+    const { notifications, errorMessage } = await fetchPostNotifictaions();
+    if (notifications) {
+      setNotifications(notifications);
+    } else {
+      dispatch(addAlertMessage(errorMessage));
+    }
+  };
+
   return (
     <InfoListLayout>
-      <UlWrapper categoryTitle="공지">
+      {/* <UlWrapper categoryTitle="공지">
         <LiWrapper>
           어쩌구 저쩌구 이유로 금일(수) 23:00 ~ 24:00 서비스가 원활하지 않을 수
           있으니 양해 부탁드립니다.
         </LiWrapper>
-      </UlWrapper>
-      <UlWrapper categoryTitle="신고">
-        {reportList.map((report) => (
-          <LiWrapper key={report.id}>
-            <span>
-              {report.targetMembername} 님의 {report.platformType} 에 대한
-              신고를 접수하였습니다.
-            </span>
-            <span>
-              {report.complaintCategory} 사유: {report.reason}
-            </span>
-            <span>
-              {report.createdAt} 신고자: {report.reporterMembername}
-            </span>
-          </LiWrapper>
-        ))}
-      </UlWrapper>
-      <UlWrapper categoryTitle="알림">
-        <LiWrapper>
-          잠자는_짱구의_콧털 님이 내 맛집 컬렉션 을 스크랩 하였습니다.
-        </LiWrapper>
-        <LiWrapper>
-          잠자는_짱구의_콧털 님이 내 맛집 컬렉션에 댓글을 달았습니다.
-        </LiWrapper>
-        <LiWrapper>
-          잠자는_짱구의_콧털 님이 내 맛집 컬렉션에 좋아요를 눌렀습니다.
-        </LiWrapper>
-        <LiWrapper>
-          잠자는_짱구의_콧털 님이 나(지우개)를 팔로우 하였습니다.
-        </LiWrapper>
-        <LiWrapper>
-          잠자는_짱구의_콧털 님이 새 컬렉션 잠자는_짱구의_콧털 (을)를
-          만들었습니다.
-        </LiWrapper>
-        <LiWrapper>
-          강릉_주민_맛집 컬렉션에 단 댓글이 “~” 사유로 삭제되었습니다.
-        </LiWrapper>
-      </UlWrapper>
+      </UlWrapper> */}
+      {reportList.length > 0 && (
+        <UlWrapper categoryTitle="신고 현황">
+          {reportList.map((report) => (
+            <LiWrapper key={report.id}>
+              <span>
+                {report.targetMembername} 님의 {report.platformType} 에 대한
+                신고를 접수하였습니다.
+              </span>
+              <span>
+                {report.complaintCategory} 사유: {report.reason}
+              </span>
+              <span>
+                {report.createdAt} 신고자: {report.reporterMembername}
+              </span>
+            </LiWrapper>
+          ))}
+        </UlWrapper>
+      )}
+      {!notifications && (
+        <UlWrapper categoryTitle="알림이 없습니다">{""}</UlWrapper>
+      )}
+      {notifications?.today && (
+        <UlWrapper categoryTitle="오늘">
+          {notifications.today.map((notify) => (
+            <LiWrapper>
+              <NotifyBox key={notify.subjectId} data={notify} />
+            </LiWrapper>
+          ))}
+        </UlWrapper>
+      )}
+      {notifications?.yesterday && (
+        <UlWrapper categoryTitle="어제">
+          {notifications.yesterday.map((notify) => (
+            <LiWrapper>
+              <NotifyBox key={notify.subjectId} data={notify} />
+            </LiWrapper>
+          ))}
+        </UlWrapper>
+      )}
+      {notifications?.aweekAgo && (
+        <UlWrapper categoryTitle="일주일">
+          {notifications.aweekAgo.map((notify) => (
+            <LiWrapper>
+              <NotifyBox key={notify.subjectId} data={notify} />
+            </LiWrapper>
+          ))}
+        </UlWrapper>
+      )}
+      {notifications?.withinAMonth && (
+        <UlWrapper categoryTitle="한달">
+          {notifications.withinAMonth.map((notify) => (
+            <LiWrapper>
+              <NotifyBox key={notify.subjectId} data={notify} />
+            </LiWrapper>
+          ))}
+        </UlWrapper>
+      )}
     </InfoListLayout>
   );
 }
