@@ -309,13 +309,16 @@ export default function Overlay() {
   }
 
   useEffect(() => {
+    if(cleanSelectedCollection)
       makeMarkerList();
+    else
+      dispatch(cleanSelectedCollectionByAmount(false));
   }, [markerDatas]);
 
   useEffect(() => {
     if(cleanSelectedCollection){
       setSelectedCardId([]);
-      dispatch(cleanSelectedCollectionByAmount(false));
+      setMarkerDatas([]);
     }
   },[cleanSelectedCollection])
 
