@@ -108,9 +108,11 @@
     }
     .editButton {
       @extend %icon;
+      cursor: pointer;
     }
     .closeButton {
       @extend %icon;
+      cursor: pointer;
       &:hover {
         color: red;
       }

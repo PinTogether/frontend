@@ -138,7 +138,7 @@ const SimplePinCard = ({
             </address>
             <span className={styles.category}>{pinData.category}</span>
           </button>
-          {isMyId && <EditButton pinId={pinData.id} pinData={pinData} />}
+          {/* {isMyId && <EditButton pinId={pinData.id} pinData={pinData} />} */}
         </div>
       ) : (
         <div className={styles.mainInfo}>
