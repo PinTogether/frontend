@@ -235,3 +235,52 @@
   overflow: hidden;
   display: grid;
 }
+
+.skeletonCollectionInfoBox{
+  width: 416px;
+  height: 219px;
+  display: grid;
+  place-items: center;
+  align-items: center;
+  gap: 5px;
+  grid-template-rows: 120px 30px 1fr;
+}
+
+.skeletonCollectionTopBox{
+  display: grid;
+  place-items: center;
+  align-items: center;
+  gap: 10px;
+  grid-template-columns: 0.8fr 1fr;
+}
+
+.skeletonCollectionMiddleBox{
+  width: 100%;
+  display: grid;
+  place-items: center;
+  align-items: center;
+}
+
+.skeletonCollectionBottomBox{
+  display: grid;
+  place-items: center;
+  align-items: center;
+  gap: 25px;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-size: $font-size-small;
+  color: $color-grey-dark;
+}
+
+.module{
+  display: grid;
+  place-items: center;
+  align-items: center;
+  grid-template-rows: 1fr 1fr;
+}
+
+.module2{
+  display: grid;
+  justify-content: start;
+  gap: 10px;
+  grid-template-rows: 1fr 1fr;
+}

@@ -3,7 +3,7 @@ import styles from "@/styles/containers/profile/_profilePage.module.scss";
 import { useState, useEffect } from "react";
 import ProfileStarredRenderer from "./ProfileStarredRenderer";
 
-import ProfileSkeleton from "@/components/loading/ProfileSkeleton";
+import ProfileCollectionSkeleton from "./ProfileCollectionSkeleton";
 import SubPageLayout from "../layout/SubPageLayout";
 import Link from "next/link";
 
@@ -59,7 +59,7 @@ export default function ProfilePage({ membername }: { membername: string }) {
       onClickCompleteButton={hanldeClickCompleteButton}
     >
       {!profileFetchData?.profileInfo ? (
-        <ProfileSkeleton />
+        <ProfileCollectionSkeleton />
       ) : profileFetchData.errorMessage ? (
         <div className={styles.errorMessage}>
           {profileFetchData.errorMessage}
