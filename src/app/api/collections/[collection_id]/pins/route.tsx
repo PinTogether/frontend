@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 
 import dummydata2 from "./dummydata2.json";
+import dummydata1 from "./dummydata.json";
 
 /* 특정 콜렉션의 모든 핀 조회 */
 export async function GET(
@@ -9,7 +10,7 @@ export async function GET(
 ) {
   console.log("GET /api/collections/[collection_id]/pins/route.tsx");
   console.log("params", params);
-  if (params.collection_id == "1") {
+  if (params.collection_id == "135") {
     return NextResponse.json({
       status: {
         code: 200,
@@ -18,9 +19,9 @@ export async function GET(
       metadata: {
         resultCount: 0,
       },
-      results: [],
+      results: dummydata1,
     });
-  } else if (params.collection_id == "2") {
+  } else if (params.collection_id == "118") {
     return NextResponse.json({
       status: {
         code: 200,
