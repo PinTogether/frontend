@@ -11,7 +11,7 @@ import SubPageLayout from "@/containers/layout/SubPageLayout";
 import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
 import { ProfileFollower } from "@/types/Profile";
 
-import useGetMyProfile from "@/hooks/useGetMyProfile";
+import { useGetMyProfile } from "@/hooks/myProfileHooks";
 import fetchGetMyFollowers from "@/utils/members/fetchGetMyFollowers";
 import fetchGetMyFollowings from "@/utils/members/fetchGetMyFollowings";
 import fetchDeleteFollow from "@/utils/members/fetchDeleteFollow";

@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 
 import { ProfileOthers } from "@/types/Profile";
 import fetchGetProfileInfo from "@/utils/members/fetchGetProfileInfo";
-import useCheckIsMyId from "@/hooks/useCheckIsMyId";
+import { useCheckIsMyId } from "@/hooks/myProfileHooks";
 
 export default function ProfilePage({ userId }: { userId: number }) {
   const router = useRouter();

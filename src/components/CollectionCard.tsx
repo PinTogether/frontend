@@ -18,7 +18,7 @@ import {
   CommentIcon,
 } from "@/components/IconSvg";
 
-import useGetMyId from "@/hooks/useGetMyId";
+import { useCheckIsMyId } from "@/hooks/myProfileHooks";
 import fetchPostCollectionLikes from "@/utils/collections/fetchPostCollectionLikes";
 import fetchDeleteCollectionLikes from "@/utils/collections/fetchDeleteCollectionLikes";
 import fetchPostCollectionScraps from "@/utils/collections/fetchPostCollectionScraps";
@@ -93,7 +93,7 @@ const ScrapButton = ({
   collectionId: number;
   scrapped: boolean;
 }) => {
-  const myId = useGetMyId();
+  const isMyId = useCheckIsMyId(writerId);
   const [isScrapped, setIsScrapped] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -124,7 +124,7 @@ const ScrapButton = ({
     setIsLoading(false);
   };
 
-  return myId === writerId || !myId ? null : isScrapped ? (
+  return isMyId ? null : isScrapped ? (
     <BookMarkFillIcon className={styles.bookmarked} onClick={handleBookMark} />
   ) : (
     <BookMarkIcon onClick={handleBookMark} />

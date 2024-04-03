@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "@/styles/layout/_sidebar.module.scss";
-import useGetMyProfile from "@/hooks/useGetMyProfile";
+import { useGetMyProfile } from "@/hooks/myProfileHooks";
 
 const SidebarNotifyComponent = () => {
   const myProfile = useGetMyProfile();

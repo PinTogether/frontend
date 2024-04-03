@@ -18,7 +18,7 @@ import fetchPostCollectionLikes from "@/utils/collections/fetchPostCollectionLik
 import fetchDeleteCollectionLikes from "@/utils/collections/fetchDeleteCollectionLikes";
 import fetchPostCollectionScraps from "@/utils/collections/fetchPostCollectionScraps";
 import fetchDeleteCollectionScraps from "@/utils/collections/fetchDeleteCollectionScraps";
-import useGetMyProfile from "@/hooks/useGetMyProfile";
+import { useGetMyProfile } from "@/hooks/myProfileHooks";
 
 const CollectionInfoRenderer = ({
   collectionData,
@@ -28,6 +28,7 @@ const CollectionInfoRenderer = ({
   isMyCollection: boolean;
 }) => {
   const myProfile = useGetMyProfile();
+
   const [isScraped, setIsScraped] = useState<boolean>(collectionData.scrapped);
   const [isLiked, setIsLiked] = useState<boolean>(collectionData.liked);
   const [isScrapedLoading, setIsScrapedLoading] = useState(false);

@@ -21,8 +21,7 @@ import {
 
 import { markerDataByAmount } from "@/redux/locationSlice";
 
-import useGetMyProfile from "@/hooks/useGetMyProfile";
-import { ProfileMine } from "@/types/Profile";
+import { useGetMyProfile } from "@/hooks/myProfileHooks";
 import OverlayTopper from "./OverlayTopper";
 
 interface markerDataByCollection {

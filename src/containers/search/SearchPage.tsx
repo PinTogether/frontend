@@ -208,18 +208,18 @@ export default function Page() {
 }
 
 import SearchLog from "@/types/SearchLog";
-import useCheckIsLogin from "@/hooks/useCheckLogin";
+import { useGetMyProfile } from "@/hooks/myProfileHooks";
 
 const SearchLogRenderer = () => {
   const [searchLogs, setSearchLogs] = useState<SearchLog[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const isLogin = useCheckIsLogin();
+  const myProfile = useGetMyProfile();
 
   useEffect(() => {
     // 최근 검색어 불러오기
     const fetch = async () => {
-      if (isLoading || !isLogin) return;
+      if (isLoading || !myProfile) return;
       setIsLoading(true);
       const { searchLogs, errorMessage } = await fetchGetSearchHistory();
       if (errorMessage) setErrorMessage(errorMessage);
@@ -231,7 +231,7 @@ const SearchLogRenderer = () => {
 
   return (
     <div className={styles.searchLogContainer}>
-      {!isLogin ? (
+      {!myProfile ? (
         // 비회원
         <>
           <p className={styles.errorMessage}>🥨 음식점을 검색해보세요 🥪</p>
