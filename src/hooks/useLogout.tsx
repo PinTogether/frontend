@@ -26,6 +26,6 @@ export const useLogout = () => {
 
 // fetch 401 logout
 export const logout = () => {
-  deleteCookie("Authorization");
-  window.location.href = "/login";
+  // deleteCookie("Authorization");
+  // window.location.href = "/login";
 };
