@@ -5,6 +5,7 @@ import { PinForPlace } from "@/types/Pin";
 import { PlaceDetail } from "@/types/Place";
 import ReviewCard from "@/components/ReviewCard";
 import PlaceCard from "@/components/PlaceCard";
+import { SimplePinSkeleton, PinWithReviewSkeleton } from "@/components/loading/SkeletonImage";
 
 import { useEffect, useState, useRef } from "react";
 import fetchGetPlacePins from "@/utils/places/fetchGetPlacePins";
@@ -69,7 +70,7 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
     if (isIntersecting && !isEnd) fetchData();
   }, [placeId, isIntersecting]);
 
-  function moveToMarker(){
+  function moveToMarker() {
     if (placeData) {
       makeMarker(
         placeData.id,
@@ -85,26 +86,43 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
 
   return (
     <>
-      <div className={styles.pinCard}>
-        {placeErrorMessage || !placeData ? (
-          <span>{placeErrorMessage}</span>
-        ) : (
-          <PlaceCard place={placeData} />
-        )}
-      </div>
-      <ul className={styles.commentList}>
-        {pinData.length === 0 ? (
-          <span>{pinErrorMessage}</span>
-        ) : (
-          pinData.map((pin) => (
-            <li key={pin.id}>
-              <ReviewCard reviewData={pin} />
-            </li>
-          ))
-        )}
-        <br />
-        {!isEnd && <div ref={pageEndRef} style={{ height: "5px" }}></div>}
-      </ul>
+      {isLoading ? (
+        <div className={styles.skeletonContainer}>
+          <SimplePinSkeleton />
+          <ul className={styles.commentList}>
+            <PinWithReviewSkeleton />
+            <PinWithReviewSkeleton />
+            <PinWithReviewSkeleton />
+            <PinWithReviewSkeleton />
+            <PinWithReviewSkeleton />
+            <PinWithReviewSkeleton />
+            <PinWithReviewSkeleton />
+          </ul>
+        </div>
+      ) : (
+        <>
+          <div className={styles.pinCard}>
+            {placeErrorMessage || !placeData ? (
+              <span>{placeErrorMessage}</span>
+            ) : (
+              <PlaceCard place={placeData} />
+            )}
+          </div>
+          <ul className={styles.commentList}>
+            {pinData.length === 0 ? (
+              <span>{pinErrorMessage}</span>
+            ) : (
+              pinData.map((pin) => (
+                <li key={pin.id}>
+                  <ReviewCard reviewData={pin} />
+                </li>
+              ))
+            )}
+            <br />
+            {!isEnd && <div ref={pageEndRef} style={{ height: "5px" }}></div>}
+          </ul>
+        </>
+      )}
     </>
   );
 };
