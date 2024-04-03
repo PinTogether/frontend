@@ -77,6 +77,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
+  const [collectionEditId, setCollectionEditId] = useState<string | null>(null);
 
   const [createInfo, setCreateInfo] = useState<{
     placeId: number;
@@ -109,6 +110,8 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
         });
       return;
     } else {
+      const collectionEditId = searchParams.get("collectionEditId");
+      if (collectionEditId) setCollectionEditId(collectionEditId);
       setImageFiles(
         pinData.imagePaths.map((imagePath, index) => ({
           id: index + 1,
@@ -142,7 +145,9 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
         if (imageFiles.length) {
           await editPinWithImage(newPinId);
         }
-        router.push(`/collection/${createInfo?.collectionId}`);
+        if (collectionEditId) {
+          router.push(`/collection/edit/${collectionEditId}`);
+        } else router.push(`/collection/${createInfo?.collectionId}`);
       }
     }
     setIsLoading(false);
