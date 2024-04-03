@@ -7,9 +7,7 @@ import styles from "@/styles/containers/profile/_profileSettingPage.module.scss"
 import LoginAccount from "@/containers/profile/LoginAccount";
 import InfoListLayout, { UlWrapper, LiWrapper } from "../layout/InfoListLayout";
 
-import useGetMyProfile from "@/hooks/useGetMyProfile";
-import { useAppDispatch } from "@/redux/hooks";
-import { clearMyProfile } from "@/redux/profileSlice";
+import { useGetMyProfile } from "@/hooks/myProfileHooks";
 import { useLogout } from "@/hooks/useLogout";
 
 export enum LoginType {
@@ -24,7 +22,6 @@ enum LoginStatus {
 }
 
 export default function ProfileSettingPage() {
-  const dispatch = useAppDispatch();
   const logout = useLogout();
   const [loginType, setLoginType] = useState<LoginType | undefined>(undefined);
   const [loginStatus, setLoginStatus] = useState<LoginStatus>(

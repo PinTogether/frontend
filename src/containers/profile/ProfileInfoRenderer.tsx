@@ -9,7 +9,7 @@ import Link from "next/link";
 
 import fetchPostFollow from "@/utils/members/fetchPostFollow";
 import fetchDeleteFollow from "@/utils/members/fetchDeleteFollow";
-import useCheckIsLogin from "@/hooks/useCheckLogin";
+import { useGetMyProfile } from "@/hooks/myProfileHooks";
 
 const ProfileInfoRenderer = ({
   userId,
@@ -23,12 +23,12 @@ const ProfileInfoRenderer = ({
   isMyProfile: boolean;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const isLogin = useCheckIsLogin();
+  const myProfile = useGetMyProfile();
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const router = useRouter();
 
   const handleClickFollowButton = async () => {
-    if (!isLogin) {
+    if (!myProfile) {
       router.push("/login");
       return;
     }
@@ -46,7 +46,7 @@ const ProfileInfoRenderer = ({
   };
 
   const handleClickUnfollowButton = async () => {
-    if (!isLogin) {
+    if (!myProfile) {
       router.push("/login");
       return;
     }
@@ -88,7 +88,9 @@ const ProfileInfoRenderer = ({
                 className={styles.membername}
               >{`@${profileInfo.membername}`}</div>
             </div>
-            {isMyProfile ? (
+            {!myProfile ? (
+              <></>
+            ) : isMyProfile ? (
               <Link href={"/profile/setting"}>
                 <SettingIcon className={styles.icon} />
               </Link>

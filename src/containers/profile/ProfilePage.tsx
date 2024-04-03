@@ -13,10 +13,8 @@ import ProfileScrapsRenderer from "./ProfileScrapsRenderer";
 import { useRouter } from "next/navigation";
 
 import { ProfileOthers } from "@/types/Profile";
-import fetchGetProfileInfo from "@/utils/members/fetchGetProfileInfo";
 import fetchGetProfileInfoByMembername from "@/utils/members/fetchGetProfileInfoByMembername"; ///
-import useCheckIsMyId from "@/hooks/useCheckIsMyId";
-import useCheckIsMyMembername from "@/hooks/useCheckIsMyMembername";
+import { useCheckIsMyMembername } from "@/hooks/myProfileHooks";
 
 export default function ProfilePage({ membername }: { membername: string }) {
   const router = useRouter();

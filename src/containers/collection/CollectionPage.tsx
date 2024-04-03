@@ -2,20 +2,22 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
-import { markerDataByAmount, cleanSelectedCollectionByAmount } from "@/redux/locationSlice";
+import {
+  markerDataByAmount,
+  cleanSelectedCollectionByAmount,
+} from "@/redux/locationSlice";
 import { initialPinSelectPageState } from "@/redux/pinSelectPageSlice";
 
 import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
 import fetchGetCollectionAllPins from "@/utils/collections/fetchGetCollectionAllPins";
 import fetchGetCollectionComments from "@/utils/collections/fetchGetCollectionComments";
-import useGetMyProfile from "@/hooks/useGetMyProfile";
+import { useGetMyId } from "@/hooks/myProfileHooks";
 
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
 import MarkerData from "@/types/Marker";
 import { CollectionDetail } from "@/types/Collection";
 import { PinForPlace } from "@/types/Pin";
 import CollectionReply from "@/types/CollectionReply";
-import { ProfileMine } from "@/types/Profile";
 
 import SubPageLayout from "../layout/SubPageLayout";
 import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionWithPinCommentRenderer";
@@ -31,7 +33,7 @@ export default function CollectionPage({
   collectionId: number;
 }) {
   const router = useRouter();
-  const myProfile = useGetMyProfile();
+  const myId = useGetMyId();
   const [isMyCollection, setIsMyCollection] = useState(false);
 
   /* fetch data */
@@ -129,13 +131,10 @@ export default function CollectionPage({
   }, [pinFetchDatas]);
 
   useEffect(() => {
-    if (
-      myProfile &&
-      myProfile.id === collectionFetchDatas.collectionInfo?.writerId
-    ) {
+    if (myId === collectionFetchDatas.collectionInfo?.writerId) {
       setIsMyCollection(true);
     }
-  }, [myProfile, collectionFetchDatas]);
+  }, [myId, collectionFetchDatas]);
 
   const routeToPinSelectPage = () => {
     dispatch(
@@ -219,7 +218,7 @@ export default function CollectionPage({
               getReplyDatas={getReplyData}
               errorMessage={replyFetchDatas.errorMessage}
               collectionInfo={collectionFetchDatas.collectionInfo}
-              myId={myProfile?.id}
+              myId={myId}
             />
           )}
         </>

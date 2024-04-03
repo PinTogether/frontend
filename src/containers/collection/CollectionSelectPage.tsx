@@ -14,7 +14,7 @@ import { SimpleBoxCollectionCard } from "@/components/CollectionCard";
 import AlertModal from "@/components/AlertModal";
 import { SimplePlaceCard } from "@/components/PlaceCard";
 
-import useGetMyId from "@/hooks/useGetMyId";
+import { useGetMyId } from "@/hooks/myProfileHooks";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import fetchGetCollectionForAddPin from "@/utils/members/fetchGetCollectionForAddPin";
 import fetchPostPinToCollections from "@/utils/pins/fetchPostPinToCollections";

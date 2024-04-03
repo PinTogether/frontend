@@ -13,7 +13,7 @@ import { AppDispatch } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { initialPinEditState } from "@/redux/pinEditSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import useGetMyId from "@/hooks/useGetMyId";
+import { useCheckIsMyId } from "@/hooks/myProfileHooks";
 
 export { PinCard, SimplePinCard };
 
@@ -29,7 +29,7 @@ export default function PinCard({
   ...props
 }: PinCardProps) {
   const dispatch = useAppDispatch();
-  const myId = useGetMyId();
+  const isMyId = useCheckIsMyId(pinData.writerId || -1);
 
   return (
     <article className={styles.pinCard} {...props}>
@@ -81,9 +81,7 @@ export default function PinCard({
       ) : (
         <></>
       )}
-      {pinData.writerId === myId && (
-        <EditButton pinId={pinData.id} pinData={pinData} />
-      )}
+      {isMyId && <EditButton pinId={pinData.id} pinData={pinData} />}
     </article>
   );
 }
@@ -106,7 +104,7 @@ const SimplePinCard = ({
   const ref = useRef<HTMLDivElement>(null);
   const [showDetail, setShowDetail] = useState(false);
   const dispatch = useAppDispatch();
-  const myId = useGetMyId();
+  const isMyId = useCheckIsMyId(pinData.writerId || -1);
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     console.log("click");
@@ -140,9 +138,7 @@ const SimplePinCard = ({
             </address>
             <span className={styles.category}>{pinData.category}</span>
           </button>
-          {myId === pinData.writerId && (
-            <EditButton pinId={pinData.id} pinData={pinData} />
-          )}
+          {isMyId && <EditButton pinId={pinData.id} pinData={pinData} />}
         </div>
       ) : (
         <div className={styles.mainInfo}>
@@ -162,9 +158,7 @@ const SimplePinCard = ({
           <ul className={styles.commentContaier}>
             <MyReviewCard reviewData={pinData} />
           </ul>
-          {myId === pinData.writerId && (
-            <EditButton pinId={pinData.id} pinData={pinData} />
-          )}
+          {isMyId && <EditButton pinId={pinData.id} pinData={pinData} />}
         </div>
       )}
       {showSubButtons && (

@@ -20,7 +20,7 @@ import { InputComponent } from "@/components/InputComponent";
 import { TextareaComponent } from "@/components/InputComponent";
 
 import checkFileValid from "@/utils/checkFileValid";
-import useGetMyProfile from "@/hooks/useGetMyProfile";
+import { useGetMyProfile } from "@/hooks/myProfileHooks";
 import fetchPutMyProfile from "@/utils/members/fetchPutMyProfile";
 import fetchPostAvatarPresignedUrl from "@/utils/members/fetchPostAvatarPresignedUrl";
 import fetchPutS3PresignedUrl from "@/utils/s3/fetchPutS3PresingedUrl";

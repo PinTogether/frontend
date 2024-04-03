@@ -5,6 +5,7 @@ import pinEdit from "./pinEditSlice";
 import globalAlert from "./globalAlertSlice";
 import myProfile from "./profileSlice";
 import pinSelectPageState from "./pinSelectPageSlice";
+import draftCollectionEdit from "./draftCollectionEditSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     pinEdit,
     globalAlert,
     pinSelectPageState,
+    draftCollectionEdit,
   }, // 리듀서를 등록
   // middleware: [ReduxThunk, logger], // 사용할 미들웨어들을 나열
   devTools: true, // 기본은 true로 설정되어있다. 개발자 도구의 사용 여부를 정한다.

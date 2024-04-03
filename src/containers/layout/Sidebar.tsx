@@ -21,12 +21,9 @@ import {
 } from "@/components/IconSvg";
 import styles from "@/styles/layout/_sidebar.module.scss";
 import Image from "next/image";
-import useGetMyProfile from "@/hooks/useGetMyProfile";
-import { ProfileMine } from "@/types/Profile";
 
-import fetchGetMyProfile from "@/utils/members/fetchGetMyProfile";
-import { clearMyProfile, setMyProfile } from "@/redux/profileSlice";
 import SidebarNotifyComponent from "./SidebarNotifyComponent";
+import { useSidebarLoginStatus, useGetMyProfile } from "@/hooks/myProfileHooks";
 
 export default function Sidebar() {
   const size = 500;
@@ -37,8 +34,9 @@ export default function Sidebar() {
     (state) => state.location.mainContentWidth
   );
   const [beforeWidth, setBeforeWidth] = useState<string>("500px");
+
+  const isLogin = useSidebarLoginStatus();
   const myProfile = useGetMyProfile();
-  const [profile, setProfile] = useState<ProfileMine | null>(null);
 
   function moveURL(url: string) {
     if (FlexbarWidth == "0px") {
@@ -63,21 +61,6 @@ export default function Sidebar() {
       setBeforeWidth("95%");
     }
   }
-
-  useEffect(() => {
-    const fetchMyProfile = async () => {
-      const myProfile = await fetchGetMyProfile();
-      if (myProfile.profileInfo) {
-        dispatch(setMyProfile(myProfile.profileInfo));
-        setProfile(myProfile.profileInfo);
-      } else clearMyProfile();
-    };
-    fetchMyProfile();
-  }, []);
-
-  useEffect(() => {
-    if (myProfile) setProfile(myProfile);
-  }, [myProfile]);
 
   return (
     <section className={styles.container}>
@@ -119,15 +102,15 @@ export default function Sidebar() {
       <button
         className={`${styles.button} ${usePathname().startsWith("/login") ? styles.currPath : ""}`}
       >
-        {profile && profile.id ? (
+        {isLogin && myProfile ? (
           <div className={styles.profilebox}>
             <Image
-              src={profile.avatar}
+              src={myProfile.avatar}
               alt="profile image"
               className={`${styles.profile}`}
               width={size}
               height={size}
-              onClick={() => moveURL(`/profile/${profile.membername}`)}
+              onClick={() => moveURL(`/profile/${myProfile.membername}`)}
             />
           </div>
         ) : (

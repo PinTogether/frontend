@@ -48,9 +48,7 @@ export default function LoginPage() {
 
   const checkLoginStatus = (e: MessageEvent) => {
     if (e.origin !== process.env.NEXT_PUBLIC_FRONTEND_URL) return;
-    console.log("checkLoginStatus", e);
     const oauth = new Cookies().get("Authorization");
-    console.log("oauth", oauth);
     if (oauth && !isLoading) {
       getMyInfo();
     } else setErrorMessage("로그인에 실패했습니다. 다시 시도해주세요.");

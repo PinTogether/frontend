@@ -13,7 +13,7 @@ interface SearchLog {
   query: string;
 } // query => keyword
 
-const fetchGetSearchLog = async (): Promise<{
+const fetchGetSearchHistory = async (): Promise<{
   searchLogs: SearchLog[];
   errorMessage: string;
 }> => {
@@ -24,7 +24,7 @@ const fetchGetSearchLog = async (): Promise<{
         credentials: "include",
       }
     );
-    console.log("fetchGetSearchLog res", res);
+    console.log("fetchGetSearchHistory res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -34,7 +34,7 @@ const fetchGetSearchLog = async (): Promise<{
     }
     if (!res.ok) throw new Error("검색 기록 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetSearchLog data", data);
+    console.log("fetchGetSearchHistory data", data);
     if (data.metadata.resultCount == 0) {
       return {
         searchLogs: [],
@@ -50,4 +50,4 @@ const fetchGetSearchLog = async (): Promise<{
     };
   }
 };
-export default fetchGetSearchLog;
+export default fetchGetSearchHistory;

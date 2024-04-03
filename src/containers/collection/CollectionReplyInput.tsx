@@ -5,12 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/styles/containers/collection/_collectionPage.module.scss";
-import useGetMyProfile from "@/hooks/useGetMyProfile";
+import { useGetMyProfile } from "@/hooks/myProfileHooks";
 
 import fetchPostCollectionComments from "@/utils/collections/fetchPostCollectionComment";
 import AlertModal from "@/components/AlertModal";
-
-import CollectionReply from "@/types/CollectionReply";
 
 const ReplyInputContent = ({
   collectionId,
@@ -23,23 +21,12 @@ const ReplyInputContent = ({
 
   const [inputText, setInputText] = useState("");
   const myProfile = useGetMyProfile();
-  const [isProfileLoading, setIsProfileLoading] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
   const onChange = (e: any) => {
     setInputText(e.target.value);
   };
-
-  const getMyProfile = async () => {
-    if (isProfileLoading) return;
-    setIsProfileLoading(true);
-    setIsProfileLoading(false);
-  };
-
-  useEffect(() => {
-    getMyProfile();
-  }, []);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
