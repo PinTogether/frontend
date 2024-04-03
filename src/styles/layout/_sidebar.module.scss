@@ -94,3 +94,20 @@
 .loginIconHover:hover{
 	opacity: 1;
 }
+
+.notifyCnt {
+	width: 1.5rem;
+	height: 1.5rem;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	right: 0;
+
+	background-color: $color-primary;
+	color: $color-white;
+	font-size: $font-size-smallest;
+	border-radius: 70%;
+	z-index: 1;
+}

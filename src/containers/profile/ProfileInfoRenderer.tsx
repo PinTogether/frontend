@@ -82,12 +82,12 @@ const ProfileInfoRenderer = ({
           />
           <div className={styles.profileName}>
             <div></div>
-            <p className={styles.names}>
+            <div className={styles.names}>
               <div className={styles.name}>{profileInfo.name}</div>
               <div
                 className={styles.membername}
               >{`@${profileInfo.membername}`}</div>
-            </p>
+            </div>
             {isMyProfile ? (
               <Link href={"/profile/setting"}>
                 <SettingIcon className={styles.icon} />

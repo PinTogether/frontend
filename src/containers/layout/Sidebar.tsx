@@ -26,6 +26,7 @@ import { ProfileMine } from "@/types/Profile";
 
 import fetchGetMyProfile from "@/utils/members/fetchGetMyProfile";
 import { clearMyProfile, setMyProfile } from "@/redux/profileSlice";
+import SidebarNotifyComponent from "./SidebarNotifyComponent";
 
 export default function Sidebar() {
   const size = 500;
@@ -109,6 +110,7 @@ export default function Sidebar() {
       <div></div>
       <button className={styles.button}>
         <BellIcon className={styles.icon} onClick={() => moveURL(`/notify`)} />
+        <SidebarNotifyComponent />
         <BellFillIcon
           className={styles.hoveredIcon}
           onClick={() => moveURL(`/notify`)}

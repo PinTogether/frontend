@@ -1,0 +1,16 @@
+@import "../../base/variables";
+
+
+.notifyBox {
+	height: fit-content;
+	margin-top: 0.5rem;
+	font-size: $font-size-small;	
+
+	& > * {
+		vertical-align: middle;
+	}
+	.purpleEmphasis {
+		color: $color-primary;
+		font-weight: bold;
+	}
+}

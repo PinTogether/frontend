@@ -8,6 +8,7 @@ import { setMyProfile } from "@/redux/profileSlice";
 
 import styles from "@/styles/containers/profile/_profileEditPage.module.scss";
 import PresignedUrl from "@/types/PresingedUrl";
+import { ProfileMine } from "@/types/Profile";
 import SubPageLayout from "@/containers/layout/SubPageLayout";
 import EditPageLayout, {
   SectionTitle,
@@ -168,9 +169,11 @@ export default function ProfileEditPage() {
 
   const updateReduxProfile = async () => {
     if (!myProfile) return;
-    const newProfile = {
+    const newProfile: ProfileMine = {
       ...myProfile,
-      nickname: inputName,
+      name: inputName,
+      membername: inputMembername,
+      bio: inputBio,
       avatar: imageSrc,
     };
     dispatch(setMyProfile(newProfile));
