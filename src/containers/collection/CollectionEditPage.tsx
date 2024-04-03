@@ -4,6 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import {
+  selectDraftCollectionEdit,
+  setDraftCollectionEdit,
+  clearDraftCollectionEdit,
+} from "@/redux/draftCollectionEditSlice";
 
 import styles from "@/styles/containers/collection/_collectionEditPage.module.scss";
 import Pin from "@/types/Pin";
@@ -33,6 +39,7 @@ import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
 import fetchGetCollectionAllPins from "@/utils/collections/fetchGetCollectionAllPins";
 import fetchDeleteCollection from "@/utils/collections/fetchDeleteCollection";
 import fetchDeletePin from "@/utils/pins/fetchDeletePin";
+import { clear } from "console";
 
 export default function CollectionEditPage({
   collectionId,
@@ -45,6 +52,8 @@ export default function CollectionEditPage({
   const router = useRouter();
   const [isUploading, setIsUploading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const dispatch = useAppDispatch();
+  const draft = useAppSelector(selectDraftCollectionEdit);
 
   /* 핀 리스트 */
   const [pinDataList, setPinDataList] = useState<Pin[]>([]);
@@ -53,8 +62,7 @@ export default function CollectionEditPage({
   const [collectionInfo, setCollectionInfo] = useState<CollectionDetail | null>(
     null
   );
-
-  /* 컬렉션 정보 */
+  /* 컬렉션 정보 */ // Redux 사용하기
   const [inputTitle, setInputTitle] = useState("");
   const [inputDetails, setInputDetails] = useState("");
   const [imgFile, setImgFile] = useState<File | null>(null);
@@ -85,22 +93,10 @@ export default function CollectionEditPage({
   };
 
   const resetImgSrc = () => {
-    setImgSrc("https://picsum.photos/id/326/300");
+    setImgSrc(process.env.NEXT_PUBLIC_DEFAULT_COLLECTION_URL || "");
   };
 
-  /* 핀 리스트 */
-  // const [selectedPin, setSelectedPin] = useState<number[]>([]);
-  // const onClickPin = (index: number) => {
-  //   if (selectedPin.includes(index)) {
-  //     const newSelectedPin = selectedPin.filter((i) => i !== index);
-  //     setSelectedPin(newSelectedPin);
-  //   } else {
-  //     const newSelectedPin = [...selectedPin, index];
-  //     setSelectedPin(newSelectedPin);
-  //   }
-  // };
-
-  /* submit */
+  /* submit 컬렉션 수정/생성  */
   const submitCollectionEdit = async () => {
     if (isUploading) {
       setAlertMessage("업로드 중입니다. 잠시만 기다려주세요.");
@@ -118,10 +114,10 @@ export default function CollectionEditPage({
     setIsUploading(false);
   };
 
+  /* 컬렉션 삭제 */
   const deleteCollection = async () => {
     if (isUploading || !collectionId || !collectionInfo) return;
     setIsUploading(true);
-    // 컬렉션 삭제
     const { success, errorMessage } = await fetchDeleteCollection(collectionId);
     if (!success) {
       setAlertMessage(errorMessage);
@@ -131,8 +127,9 @@ export default function CollectionEditPage({
     setIsUploading(false);
   };
 
+  /* 컬렉션 생성 */
   const createCollection = async () => {
-    // 컬렉션 생성
+    // presinged URL 발급
     const { presingedUrlData, newCollectionId, errorMessage } =
       await fetchPostCollection(
         inputTitle,
@@ -174,10 +171,10 @@ export default function CollectionEditPage({
     }
   };
 
+  /* 컬렉션 수정 */
   const editCollection = async (collectionId: number) => {
-    // 컬렉션 수정
-    // imgFile이 있으면 S3에 이미지 업로드
     if (imgFile) {
+      // imgFile이 있으면 S3에 이미지 업로드
       // presinged URL 발급
       const { presignedUrlData, errorMessage: errorMessage1 } =
         await fetchPostCollectionPresignedUrl(collectionId, imgFile.type);
@@ -219,8 +216,25 @@ export default function CollectionEditPage({
         return;
       }
     }
+    clearDraftSave();
     router.push(`/collection/${collectionId}`);
   };
+
+  /* 초기화 */
+  useEffect(() => {
+    if (collectionId) {
+      const fetchData = async () => {
+        if (draft?.id === collectionId) {
+          setStateFromDraftSave();
+        } else {
+          clearDraftSave();
+          await getAndSetCollectionInfo(collectionId);
+        }
+        await getAndSetPinList(collectionId);
+      };
+      fetchData();
+    }
+  }, [collectionId]);
 
   /* 컬렉션 정보 불러오기 (초기화) */
   const getAndSetCollectionInfo = async (collectionId: number) => {
@@ -254,16 +268,38 @@ export default function CollectionEditPage({
     setIsUploading(false);
   };
 
-  useEffect(() => {
-    if (collectionId) {
-      (async () => {
-        if (collectionId) {
-          await getAndSetCollectionInfo(collectionId);
-          await getAndSetPinList(collectionId);
-        }
-      })();
-    }
-  }, [collectionId]);
+  /* 임시저장 정보 불러오기 (초기화) */
+  const setStateFromDraftSave = async () => {
+    if (!draft || !collectionId || collectionId !== draft.id) return;
+    setInputTitle(draft.title);
+    setInputDetails(draft.details);
+    setImgFile(draft.imgFile);
+    setImgSrc(draft.imgSrc);
+    setTagList(draft.tagList);
+  };
+
+  const saveStateAsDraftSave = async () => {
+    if (!collectionId) return;
+    dispatch(
+      setDraftCollectionEdit({
+        id: collectionId,
+        title: inputTitle,
+        details: inputDetails,
+        imgFile: imgFile,
+        imgSrc: imgSrc,
+        tagList: tagList,
+      })
+    );
+  };
+
+  const clearDraftSave = async () => {
+    dispatch(clearDraftCollectionEdit());
+  };
+
+  const routeToPinEditPage = async (path: string) => {
+    saveStateAsDraftSave();
+    router.push(path);
+  };
 
   const deletePin = async (pinId: number) => {
     if (isUploading) return;
@@ -383,9 +419,11 @@ export default function CollectionEditPage({
               {pinDataList.map((pin) => (
                 <div key={pin.id} className={styles.pinCard}>
                   <SimplePinCard pinData={pin} activeShowDetail={true} />
-                  <Link href={`/pin/edit/${pin.id}`}>
+                  <div
+                    onClick={() => routeToPinEditPage(`/pin/edit/${pin.id}`)}
+                  >
                     <EditIcon className={styles.editButton} />
-                  </Link>
+                  </div>
                   <CloseRoundIcon
                     className={styles.closeButton}
                     onClick={() => deletePin(pin.id)}
