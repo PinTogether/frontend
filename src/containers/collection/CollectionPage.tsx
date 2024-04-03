@@ -22,6 +22,7 @@ import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionW
 import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPinRenderer";
 import CollectionReplyRenderer from "@/containers/collection/CollectionReplyRenderer";
 import CollectionInfoRenderer from "@/containers/collection/CollectionInfoRenderer";
+import CollectionPageSkeleton from "./CollectionPageSkeleton";
 import BouncingLoader from "@/components/BouncingLoader";
 
 export default function CollectionPage({
@@ -34,6 +35,7 @@ export default function CollectionPage({
   const [isMyCollection, setIsMyCollection] = useState(false);
 
   /* fetch data */
+  const [isLoading, setIsLoading] = useState(0);
   const [isCollectionFetching, setIsCollectionFetching] = useState(false);
   const [isPinFetching, setIsPinFetching] = useState(false);
   const [isReplyFetching, setIsReplyFetching] = useState(false);
@@ -65,6 +67,7 @@ export default function CollectionPage({
     const result = await fetchGetCollectionInfo(collectionId);
     setCollectionFetchDatas(result);
     setIsCollectionFetching(false);
+    setIsLoading(isLoading + 1);
   };
   const getPinData = async () => {
     if (isPinFetching) return;
@@ -72,6 +75,7 @@ export default function CollectionPage({
     const result = await fetchGetCollectionAllPins(collectionId);
     setPinFetchDatas(result);
     setIsPinFetching(false);
+    setIsLoading(isLoading + 1);
   };
   const getReplyData = async () => {
     if (isReplyFetching) return;
@@ -153,7 +157,7 @@ export default function CollectionPage({
       }
     >
       {isCollectionFetching ? (
-        <BouncingLoader className={styles.errorMessage} /> // TODO skeleton laoder
+        <CollectionPageSkeleton />
       ) : collectionFetchDatas.errorMessage ||
         !collectionFetchDatas.collectionInfo ? (
         <p className={styles.errorMessage}>
