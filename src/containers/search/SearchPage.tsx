@@ -219,7 +219,7 @@ const SearchLogRenderer = () => {
   useEffect(() => {
     // 최근 검색어 불러오기
     const fetch = async () => {
-      if (isLoading) return;
+      if (isLoading || !isLogin) return;
       setIsLoading(true);
       const { searchLogs, errorMessage } = await fetchGetSearchHistory();
       if (errorMessage) setErrorMessage(errorMessage);
