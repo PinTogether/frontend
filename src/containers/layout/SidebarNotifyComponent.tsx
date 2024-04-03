@@ -4,14 +4,31 @@ import useGetMyProfile from "@/hooks/useGetMyProfile";
 
 const SidebarNotifyComponent = () => {
   const myProfile = useGetMyProfile();
-  const [notifyCnt, setNotifyCnt] = useState(0);
+  const [notifyCnt, setNotifyCnt] = useState(10);
   const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
     if (!myProfile) return;
 
+    connectWebSocket();
+
+    return () => {
+      if (wsRef.current) {
+        console.log("Closing WebSocket");
+        wsRef.current.close();
+      }
+    };
+  }, [myProfile]);
+
+  const connectWebSocket = () => {
+    const websocketURl = `${process.env.NEXT_PUBLIC_BACKEND_WEBSOCKET_URL}`;
+    if (!websocketURl) {
+      console.error("WebSocket URL is not defined in env");
+      return;
+    }
+
     wsRef.current = new WebSocket(
-      `wss://${process.env.NEXT_PUBLIC_BACKEND_URL}/ws/notification`
+      `${process.env.NEXT_PUBLIC_BACKEND_WEBSOCKET_URL}/ws/notification`
     );
     wsRef.current.onopen = () => {
       console.log("Connected to WebSocket");
@@ -25,15 +42,11 @@ const SidebarNotifyComponent = () => {
 
     wsRef.current.onclose = () => {
       console.log("Disconnected from WebSocket");
+      setTimeout(() => {
+        connectWebSocket();
+      }, 1000);
     };
-
-    return () => {
-      if (wsRef.current) {
-        console.log("Closing WebSocket");
-        wsRef.current.close();
-      }
-    };
-  }, [myProfile]);
+  };
 
   if (notifyCnt === 0) return null;
   else return <div className={styles.notifyCnt}>{`${notifyCnt}`}</div>;
