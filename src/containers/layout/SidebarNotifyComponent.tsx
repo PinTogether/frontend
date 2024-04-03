@@ -4,7 +4,7 @@ import { useGetMyProfile } from "@/hooks/myProfileHooks";
 
 const SidebarNotifyComponent = () => {
   const myProfile = useGetMyProfile();
-  const [notifyCnt, setNotifyCnt] = useState(10);
+  const [notifyCnt, setNotifyCnt] = useState(0);
 
   const wsRef = useRef<WebSocket | null>(null);
   // 엑스포넨셜 백오프(Exponential Backoff): 연결 재시도 간격을 점차 증가시키는 방법

@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
@@ -420,7 +419,11 @@ export default function CollectionEditPage({
                 <div key={pin.id} className={styles.pinCard}>
                   <SimplePinCard pinData={pin} activeShowDetail={true} />
                   <div
-                    onClick={() => routeToPinEditPage(`/pin/edit/${pin.id}`)}
+                    onClick={() =>
+                      routeToPinEditPage(
+                        `/pin/edit/${pin.id}?collectionEditId=${collectionId}`
+                      )
+                    }
                   >
                     <EditIcon className={styles.editButton} />
                   </div>

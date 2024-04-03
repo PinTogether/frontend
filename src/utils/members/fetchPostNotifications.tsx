@@ -5,9 +5,9 @@ import { logout } from "@/hooks/useLogout";
 const fetchPostNotifictaions = async () => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/me/notifications`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/me/notifications`,
       {
-				method: "POST",
+        method: "POST",
         credentials: "include",
       }
     );
