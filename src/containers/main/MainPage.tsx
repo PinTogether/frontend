@@ -42,6 +42,9 @@ export default function MainPage() {
   const [ddoGanZipCollectionDatas, setDdoGanZipCollectionDatas] =
     useState<CollectionDetail>();
   const [ddoGanZipPinDatas, setDdoGanZipPinDatas] = useState<Pin[]>([]);
+  const [bluerCollectionDatas, setBluerCollectionDatas] =
+  useState<CollectionDetail>();
+  const [bluerPinDatas, setBluerPinDatas] = useState<Pin[]>([]);
 
 
   const onChangeCollection = (e: any) => {
@@ -83,6 +86,25 @@ export default function MainPage() {
       .catch((e) => {
         console.error(e);
       });
+  };
+
+  const getBluerData = async (id: number) => {
+    const { collectionInfo, errorMessage } =
+    await fetchGetCollectionInfo(id);
+    if (!collectionInfo || errorMessage) {
+      console.error(errorMessage);
+    }
+    else{
+      setBluerCollectionDatas(collectionInfo);
+    }
+    const {pinList, errorMessage:err } = await fetchGetCollectionAllPins(id);
+    if(!pinList || errorMessage){
+      console.error(err)
+    }
+    else{
+      setBluerPinDatas(pinList);
+      setIsLoading3(true);
+    }
   };
 
   const getDdoGanZipData = async (id: number) => {
@@ -175,6 +197,7 @@ export default function MainPage() {
     getTopCollectionData();
     getMichelinData(139);
     getDdoGanZipData(147);
+    getBluerData(148);
   }, []);
 
   const enterKeyDown = (e: any) => {
@@ -277,6 +300,19 @@ export default function MainPage() {
                 <RecommendCollectionCard
                   collection={ddoGanZipCollectionDatas}
                   pinList={ddoGanZipPinDatas}
+                />
+              ) : (
+                <SkeletonCollectionRenderer />
+              )}
+            </div>
+          </section>
+          <section className={styles.popularTop} style={{ height: "430px" }}>
+            <p className={styles.popularTopText}>블루리본 서베이 선정 맛집</p>
+            <div className={styles.recommendCollectionContainer}>
+              {isLoading2 && bluerCollectionDatas ? (
+                <RecommendCollectionCard
+                  collection={bluerCollectionDatas}
+                  pinList={bluerPinDatas}
                 />
               ) : (
                 <SkeletonCollectionRenderer />
