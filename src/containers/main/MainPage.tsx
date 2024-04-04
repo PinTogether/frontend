@@ -6,9 +6,7 @@ import styles from "@/styles/containers/main/_mainPage.module.scss";
 import { useEffect, useState } from "react";
 import CardSlider from "@/components/CardSlider";
 import GlobalAlertModal from "@/components/GlobalAlertModal";
-import {
-  DefaultCollectionCard,
-} from "@/components/CollectionCard";
+import { DefaultCollectionCard } from "@/components/CollectionCard";
 
 import RecommendCollectionCard from "@/containers/main/RecommendCollectionCard";
 import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
@@ -43,9 +41,8 @@ export default function MainPage() {
     useState<CollectionDetail>();
   const [ddoGanZipPinDatas, setDdoGanZipPinDatas] = useState<Pin[]>([]);
   const [bluerCollectionDatas, setBluerCollectionDatas] =
-  useState<CollectionDetail>();
+    useState<CollectionDetail>();
   const [bluerPinDatas, setBluerPinDatas] = useState<Pin[]>([]);
-
 
   const onChangeCollection = (e: any) => {
     setInputCollectionSearch(e.target.value);
@@ -89,57 +86,48 @@ export default function MainPage() {
   };
 
   const getBluerData = async (id: number) => {
-    const { collectionInfo, errorMessage } =
-    await fetchGetCollectionInfo(id);
+    const { collectionInfo, errorMessage } = await fetchGetCollectionInfo(id);
     if (!collectionInfo || errorMessage) {
       console.error(errorMessage);
-    }
-    else{
+    } else {
       setBluerCollectionDatas(collectionInfo);
     }
-    const {pinList, errorMessage:err } = await fetchGetCollectionAllPins(id);
-    if(!pinList || errorMessage){
-      console.error(err)
-    }
-    else{
+    const { pinList, errorMessage: err } = await fetchGetCollectionAllPins(id);
+    if (!pinList || errorMessage) {
+      console.error(err);
+    } else {
       setBluerPinDatas(pinList);
       setIsLoading3(true);
     }
   };
 
   const getDdoGanZipData = async (id: number) => {
-    const { collectionInfo, errorMessage } =
-    await fetchGetCollectionInfo(id);
+    const { collectionInfo, errorMessage } = await fetchGetCollectionInfo(id);
     if (!collectionInfo || errorMessage) {
       console.error(errorMessage);
-    }
-    else{
+    } else {
       setDdoGanZipCollectionDatas(collectionInfo);
     }
-    const {pinList, errorMessage:err } = await fetchGetCollectionAllPins(id);
-    if(!pinList || errorMessage){
-      console.error(err)
-    }
-    else{
+    const { pinList, errorMessage: err } = await fetchGetCollectionAllPins(id);
+    if (!pinList || errorMessage) {
+      console.error(err);
+    } else {
       setDdoGanZipPinDatas(pinList);
       setIsLoading2(true);
     }
   };
 
   const getMichelinData = async (id: number) => {
-    const { collectionInfo, errorMessage } =
-    await fetchGetCollectionInfo(id);
+    const { collectionInfo, errorMessage } = await fetchGetCollectionInfo(id);
     if (!collectionInfo || errorMessage) {
       console.error(errorMessage);
-    }
-    else{
+    } else {
       setMichelinCollectionDatas(collectionInfo);
     }
-    const {pinList, errorMessage:err } = await fetchGetCollectionAllPins(id);
-    if(!pinList || errorMessage){
-      console.error(err)
-    }
-    else{
+    const { pinList, errorMessage: err } = await fetchGetCollectionAllPins(id);
+    if (!pinList || errorMessage) {
+      console.error(err);
+    } else {
       setMichelinPinDatas(pinList);
       setIsLoading4(true);
     }
@@ -294,12 +282,12 @@ export default function MainPage() {
             </div>
           </section>
           <section className={styles.popularTop} style={{ height: "430px" }}>
-            <p className={styles.popularTopText}>또간집 선정 맛집</p>
+            <p className={styles.popularTopText}>블루리본 서베이 선정 맛집</p>
             <div className={styles.recommendCollectionContainer}>
-              {isLoading2 && ddoGanZipCollectionDatas ? (
+              {isLoading3 && bluerCollectionDatas ? (
                 <RecommendCollectionCard
-                  collection={ddoGanZipCollectionDatas}
-                  pinList={ddoGanZipPinDatas}
+                  collection={bluerCollectionDatas}
+                  pinList={bluerPinDatas}
                 />
               ) : (
                 <SkeletonCollectionRenderer />
@@ -307,12 +295,12 @@ export default function MainPage() {
             </div>
           </section>
           <section className={styles.popularTop} style={{ height: "430px" }}>
-            <p className={styles.popularTopText}>블루리본 서베이 선정 맛집</p>
+            <p className={styles.popularTopText}>또간집 선정 맛집</p>
             <div className={styles.recommendCollectionContainer}>
-              {isLoading3 && bluerCollectionDatas ? (
+              {isLoading2 && ddoGanZipCollectionDatas ? (
                 <RecommendCollectionCard
-                  collection={bluerCollectionDatas}
-                  pinList={bluerPinDatas}
+                  collection={ddoGanZipCollectionDatas}
+                  pinList={ddoGanZipPinDatas}
                 />
               ) : (
                 <SkeletonCollectionRenderer />
