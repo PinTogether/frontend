@@ -133,10 +133,10 @@ const SimplePinCard = ({
             disabled={buttonDisabled}
           >
             <h3 className={styles.placeName}>{pinData.placeName}</h3>
+            <span className={styles.category}>{pinData.category}</span>
             <address className={styles.address}>
               {pinData.roadNameAddress}
             </address>
-            <span className={styles.category}>{pinData.category}</span>
           </button>
           {/* {isMyId && <EditButton pinId={pinData.id} pinData={pinData} />} */}
         </div>
