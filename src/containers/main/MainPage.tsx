@@ -309,7 +309,7 @@ export default function MainPage() {
           <section className={styles.popularTop} style={{ height: "430px" }}>
             <p className={styles.popularTopText}>블루리본 서베이 선정 맛집</p>
             <div className={styles.recommendCollectionContainer}>
-              {isLoading2 && bluerCollectionDatas ? (
+              {isLoading3 && bluerCollectionDatas ? (
                 <RecommendCollectionCard
                   collection={bluerCollectionDatas}
                   pinList={bluerPinDatas}
