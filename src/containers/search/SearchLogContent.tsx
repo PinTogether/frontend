@@ -11,10 +11,12 @@ function SearchLogContent({
   id,
   searchKeyword,
   searchCategory,
+  deleteSearchLog,
 }: {
   id: number;
   searchKeyword: string;
   searchCategory: string;
+  deleteSearchLog: (id: number) => void;
 }) {
   const dispatch = useAppDispatch();
 
@@ -22,6 +24,8 @@ function SearchLogContent({
     const { success, errorMessage } = await fetchDeleteSearchHistory(id);
     if (!success) {
       dispatch(addAlertMessage(errorMessage));
+    } else {
+      deleteSearchLog(id);
     }
   };
 
