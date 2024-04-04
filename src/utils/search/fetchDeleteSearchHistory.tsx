@@ -3,7 +3,7 @@ import { logout } from "@/hooks/useLogout";
 const fetchDeleteSearchHistory = async (historyId: number) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/history/${historyId}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/history/${historyId}`,
       {
         method: "DELETE",
         credentials: "include",
