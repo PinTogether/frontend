@@ -257,7 +257,7 @@ export default function MainPage() {
             <span>을 만들고, 친구들과 공유해보세요!</span>
           </div>
         </section>
-        <section className={styles.recommendCard}>
+        {/* <section className={styles.recommendCard}>
           <CardSlider scrollCardNumber={1}>
             <img src="https://picsum.photos/500/300" alt="image" />
             <img src="https://picsum.photos/500/300" alt="image" />
@@ -269,7 +269,7 @@ export default function MainPage() {
             <img src="https://picsum.photos/500/300" alt="image" />
             <img src="https://picsum.photos/500/300" alt="image" />
           </CardSlider>
-        </section>
+        </section> */}
         <section className={styles.recommendListContainer}>
           <section className={styles.popularTop}>
             <p className={styles.popularTopText}>인기 추천 컬렉션 TOP10</p>
@@ -291,7 +291,7 @@ export default function MainPage() {
           </section>
           <section className={styles.popularTop} style={{ height: "430px" }}>
             <p className={styles.popularTopText}>미쉐린 가이드 IN 서울</p>
-            <div style={{ minWidth: "100%", height: "100%" }}>
+            <div className={styles.recommendCollectionContainer}>
               {isLoading4 && michelinCollectionDatas ? (
                 <RecommendCollectionCard
                   collection={michelinCollectionDatas}
@@ -304,7 +304,7 @@ export default function MainPage() {
           </section>
           <section className={styles.popularTop} style={{ height: "430px" }}>
             <p className={styles.popularTopText}>또간집 선정 맛집</p>
-            <div style={{ minWidth: "100%", height: "100%" }}>
+            <div className={styles.recommendCollectionContainer}>
               {isLoading2 && ddoGanZipCollectionDatas ? (
                 <RecommendCollectionCard
                   collection={ddoGanZipCollectionDatas}
