@@ -10,6 +10,12 @@ import { useAppDispatch } from "@/redux/hooks";
 import { clearMyProfile, setMyProfile } from "@/redux/profileSlice";
 import fetchGetMyProfile from "@/utils/members/fetchGetMyProfile";
 
+export enum LoginStatusMessage {
+  SOURCE_LOGIN_POPUP = "source-login-popup",
+  LOGIN_SUCCESS = "login-success",
+  LOGIN_FAILED = "login-failed",
+}
+
 // for development
 // import { ProfileMine } from "@/types/Profile";
 
@@ -48,9 +54,15 @@ export default function LoginPage() {
 
   const checkLoginStatus = (e: MessageEvent) => {
     if (e.origin !== process.env.NEXT_PUBLIC_FRONTEND_URL) return;
+    if (e.data.source !== LoginStatusMessage.SOURCE_LOGIN_POPUP) return;
     const oauth = new Cookies().get("Authorization");
-    if (oauth && !isLoading) {
+    if (
+      oauth &&
+      !isLoading &&
+      e.data.status === LoginStatusMessage.LOGIN_SUCCESS
+    ) {
       getMyInfo();
+      setErrorMessage("");
     } else setErrorMessage("로그인에 실패했습니다. 다시 시도해주세요.");
   };
 
