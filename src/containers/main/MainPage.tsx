@@ -12,6 +12,7 @@ import {
 
 import RecommendCollectionCard from "@/containers/main/RecommendCollectionCard";
 import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
+import fetchGetCollectionAllPins from "@/utils/collections/fetchGetCollectionAllPins";
 import { CollectionDetail } from "@/types/Collection";
 import Pin from "@/types/Pin";
 
@@ -93,25 +94,14 @@ export default function MainPage() {
     else{
       setDdoGanZipCollectionDatas(collectionInfo);
     }
-    await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`,
-      {
-        credentials: "include",
-      }
-    )
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`${id} 컬렉션 정보 가져오기를 실패했습니다.`);
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setDdoGanZipPinDatas(res.results);
-        setIsLoading2(true);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    const {pinList, errorMessage:err } = await fetchGetCollectionAllPins(id);
+    if(!pinList || errorMessage){
+      console.error(err)
+    }
+    else{
+      setDdoGanZipPinDatas(pinList);
+      setIsLoading2(true);
+    }
   };
 
   const getMichelinData = async (id: number) => {
@@ -123,25 +113,14 @@ export default function MainPage() {
     else{
       setMichelinCollectionDatas(collectionInfo);
     }
-    await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`,
-      {
-        credentials: "include",
-      }
-    )
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`${id} 컬렉션 정보 가져오기를 실패했습니다.`);
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setMichelinPinDatas(res.results);
-        setIsLoading4(true);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    const {pinList, errorMessage:err } = await fetchGetCollectionAllPins(id);
+    if(!pinList || errorMessage){
+      console.error(err)
+    }
+    else{
+      setMichelinPinDatas(pinList);
+      setIsLoading4(true);
+    }
   };
 
   // const getJWCollectionData = async () => {
