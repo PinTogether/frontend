@@ -2,21 +2,23 @@
 
 import { LogoHorizontal } from "../../components/LogoSvg";
 import styles from "@/styles/containers/main/_mainPage.module.scss";
+
 import { useEffect, useState } from "react";
-import CardSlider2 from "@/components/CardSlider2";
 import CardSlider from "@/components/CardSlider";
 import GlobalAlertModal from "@/components/GlobalAlertModal";
-import {
-  DefaultCollectionCard,
-  SimpleCollectionCard,
-} from "@/components/CollectionCard";
+import { DefaultCollectionCard } from "@/components/CollectionCard";
+
 import RecommendCollectionCard from "@/containers/main/RecommendCollectionCard";
+import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
+import fetchGetCollectionAllPins from "@/utils/collections/fetchGetCollectionAllPins";
 import { CollectionDetail } from "@/types/Collection";
 import Pin from "@/types/Pin";
+
 import {
   DefaultCollectionSkeleton,
   DetailCollectionSkeleton,
 } from "@/components/loading/SkeletonImage";
+
 import { useRouter } from "next/navigation";
 
 export default function MainPage() {
@@ -38,7 +40,9 @@ export default function MainPage() {
   const [ddoGanZipCollectionDatas, setDdoGanZipCollectionDatas] =
     useState<CollectionDetail>();
   const [ddoGanZipPinDatas, setDdoGanZipPinDatas] = useState<Pin[]>([]);
-
+  const [bluerCollectionDatas, setBluerCollectionDatas] =
+    useState<CollectionDetail>();
+  const [bluerPinDatas, setBluerPinDatas] = useState<Pin[]>([]);
 
   const onChangeCollection = (e: any) => {
     setInputCollectionSearch(e.target.value);
@@ -81,78 +85,52 @@ export default function MainPage() {
       });
   };
 
-  const getDdoGanZipData = async (id: string) => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}`, {
-      credentials: "include",
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`${id} 컬렉션 정보 가져오기를 실패했습니다.`);
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setDdoGanZipCollectionDatas(res.results);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-    await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`,
-      {
-        credentials: "include",
-      }
-    )
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`${id} 컬렉션 정보 가져오기를 실패했습니다.`);
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setDdoGanZipPinDatas(res.results);
-        setIsLoading2(true);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+  const getBluerData = async (id: number) => {
+    const { collectionInfo, errorMessage } = await fetchGetCollectionInfo(id);
+    if (!collectionInfo || errorMessage) {
+      console.error(errorMessage);
+    } else {
+      setBluerCollectionDatas(collectionInfo);
+    }
+    const { pinList, errorMessage: err } = await fetchGetCollectionAllPins(id);
+    if (!pinList || errorMessage) {
+      console.error(err);
+    } else {
+      setBluerPinDatas(pinList);
+      setIsLoading3(true);
+    }
   };
 
-  const getMichelinData = async (id: string) => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}`, {
-      credentials: "include",
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`${id} 컬렉션 정보 가져오기를 실패했습니다.`);
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setMichelinCollectionDatas(res.results);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-    await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`,
-      {
-        credentials: "include",
-      }
-    )
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`${id} 컬렉션 정보 가져오기를 실패했습니다.`);
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setMichelinPinDatas(res.results);
-        setIsLoading4(true);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+  const getDdoGanZipData = async (id: number) => {
+    const { collectionInfo, errorMessage } = await fetchGetCollectionInfo(id);
+    if (!collectionInfo || errorMessage) {
+      console.error(errorMessage);
+    } else {
+      setDdoGanZipCollectionDatas(collectionInfo);
+    }
+    const { pinList, errorMessage: err } = await fetchGetCollectionAllPins(id);
+    if (!pinList || errorMessage) {
+      console.error(err);
+    } else {
+      setDdoGanZipPinDatas(pinList);
+      setIsLoading2(true);
+    }
+  };
+
+  const getMichelinData = async (id: number) => {
+    const { collectionInfo, errorMessage } = await fetchGetCollectionInfo(id);
+    if (!collectionInfo || errorMessage) {
+      console.error(errorMessage);
+    } else {
+      setMichelinCollectionDatas(collectionInfo);
+    }
+    const { pinList, errorMessage: err } = await fetchGetCollectionAllPins(id);
+    if (!pinList || errorMessage) {
+      console.error(err);
+    } else {
+      setMichelinPinDatas(pinList);
+      setIsLoading4(true);
+    }
   };
 
   // const getJWCollectionData = async () => {
@@ -205,8 +183,9 @@ export default function MainPage() {
 
   useEffect(() => {
     getTopCollectionData();
-    getMichelinData("139");
-    getDdoGanZipData("147");
+    getMichelinData(139);
+    getDdoGanZipData(147);
+    getBluerData(148);
   }, []);
 
   const enterKeyDown = (e: any) => {
@@ -296,6 +275,19 @@ export default function MainPage() {
                 <RecommendCollectionCard
                   collection={michelinCollectionDatas}
                   pinList={michelinPinDatas}
+                />
+              ) : (
+                <SkeletonCollectionRenderer />
+              )}
+            </div>
+          </section>
+          <section className={styles.popularTop} style={{ height: "430px" }}>
+            <p className={styles.popularTopText}>블루리본 서베이 선정 맛집</p>
+            <div className={styles.recommendCollectionContainer}>
+              {isLoading3 && bluerCollectionDatas ? (
+                <RecommendCollectionCard
+                  collection={bluerCollectionDatas}
+                  pinList={bluerPinDatas}
                 />
               ) : (
                 <SkeletonCollectionRenderer />
