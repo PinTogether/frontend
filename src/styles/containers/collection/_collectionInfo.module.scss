@@ -80,6 +80,7 @@
       display: flex;
       gap: 0.5rem;
       margin-top: 0.5rem;
+      flex-wrap: wrap;
       & > * {
         @extend %pt-tag;
         color: $color-grey-dark;
