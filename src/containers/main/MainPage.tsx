@@ -2,21 +2,24 @@
 
 import { LogoHorizontal } from "../../components/LogoSvg";
 import styles from "@/styles/containers/main/_mainPage.module.scss";
+
 import { useEffect, useState } from "react";
-import CardSlider2 from "@/components/CardSlider2";
 import CardSlider from "@/components/CardSlider";
 import GlobalAlertModal from "@/components/GlobalAlertModal";
 import {
   DefaultCollectionCard,
-  SimpleCollectionCard,
 } from "@/components/CollectionCard";
+
 import RecommendCollectionCard from "@/containers/main/RecommendCollectionCard";
+import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
 import { CollectionDetail } from "@/types/Collection";
 import Pin from "@/types/Pin";
+
 import {
   DefaultCollectionSkeleton,
   DetailCollectionSkeleton,
 } from "@/components/loading/SkeletonImage";
+
 import { useRouter } from "next/navigation";
 
 export default function MainPage() {
@@ -81,22 +84,15 @@ export default function MainPage() {
       });
   };
 
-  const getDdoGanZipData = async (id: string) => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}`, {
-      credentials: "include",
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`${id} 컬렉션 정보 가져오기를 실패했습니다.`);
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setDdoGanZipCollectionDatas(res.results);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+  const getDdoGanZipData = async (id: number) => {
+    const { collectionInfo, errorMessage } =
+    await fetchGetCollectionInfo(id);
+    if (!collectionInfo || errorMessage) {
+      console.error(errorMessage);
+    }
+    else{
+      setDdoGanZipCollectionDatas(collectionInfo);
+    }
     await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`,
       {
@@ -118,22 +114,15 @@ export default function MainPage() {
       });
   };
 
-  const getMichelinData = async (id: string) => {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}`, {
-      credentials: "include",
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`${id} 컬렉션 정보 가져오기를 실패했습니다.`);
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setMichelinCollectionDatas(res.results);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+  const getMichelinData = async (id: number) => {
+    const { collectionInfo, errorMessage } =
+    await fetchGetCollectionInfo(id);
+    if (!collectionInfo || errorMessage) {
+      console.error(errorMessage);
+    }
+    else{
+      setMichelinCollectionDatas(collectionInfo);
+    }
     await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${id}/pins`,
       {
@@ -205,8 +194,8 @@ export default function MainPage() {
 
   useEffect(() => {
     getTopCollectionData();
-    getMichelinData("139");
-    getDdoGanZipData("147");
+    getMichelinData(139);
+    getDdoGanZipData(147);
   }, []);
 
   const enterKeyDown = (e: any) => {
