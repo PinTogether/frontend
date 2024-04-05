@@ -2,21 +2,29 @@ import APIResponse from "@/types/APIResponse";
 import { PlaceDetail } from "@/types/Place";
 import { logout } from "@/hooks/useLogout";
 
+export interface Filter {
+  leftBottomLatitude: number;
+  leftBottomLongitude: number;
+  rightTopLatitude: number;
+  rightTopLongitude: number;
+}
+
 const fetchGetSearchPlace = async (
   searchKeyword: string,
   page: number = 0,
-  size: number = 10
+  size: number = 10,
+  filter?: Filter | null
 ): Promise<{
   placeDatas: PlaceDetail[];
   errorMessage: string;
 }> => {
+  const reqeustUrl = filter
+    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/places?query=${searchKeyword}&page=${page}&size=${size}&filter=${filter.leftBottomLatitude},${filter.leftBottomLongitude},${filter.rightTopLatitude},${filter.rightTopLongitude}`
+    : `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/places?query=${searchKeyword}&page=${page}&size=${size}`;
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/search/places?query=${searchKeyword}&page=${page}&size=${size}`,
-      {
-        credentials: "include",
-      }
-    );
+    const res = await fetch(reqeustUrl, {
+      credentials: "include",
+    });
     console.log("fetchGetSearchPlace res", res);
     if (res.status === 401) {
       logout();
