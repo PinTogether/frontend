@@ -67,6 +67,11 @@ export default function ProfileSettingPage() {
           </>
         )}
       </UlWrapper>
+      <UlWrapper categoryTitle="알림">
+        <Link href="/profile/setting/report">
+          <LiWrapper>신고내역 조회</LiWrapper>
+        </Link>
+      </UlWrapper>
       <UlWrapper categoryTitle="서비스 안내">
         <LiWrapper>서비스 이용약관</LiWrapper>
         <LiWrapper>개인정보 처리방침</LiWrapper>

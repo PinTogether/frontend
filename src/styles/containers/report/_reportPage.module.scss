@@ -1,7 +1,7 @@
 @import "../../base/variables";
 @import "../../base/placeholders";
 
-
+/* Report Page */
 .box {
 	display: grid;
 	grid-template-columns: 3rem 1fr;
@@ -22,4 +22,45 @@
 .select {
 	@extend %pt-input;
 	background-color: $color_grey-light;
+}
+
+
+/* Report Details Page */
+// "/profile/setting/report"
+.statusMessage {
+	color: $color-text-caption;
+	padding: 1rem;
+	align-self: center;
+}
+
+.reportDetails {
+	display: grid;
+	grid-template-columns: 1fr 1fr auto;
+	gap: 1rem;
+	margin: 1rem;
+	padding: 0.5rem;
+	height: fit-content;
+	border-bottom: 1px solid $color-grey;
+
+	.details {
+		grid-column: 1 / -1;
+		font-size: $font-size-medium;
+	}
+	.complaintCategory {
+		font-size: $font-size-small;
+		color: $color-text-caption;
+	}
+	.reporter {
+		font-size: $font-size-small;
+		color: $color-text-caption;
+	}
+	.reason {
+		grid-column: 1 / -1;
+		font-size: $font-size-small;
+		color: $color-text-caption;
+	}
+	.createdAt {
+		font-size: $font-size-smallest;
+		color: $color-text-caption;
+	}
 }
