@@ -239,7 +239,11 @@ export default function Page() {
               <SearchCollectionRender searchKeyword={searchKeyword} />
             </SlideMenuInnerPage>
             <SlideMenuInnerPage>
-              <div className={styles.errorMessage}>🛠️ 준비중 입니다 ... 🛠️</div>
+              <SearchPinRender
+                searchKeyword={searchKeyword}
+                rangeFilter={rangeFilter}
+                setRangeFilterType={setRangeFilterType}
+              />
             </SlideMenuInnerPage>
           </SlideMenu>
         )}

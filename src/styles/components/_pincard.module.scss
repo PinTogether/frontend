@@ -84,6 +84,7 @@
 .pinCard {
   @extend %card;
   position: relative;
+  width: 100%;
 }
 
 .simplePinCard {
