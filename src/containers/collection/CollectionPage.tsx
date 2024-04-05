@@ -136,7 +136,11 @@ export default function CollectionPage({
   }, [pinFetchDatas]);
 
   useEffect(() => {
-    if (myId === collectionFetchDatas.collectionInfo?.writerId) {
+    if (
+      collectionFetchDatas.collectionInfo &&
+      myId &&
+      myId === collectionFetchDatas.collectionInfo?.writerId
+    ) {
       setIsMyCollection(true);
     }
   }, [myId, collectionFetchDatas]);

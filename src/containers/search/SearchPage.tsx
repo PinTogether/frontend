@@ -131,7 +131,10 @@ export default function Page() {
     setSelectedMenu(index);
     const type = convertToType(selectedMenu);
     const keyword = encodeURIComponent(searchInputValue);
-    router.push(`/search?keyword=${keyword}&type=${type}`);
+    const newRangefilter = rangeFilter;
+    router.push(
+      `/search?keyword=${keyword}&type=${type}&rangefilter=${newRangefilter}`
+    );
   };
 
   const setRangeFilterType = (index: RangeFilter) => {
@@ -147,7 +150,10 @@ export default function Page() {
     e.preventDefault();
     const type = searchParams.get("type") || "";
     const keyword = encodeURIComponent(searchInputValue);
-    router.push(`/search?keyword=${keyword}&type=${type}`);
+    const newRangefilter = rangeFilter;
+    router.push(
+      `/search?keyword=${keyword}&type=${type}&rangefilter=${newRangefilter}`
+    );
   };
 
   /* 검색어 입력 */
