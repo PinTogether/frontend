@@ -15,11 +15,17 @@ import GlobalAlertModal from "@/components/GlobalAlertModal";
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import SearchPinRender from "./SearchPinRenderer";
 
 enum SearchCategory {
+  HISTORY = -1,
   PLACE = 0,
   COLLECTION = 1,
-  HISTORY = 2,
+  PIN = 2,
+}
+export enum RangeFilter {
+  ALL = "all",
+  MAP = "map",
 }
 
 export default function Page() {
@@ -33,10 +39,13 @@ export default function Page() {
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const [rangeFilter, setRangeFilter] = useState<RangeFilter>(RangeFilter.MAP);
+
   /* 검색하기 */
   useEffect(() => {
     const type = searchParams.get("type");
     const keyword = searchParams.get("keyword");
+    const newRangefilter = searchParams.get("rangefilter");
 
     const search = async (type: string, keyword: string) => {
       if (isLoading) return;
@@ -52,10 +61,11 @@ export default function Page() {
           }
         };
         const decodeKeyword = getDecodeKeyword(keyword);
+        const convertedRangeFileter = convertToRangeFilter(newRangefilter);
         setSearchInputValue(decodeKeyword);
         setShowSearchLog(false);
         setSearchKeyword(decodeKeyword);
-        console.log("decodeKeyword", decodeKeyword);
+        setRangeFilter(convertedRangeFileter);
         if (decodeKeyword && (!type || type === "history")) {
           setSelectedMenu(SearchCategory.PLACE);
         } else setSelectedMenu(convertToSearchCategory(type));
@@ -64,11 +74,16 @@ export default function Page() {
         setShowSearchLog(true);
         setSearchInputValue("");
         setSelectedMenu(SearchCategory.HISTORY);
+        setRangeFilter(RangeFilter.MAP);
       }
       setIsLoading(false);
     };
     search(type || "", keyword || "");
   }, [searchParams]);
+
+  useEffect(() => {
+    console.log("rangeFilter!", rangeFilter);
+  }, [rangeFilter]);
 
   const convertToSearchCategory = (type: string) => {
     switch (type) {
@@ -78,6 +93,8 @@ export default function Page() {
         return SearchCategory.COLLECTION;
       case "history":
         return SearchCategory.HISTORY;
+      case "pin":
+        return SearchCategory.PIN;
       default:
         return SearchCategory.HISTORY;
     }
@@ -91,17 +108,36 @@ export default function Page() {
         return "collection";
       case SearchCategory.HISTORY:
         return "history";
+      case SearchCategory.PIN:
+        return "pin";
       default:
         return "history";
     }
   };
 
+  const convertToRangeFilter = (rangefilter: string | null) => {
+    switch (rangefilter) {
+      case "all":
+        return RangeFilter.ALL;
+      case "map":
+        return RangeFilter.MAP;
+      default:
+        return RangeFilter.MAP;
+    }
+  };
+
   // /* menu 변경 */
-  const customSetSelectedMenu = (index: number) => {
+  const customSetSelectedMenu = (index: SearchCategory) => {
     setSelectedMenu(index);
     const type = convertToType(selectedMenu);
     const keyword = encodeURIComponent(searchInputValue);
     router.push(`/search?keyword=${keyword}&type=${type}`);
+  };
+
+  const setRangeFilterType = (index: RangeFilter) => {
+    const type = convertToType(selectedMenu);
+    const keyword = encodeURIComponent(searchInputValue);
+    router.push(`/search?keyword=${keyword}&type=${type}&rangefilter=${index}`);
   };
 
   /* submit */
@@ -188,15 +224,26 @@ export default function Page() {
           <SearchLogRenderer />
         ) : (
           <SlideMenu
-            menuTitleList={["장소 검색", "컬렉션 검색"]}
+            menuTitleList={["장소 검색", "컬렉션 검색", "핀 검색"]}
             customSelectedMenu={selectedMenu}
             customSetSelectedMenu={customSetSelectedMenu}
           >
             <SlideMenuInnerPage>
-              <SearchPlaceRender searchKeyword={searchKeyword} />
+              <SearchPlaceRender
+                searchKeyword={searchKeyword}
+                rangeFilter={rangeFilter}
+                setRangeFilterType={setRangeFilterType}
+              />
             </SlideMenuInnerPage>
             <SlideMenuInnerPage>
               <SearchCollectionRender searchKeyword={searchKeyword} />
+            </SlideMenuInnerPage>
+            <SlideMenuInnerPage>
+              <SearchPinRender
+                searchKeyword={searchKeyword}
+                rangeFilter={rangeFilter}
+                setRangeFilterType={setRangeFilterType}
+              />
             </SlideMenuInnerPage>
           </SlideMenu>
         )}
