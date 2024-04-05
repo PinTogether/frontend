@@ -58,9 +58,7 @@ export const LiWrapper = ({
       {...props}
     >
       {children}
-      {showExpandButton ? (
-        <ExpandRightIcon className={styles.expandButton} />
-      ) : null}
+      {showExpandButton ? <ExpandRightIcon id={styles.expandButton} /> : null}
     </li>
   );
 };
