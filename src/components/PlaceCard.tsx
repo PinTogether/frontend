@@ -22,7 +22,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
 import { makeMarker } from "@/utils/map/makeMarker";
 
-export { PlaceCard, SimplePlaceCard as SimplePlaceCard };
+export { PlaceCard, SimplePlaceCard };
 
 const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
   const dispatchMarker = useAppDispatch();
