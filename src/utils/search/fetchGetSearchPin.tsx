@@ -1,19 +1,13 @@
 import APIResponse from "@/types/APIResponse";
 import Pin from "@/types/Pin";
 import { logout } from "@/hooks/useLogout";
-
-export interface Filter {
-  leftBottomLatitude: number;
-  leftBottomLongitude: number;
-  rightTopLatitude: number;
-  rightTopLongitude: number;
-}
+import { SearchRangeFilter } from "@/types/SearchRangeFilter";
 
 const fetchGetSearchPin = async (
   searchKeyword: string,
   page: number = 0,
   size: number = 10,
-  filter?: Filter | null
+  filter?: SearchRangeFilter | null
 ): Promise<{
   pinDatas: Pin[];
   errorMessage: string;

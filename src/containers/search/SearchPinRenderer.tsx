@@ -11,7 +11,7 @@ import BouncingLoader from "@/components/BouncingLoader";
 import fetchGetSearchPin from "@/utils/search/fetchGetSearchPin";
 
 import { RangeFilter } from "./SearchPage";
-import { Filter } from "@/utils/search/fetchGetSearchPlace";
+import { SearchRangeFilter } from "@/types/SearchRangeFilter";
 
 export default function SearchPinRender({
   searchKeyword,
@@ -49,15 +49,15 @@ export default function SearchPinRender({
 
   useEffect(() => {
     if (isIntersecting && !isLoading && !isEnd) {
-      searchPlace(searchKeyword);
+      searchPin(searchKeyword);
     }
   }, [isIntersecting, searchKeyword, isEnd]);
 
-  const searchPlace = async (searchKeyword: string) => {
+  const searchPin = async (searchKeyword: string) => {
     const size = 10;
     const page = pageNum.current;
     // TODO : 현재 보고 있는 지도 좌표값 넣기
-    const filter: Filter | null =
+    const filter: SearchRangeFilter | null =
       rangeFilter === RangeFilter.ALL
         ? null
         : {

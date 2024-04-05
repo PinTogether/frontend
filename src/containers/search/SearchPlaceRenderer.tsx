@@ -8,7 +8,7 @@ import PlaceCard from "@/components/PlaceCard";
 import BouncingLoader from "@/components/BouncingLoader";
 import fetchGetSearchPlace from "@/utils/search/fetchGetSearchPlace";
 import { RangeFilter } from "./SearchPage";
-import { Filter } from "@/utils/search/fetchGetSearchPlace";
+import { SearchRangeFilter } from "@/types/SearchRangeFilter";
 
 export default function SearchPlaceRender({
   searchKeyword,
@@ -54,7 +54,7 @@ export default function SearchPlaceRender({
     const size = 10;
     const page = pageNum.current;
     // TODO : 현재 보고 있는 지도 좌표값 넣기
-    const filter: Filter | null =
+    const filter: SearchRangeFilter | null =
       rangeFilter === RangeFilter.ALL
         ? null
         : {
