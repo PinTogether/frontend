@@ -25,7 +25,6 @@ export default function SearchPlaceRender({
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
-  // const [rangeFilter, setRangeFilter] = useState(RangeFilter);
 
   const option = {
     root: null,
