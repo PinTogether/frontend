@@ -218,7 +218,7 @@ export default function ProfileEditPage() {
 
   return (
     <SubPageLayout
-      topperMsg="내 정보 관리"
+      topperMsg="내 프로필 수정"
       completeButtonMsg="완료"
       onClickCompleteButton={submitEditProfile}
     >

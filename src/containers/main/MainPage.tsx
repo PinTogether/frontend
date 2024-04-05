@@ -183,7 +183,7 @@ export default function MainPage() {
 
   useEffect(() => {
     getTopCollectionData();
-    getMichelinData(139);
+    getMichelinData(146);
     getDdoGanZipData(147);
     getBluerData(148);
   }, []);

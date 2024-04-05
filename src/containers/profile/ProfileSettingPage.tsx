@@ -43,7 +43,7 @@ export default function ProfileSettingPage() {
               : undefined
       );
     }
-  }, []);
+  }, [profile]);
 
   return (
     <InfoListLayout>
@@ -66,6 +66,11 @@ export default function ProfileSettingPage() {
             </Link>
           </>
         )}
+      </UlWrapper>
+      <UlWrapper categoryTitle="알림">
+        <Link href="/profile/setting/report">
+          <LiWrapper>신고내역 조회</LiWrapper>
+        </Link>
       </UlWrapper>
       <UlWrapper categoryTitle="서비스 안내">
         <LiWrapper>서비스 이용약관</LiWrapper>
