@@ -25,7 +25,12 @@ import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPin
 import CollectionReplyRenderer from "@/containers/collection/CollectionReplyRenderer";
 import CollectionInfoRenderer from "@/containers/collection/CollectionInfoRenderer";
 import CollectionPageSkeleton from "./CollectionPageSkeleton";
-import BouncingLoader from "@/components/BouncingLoader";
+
+enum ShowState {
+  PIN_PLACE = 1,
+  PIN_COMMENT = 2,
+  COLLECTION_COMMENT = 3,
+}
 
 export default function CollectionPage({
   collectionId,
@@ -88,10 +93,10 @@ export default function CollectionPage({
   };
 
   /* button state */
-  const [showState, setShowState] = useState(1);
-  const onChangeShowState = (state: number) => {
+  const [showState, setShowState] = useState<ShowState>(ShowState.PIN_COMMENT);
+  const onChangeShowState = (state: ShowState) => {
     if (state == showState) {
-      setShowState(0);
+      // setShowState(0);
     } else {
       setShowState(state);
     }
@@ -172,22 +177,22 @@ export default function CollectionPage({
           {/* 메뉴 */}
           <section className={styles.buttonContainer}>
             <button
-              className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ""}`}
-              onClick={() => onChangeShowState(1)}
+              className={`${styles.buttons} ${showState == 2 ? styles.clickedButtons : ""}`}
+              onClick={() => onChangeShowState(ShowState.PIN_COMMENT)}
             >
-              핀 보기
+              핀 리뷰
             </button>
             <button
-              className={`${styles.buttons} ${showState == 2 ? styles.clickedButtons : ""}`}
-              onClick={() => onChangeShowState(2)}
+              className={`${styles.buttons} ${showState == 1 ? styles.clickedButtons : ""}`}
+              onClick={() => onChangeShowState(ShowState.PIN_PLACE)}
             >
-              핀 리뷰 같이 보기
+              핀 장소
             </button>
             <button
               className={`${styles.buttons} ${showState == 3 ? styles.clickedButtons : ""}`}
-              onClick={() => onChangeShowState(3)}
+              onClick={() => onChangeShowState(ShowState.COLLECTION_COMMENT)}
             >
-              컬렉션 댓글 보기
+              컬렉션 댓글
             </button>
             {isMyCollection && (
               <button className={styles.buttons} onClick={routeToPinSelectPage}>
@@ -196,15 +201,7 @@ export default function CollectionPage({
             )}
           </section>
           {/* 메뉴 페이지 */}
-          {showState === 1 &&
-            (pinFetchDatas.errorMessage || !pinFetchDatas.pinList ? (
-              <p className={styles.errorMessage}>
-                {pinFetchDatas.errorMessage}
-              </p>
-            ) : (
-              <CollectionWithPinRenderer pins={pinFetchDatas.pinList} />
-            ))}
-          {showState === 2 &&
+          {showState === ShowState.PIN_COMMENT &&
             (pinFetchDatas.errorMessage || !pinFetchDatas.pinList ? (
               <p className={styles.errorMessage}>
                 {pinFetchDatas.errorMessage}
@@ -212,15 +209,24 @@ export default function CollectionPage({
             ) : (
               <CollectionWithPinCommentRenderer data={pinFetchDatas.pinList} />
             ))}
-          {showState === 3 && collectionFetchDatas.collectionInfo && (
-            <CollectionReplyRenderer
-              replys={replyFetchDatas.replyDatas || []}
-              getReplyDatas={getReplyData}
-              errorMessage={replyFetchDatas.errorMessage}
-              collectionInfo={collectionFetchDatas.collectionInfo}
-              myId={myId}
-            />
-          )}
+          {showState === ShowState.PIN_PLACE &&
+            (pinFetchDatas.errorMessage || !pinFetchDatas.pinList ? (
+              <p className={styles.errorMessage}>
+                {pinFetchDatas.errorMessage}
+              </p>
+            ) : (
+              <CollectionWithPinRenderer pins={pinFetchDatas.pinList} />
+            ))}
+          {showState === ShowState.COLLECTION_COMMENT &&
+            collectionFetchDatas.collectionInfo && (
+              <CollectionReplyRenderer
+                replys={replyFetchDatas.replyDatas || []}
+                getReplyDatas={getReplyData}
+                errorMessage={replyFetchDatas.errorMessage}
+                collectionInfo={collectionFetchDatas.collectionInfo}
+                myId={myId}
+              />
+            )}
         </>
       )}
     </SubPageLayout>

@@ -75,7 +75,7 @@ export default function NotifyPage() {
       {!notifications && (
         <UlWrapper categoryTitle="알림이 없습니다">{""}</UlWrapper>
       )}
-      {notifications?.today && (
+      {notifications?.today.length && (
         <UlWrapper categoryTitle="오늘">
           {notifications.today.map((notify, idx) => (
             <LiWrapper key={idx}>
@@ -84,7 +84,7 @@ export default function NotifyPage() {
           ))}
         </UlWrapper>
       )}
-      {notifications?.yesterday && (
+      {notifications?.yesterday.length && (
         <UlWrapper categoryTitle="어제">
           {notifications.yesterday.map((notify, idx) => (
             <LiWrapper key={idx}>
@@ -93,7 +93,7 @@ export default function NotifyPage() {
           ))}
         </UlWrapper>
       )}
-      {notifications?.aweekAgo && (
+      {notifications?.aweekAgo.length && (
         <UlWrapper categoryTitle="일주일">
           {notifications.aweekAgo.map((notify, idx) => (
             <LiWrapper key={idx}>
@@ -102,7 +102,7 @@ export default function NotifyPage() {
           ))}
         </UlWrapper>
       )}
-      {notifications?.withinAMonth && (
+      {notifications?.withinAMonth.length && (
         <UlWrapper categoryTitle="한달">
           {notifications.withinAMonth.map((notify, idx) => (
             <LiWrapper key={idx}>

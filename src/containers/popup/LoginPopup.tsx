@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Cookies } from "react-cookie";
 
+import { LoginStatusMessage } from "../login/LoginPage";
+
 export default function LoginPopup() {
   const [success, setSuccess] = useState(false);
 
@@ -17,13 +19,16 @@ export default function LoginPopup() {
       if (oauth) {
         setSuccess(true);
         await window.opener.postMessage(
-          "login success",
+          {
+            source: LoginStatusMessage.SOURCE_LOGIN_POPUP,
+            status: LoginStatusMessage.LOGIN_SUCCESS,
+          },
           `${process.env.NEXT_PUBLIC_FRONTEND_URL}`
         );
       } else {
         setSuccess(false);
         await window.opener.postMessage(
-          "login failed",
+          LoginStatusMessage.LOGIN_FAILED,
           `${process.env.NEXT_PUBLIC_FRONTEND_URL}`
         );
       }

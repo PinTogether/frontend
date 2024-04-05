@@ -7,15 +7,14 @@ import {
   ExpendUpIcon,
   SearchIcon,
 } from "../../components/IconSvg";
-import { SearchLogContent } from "./SearchLogContent";
 import SearchPlaceRender from "./SearchPlaceRenderer";
 import SearchCollectionRender from "./SearchCollectionRenderer";
+import SearchLogRenderer from "./SearchLogRenderer";
 import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
 import GlobalAlertModal from "@/components/GlobalAlertModal";
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import fetchGetSearchHistory from "@/utils/search/fetchGetSearchHistory";
 
 enum SearchCategory {
   PLACE = 0,
@@ -206,64 +205,3 @@ export default function Page() {
     </section>
   );
 }
-
-import SearchLog from "@/types/SearchLog";
-import { useGetMyProfile } from "@/hooks/myProfileHooks";
-
-const SearchLogRenderer = () => {
-  const [searchLogs, setSearchLogs] = useState<SearchLog[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const myProfile = useGetMyProfile();
-
-  useEffect(() => {
-    // 최근 검색어 불러오기
-    const fetch = async () => {
-      if (isLoading || !myProfile) return;
-      setIsLoading(true);
-      const { searchLogs, errorMessage } = await fetchGetSearchHistory();
-      if (errorMessage) setErrorMessage(errorMessage);
-      else setSearchLogs(searchLogs);
-      setIsLoading(false);
-    };
-    fetch();
-  }, []);
-
-  return (
-    <div className={styles.searchLogContainer}>
-      {!myProfile ? (
-        // 비회원
-        <>
-          <p className={styles.errorMessage}>🥨 음식점을 검색해보세요 🥪</p>
-          <p className={styles.errorMessage}>📍 컬렉션도 검색할 수 있어요 📌</p>
-        </>
-      ) : (
-        // 회원
-        <>
-          <span className={styles.searchLogBanner}>최근 검색</span>
-          {errorMessage ? (
-            <p className={styles.errorMessage}>{errorMessage}</p>
-          ) : searchLogs.length === 0 ? (
-            <>
-              <p className={styles.errorMessage}>🥨 음식점을 검색해보세요 🥪</p>
-              <p className={styles.errorMessage}>
-                📍 컬렉션도 검색할 수 있어요 📌
-              </p>
-            </>
-          ) : (
-            <section className={styles.searchLogLists}>
-              {searchLogs.map((searchLog) => (
-                <SearchLogContent
-                  key={searchLog.id}
-                  id={searchLog.id}
-                  searchKeyword={searchLog.query}
-                  searchCategory={"total"} // searchCategory는 미사용
-                />
-              ))}
-            </section>
-          )}
-        </>
-      )}
-    </div>
-  );
-};

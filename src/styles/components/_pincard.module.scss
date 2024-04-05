@@ -20,6 +20,7 @@
     .pinIcon {
       width: 1.5rem;
       color: $color-text-caption;
+      align-self: start;
     }
     .placeNameContainer {
       display: flex;
@@ -27,6 +28,7 @@
       line-height: 1;
       gap: 0.5rem;
       flex-wrap: wrap;
+      text-align: start;
       .placeName {
         font-size: $font-size-medium + 0.1rem;
         font-weight: 600;

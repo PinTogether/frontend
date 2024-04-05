@@ -4,17 +4,23 @@ import PinCard from "@/components/PinCard";
 import styles from "@/styles/components/_pincard.module.scss";
 import CollectionCard from "@/components/CollectionCard";
 import Collection, { CollectionDetail } from "@/types/Collection";
-import Pin from "@/types/Pin";
+import { PlaceDetail, PlaceStarred } from "@/types/Place";
+import Pin, { CollectionPins } from "@/types/Pin";
+import { SimplePinCard } from "@/components/PinCard";
+
+import PlaceCard, { SimplePlaceCard } from "@/components/PlaceCard";
 // import PlaceCard from "@/components/PlaceCard";
 // import PinReview from "@/types/PinReview";
 
 const collection: CollectionDetail = {
   id: 1,
-  title: "강릉 주민 맛집",
+  title: "야호야호야호야호야호야호야호야",
   writerId: 1,
-  writerMembername: "잠자는_짱구의_콧털",
+  writerMembername: "zoooooo_S2zoooooo_S2zoooooo_S2111",
   thumbnail: "https://picsum.photos/id/326/300",
-  details: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
+  // details: "강릉 주민들이 자주 가는 맛집 모음집입니다.",
+  details:
+    "강릉 주민들이 자주 가는 맛집 모음집입니다.강릉 주민들이 자주 가는 맛집 모음집입니다.강릉 주민들이 자주 가는 맛집 모음집입니다.강릉 주민들이 자주 가는 맛집 모음집입니다.강릉 주민들이 자주 가는 맛집 모음집입니다.강릉 주민들이 자주 가는 맛집 모음집입니다.",
   likeCnt: 12,
   pinCnt: 5,
   scrapCnt: 3,
@@ -28,15 +34,17 @@ const pinData: Pin = {
   placeId: 13,
   collectionId: 1,
   writerMembername: "잠자는_짱구의_콧털",
-  review: "포카리스웨트 강남역점은 맛있는 음식을 먹을 수 있는 곳입니다.",
+  review:
+    "포카리스웨트 강남역점은 맛있는 음식을 먹을 수 있는 곳입니다.포카리스웨트 강남역점은 맛있는 음식을 먹을 수 있는 곳입니다.포카리스웨트 강남역점은 맛있는 음식을 먹을 수 있는 곳입니다.포카리스웨트 강남역점은 맛있는 음식을 먹을 수 있는 곳입니다.",
   createdAt: "2021-08-01",
   saveCnt: 3,
-  roadNameAddress: "서울특별시 강남구 역삼동 123-45",
-  placeName: "포카리스웨트 강남역점",
+  roadNameAddress:
+    "서울특별시 강남구 도산대로59길 16, 지하1층 (청담동, TABLE2025)",
+  placeName: "레스쁘아",
   latitude: 37.123456,
   longitude: 127.123456,
   starred: true,
-  category: "FOOD",
+  category: "음식점>경양식",
   tags: ["포카리스웨트", "강남역점"],
   imagePaths: [
     "https://picsum.photos/200",
@@ -46,28 +54,48 @@ const pinData: Pin = {
   collectionTitle: "강릉 주민 맛집",
 };
 
-const reviewData: Pin = {
+const pinData2: Pin = {
+  id: 37,
+  collectionId: 101,
+  collectionTitle: "디저트",
+  writerId: 3,
+  writerMembername: "best_cottull",
+  avatarImage: "",
+  review: "",
+  tags: [],
+  imagePaths: [],
+  createdAt: "11일 전",
+  placeId: 539612,
+  placeName: "디저트39",
+  category: "음식점>기타",
+  roadNameAddress: "서울특별시 용산구 한강대로 305, 지하1층 (갈월동)",
+  latitude: 37.54554952024324,
+  longitude: 126.97158543222845,
+  saveCnt: 0,
+  starred: false,
+  // pinCnt: 5,
+};
+
+const placeData: PlaceDetail = {
   id: 1,
-  placeId: 13,
-  collectionId: 2,
-  writerMembername: "JaneDoe",
-  review: "Great place to visit, loved the atmosphere!",
-  createdAt: "2023-01-20T14:30:00Z",
-  saveCnt: 42,
-  roadNameAddress: "123 Main St, Anytown, AN",
-  placeName: "Coffee Corner",
-  latitude: 37.5665,
-  longitude: 126.978,
+  name: "포카리스웨트 강남역점",
+  roadNameAddress: "서울특별시 강남구 역삼동 123-45",
+  category: "음식점",
+  latitude: 37.123456,
+  longitude: 127.123456,
   starred: true,
-  category: "Cafe",
-  tags: ["coffee", "cozy", "wifi"],
-  collectionTitle: "Favorite Spots",
-  imagePaths: [
-    "https://picsum.photos/200",
-    "https://picsum.photos/200",
-    "https://picsum.photos/200",
-  ],
-  // collectionTitle: "강릉 주민 맛집",
+  pinCnt: 3,
+};
+
+const placeStarredData: PlaceStarred = {
+  id: 1,
+  name: "포카리스웨트 강남역점",
+  roadNameAddress: "서울특별시 강남구 역삼동 123-45",
+  category: "음식점",
+  latitude: 37.123456,
+  longitude: 127.123456,
+  starred: true,
+  pinCnt: 3,
 };
 
 const commentList: Pin[] = [
@@ -150,32 +178,37 @@ export default function Page() {
       <CollectionCard collectionData={collection} detail={true} />
       <br />
 
-      <p>1. PlaceCard (전 LocationCard)</p>
-      {/* <PlaceCard pinData={pinData} /> */}
+      <p>1. PlaceCard </p>
+
+      <PlaceCard place={placeData} />
+      <br />
+      <PlaceCard place={placeStarredData} />
       <br />
 
-      <p>1. pincard simple</p>
-      {/* <PinCard pinData={pinData} />
+      <p>2. SimplePlaceCard </p>
+
+      <SimplePlaceCard place={placeData} />
+      <br />
+      <SimplePlaceCard place={placeStarredData} />
+      <br />
       <br />
 
-      <p>2. pincard with comment</p>
-      <PinCard pinData={pinData}>
-        <ReviewCard reviewData={reviewData} />
-      </PinCard>
+      <p>1. PinCard</p>
+      <PinCard pinData={pinData} showReview={false} showSubButtons={false} />
+      <PinCard pinData={pinData} showReview={false} />
+      <PinCard pinData={pinData} showReview={true} showSubButtons={false} />
+      <PinCard pinData={pinData} showReview={true} />
+
       <br />
 
-      <p>3. pincard with comment list</p>
-      <PinCard pinData={pinData}>
-        {commentList && (
-          <>
-            {commentList.map((comment) => (
-              <li key={comment.id}>
-                <ReviewCard reviewData={comment} />
-              </li>
-            ))}
-          </>
-        )}
-      </PinCard> */}
+      <p>2. SimplePinCard</p>
+      <SimplePinCard pinData={pinData} />
+      <SimplePinCard pinData={pinData} showSubButtons={true} />
+      <SimplePinCard pinData={pinData} activeShowDetail={true} />
+
+      <p> 3. test ? </p>
+      <SimplePinCard pinData={pinData2} />
+
       <br />
     </div>
   );
