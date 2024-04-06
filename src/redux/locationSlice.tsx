@@ -13,6 +13,7 @@ interface CounterState {
   mainContentWidth: string;
   markerData: MarkerData[];
   cleanSelectedCollection: boolean;
+  mapNESW: number[];
 }
 
 const initialState: CounterState = {
@@ -26,7 +27,8 @@ const initialState: CounterState = {
   locationGetter: false,
   mainContentWidth: "500px",
   markerData: [],
-  cleanSelectedCollection: false
+  cleanSelectedCollection: false,
+  mapNESW: [37.498243, 127.084865, 37.478243, 127.044865],
 };
 
 export const locationSlice = createSlice({
@@ -61,6 +63,9 @@ export const locationSlice = createSlice({
     },
     cleanSelectedCollectionByAmount: (state, action:PayloadAction<boolean>) => {
       state.cleanSelectedCollection = action.payload;
+    },
+    mapNESWByAmount: (state, action:PayloadAction<number[]>) => {
+      state.mapNESW = action.payload;
     }
   },
 });
@@ -74,7 +79,8 @@ export const {
   locationGetterByAmount,
   mainContentWidthByAmount,
   markerDataByAmount,
-  cleanSelectedCollectionByAmount
+  cleanSelectedCollectionByAmount,
+  mapNESWByAmount,
 } = locationSlice.actions;
 
 export const selectLocation = (state: RootState) => state.counter.value;

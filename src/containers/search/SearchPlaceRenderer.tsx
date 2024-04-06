@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppSelector } from "@/redux/hooks";
 import { useState, useRef, useEffect } from "react";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import { PlaceDetail } from "@/types/Place";
@@ -25,6 +26,8 @@ export default function SearchPlaceRender({
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
+
+  const mapNESW = useAppSelector((state) => state.location.mapNESW);
 
   const option = {
     root: null,
@@ -58,10 +61,10 @@ export default function SearchPlaceRender({
       rangeFilter === RangeFilter.ALL
         ? null
         : {
-            leftBottomLatitude: 37.6484923,
-            leftBottomLongitude: 127.0619026,
-            rightTopLatitude: 37.6504923,
-            rightTopLongitude: 127.0639026,
+            leftBottomLatitude: mapNESW[2],
+            leftBottomLongitude: mapNESW[3],
+            rightTopLatitude: mapNESW[0],
+            rightTopLongitude: mapNESW[1],
           };
 
     if (isLoading || isEnd) return;

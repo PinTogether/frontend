@@ -3,6 +3,7 @@
 import Pin from "@/types/Pin";
 import PinCard from "@/components/PinCard";
 
+import { useAppSelector } from "@/redux/hooks";
 import { useState, useRef, useEffect } from "react";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
@@ -28,6 +29,8 @@ export default function SearchPinRender({
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
+
+  const mapNESW = useAppSelector((state) => state.location.mapNESW);
 
   const option = {
     root: null,
@@ -61,10 +64,10 @@ export default function SearchPinRender({
       rangeFilter === RangeFilter.ALL
         ? null
         : {
-            leftBottomLatitude: 37.6484923,
-            leftBottomLongitude: 127.0619026,
-            rightTopLatitude: 37.6504923,
-            rightTopLongitude: 127.0639026,
+            leftBottomLatitude: mapNESW[2],
+            leftBottomLongitude: mapNESW[3],
+            rightTopLatitude: mapNESW[0],
+            rightTopLongitude: mapNESW[1],
           };
 
     if (isLoading || isEnd) return;

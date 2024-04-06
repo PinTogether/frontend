@@ -12,6 +12,7 @@ import {
   locationGetterByAmount,
   markerDataByAmount,
   geoApiAuthByAmount,
+  mapNESWByAmount,
 } from "@/redux/locationSlice";
 import MarkerData from "@/types/Marker";
 import LatLng from "@/types/Map";
@@ -75,6 +76,10 @@ const MapNaverDefault = () => {
 
   const handleGetAddress = async (X: number, Y: number) => {
     try {
+      if(newMap){
+        const mapCoord = newMap.getBounds();
+        dispatch(mapNESWByAmount([mapCoord.getMax().x, mapCoord.getMax().y, mapCoord.getMin().x, mapCoord.getMin().y]))
+      }
       if (geoApiAuth != "") {
         const data = await reverseGeoCoding({
           accessToken: geoApiAuth,
