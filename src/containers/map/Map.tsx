@@ -78,7 +78,8 @@ const MapNaverDefault = () => {
     try {
       if(newMap){
         const mapCoord = newMap.getBounds();
-        dispatch(mapNESWByAmount([mapCoord.getMax().x, mapCoord.getMax().y, mapCoord.getMin().x, mapCoord.getMin().y]))
+        dispatch(mapNESWByAmount([mapCoord.getMax().y, mapCoord.getMax().x, mapCoord.getMin().y, mapCoord.getMin().x]))
+        console.log("mapCoord at Map: ", [mapCoord.getMax().y, mapCoord.getMax().x, mapCoord.getMin().y, mapCoord.getMin().x]);
       }
       if (geoApiAuth != "") {
         const data = await reverseGeoCoding({
@@ -655,11 +656,11 @@ const MapNaverDefault = () => {
             left: sideWidth / 2 + 1100,
           }
         );
-        if(newMap){
-          const center = newMap.getCenter();
-          handleGetAddress(center.x, center.y);
-        }
         setTimeout(()=>{if (pinMarkerList[0]) {
+          if(newMap){
+            const center = newMap.getCenter();
+            handleGetAddress(center.x, center.y);
+          }
           updateMarkers();
           makeClusteredMarkerList();
         }}, 300);

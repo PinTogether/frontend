@@ -70,7 +70,7 @@ export default function SearchPlaceRender({
             rightTopLatitude: mapNESW[0],
             rightTopLongitude: mapNESW[1],
           };
-
+          console.log("mapCoord at Search: ", mapNESW);
     if (isLoading || isEnd) return;
     setIsLoading(true);
     const { placeDatas: newPlaceDatas, errorMessage } =
@@ -78,6 +78,7 @@ export default function SearchPlaceRender({
     if (newPlaceDatas.length > 0) {
       setPlaceDatas((prev) => [...prev, ...newPlaceDatas]);
       pageNum.current += 1;
+      makeMarker([...placeDatas, ...newPlaceDatas]);
     } else {
       setErrorMessage(errorMessage);
       setIsEnd(true);
@@ -89,7 +90,7 @@ export default function SearchPlaceRender({
     setRangeFilterType(rangeFilter);
   };
 
-  const makeMarker = () => {
+  const makeMarker = (placeDatas: PlaceDetail[]) => {
     // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
     if (!placeDatas) return;
     const markerList: MarkerData[] = [];
@@ -106,13 +107,6 @@ export default function SearchPlaceRender({
     dispatch(markerDataByAmount(markerList));
     dispatch(cleanSelectedCollectionByAmount(true));
   };
-
-  //검색결과를 기반으로 마커 생성하기
-  useEffect(()=>{
-    if(placeDatas[0]){
-      makeMarker();
-    }
-  },[placeDatas])
 
   return (
     <section className={styles.searchListContainer}>
