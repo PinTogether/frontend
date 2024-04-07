@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useState, useRef, useEffect } from "react";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import { PlaceDetail } from "@/types/Place";
@@ -7,8 +8,10 @@ import styles from "@/styles/containers/search/_searchPage.module.scss";
 import PlaceCard from "@/components/PlaceCard";
 import BouncingLoader from "@/components/BouncingLoader";
 import fetchGetSearchPlace from "@/utils/search/fetchGetSearchPlace";
+import { markerDataByAmount, cleanSelectedCollectionByAmount } from "@/redux/locationSlice";
 import { RangeFilter } from "./SearchPage";
 import { SearchRangeFilter } from "@/types/SearchRangeFilter";
+import MarkerData from "@/types/Marker";
 
 export default function SearchPlaceRender({
   searchKeyword,
@@ -19,12 +22,16 @@ export default function SearchPlaceRender({
   rangeFilter: RangeFilter;
   setRangeFilterType: (rangeFilter: RangeFilter) => void;
 }) {
+
+  const dispatch = useAppDispatch();
   const pageNum = useRef(0);
   const pageEndDiv = useRef<HTMLDivElement>(null);
   const [placeDatas, setPlaceDatas] = useState<PlaceDetail[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
+
+  const mapNESW = useAppSelector((state) => state.location.mapNESW);
 
   const option = {
     root: null,
@@ -58,12 +65,12 @@ export default function SearchPlaceRender({
       rangeFilter === RangeFilter.ALL
         ? null
         : {
-            leftBottomLatitude: 37.6484923,
-            leftBottomLongitude: 127.0619026,
-            rightTopLatitude: 37.6504923,
-            rightTopLongitude: 127.0639026,
+            leftBottomLatitude: mapNESW[2],
+            leftBottomLongitude: mapNESW[3],
+            rightTopLatitude: mapNESW[0],
+            rightTopLongitude: mapNESW[1],
           };
-
+          console.log("mapCoord at Search: ", mapNESW);
     if (isLoading || isEnd) return;
     setIsLoading(true);
     const { placeDatas: newPlaceDatas, errorMessage } =
@@ -71,6 +78,7 @@ export default function SearchPlaceRender({
     if (newPlaceDatas.length > 0) {
       setPlaceDatas((prev) => [...prev, ...newPlaceDatas]);
       pageNum.current += 1;
+      makeMarker([...placeDatas, ...newPlaceDatas]);
     } else {
       setErrorMessage(errorMessage);
       setIsEnd(true);
@@ -80,6 +88,24 @@ export default function SearchPlaceRender({
 
   const onClickRangeFilter = (rangeFilter: RangeFilter) => {
     setRangeFilterType(rangeFilter);
+  };
+
+  const makeMarker = (placeDatas: PlaceDetail[]) => {
+    // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
+    if (!placeDatas) return;
+    const markerList: MarkerData[] = [];
+    for (let i = 0; i < placeDatas.length; i++) {
+      markerList.push({
+        id: placeDatas[i].id,
+        placeId: placeDatas[i].id,
+        placeName: placeDatas[i].name,
+        pinCount: placeDatas[i].pinCnt,
+        latitude: placeDatas[i].latitude,
+        longitude: placeDatas[i].longitude,
+      });
+    }
+    dispatch(markerDataByAmount(markerList));
+    dispatch(cleanSelectedCollectionByAmount(true));
   };
 
   return (

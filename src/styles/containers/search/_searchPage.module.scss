@@ -129,7 +129,7 @@
 	.searchLogBanner{
 		display: flex;
 		align-items: flex-end;
-		justify-items: start;
+		justify-items: flex-start;
 		gap: 5px;
 		line-height: 2;
 		color: $color-grey-dark;
