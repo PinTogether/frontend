@@ -37,9 +37,7 @@ const MapNaverDefault = () => {
 
   const [sideWidth, setSideWidth] = useState<number>(0);
   const [newMap, setNewMap] = useState<naver.maps.Map>();
-  const [pinMarkerList, setPinMarkerList] = useState<naver.maps.Marker[]>(
-    []
-  );
+  const [pinMarkerList, setPinMarkerList] = useState<naver.maps.Marker[]>([]);
   const [markerDatas, setMarkerDatas] = useState<MarkerData[]>([]);
   const [clusteredMarkerList, setClusteredMarkerList] = useState<
     ClusteredMarkerData[]
@@ -78,10 +76,16 @@ const MapNaverDefault = () => {
 
   const handleGetAddress = async (X: number, Y: number) => {
     try {
-      if(newMap){
+      if (newMap) {
         const mapCoord = newMap.getBounds();
-        dispatch(mapNESWByAmount([mapCoord.getMax().y, mapCoord.getMax().x, mapCoord.getMin().y, mapCoord.getMin().x]))
-        console.log("mapCoord at Map: ", [mapCoord.getMax().y, mapCoord.getMax().x, mapCoord.getMin().y, mapCoord.getMin().x]);
+        dispatch(
+          mapNESWByAmount([
+            mapCoord.getMax().y,
+            mapCoord.getMax().x,
+            mapCoord.getMin().y,
+            mapCoord.getMin().x,
+          ])
+        );
       }
       if (geoApiAuth != "") {
         const data = await reverseGeoCoding({
@@ -190,7 +194,7 @@ const MapNaverDefault = () => {
         '<b style="position: absolute; top: 18px; left: 50%; color: #ffffff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         '<div style="width:12px; height:12px justify-content: center; text-align: center;">',
         `${markerdata.pinCount}`,
-        '</div>',
+        "</div>",
         '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:12px; height:12px;">',
         "</b>",
         '<b style="justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-shadow: -2px 0 #fdfdfd, 0 2px #fdfdfd, 2px 0 #fdfdfd, 0 -2px #fdfdfd; margin-top: 5px;">',
@@ -205,7 +209,7 @@ const MapNaverDefault = () => {
         '<b style="position: absolute; top: 18px; left: 50%; color: #ffffff; font-size: 11px; font-weight: 500; transform: translate(-50%, -50%);">',
         '<div style="width:20px; height:12px justify-content: center; text-align: center;">',
         ` 99+`,
-        '</div>',
+        "</div>",
         '<img src="/icons/marker_pin.svg" alt="" style=" position: absolute; width:20px; height:12px;">',
         "</b>",
         '<b style="justify-content: center; text-align: center; font-size: 14px; font-weight: 600; text-shadow: -2px 0 #fdfdfd, 0 2px #fdfdfd, 2px 0 #fdfdfd, 0 -2px #fdfdfd; margin-top: 5px;">',
@@ -371,8 +375,10 @@ const MapNaverDefault = () => {
               anchor: new naver.maps.Point(35, 60),
             },
           });
-          if(ClusteredMarkerData.innerMarkerList[0])
-            ClusteredMarkerData.clusteredMarker.setZIndex(ClusteredMarkerData.innerMarkerList[0].getZIndex() + 1);
+          if (ClusteredMarkerData.innerMarkerList[0])
+            ClusteredMarkerData.clusteredMarker.setZIndex(
+              ClusteredMarkerData.innerMarkerList[0].getZIndex() + 1
+            );
         } else {
           ClusteredMarkerData.clusteredMarker =
             ClusteredMarkerData.innerMarkerList[0];
@@ -383,7 +389,7 @@ const MapNaverDefault = () => {
     setClusteredMarkerList(newClusteredMarkers);
   }
 
-  function makeMarkerList(markerDatas:MarkerData[]) {
+  function makeMarkerList(markerDatas: MarkerData[]) {
     if (markerDatas[0] && window.naver) {
       const newMarkerList: naver.maps.Marker[] = [];
       markerDatas.forEach((data) => {
@@ -411,11 +417,8 @@ const MapNaverDefault = () => {
   useEffect(() => {
     if (window.naver && pinMarkerList[0] && newMap) {
       var distance = 0;
-      if(pinMarkerList.length == 1)
-        distance = 1000;
-      var centerBounds = new naver.maps.LatLng(
-        pinMarkerList[0].getPosition()
-      );
+      if (pinMarkerList.length == 1) distance = 1000;
+      var centerBounds = new naver.maps.LatLng(pinMarkerList[0].getPosition());
       var bounds = new naver.maps.LatLngBounds(centerBounds, centerBounds);
       pinMarkerList.forEach((marker) => {
         bounds.extend(marker.getPosition());
@@ -504,14 +507,14 @@ const MapNaverDefault = () => {
       const mapClick = naver.maps.Event.addListener(
         newMap,
         "click",
-        function(e){
-          clusteredMarkerList.forEach((data)=>{
-            if(data.infoWindow?.getMap()){
+        function (e) {
+          clusteredMarkerList.forEach((data) => {
+            if (data.infoWindow?.getMap()) {
               data.infoWindow.close();
             }
-          })
+          });
         }
-      )
+      );
       clusteredMarkerList.forEach((data) => {
         const eventList: naver.maps.MapEventListener[] = [];
         const buttonEventList: HTMLElement[] = [];
@@ -570,7 +573,7 @@ const MapNaverDefault = () => {
                   newMap.panToBounds(
                     data.markersBounds,
                     { easing: "linear", duration: 300 }, // 애니메이션
-                    { top: 400, right: 400, bottom: 400, left: sideWidth +  400 }
+                    { top: 400, right: 400, bottom: 400, left: sideWidth + 400 }
                   );
                 }
               } else {
@@ -610,10 +613,10 @@ const MapNaverDefault = () => {
   }, [geoApiAuth, clusteredMarkerList]);
 
   // 내 위치 표시하는 마커
-  useEffect(()=>{
-    if(myLocation && newMap){
+  useEffect(() => {
+    if (myLocation && newMap) {
       var myPositionMarker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(0,0),
+        position: new naver.maps.LatLng(0, 0),
         icon: {
           content: [
             '<div style="border-radius: 70%; width:16px; height:16px; background-color:#eb5252; border: 2px solid #ffffff; box-shadow: 1px 1px 2px 1px rgb(0,0,0,0.3)">',
@@ -627,11 +630,10 @@ const MapNaverDefault = () => {
       myPositionMarker.setPosition(myLocation);
       myPositionMarker.setMap(newMap);
     }
-    return(()=>{
-      if(myPositionMarker)
-        myPositionMarker.setMap(null);
-    })
-  },[myLocation])
+    return () => {
+      if (myPositionMarker) myPositionMarker.setMap(null);
+    };
+  }, [myLocation]);
 
   // 메인창 크기에 따라 지도 좌표 밀어주기
   useEffect(() => {
@@ -659,19 +661,25 @@ const MapNaverDefault = () => {
     }
   }, [isScriptLoaded]);
 
-  function checkIsPositionGetter(){
-    for(let i = 0 ; i < pinMarkerList.length ; i++){
+  function checkIsPositionGetter() {
+    for (let i = 0; i < pinMarkerList.length; i++) {
       const markerPosition = pinMarkerList[i].getPosition();
-      if(reduxMarkerDatas[0].longitude == markerPosition.x && reduxMarkerDatas[0].latitude == markerPosition.y)
-        return (true);
+      if (
+        reduxMarkerDatas[0].longitude == markerPosition.x &&
+        reduxMarkerDatas[0].latitude == markerPosition.y
+      )
+        return true;
     }
-    return(false);
+    return false;
   }
   //마커 목록 생성
   useEffect(() => {
     if (window.naver && reduxMarkerDatas[0] && isScriptLoaded) {
-      if(reduxMarkerDatas.length == 1 && checkIsPositionGetter()){
-        var centerBounds = new naver.maps.LatLng({x: reduxMarkerDatas[0].longitude, y:reduxMarkerDatas[0].latitude});
+      if (reduxMarkerDatas.length == 1 && checkIsPositionGetter()) {
+        var centerBounds = new naver.maps.LatLng({
+          x: reduxMarkerDatas[0].longitude,
+          y: reduxMarkerDatas[0].latitude,
+        });
         var bounds = new naver.maps.LatLngBounds(centerBounds, centerBounds);
         newMap?.panToBounds(
           bounds,
@@ -683,16 +691,17 @@ const MapNaverDefault = () => {
             left: sideWidth / 2 + 1100,
           }
         );
-        setTimeout(()=>{if (pinMarkerList[0]) {
-          if(newMap){
-            const center = newMap.getCenter();
-            handleGetAddress(center.x, center.y);
+        setTimeout(() => {
+          if (pinMarkerList[0]) {
+            if (newMap) {
+              const center = newMap.getCenter();
+              handleGetAddress(center.x, center.y);
+            }
+            updateMarkers();
+            makeClusteredMarkerList();
           }
-          updateMarkers();
-          makeClusteredMarkerList();
-        }}, 300);
-      }
-      else{
+        }, 300);
+      } else {
         deleteMarker();
         setMarkerDatas(reduxMarkerDatas);
         makeMarkerList(reduxMarkerDatas);
