@@ -28,7 +28,7 @@ export default function OverlayTopper() {
   return (
     <div className={styles.topOuter}>
       <div className={styles.top}>
-        <button className={styles.topButton} onClick={getLocation}>
+        <button className={styles.topButton} title="내 위치 불러오기" onClick={getLocation}>
           {locationGetter && (
             <div className={styles.loader}>
               <div className={styles.ball}></div>
@@ -52,12 +52,12 @@ export default function OverlayTopper() {
         <LocationRenderer />
       </div>
       <div className={styles.topBottom}>
-        <button className={styles.topButton2}>
-          <img src="/icons/restaurant.svg" alt="cafe" width="18px" height="18px" />
+        <button className={styles.topButton2} title="음식점 찾기">
+          <img src="/icons/restaurant.svg" alt="음식점" width="18px" height="18px" />
           음식점
           </button>
-        <button className={styles.topButton2}>
-          <img src="/icons/cafe.svg" alt="cafe" width="18px" height="18px" />
+        <button className={styles.topButton2} title="카페 찾기">
+          <img src="/icons/cafe.svg" alt="카페" width="18px" height="18px" />
           카페
         </button>
       </div>
