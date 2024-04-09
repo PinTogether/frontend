@@ -29,7 +29,7 @@ const fetchGetStars = async (userId: number) => {
       roadNameAddress: result.roadNameAddress,
       longitude: result.longitude,
       latitude: result.latitude,
-      placePinCnt: result.pinCnt,
+      placePinCnt: result.placePinCnt,
       starred: true,
     }));
     return { starredDatas, errorMessage: "" };
