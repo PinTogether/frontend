@@ -14,7 +14,6 @@ const fetchGetReport = async (
         credentials: "include",
       }
     );
-    console.log("fetchGetReport res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -27,7 +26,6 @@ const fetchGetReport = async (
     }
     if (!res.ok) throw new Error("신고 목록 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetReport data", data);
     const reportList: Report[] = data.results;
     return { reportList: reportList, errorMessage: "" };
   } catch (err: any) {

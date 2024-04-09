@@ -17,7 +17,6 @@ const fetchGetProfileScraps = async (
         credentials: "include",
       }
     );
-    console.log("fetchGetProfileScraps res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -27,7 +26,6 @@ const fetchGetProfileScraps = async (
     }
     if (!res.ok) throw new Error("스크랩한 컬렉션 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetProfileScraps data", data);
     if (data.metadata.resultCount === 0) {
       return {
         scrapDatas: [],

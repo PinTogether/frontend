@@ -10,7 +10,6 @@ const fetchGetMemberNameValid = async (membername: string) => {
         credentials: "include",
       }
     );
-    console.log("fetchGetMemberNameValid res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -26,7 +25,6 @@ const fetchGetMemberNameValid = async (membername: string) => {
     }
     if (!res.ok) throw new Error("사용자 이름 유효성 검사에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetMemberNameValid data", data);
     if (!data.results[0].valid) {
       return {
         valid: data.results[0].valid,

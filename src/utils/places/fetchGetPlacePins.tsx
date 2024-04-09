@@ -14,7 +14,6 @@ const fetchGetPlacePins = async (
         credentials: "include",
       }
     );
-    console.log("fetchGetPlacePins res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -27,7 +26,6 @@ const fetchGetPlacePins = async (
     }
     if (!res.ok) throw new Error("장소의 핀 정보 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetPlacePins data", data);
     const placeInfo: PinForPlace[] = data.results;
     return { placeInfo: placeInfo, errorMessage: "" };
   } catch (err: any) {

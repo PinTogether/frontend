@@ -10,7 +10,6 @@ const fetchGetCollectionInfo = async (collectionId: number) => {
         credentials: "include",
       }
     );
-    console.log("fetchGetCollectionInfo res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -25,7 +24,6 @@ const fetchGetCollectionInfo = async (collectionId: number) => {
     }
     if (!res.ok) throw new Error("컬렉션 정보 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetCollectionInfo data", data);
     const collectionInfo: CollectionDetail = data.results[0];
     return { collectionInfo, errorMessage: "" };
   } catch (err: any) {

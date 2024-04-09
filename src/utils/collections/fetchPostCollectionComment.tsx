@@ -18,7 +18,6 @@ const fetchPostCollectionComments = async (
         body: JSON.stringify({ contents: contents }),
       }
     );
-    console.log("fetchPostCollectionComments res", res);
     if (res.status === 401) {
       logout();
       return { success: false, errorMessage: "로그인이 필요합니다." };

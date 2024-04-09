@@ -12,7 +12,6 @@ const fetchGetPlaceInfo = async (
         credentials: "include",
       }
     );
-    console.log("fetchGetPlaceInfo res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -25,7 +24,6 @@ const fetchGetPlaceInfo = async (
     }
     if (!res.ok) throw new Error("장소 정보 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetPlaceInfo data", data);
     const placeInfo: PlaceDetail = data.results[0];
     return { placeInfo: placeInfo, errorMessage: "" };
   } catch (err: any) {

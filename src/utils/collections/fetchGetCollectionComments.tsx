@@ -15,7 +15,6 @@ const fetchGetCollectionComments = async (
         credentials: "include",
       }
     );
-    console.log("fetchGetCollectionComments res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -25,7 +24,6 @@ const fetchGetCollectionComments = async (
     }
     if (!res.ok) throw new Error("컬렉션 댓글 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetCollectionComments data", data);
     if (data.metadata.resultCount === 0) {
       return {
         replyDatas: [],
