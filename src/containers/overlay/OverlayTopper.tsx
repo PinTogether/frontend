@@ -16,39 +16,51 @@ export default function OverlayTopper() {
   }
 
   const LocationRenderer = () => {
-    return(
+    return (
       <div className={styles.topLocation}>
-      <div>{sidoName}</div>
-      <div>{sggName}</div>
-      <div>{emdongName}</div>
-    </div>
+        <div>{sidoName}</div>
+        <div>{sggName}</div>
+        <div>{emdongName}</div>
+      </div>
     );
-  }
+  };
 
   return (
-    <div className={styles.top}>
-      <button className={styles.topButton} onClick={getLocation}>
-        {locationGetter && (
-          <div className={styles.loader}>
-            <div className={styles.ball}></div>
-            <div className={styles.ball}></div>
-            <div className={styles.ball}></div>
-            <div className={styles.ball}></div>
-            <div className={styles.ball}></div>
-            <div className={styles.ball}></div>
-            <div className={styles.ball}></div>
-            <div className={styles.ball}></div>
-          </div>
-        )}
-        {!locationGetter && (
-          <img
-            src="/icon/location_plain.svg"
-            alt="location button"
-            className={styles.icon}
-          ></img>
-        )}
-      </button>
-      <LocationRenderer />
+    <div className={styles.topOuter}>
+      <div className={styles.top}>
+        <button className={styles.topButton} onClick={getLocation}>
+          {locationGetter && (
+            <div className={styles.loader}>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+              <div className={styles.ball}></div>
+            </div>
+          )}
+          {!locationGetter && (
+            <img
+              src="/icon/location_plain.svg"
+              alt="location button"
+              className={styles.icon}
+            ></img>
+          )}
+        </button>
+        <LocationRenderer />
+      </div>
+      <div className={styles.topBottom}>
+        <button className={styles.topButton2}>
+          <img src="/icons/restaurant.svg" alt="cafe" width="18px" height="18px" />
+          음식점
+          </button>
+        <button className={styles.topButton2}>
+          <img src="/icons/cafe.svg" alt="cafe" width="18px" height="18px" />
+          카페
+        </button>
+      </div>
     </div>
   );
 }
