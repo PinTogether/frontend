@@ -10,7 +10,6 @@ const fetchGetCollectionAllPins = async (collectionId: number) => {
         credentials: "include",
       }
     );
-    console.log("fetchGetCollectionAllPins res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -20,7 +19,6 @@ const fetchGetCollectionAllPins = async (collectionId: number) => {
     }
     if (!res.ok) throw new Error("핀 리스트 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetCollectionAllPins data", data);
     const pinList: PinForPlace[] = data.results;
     if (pinList.length === 0) {
       return {
@@ -28,7 +26,6 @@ const fetchGetCollectionAllPins = async (collectionId: number) => {
         errorMessage: "해당 컬렉션에 등록된 핀이 없습니다.",
       };
     }
-    console.log("pinList", pinList);
     return { pinList, errorMessage: "" };
   } catch (err: any) {
     console.error(err);

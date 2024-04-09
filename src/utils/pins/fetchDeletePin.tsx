@@ -9,7 +9,6 @@ const fetchDeletePin = async (pinId: number) => {
         credentials: "include",
       }
     );
-    console.log("fetchDeletePin", res);
     if (res.status === 401) {
       logout();
       return { success: false, errorMessage: "로그인이 필요합니다." };

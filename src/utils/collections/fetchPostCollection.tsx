@@ -24,7 +24,6 @@ const fetchPostCollection = async (
         }),
       }
     );
-    console.log("fetchPostCollection res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -35,7 +34,6 @@ const fetchPostCollection = async (
     }
     if (!res.ok) throw new Error("컬렉션 생성을 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchPostCollection data", data);
     if (contentType) {
       const presingedUrlData: PresignedUrl = data.results[0];
       return {

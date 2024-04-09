@@ -9,7 +9,6 @@ const fetchDeleteCollectionLikes = async (collectionId: number) => {
         credentials: "include",
       }
     );
-    console.log("fetchDeleteCollectionLikes", res);
     if (res.status === 401) {
       logout();
       return { success: false, errorMessage: "로그인이 필요합니다." };
