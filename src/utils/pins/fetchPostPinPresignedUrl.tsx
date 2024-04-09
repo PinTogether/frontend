@@ -16,7 +16,6 @@ const fetchPostPinPresignedUrl = async (
         body: JSON.stringify({ contentType: contentTypeList }),
       }
     );
-    console.log("fetchGetAvatarPresignedUrl res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -26,7 +25,6 @@ const fetchPostPinPresignedUrl = async (
     }
     if (!res.ok) throw new Error("presinged url 발급에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetAvatarPresignedUrl data", data);
     const presignedUrlDataList: PresignedUrl[] = data.results;
     return { presignedUrlDataList, errorMessage: "" };
   } catch (err: any) {

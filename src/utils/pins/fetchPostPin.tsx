@@ -21,7 +21,6 @@ const fetchPostPin = async (
         fileType: fileType,
       }),
     });
-    console.log("fetchPostPin", res);
     if (res.status === 401) {
       logout();
       return {

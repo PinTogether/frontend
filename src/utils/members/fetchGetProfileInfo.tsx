@@ -10,7 +10,6 @@ const fetchGetProfileInfo = async (userId: number) => {
         credentials: "include",
       }
     );
-    console.log("fetchGetProfileInfo res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -26,7 +25,6 @@ const fetchGetProfileInfo = async (userId: number) => {
     }
     if (!res.ok) throw new Error("프로필 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetProfileInfo data", data);
     const profileInfo: ProfileOthers = data.results[0];
     return { profileInfo, errorMessage: "" };
   } catch (err: any) {

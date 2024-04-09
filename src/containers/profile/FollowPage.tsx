@@ -120,7 +120,7 @@ const UserCard = ({
       </Link>
       <Link href={`/profile/${user.membername}`} className={styles.names}>
         <div className={styles.userMembername}>{`${user.membername}`}</div>
-        <div className={styles.userName}>{`${user.name} name`}</div>
+        <div className={styles.userName}>{`${user.name}`}</div>
       </Link>
       <div
         className={styles.userCollectionCnt}

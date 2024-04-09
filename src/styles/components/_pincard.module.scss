@@ -22,6 +22,9 @@
       color: $color-text-caption;
       align-self: start;
     }
+    .collectionTitle {
+      color: $color-text-caption;
+    }
     .placeNameContainer {
       display: flex;
       align-items: flex-end;
@@ -67,6 +70,13 @@
         color: $color-text-caption;
       }
     }
+  }
+  .createdAt {
+    display: block;
+    text-align: end;
+    font-size: $font-size-smallest;
+    color: $color-text-caption;
+    line-height: 1.2;
   }
 }
 
@@ -154,12 +164,13 @@
 .editButton {
   width: fit-content;
   height: fit-content;
-  svg {
+  & > * {
+    font-size: $font-size-smallest;
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
     padding: 0.2rem;
-    color: $color-text-caption;
+    color: $color-grey;
     cursor: pointer;
     transition: all 0.2s;
     &:hover {

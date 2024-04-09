@@ -24,7 +24,6 @@ const fetchGetSearchHistory = async (): Promise<{
         credentials: "include",
       }
     );
-    console.log("fetchGetSearchHistory res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -34,7 +33,6 @@ const fetchGetSearchHistory = async (): Promise<{
     }
     if (!res.ok) throw new Error("검색 기록 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetSearchHistory data", data);
     if (data.metadata.resultCount == 0) {
       return {
         searchLogs: [],

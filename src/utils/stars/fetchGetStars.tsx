@@ -7,7 +7,6 @@ const fetchGetStars = async (userId: number) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stars`, {
       credentials: "include",
     });
-    console.log("fetchGetStars res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -17,7 +16,6 @@ const fetchGetStars = async (userId: number) => {
     }
     if (!res.ok) throw new Error("찜한 목록 불러오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetStars data", data);
     if (data.metadata.resultCount === 0) {
       return {
         starredDatas: [],

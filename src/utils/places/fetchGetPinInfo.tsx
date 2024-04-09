@@ -12,7 +12,6 @@ const fetchGetPinInfo = async (
         credentials: "include",
       }
     );
-    console.log("fetchGetPinInfo res", res);
     if (res.status === 401) {
       logout();
       return {
@@ -25,7 +24,6 @@ const fetchGetPinInfo = async (
     }
     if (!res.ok) throw new Error("장소 정보 가져오기에 실패했습니다.");
     const data: APIResponse = await res.json();
-    console.log("fetchGetPinInfo data", data);
     const pinInfo: Pin = data.results[0];
     return { pinInfo: pinInfo, errorMessage: "" };
   } catch (err: any) {
