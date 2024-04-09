@@ -31,8 +31,7 @@ export default function PinCard({
   ...props
 }: PinCardProps) {
   const dispatch = useAppDispatch();
-  // const isMyId = useCheckIsMyId(pinData.writerId || -1);
-  const isMyId = true;
+  const isMyId = useCheckIsMyId(pinData.writerId || -1);
 
   return (
     <article className={styles.pinCard} {...props}>
@@ -122,8 +121,7 @@ const SimplePinCard = ({
   const ref = useRef<HTMLDivElement>(null);
   const [showDetail, setShowDetail] = useState(false);
   const dispatch = useAppDispatch();
-  // const isMyId = useCheckIsMyId(pinData.writerId || -1);
-  const isMyId = true;
+  const isMyId = useCheckIsMyId(pinData.writerId || -1);
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     console.log("click");
