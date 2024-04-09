@@ -210,7 +210,7 @@ const CollectionSelectPage = () => {
                       title: collection.title,
                       thumbnail: collection.thumbnail,
                       likeCnt: collection.likeCnt,
-                      pinCnt: collection.pinCnt,
+                      collectionPinCnt: collection.collectionPinCnt,
                       scrapCnt: collection.scrapCnt,
                       // unneeded props
                       writerId: userId || 0,

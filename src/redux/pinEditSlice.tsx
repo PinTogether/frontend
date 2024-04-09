@@ -15,7 +15,7 @@ const initialState: Pin = {
   writerMembername: "",
   review: "",
   createdAt: "",
-  saveCnt: 0,
+  placePinCnt: 0,
   roadNameAddress: "",
   placeName: "",
   latitude: 0,

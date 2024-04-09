@@ -46,7 +46,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
               place.id,
               place.id,
               place.name,
-              place.pinCnt,
+              place.placePinCnt,
               place.latitude,
               place.longitude,
               dispatchMarker
@@ -60,7 +60,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
         <address className={styles.address}>{place.roadNameAddress}</address>
         <div className={styles.buttonContainer}>
           <div className={styles.pinCnt}>
-            {`${place.pinCnt}개 핀`}
+            {`${place.placePinCnt}개 핀`}
             <PinIcon />
           </div>
           <Link href={`/collection/select?placeId=${place.id}`}>
@@ -73,7 +73,7 @@ const PlaceCard = ({ place }: { place: PlaceDetail | PlaceStarred }) => {
                 place.id,
                 place.id,
                 place.name,
-                place.pinCnt,
+                place.placePinCnt,
                 place.latitude,
                 place.longitude,
                 dispatchMarker
@@ -105,10 +105,10 @@ const SimplePlaceCard = ({
       </div>
       {/* <div className={styles.subDataContainer}> */}
       <address className={styles.address}>{place.roadNameAddress}</address>
-      {place.pinCnt ? (
+      {place.placePinCnt ? (
         <div className={styles.pinCnt}>
           <PinIcon />
-          <div>{`${place.pinCnt}개 핀`}</div>
+          <div>{`${place.placePinCnt}개 핀`}</div>
         </div>
       ) : null}
       {/* </div> */}

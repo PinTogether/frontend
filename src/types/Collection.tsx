@@ -7,7 +7,7 @@ export default interface Collection {
   writerMembername: string;
   thumbnail: string;
   likeCnt: number;
-  pinCnt: number;
+  collectionPinCnt: number;
   scrapCnt: number;
   scrapped: boolean;
   liked: boolean;
@@ -27,7 +27,7 @@ export interface CollectionForAddPin {
   title: string;
   thumbnail: string;
   likeCnt: number;
-  pinCnt: number;
+  collectionPinCnt: number;
   scrapCnt: number;
   pinned: boolean;
 }

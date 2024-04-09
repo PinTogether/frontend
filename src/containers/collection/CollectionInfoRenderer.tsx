@@ -150,7 +150,7 @@ const CollectionInfoRenderer = ({
       <div className={styles.buttonContainer}>
         <button className={styles.button} onClick={handleClickLocationButton}>
           <LocationIcon />
-          <div className={styles.text}>{collectionData.pinCnt}개 장소</div>
+          <div className={styles.text}>{collectionData.collectionPinCnt}개 장소</div>
         </button>
         <button className={styles.button} onClick={handleClickShareButton}>
           <LinkIcon />

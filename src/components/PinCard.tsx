@@ -73,7 +73,7 @@ export default function PinCard({
                   pinData.id,
                   pinData.placeId,
                   pinData.placeName,
-                  pinData.saveCnt,
+                  pinData.placePinCnt,
                   pinData.latitude,
                   pinData.longitude,
                   dispatch
