@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
 
 import { Report } from "@/types/Report";
@@ -54,24 +54,6 @@ export default function NotifyPage() {
           있으니 양해 부탁드립니다.
         </LiWrapper>
       </UlWrapper> */}
-      {reportList.length > 0 && (
-        <UlWrapper categoryTitle="신고 현황">
-          {reportList.map((report) => (
-            <LiWrapper key={report.id}>
-              <span>
-                {report.targetMembername} 님의 {report.platformType} 에 대한
-                신고를 접수하였습니다.
-              </span>
-              <span>
-                {report.complaintCategory} 사유: {report.reason}
-              </span>
-              <span>
-                {report.createdAt} 신고자: {report.reporterMembername}
-              </span>
-            </LiWrapper>
-          ))}
-        </UlWrapper>
-      )}
       {!notifications && (
         <UlWrapper categoryTitle="알림이 없습니다">{""}</UlWrapper>
       )}
