@@ -65,7 +65,7 @@ export default function MainPage() {
 
   const getTopCollectionData = async () => {
     await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10&ids=146,147,148`,
       {
         credentials: "include",
       }
