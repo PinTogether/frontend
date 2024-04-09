@@ -179,7 +179,7 @@ export default function Overlay() {
               id:pinData.id,
               placeId:pinData.placeId,
               placeName:pinData.placeName,
-              pinCount:pinData.saveCnt,
+              pinCount:pinData.placePinCnt,
               latitude:pinData.latitude,
               longitude:pinData.longitude,
             };

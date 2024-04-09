@@ -1,3 +1,4 @@
+import { PlaceDetail } from "@/types/Place";
 import { NextResponse, NextRequest } from "next/server";
 
 /* 특정 장소 정보 조회 */
@@ -22,6 +23,7 @@ export async function GET(
   //     status: 404,
   //   }
   // );
+
   return NextResponse.json({
     status: {
       code: 200,
@@ -30,17 +32,19 @@ export async function GET(
     metadata: {
       resultCount: 1,
     },
-    results: [
-      {
-        id: 524372,
-        name: "왕십리곱창구이 . 혜화점",
-        roadNameAddress: "서울특별시 종로구 명륜길 13, 1층 (명륜3가)",
-        pinCnt: 1,
-        latitude: 37.588027829867926,
-        longitude: 126.99598227828525,
-        category: "음식점>한식",
-        starred: false,
-      },
-    ],
+    results: results,
   });
 }
+
+const results: PlaceDetail[] = [
+  {
+    id: 524372,
+    name: "왕십리곱창구이 . 혜화점",
+    roadNameAddress: "서울특별시 종로구 명륜길 13, 1층 (명륜3가)",
+    placePinCnt: 1,
+    latitude: 37.588027829867926,
+    longitude: 126.99598227828525,
+    category: "음식점>한식",
+    starred: false,
+  },
+];

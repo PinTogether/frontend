@@ -3,7 +3,7 @@ export default interface Place {
   name: string;
   roadNameAddress: string;
   category: string;
-  pinCnt: number;
+  placePinCnt: number;
 }
 
 // 특정 장소 정보 조회

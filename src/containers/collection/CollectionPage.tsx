@@ -113,7 +113,7 @@ export default function CollectionPage({
         id: pinFetchDatas.pinList[i].id,
         placeId: pinFetchDatas.pinList[i].placeId,
         placeName: pinFetchDatas.pinList[i].placeName,
-        pinCount: pinFetchDatas.pinList[i].saveCnt,
+        pinCount: pinFetchDatas.pinList[i].placePinCnt,
         latitude: pinFetchDatas.pinList[i].latitude,
         longitude: pinFetchDatas.pinList[i].longitude,
       });

@@ -98,7 +98,7 @@ export default function SearchPlaceRender({
         id: placeDatas[i].id,
         placeId: placeDatas[i].id,
         placeName: placeDatas[i].name,
-        pinCount: placeDatas[i].pinCnt,
+        pinCount: placeDatas[i].placePinCnt,
         latitude: placeDatas[i].latitude,
         longitude: placeDatas[i].longitude,
       });

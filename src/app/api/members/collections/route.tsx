@@ -1,3 +1,4 @@
+import { CollectionForAddPin } from "@/types/Collection";
 import { NextResponse, NextRequest } from "next/server";
 
 /* 핀 추가할 내 콜렉션들 조회 */
@@ -20,58 +21,60 @@ export async function GET(
       metadata: {
         resultCount: 5,
       },
-      results: [
-        {
-          id: 46,
-          title: "title6",
-          thumbnail:
-            "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/collection1.png",
-          likeCnt: 0,
-          pinCnt: 0,
-          scrapCnt: 0,
-          pinned: false,
-        },
-        {
-          id: 47,
-          title: "title6",
-          thumbnail:
-            "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/collection1.png",
-          likeCnt: 0,
-          pinCnt: 0,
-          scrapCnt: 0,
-          pinned: false,
-        },
-        {
-          id: 48,
-          title: "title6",
-          thumbnail:
-            "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/collection1.png",
-          likeCnt: 0,
-          pinCnt: 0,
-          scrapCnt: 0,
-          pinned: false,
-        },
-        {
-          id: 49,
-          title: "title6",
-          thumbnail:
-            "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/collection1.png",
-          likeCnt: 1,
-          pinCnt: 0,
-          scrapCnt: 1,
-          pinned: false,
-        },
-        {
-          id: 56,
-          title: "떡볶이 맛집",
-          thumbnail:
-            "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/collection1.png",
-          likeCnt: 1,
-          pinCnt: 0,
-          scrapCnt: 0,
-          pinned: false,
-        },
-      ],
+      results: results,
     });
   }
 }
+
+const results: CollectionForAddPin[] = [
+  {
+    id: 46,
+    title: "title6",
+    thumbnail:
+      "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/collection1.png",
+    likeCnt: 0,
+    collectionPinCnt: 0,
+    scrapCnt: 0,
+    pinned: false,
+  },
+  {
+    id: 47,
+    title: "title6",
+    thumbnail:
+      "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/collection1.png",
+    likeCnt: 0,
+    collectionPinCnt: 0,
+    scrapCnt: 0,
+    pinned: false,
+  },
+  {
+    id: 48,
+    title: "title6",
+    thumbnail:
+      "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/collection1.png",
+    likeCnt: 0,
+    collectionPinCnt: 0,
+    scrapCnt: 0,
+    pinned: false,
+  },
+  {
+    id: 49,
+    title: "title6",
+    thumbnail:
+      "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/collection1.png",
+    likeCnt: 1,
+    collectionPinCnt: 0,
+    scrapCnt: 1,
+    pinned: false,
+  },
+  {
+    id: 56,
+    title: "떡볶이 맛집",
+    thumbnail:
+      "https://pintogether-img.s3.ap-northeast-2.amazonaws.com/default/collection1.png",
+    likeCnt: 1,
+    collectionPinCnt: 0,
+    scrapCnt: 0,
+    pinned: false,
+  },
+];

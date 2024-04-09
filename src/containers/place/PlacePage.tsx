@@ -76,7 +76,7 @@ const PlacePage = ({ placeId }: { placeId: string }) => {
         placeData.id,
         placeData.id,
         placeData.name,
-        placeData.pinCnt,
+        placeData.placePinCnt,
         placeData.latitude,
         placeData.longitude,
         dispatchMarker
