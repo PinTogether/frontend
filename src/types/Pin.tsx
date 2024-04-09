@@ -6,7 +6,7 @@ export default interface Pin {
   avatarImage?: string; // TODO
   review: string;
   createdAt: string;
-  saveCnt: number;
+  placePinCnt: number;
   roadNameAddress: string;
   placeName: string;
   placeId: number; // TODO

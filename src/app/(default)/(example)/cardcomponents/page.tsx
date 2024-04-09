@@ -22,7 +22,7 @@ const collection: CollectionDetail = {
   details:
     "강릉 주민들이 자주 가는 맛집 모음집입니다.강릉 주민들이 자주 가는 맛집 모음집입니다.강릉 주민들이 자주 가는 맛집 모음집입니다.강릉 주민들이 자주 가는 맛집 모음집입니다.강릉 주민들이 자주 가는 맛집 모음집입니다.강릉 주민들이 자주 가는 맛집 모음집입니다.",
   likeCnt: 12,
-  pinCnt: 5,
+  collectionPinCnt: 5,
   scrapCnt: 3,
   scrapped: true,
   liked: false,
@@ -37,7 +37,7 @@ const pinData: Pin = {
   review:
     "포카리스웨트 강남역점은 맛있는 음식을 먹을 수 있는 곳입니다.포카리스웨트 강남역점은 맛있는 음식을 먹을 수 있는 곳입니다.포카리스웨트 강남역점은 맛있는 음식을 먹을 수 있는 곳입니다.포카리스웨트 강남역점은 맛있는 음식을 먹을 수 있는 곳입니다.",
   createdAt: "2021-08-01",
-  saveCnt: 3,
+  placePinCnt: 3,
   roadNameAddress:
     "서울특별시 강남구 도산대로59길 16, 지하1층 (청담동, TABLE2025)",
   placeName: "레스쁘아",
@@ -71,7 +71,7 @@ const pinData2: Pin = {
   roadNameAddress: "서울특별시 용산구 한강대로 305, 지하1층 (갈월동)",
   latitude: 37.54554952024324,
   longitude: 126.97158543222845,
-  saveCnt: 0,
+  placePinCnt: 0,
   starred: false,
   // pinCnt: 5,
 };
@@ -84,7 +84,7 @@ const placeData: PlaceDetail = {
   latitude: 37.123456,
   longitude: 127.123456,
   starred: true,
-  pinCnt: 3,
+  placePinCnt: 3,
 };
 
 const placeStarredData: PlaceStarred = {
@@ -95,7 +95,7 @@ const placeStarredData: PlaceStarred = {
   latitude: 37.123456,
   longitude: 127.123456,
   starred: true,
-  pinCnt: 3,
+  placePinCnt: 3,
 };
 
 const commentList: Pin[] = [
@@ -106,7 +106,7 @@ const commentList: Pin[] = [
     writerMembername: "user123",
     review: "아름다운 경치와 맛있는 음식",
     createdAt: "2023-02-15T12:34:56",
-    saveCnt: 25,
+    placePinCnt: 25,
     roadNameAddress: "서울특별시 강남구 어딘가",
     placeName: "멋진 카페",
     latitude: 37.1234,
@@ -128,7 +128,7 @@ const commentList: Pin[] = [
     writerMembername: "user456",
     review: "편안한 분위기에서 즐기는 최고의 커피",
     createdAt: "2023-03-01T15:20:30",
-    saveCnt: 40,
+    placePinCnt: 40,
     roadNameAddress: "서울특별시 종로구 다른 곳",
     placeName: "조용한 북카페",
     latitude: 37.5759,
@@ -146,7 +146,7 @@ const commentList: Pin[] = [
     writerMembername: "user789",
     review: "경치가 뛰어나고 음식도 훌륭한 곳",
     createdAt: "2023-04-10T18:45:00",
-    saveCnt: 55,
+    placePinCnt: 55,
     roadNameAddress: "서울특별시 용산구 또 다른 곳",
     placeName: "전망 좋은 레스토랑",
     latitude: 37.5283,

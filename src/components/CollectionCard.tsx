@@ -300,7 +300,7 @@ const DefaultCollectionCard = ({
       </div>
       <div className={styles.buttonContainer}>
         <PinButton
-          pinCnt={collectionData.pinCnt}
+          pinCnt={collectionData.collectionPinCnt}
           linkDisabled={linkDisabled}
           displayIconFirst={false}
         />
@@ -390,7 +390,7 @@ const HorizontalCollectionCard = ({
         />
       </div>
       <div className={styles.buttonContainer}>
-        <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
+        <PinButton pinCnt={collectionData.collectionPinCnt} linkDisabled={linkDisabled} />
         <ShareButton
           collectionId={collectionData.id}
           linkDisabled={linkDisabled}
@@ -436,7 +436,7 @@ const HorizontalSimpleCollectionCard = ({
         </Link>
       </div>
       <div className={styles.cntContainer}>
-        {`pinCnt ${collectionData.pinCnt}`}
+        {`pinCnt ${collectionData.collectionPinCnt}`}
         {`likeCnt ${collectionData.likeCnt}`}
         {`scrapCnt ${collectionData.scrapCnt}`}
       </div>
@@ -484,7 +484,7 @@ const HorizontalDetailCollectionCard = ({
         />
       </div>
       <div className={styles.buttonContainer}>
-        <PinButton pinCnt={collectionData.pinCnt} linkDisabled={linkDisabled} />
+        <PinButton pinCnt={collectionData.collectionPinCnt} linkDisabled={linkDisabled} />
         <ShareButton
           collectionId={collectionData.id}
           linkDisabled={linkDisabled}
@@ -533,7 +533,7 @@ const SimpleBoxCollectionCard = ({
       <div className={styles.textContainer}>{collectionData.title}</div>
       <div className={styles.cntContainer}>
         <span>
-          {`핀 ${collectionData.pinCnt}`}
+          {`핀 ${collectionData.collectionPinCnt}`}
           {/* <PinIcon /> */}
         </span>
         <span>{`스크랩 ${collectionData.scrapCnt}`}</span>
