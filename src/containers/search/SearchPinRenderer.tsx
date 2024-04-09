@@ -133,7 +133,7 @@ export default function SearchPinRender({
       ) : (
         <>
           {pinDatas.map((data, index) => (
-            <PinCard pinData={data} key={index} />
+            <PinCard pinData={data} key={index} showCollectionTitle={true} />
           ))}
           {isLoading && <BouncingLoader />}
         </>
