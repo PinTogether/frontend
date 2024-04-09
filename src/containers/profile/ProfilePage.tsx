@@ -19,6 +19,7 @@ import { useCheckIsMyMembername } from "@/hooks/myProfileHooks";
 export default function ProfilePage({ membername }: { membername: string }) {
   const router = useRouter();
   const isMyProfile = useCheckIsMyMembername(membername);
+  const existMember = membername !== "탈퇴한 회원";
 
   /* fetch data */
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +59,9 @@ export default function ProfilePage({ membername }: { membername: string }) {
       completeButtonMsg={isMyProfile ? "수정" : undefined}
       onClickCompleteButton={hanldeClickCompleteButton}
     >
-      {!profileFetchData?.profileInfo ? (
+      {!existMember ? (
+        <div className={styles.errorMessage}>{`${membername}입니다.`}</div>
+      ) : !profileFetchData?.profileInfo ? (
         <ProfileCollectionSkeleton />
       ) : profileFetchData.errorMessage ? (
         <div className={styles.errorMessage}>
@@ -87,12 +90,6 @@ export default function ProfilePage({ membername }: { membername: string }) {
             >
               스크랩한 컬렉션
             </button>
-            {/* <button
-          className={`${styles.buttons} ${showState == 3 ? styles.clickedButtons : ""}`}
-          onClick={() => onChangeShowState(3)}
-        >
-          팔로우한 컬렉션
-        </button> */}
             {isMyProfile && (
               <button
                 className={`${styles.buttons} ${showState == 4 ? styles.clickedButtons : ""}`}
@@ -120,9 +117,6 @@ export default function ProfilePage({ membername }: { membername: string }) {
               isMyProfile={isMyProfile}
             />
           )}
-          {/* {showState === 3 && (
-        <ProfileCollectionRenderer collectionList={followCollections} />
-      )} */}
           {showState === 4 && isMyProfile && (
             <ProfileStarredRenderer userId={profileFetchData.profileInfo.id} />
           )}
