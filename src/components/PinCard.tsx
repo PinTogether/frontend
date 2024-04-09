@@ -3,11 +3,11 @@
 import styles from "@/styles/components/_pincard.module.scss";
 import { AddRoundIcon, EditIcon, PinIcon } from "@/components/IconSvg";
 import Pin from "@/types/Pin";
-import { ReviewCard, MyReviewCard } from "./ReviewCard";
-import { HTMLAttributes, use, useRef, useState } from "react";
+import { MyReviewCard } from "./ReviewCard";
+import { HTMLAttributes, useRef, useState } from "react";
 import Link from "next/link";
 import { makeMarker } from "@/utils/map/makeMarker";
-import { AppDispatch } from "@/redux/store";
+import { PlatformType } from "@/types/Report";
 
 // pinEdit
 import { useRouter } from "next/navigation";
@@ -21,20 +21,33 @@ interface PinCardProps extends HTMLAttributes<HTMLDivElement> {
   pinData: Pin;
   showReview?: boolean;
   showSubButtons?: boolean;
+  showCollectionTitle?: boolean;
 }
 export default function PinCard({
   pinData,
   showReview = true,
   showSubButtons = true,
+  showCollectionTitle = false,
   ...props
 }: PinCardProps) {
   const dispatch = useAppDispatch();
-  const isMyId = useCheckIsMyId(pinData.writerId || -1);
+  // const isMyId = useCheckIsMyId(pinData.writerId || -1);
+  const isMyId = true;
 
   return (
     <article className={styles.pinCard} {...props}>
       <div className={styles.mainInfo}>
         <PinIcon className={styles.pinIcon} />
+        {showCollectionTitle ? (
+          <Link
+            href={`/collection/${pinData.collectionId}`}
+            className={styles.collectionTitle}
+          >
+            {`${pinData.collectionTitle}`}
+          </Link>
+        ) : (
+          <></>
+        )}
         <button className={styles.placeNameContainer}>
           <h3 className={styles.placeName}>{pinData.placeName}</h3>
           <span className={styles.category}>{pinData.category}</span>
@@ -81,7 +94,12 @@ export default function PinCard({
       ) : (
         <></>
       )}
-      {isMyId && <EditButton pinId={pinData.id} pinData={pinData} />}
+      <div className={styles.miniButton}>
+        {isMyId && (
+          <SubButton pinId={pinData.id} pinData={pinData} isMine={isMyId} />
+        )}
+      </div>
+      <div className={styles.createdAt}>{pinData.createdAt}</div>
     </article>
   );
 }
@@ -104,7 +122,8 @@ const SimplePinCard = ({
   const ref = useRef<HTMLDivElement>(null);
   const [showDetail, setShowDetail] = useState(false);
   const dispatch = useAppDispatch();
-  const isMyId = useCheckIsMyId(pinData.writerId || -1);
+  // const isMyId = useCheckIsMyId(pinData.writerId || -1);
+  const isMyId = true;
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     console.log("click");
@@ -158,7 +177,7 @@ const SimplePinCard = ({
           <ul className={styles.commentContaier}>
             <MyReviewCard reviewData={pinData} />
           </ul>
-          {isMyId && <EditButton pinId={pinData.id} pinData={pinData} />}
+          <SubButton pinId={pinData.id} pinData={pinData} isMine={isMyId} />
         </div>
       )}
       {showSubButtons && (
@@ -195,7 +214,15 @@ const SimplePinCard = ({
 
 // Utils
 
-const EditButton = ({ pinId, pinData }: { pinId: number; pinData: Pin }) => {
+const SubButton = ({
+  pinId,
+  pinData,
+  isMine,
+}: {
+  pinId: number;
+  pinData: Pin;
+  isMine: boolean;
+}) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -207,9 +234,16 @@ const EditButton = ({ pinId, pinData }: { pinId: number; pinData: Pin }) => {
     router.push(`/pin/edit/${pinId}`);
   };
 
-  return (
+  return false ? (
     <button className={styles.editButton} onClick={handleClick}>
       <EditIcon />
     </button>
+  ) : (
+    <Link
+      className={styles.editButton}
+      href={`/report?type=${PlatformType.PIN}&id=${pinData.id}`}
+    >
+      <span>신고</span>
+    </Link>
   );
 };
