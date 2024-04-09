@@ -86,12 +86,6 @@ const MapNaverDefault = () => {
             mapCoord.getMin().x,
           ])
         );
-        console.log("mapCoord at Map: ", [
-          mapCoord.getMax().y,
-          mapCoord.getMax().x,
-          mapCoord.getMin().y,
-          mapCoord.getMin().x,
-        ]);
       }
       if (geoApiAuth != "") {
         const data = await reverseGeoCoding({

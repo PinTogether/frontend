@@ -70,7 +70,6 @@ export default function SearchPlaceRender({
             rightTopLatitude: mapNESW[0],
             rightTopLongitude: mapNESW[1],
           };
-          console.log("mapCoord at Search: ", mapNESW);
     if (isLoading || isEnd) return;
     setIsLoading(true);
     const { placeDatas: newPlaceDatas, errorMessage } =
