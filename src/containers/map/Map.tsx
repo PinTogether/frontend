@@ -44,6 +44,7 @@ const MapNaverDefault = () => {
   const [clusteredMarkerList, setClusteredMarkerList] = useState<
     ClusteredMarkerData[]
   >([]);
+  const [myLocation, setMyLocation] = useState<LatLng>();
 
   const geoApiAuth = useAppSelector((state) => state.location.geoApiAuth);
   const LatLng = useAppSelector((state) => state.location.latLng);
@@ -63,6 +64,7 @@ const MapNaverDefault = () => {
         lat: pos.coords.latitude,
       };
       dispatch(latLngByAmount(newLocation));
+      setMyLocation(newLocation);
       dispatch(locationGetterByAmount(false));
     }
 
@@ -607,6 +609,31 @@ const MapNaverDefault = () => {
     }
   }, [geoApiAuth, clusteredMarkerList]);
 
+  // 내 위치 표시하는 마커
+  useEffect(()=>{
+    if(myLocation && newMap){
+      var myPositionMarker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(0,0),
+        icon: {
+          content: [
+            '<div style="border-radius: 70%; width:16px; height:16px; background-color:#eb5252; border: 2px solid #ffffff; box-shadow: 1px 1px 2px 1px rgb(0,0,0,0.3)">',
+            "</div>",
+          ].join(""),
+          size: new naver.maps.Size(16, 16),
+          anchor: new naver.maps.Point(8, 8),
+        },
+        clickable: false,
+      });
+      myPositionMarker.setPosition(myLocation);
+      myPositionMarker.setMap(newMap);
+    }
+    return(()=>{
+      if(myPositionMarker)
+        myPositionMarker.setMap(null);
+    })
+  },[myLocation])
+
+  // 메인창 크기에 따라 지도 좌표 밀어주기
   useEffect(() => {
     if (mainContentWidth === "500px") {
       setSideWidth(500);

@@ -68,17 +68,19 @@ export default function Sidebar() {
       <button
         className={`${styles.button} ${currentPath("/") ? styles.currPath : ""}`}
         onClick={() => moveURL("/")}
+        title="메인 페이지"
       >
         <HomeIcon className={`${styles.icon}`} />
         <HomeFillIcon className={styles.hoveredIcon} />
       </button>
-      <button className={styles.button} onClick={() => changeSideWidth()}>
+      <button className={styles.button} title="지도" onClick={() => changeSideWidth()}>
         <MapIcon className={styles.icon} />
         <MapFillIcon className={styles.hoveredIcon} />
       </button>
       <button
         className={`${styles.button} ${currentPath("/search") ? styles.currPath : ""}`}
         onClick={() => moveURL("/search")}
+        title="검색 페이지"
       >
         <SearchIcon className={`${styles.icon}`} />
         <SearchFillIcon className={styles.hoveredIcon} />
@@ -86,12 +88,13 @@ export default function Sidebar() {
       <button
         className={`${styles.button} ${usePathname().startsWith("/collection") ? styles.currPath : ""}`}
         onClick={() => moveURL("/collection/edit")}
+        title="컬렉션 추가"
       >
         <AddSquareIcon className={`${styles.icon}`} />
         <AddSquareFillIcon className={styles.hoveredIcon} />
       </button>
       <div></div>
-      <button className={styles.button}>
+      <button className={styles.button} title="알림">
         <BellIcon className={styles.icon} onClick={() => moveURL(`/notify`)} />
         <SidebarNotifyComponent />
         <BellFillIcon
@@ -101,6 +104,7 @@ export default function Sidebar() {
       </button>
       <button
         className={`${styles.button} ${usePathname().startsWith("/login") ? styles.currPath : ""}`}
+        title="내 프로필"
       >
         {isLogin && myProfile ? (
           <div className={styles.profilebox}>
