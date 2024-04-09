@@ -609,13 +609,14 @@ const MapNaverDefault = () => {
     }
   }, [geoApiAuth, clusteredMarkerList]);
 
+  // 내 위치 표시하는 마커
   useEffect(()=>{
     if(myLocation && newMap){
       var myPositionMarker = new naver.maps.Marker({
         position: new naver.maps.LatLng(0,0),
         icon: {
           content: [
-            '<div style="border-radius: 70%; width:16px; height:16px; background-color:#eb5252; border: 2px solid #ffffff; box-shadow: 1px 1px 1px 1px rgb(0,0,0,0.4);">',
+            '<div style="border-radius: 70%; width:16px; height:16px; background-color:#eb5252; border: 2px solid #ffffff; box-shadow: 1px 1px 2px 1px rgb(0,0,0,0.3)">',
             "</div>",
           ].join(""),
           size: new naver.maps.Size(16, 16),
