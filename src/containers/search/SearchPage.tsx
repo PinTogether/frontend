@@ -34,10 +34,9 @@ export default function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchInputValue, setSearchInputValue] = useState("");
-  const [showSearchLog, setShowSearchLog] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedMenu, setSelectedMenu] = useState<number>(
-    SearchCategory.PLACE
+    SearchCategory.HISTORY
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -52,7 +51,7 @@ export default function Page() {
     const search = async (type: string, keyword: string) => {
       if (isLoading) return;
       setIsLoading(true);
-      if (keyword) {
+      if (searchParams.has("keyword")) {
         const getDecodeKeyword = (keyword: string) => {
           try {
             const decodeKeyword = decodeURIComponent(keyword);
@@ -65,7 +64,6 @@ export default function Page() {
         const decodeKeyword = getDecodeKeyword(keyword);
         const convertedRangeFileter = convertToRangeFilter(newRangefilter);
         setSearchInputValue(decodeKeyword);
-        setShowSearchLog(false);
         setSearchKeyword(decodeKeyword);
         setRangeFilter(convertedRangeFileter);
         if (decodeKeyword && (!type || type === "history")) {
@@ -73,8 +71,8 @@ export default function Page() {
         } else setSelectedMenu(convertToSearchCategory(type));
       } else {
         console.log("검색어가 없습니다.");
-        setShowSearchLog(true);
         setSearchInputValue("");
+        // setSearchKeyword(""); // ?
         setSelectedMenu(SearchCategory.HISTORY);
         setRangeFilter(RangeFilter.MAP);
       }
@@ -82,10 +80,6 @@ export default function Page() {
     };
     search(type || "", keyword || "");
   }, [searchParams]);
-
-  useEffect(() => {
-    console.log("rangeFilter!", rangeFilter);
-  }, [rangeFilter]);
 
   const convertToSearchCategory = (type: string) => {
     switch (type) {
@@ -154,7 +148,8 @@ export default function Page() {
     e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
-    const type = searchParams.get("type") || "";
+    const type =
+      searchParams.get("type") || convertToType(SearchCategory.PLACE);
     const keyword = encodeURIComponent(searchInputValue);
     const newRangefilter = rangeFilter;
     router.push(
@@ -232,7 +227,7 @@ export default function Page() {
       )}
       {/* 검색 결과 */}
       <section className={styles.searchInnerPage} ref={pageRef}>
-        {showSearchLog ? (
+        {selectedMenu === SearchCategory.HISTORY ? (
           <SearchLogRenderer />
         ) : (
           <SlideMenu
