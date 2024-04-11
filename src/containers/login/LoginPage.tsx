@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { clearMyProfile, setMyProfile } from "@/redux/profileSlice";
 import fetchGetMyProfile from "@/utils/members/fetchGetMyProfile";
+import Link from "next/link";
 
 export enum LoginStatusMessage {
   SOURCE_LOGIN_POPUP = "source-login-popup",
@@ -134,9 +135,9 @@ export default function LoginPage() {
       </div>
       <div className={styles.loginErrorMessage}>{errorMessage}</div>
       <footer className={styles.footer}>
-        <a>서비스 이용약관</a>
+        <Link href="/policy/terms">서비스 이용약관</Link>
         <p>|</p>
-        <a>개인정보 처리방침</a>
+        <Link href="/policy/privacy">개인정보 처리방침</Link>
       </footer>
     </div>
   );
