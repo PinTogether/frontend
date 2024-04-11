@@ -1,35 +1,35 @@
 [
 	{
 			"id": 1,
-			"address": "서울시 강남구 역삼동 테헤란로 123",
+			"roadNameAddress": "서울시 강남구 역삼동 테헤란로 123",
 			"name": "봉평이 해물 칼국수",
 			"category": "음식점",
 			"created_at": "2022-01-01T12:00:00"
 	},
 	{
 			"id": 2,
-			"address": "서울시 서초구 서초동 서초대로 456",
+			"roadNameAddress": "서울시 서초구 서초동 서초대로 456",
 			"name": "서초 맛집",
 			"category": "음식점",
 			"created_at": "2022-02-02T13:00:00"
 	},
 	{
 			"id": 3,
-			"address": "부산시 해운대구 우동 센텀시티로 789",
+			"roadNameAddress": "부산시 해운대구 우동 센텀시티로 789",
 			"name": "해운대 랍스터 전문점",
 			"category": "음식점",
 			"created_at": "2022-03-03T14:00:00"
 	},
 	{
 			"id": 4,
-			"address": "대구시 중구 동성로2가 101",
+			"roadNameAddress": "대구시 중구 동성로2가 101",
 			"name": "동성로 떡볶이 천국",
 			"category": "음식점",
 			"created_at": "2022-04-04T15:00:00"
 	},
 	{
 			"id": 5,
-			"address": "제주시 연동 노형로 202",
+			"roadNameAddress": "제주시 연동 노형로 202",
 			"name": "노형동 제주 흑돼지",
 			"category": "음식점",
 			"created_at": "2022-05-05T16:00:00"
