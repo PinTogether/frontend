@@ -75,18 +75,18 @@ const MapNaverDefault = () => {
   };
 
   const handleGetAddress = async (X: number, Y: number) => {
+    if (newMap) {
+      const mapCoord = newMap.getBounds();
+      dispatch(
+        mapNESWByAmount([
+          mapCoord.getMax().y,
+          mapCoord.getMax().x,
+          mapCoord.getMin().y,
+          mapCoord.getMin().x,
+        ])
+      );
+    }
     try {
-      if (newMap) {
-        const mapCoord = newMap.getBounds();
-        dispatch(
-          mapNESWByAmount([
-            mapCoord.getMax().y,
-            mapCoord.getMax().x,
-            mapCoord.getMin().y,
-            mapCoord.getMin().x,
-          ])
-        );
-      }
       if (geoApiAuth != "") {
         const data = await reverseGeoCoding({
           accessToken: geoApiAuth,
