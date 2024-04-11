@@ -114,7 +114,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
       if (collectionEditId) setCollectionEditId(collectionEditId);
       setImageFiles(
         pinData.imagePaths.map((imagePath, index) => ({
-          id: index + 1,
+          id: index,
           file: null,
           preview: imagePath,
         }))
@@ -134,13 +134,17 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
         "editPin",
         imageFiles.find((imageFile) => imageFile.file !== null)
       );
-      if (!imageFiles.find((imageFile) => imageFile.file !== null)) {
-        await editPin();
-      } else {
-        await editPinWithImage(Number(pinId));
+      const success = !imageFiles.find((imageFile) => imageFile.file !== null)
+        ? await editPin()
+        : await editPinWithImage(Number(pinId));
+      if (success) {
+        dispatch(clearPinEditState());
+        if (collectionEditId)
+          router.push(`/collection/edit/${collectionEditId}`);
+        else router.push(`/collection/${pinData.collectionId}`);
       }
     } else {
-      const newPinId = await addPin();
+      const newPinId = await createPin();
       if (newPinId) {
         if (imageFiles.length) {
           await editPinWithImage(newPinId);
@@ -153,8 +157,8 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     setIsLoading(false);
   };
 
-  const editPin = async () => {
-    if (!pinId || !reviewTextareaRef.current) return;
+  const editPin = async (): Promise<boolean> => {
+    if (!pinId || !reviewTextareaRef.current) return false;
 
     const imagePaths = [...imageFiles.map((data) => data.preview)];
     const { success, errorMessage } = await fetchPutPin(
@@ -165,15 +169,13 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     );
     if (!success) {
       dispatch(addAlertMessage(errorMessage));
-      return;
+      return false;
     }
-    // 핀 수정 성공
-    dispatch(clearPinEditState());
-    router.push(`/collection/${pinData.collectionId}`);
+    return true;
   };
 
-  const editPinWithImage = async (targetPinId: number) => {
-    if (!pinId || !reviewTextareaRef.current) return;
+  const editPinWithImage = async (targetPinId: number): Promise<boolean> => {
+    if (!pinId || !reviewTextareaRef.current) return false;
     // 업로드할 파일 분리
     const originalFiles = imageFiles.filter((imageFile) => {
       return imageFile.file === null;
@@ -190,7 +192,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
       );
     if (!presignedUrlDataList) {
       dispatch(addAlertMessage(errorMessage));
-      return;
+      return false;
     }
     // presigned-url S3 업로드
     const success = await putImagesToS3(
@@ -199,7 +201,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     );
     if (!success) {
       dispatch(addAlertMessage("핀 이미지 업로드에 실패하였습니다."));
-      return;
+      return false;
     }
     // 핀 수정
     const imagePaths = [
@@ -222,14 +224,12 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     );
     if (!putPinResult.success) {
       dispatch(addAlertMessage(putPinResult.errorMessage));
-      return;
+      return false;
     }
-    // 핀 수정 성공
-    dispatch(clearPinEditState());
-    router.push(`/collection/${pinData.collectionId}`);
+    return true;
   };
 
-  const addPin = async (): Promise<number | null> => {
+  const createPin = async (): Promise<number | null> => {
     if (isLoading || !createInfo || !reviewTextareaRef.current) return null;
     setIsLoading(true);
 
