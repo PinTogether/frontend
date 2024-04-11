@@ -67,7 +67,8 @@ $color-naver: #03c75a;
     align-items: center;
     gap: 1rem;
     padding: 0.5rem;
-    font-size: $font-size-small;
+    font-size: $font-size-smallest;
     color: $color-text-caption;
+    flex-wrap: wrap;
   }
 }
