@@ -8,9 +8,21 @@ export const metadata: Metadata = {
     icon: [
       {
         url: "/logo/favicon.png",
-        media: "(prefers-color-scheme: light)",
+        // media: "(prefers-color-scheme: light)",
       },
     ],
+  },
+  generator: "Next.js 14",
+  keywords: ["pintogether", "장소", "지도", "컬렉션", "핀", "공유"],
+  creator: "pintogether team",
+  robots: "index, follow", // 크롤러 탐색
+  openGraph: {
+    title: `Pintogether`,
+    description: `내가 좋아하는 장소에 핀리뷰를 남기고, 컬렉션에 저장하여 친구들과 공유해보세요!`,
+    images: ["/logo/horizontal.svg", "abcd"],
+    url: "https://www.pintogether.co.kr",
+    locale: "ko_KR",
+    siteName: "pintogether",
   },
 };
 

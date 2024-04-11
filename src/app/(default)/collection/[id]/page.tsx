@@ -28,7 +28,7 @@ export async function generateMetadata({
     authors: [
       {
         name: `${collectionInfo.writerMembername}`,
-        url: `https://pintogether.com/profile/${collectionInfo.writerMembername}`,
+        url: `https://pintogether.co.kr/profile/${collectionInfo.writerMembername}`,
       },
     ],
     generator: "Next.js 14",
@@ -54,7 +54,7 @@ export async function generateMetadata({
       description: `${collectionInfo.details} / ${collectionInfo.tags.join(", ")}`,
       images: [collectionInfo?.thumbnail],
       type: "website",
-      url: `https://pintogether.com/collection/${collectionId}`,
+      url: `https://pintogether.co.kr/collection/${collectionId}`,
       locale: "ko_KR",
       siteName: "pintogether",
     },
