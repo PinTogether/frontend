@@ -232,7 +232,7 @@ const SubButton = ({
     router.push(`/pin/edit/${pinId}`);
   };
 
-  return false ? (
+  return isMine ? (
     <button className={styles.editButton} onClick={handleClick}>
       <EditIcon />
     </button>
