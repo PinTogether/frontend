@@ -36,7 +36,7 @@ const ScrapCollectionBox = ({ data }: { data: Notify }) => {
         {data.subject}
       </Link>
       {"님이 "}
-      <span className={styles.purpleEmphasis}>({`${data.object}`})</span>
+      <span className={styles.purpleEmphasis}>{`${data.object}`}</span>
       {"컬렉션을 스크랩 하였습니다."}
     </span>
   );
@@ -75,7 +75,7 @@ const FollowBox = ({ data }: { data: Notify }) => {
         {data.subject}
       </Link>
       {" 님이 "}
-      <span className={styles.purpleEmphasis}>{data.object}</span>
+      <span className={styles.purpleEmphasis}>{"나"}</span>
       {"를 팔로우 하였습니다."}
     </span>
   );

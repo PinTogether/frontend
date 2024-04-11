@@ -38,7 +38,7 @@ import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
 import fetchGetCollectionAllPins from "@/utils/collections/fetchGetCollectionAllPins";
 import fetchDeleteCollection from "@/utils/collections/fetchDeleteCollection";
 import fetchDeletePin from "@/utils/pins/fetchDeletePin";
-import { clear } from "console";
+import { initialPinEditState } from "@/redux/pinEditSlice";
 
 export default function CollectionEditPage({
   collectionId,
@@ -295,8 +295,10 @@ export default function CollectionEditPage({
     dispatch(clearDraftCollectionEdit());
   };
 
-  const routeToPinEditPage = async (path: string) => {
+  const routeToPinEditPage = async (path: string, pinData: Pin) => {
     saveStateAsDraftSave();
+    // pinedit
+    dispatch(initialPinEditState(pinData));
     router.push(path);
   };
 
@@ -421,7 +423,8 @@ export default function CollectionEditPage({
                   <div
                     onClick={() =>
                       routeToPinEditPage(
-                        `/pin/edit/${pin.id}?collectionEditId=${collectionId}`
+                        `/pin/edit/${pin.id}?collectionEditId=${collectionId}`,
+                        pin
                       )
                     }
                   >

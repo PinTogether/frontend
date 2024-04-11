@@ -138,6 +138,8 @@ export default function LoginPage() {
         <Link href="/policy/terms">서비스 이용약관</Link>
         <p>|</p>
         <Link href="/policy/privacy">개인정보 처리방침</Link>
+        <br/>
+        <span>문의 : pintogether.ko@gmail.com</span>  
       </footer>
     </div>
   );
