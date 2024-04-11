@@ -59,8 +59,12 @@ export default function OverlayTopper() {
       </div>
       <div className={styles.topBottom}>
         <button className={styles.topButton2} title="지도 내 장소 찾기" onClick={()=>{moveURL("/search?keyword=&type=place&rangefilter=map")}}>
-          <img src="/icons/pin.svg" alt="핀" width="16px" height="16px" />
+          <img src="/icons/location.svg" alt="장소" width="18px" height="18px" />
           지도 범위 장소
+        </button>
+        <button className={styles.topButton2} title="지도 내 핀 찾기" onClick={()=>{moveURL("/search?keyword=&type=pin&rangefilter=map")}}>
+          <img src="/icons/pin.svg" alt="핀" width="16px" height="16px" />
+          지도 범위 핀
         </button>
         {/* <button className={styles.topButton2} title="음식점 찾기" onClick={()=>{moveURL("/search?keyword=음식점&type=place&rangefilter=map")}}>
           <img src="/icons/restaurant.svg" alt="음식점" width="18px" height="18px" />
