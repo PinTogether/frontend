@@ -11,6 +11,7 @@ import { DefaultCollectionCard } from "@/components/CollectionCard";
 import RecommendCollectionCard from "@/containers/main/RecommendCollectionCard";
 import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
 import fetchGetCollectionAllPins from "@/utils/collections/fetchGetCollectionAllPins";
+import fetchGetTopCollection from "@/utils/collections/fetchGetTopCollection";
 import { CollectionDetail } from "@/types/Collection";
 import Pin from "@/types/Pin";
 
@@ -63,27 +64,37 @@ export default function MainPage() {
     return <DetailCollectionSkeleton />;
   };
 
-  const getTopCollectionData = async () => {
-    await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10`,
-      {
-        credentials: "include",
-      }
-    )
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setTopCollectionDatas(res.results);
-        setIsLoading1(true);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
+  // const getTopCollectionData = async () => {
+  //   await fetch(
+  //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10&ids=146,147,148`,
+  //     {
+  //       credentials: "include",
+  //     }
+  //   )
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((res) => {
+  //       setTopCollectionDatas(res.results);
+  //       setIsLoading1(true);
+  //     })
+  //     .catch((e) => {
+  //       console.error(e);
+  //     });
+  // };
+
+  const getTopCollectionData = async (ids: number[]) => {
+    const { collectionData, errorMessage } = await fetchGetTopCollection(ids);
+    if (!collectionData || errorMessage) {
+      console.error(errorMessage);
+    } else {
+      setTopCollectionDatas(collectionData);
+      setIsLoading1(true);
+    }
+  }
 
   const getBluerData = async (id: number) => {
     const { collectionInfo, errorMessage } = await fetchGetCollectionInfo(id);
@@ -182,7 +193,7 @@ export default function MainPage() {
   // };
 
   useEffect(() => {
-    getTopCollectionData();
+    getTopCollectionData([146,147,148]);
     getMichelinData(146);
     getDdoGanZipData(147);
     getBluerData(148);

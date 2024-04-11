@@ -16,12 +16,14 @@ import GlobalAlertModal from "@/components/GlobalAlertModal";
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SearchPinRender from "./SearchPinRenderer";
+import SearchUserRender from "./SearchUserRenderer";
 
 enum SearchCategory {
   HISTORY = -1,
   PLACE = 0,
   COLLECTION = 1,
   PIN = 2,
+  USER = 3,
 }
 export enum RangeFilter {
   ALL = "all",
@@ -95,6 +97,8 @@ export default function Page() {
         return SearchCategory.HISTORY;
       case "pin":
         return SearchCategory.PIN;
+      case "user":
+        return SearchCategory.USER;
       default:
         return SearchCategory.HISTORY;
     }
@@ -110,6 +114,8 @@ export default function Page() {
         return "history";
       case SearchCategory.PIN:
         return "pin";
+      case SearchCategory.USER:
+        return "user";
       default:
         return "history";
     }
@@ -230,7 +236,7 @@ export default function Page() {
           <SearchLogRenderer />
         ) : (
           <SlideMenu
-            menuTitleList={["장소 검색", "컬렉션 검색", "핀 검색"]}
+            menuTitleList={["장소 검색", "컬렉션 검색", "핀 검색", "유저 검색"]}
             customSelectedMenu={selectedMenu}
             customSetSelectedMenu={customSetSelectedMenu}
           >
@@ -250,6 +256,9 @@ export default function Page() {
                 rangeFilter={rangeFilter}
                 setRangeFilterType={setRangeFilterType}
               />
+            </SlideMenuInnerPage>
+            <SlideMenuInnerPage>
+              <SearchUserRender searchKeyword={searchKeyword} />
             </SlideMenuInnerPage>
           </SlideMenu>
         )}
