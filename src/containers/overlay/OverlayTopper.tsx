@@ -57,16 +57,20 @@ export default function OverlayTopper() {
         </button>
         <LocationRenderer />
       </div>
-      {/* <div className={styles.topBottom}>
-        <button className={styles.topButton2} title="음식점 찾기" onClick={()=>{moveURL("/search?keyword=음식점&type=place&rangefilter=map")}}>
+      <div className={styles.topBottom}>
+        <button className={styles.topButton2} title="지도 내 장소 찾기" onClick={()=>{moveURL("/search?keyword=&type=place&rangefilter=map")}}>
+          <img src="/icons/pin.svg" alt="핀" width="16px" height="16px" />
+          지도 범위 장소
+        </button>
+        {/* <button className={styles.topButton2} title="음식점 찾기" onClick={()=>{moveURL("/search?keyword=음식점&type=place&rangefilter=map")}}>
           <img src="/icons/restaurant.svg" alt="음식점" width="18px" height="18px" />
           음식점
           </button>
         <button className={styles.topButton2} title="카페 찾기" onClick={()=>{moveURL("/search?keyword=카페&type=place&rangefilter=map")}}>
           <img src="/icons/cafe.svg" alt="카페" width="18px" height="18px" />
           카페
-        </button>
-      </div> */}
+        </button> */}
+      </div>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { LogoHorizontal } from "../../components/LogoSvg";
 import styles from "@/styles/containers/main/_mainPage.module.scss";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import CardSlider from "@/components/CardSlider";
 import GlobalAlertModal from "@/components/GlobalAlertModal";
@@ -64,28 +65,6 @@ export default function MainPage() {
     return <DetailCollectionSkeleton />;
   };
 
-  // const getTopCollectionData = async () => {
-  //   await fetch(
-  //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/top?cnt=10&ids=146,147,148`,
-  //     {
-  //       credentials: "include",
-  //     }
-  //   )
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error(`Top10 컬렉션 정보 가져오기를 실패했습니다.`);
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((res) => {
-  //       setTopCollectionDatas(res.results);
-  //       setIsLoading1(true);
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  // };
-
   const getTopCollectionData = async (ids: number[]) => {
     const { collectionData, errorMessage } = await fetchGetTopCollection(ids);
     if (!collectionData || errorMessage) {
@@ -143,54 +122,6 @@ export default function MainPage() {
       setIsLoading4(true);
     }
   };
-
-  // const getJWCollectionData = async () => {
-  //   await fetch(
-  //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${process.env.NEXT_PUBLIC_JW_ID}/collections?page=0&size=20`,
-  //     {
-  //       credentials: "include",
-  //     }
-  //   )
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error(
-  //           `${process.env.NEXT_PUBLIC_JW_ID} 컬렉션 정보 가져오기를 실패했습니다.`
-  //         );
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((res) => {
-  //       setJWRecomendedCollectionDatas(res.results);
-  //       setIsLoading2(true);
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  // };
-
-  // const getJYCollectionData = async () => {
-  //   await fetch(
-  //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/members/${process.env.NEXT_PUBLIC_JY_ID}/collections?page=0&size=20`,
-  //     {
-  //       credentials: "include",
-  //     }
-  //   )
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error(
-  //           `${process.env.NEXT_PUBLIC_JY_ID} 컬렉션 정보 가져오기를 실패했습니다.`
-  //         );
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((res) => {
-  //       setJYRecomendedCollectionDatas(res.results);
-  //       setIsLoading3(true);
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  // };
 
   useEffect(() => {
     getTopCollectionData([146,147,148]);
@@ -319,6 +250,13 @@ export default function MainPage() {
             </div>
           </section>
         </section>
+        <footer className={styles.footer}>
+        <Link href="/policy/terms">서비스 이용약관</Link>
+        <p>|</p>
+        <Link href="/policy/privacy">개인정보 처리방침</Link>
+        <br/>
+        <span>문의 : pintogether.ko@gmail.com</span>
+      </footer>
       </section>
       <GlobalAlertModal />
     </section>
