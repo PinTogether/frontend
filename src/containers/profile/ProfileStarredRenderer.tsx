@@ -90,18 +90,14 @@ export default function ProfileStarredRenderer({
   /* delete stars */
   const handleDeleteStarred = async () => {
     if (clickedBookmarks.length === 0) return;
-    // TODO Implement delete starred
-    console.log("delete starred", clickedBookmarks);
-
-    let error = true;
-    clickedBookmarks.forEach(async (id) => {
-      const { success, errorMessage } = await fetchDeleteStarPlace(id);
-      if (!success) {
-        dispatch(addAlertMessage(errorMessage));
-        error = false;
+    try {
+      for (const id of clickedBookmarks) {
+        const { success, errorMessage } = await fetchDeleteStarPlace(id);
+        if (!success) {
+          dispatch(addAlertMessage(errorMessage));
+          return;
+        }
       }
-    });
-    if (!error) {
       setStarredFetchData((prev) => {
         if (!prev) return prev;
         return {
@@ -111,6 +107,8 @@ export default function ProfileStarredRenderer({
           errorMessage: prev.errorMessage,
         };
       });
+    } catch (error) {
+      console.error("An error occurred:", error);
     }
   };
 

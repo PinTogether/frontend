@@ -272,6 +272,12 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
 
   const deletePin = async () => {
     if (!pinId || isLoading) return;
+    if (
+      !confirm(
+        `"${pinData.collectionTitle}"의 "${pinData.placeName}" 핀을 삭제하시겠습니까?`
+      )
+    )
+      return;
     setIsLoading(true);
     const result = await fetchDeletePin(Number(pinId));
     if (!result) {
@@ -280,14 +286,17 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     }
     setIsLoading(false);
     dispatch(clearPinEditState());
-    router.push(`/collection/${pinData.collectionId}`);
+    if (collectionEditId) router.push(`/collection/edit/${collectionEditId}`);
+    else router.push(`/collection/${pinData.collectionId}`);
   };
 
   return (
     <SubPageLayout
       topperMsg={pinId ? "핀 수정하기" : "핀 추가하기"}
       completeButtonMsg={pinId ? "수정" : "추가"}
+      deleteButtonMsg={pinId ? "삭제" : undefined}
       onClickCompleteButton={handleSubmit}
+      onClickDeleteButton={deletePin}
     >
       <EditPageLayout>
         {/* Place 정보 */}

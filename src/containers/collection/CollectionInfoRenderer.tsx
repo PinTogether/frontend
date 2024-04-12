@@ -19,6 +19,7 @@ import fetchDeleteCollectionLikes from "@/utils/collections/fetchDeleteCollectio
 import fetchPostCollectionScraps from "@/utils/collections/fetchPostCollectionScraps";
 import fetchDeleteCollectionScraps from "@/utils/collections/fetchDeleteCollectionScraps";
 import { useGetMyProfile } from "@/hooks/myProfileHooks";
+import MultilineTextRenderer from "@/components/MultilineTextRenderer";
 
 const CollectionInfoRenderer = ({
   collectionData,
@@ -102,8 +103,6 @@ const CollectionInfoRenderer = ({
     setIsScrapedLoading(false);
   };
 
-  useEffect(() => {}, []);
-
   return (
     <section id={styles.collectionInfo}>
       {/* 이미지 */}
@@ -144,13 +143,15 @@ const CollectionInfoRenderer = ({
       </div>
       {/* 컬렉션 상세 설명 */}
       <div className={styles.collectionDescription}>
-        {collectionData.details}
+        <MultilineTextRenderer text={collectionData.details} />
       </div>
       {/* 기타 버튼 */}
       <div className={styles.buttonContainer}>
         <button className={styles.button} onClick={handleClickLocationButton}>
           <LocationIcon />
-          <div className={styles.text}>{collectionData.collectionPinCnt}개 장소</div>
+          <div className={styles.text}>
+            {collectionData.collectionPinCnt}개 장소
+          </div>
         </button>
         <button className={styles.button} onClick={handleClickShareButton}>
           <LinkIcon />

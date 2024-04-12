@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styles from "@/styles/components/_tagEditor.module.scss";
 import { InputComponent } from "@/components/InputComponent";
 
+import { useAppDispatch } from "@/redux/hooks";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
+
 const TagEditor = ({
   tagList,
   setTagList,
@@ -11,6 +14,8 @@ const TagEditor = ({
   setTagList: React.Dispatch<React.SetStateAction<string[]>>;
   disabled: boolean;
 }) => {
+  const dispatch = useAppDispatch();
+  const regex = /^[a-zA-Z가-힣0-9_-ㅏ-ㅣㄱ-ㅎ]+$/;
   const [inputTag, setInputTag] = useState("");
 
   const deleteTag = (tag: string) => {
@@ -37,6 +42,12 @@ const TagEditor = ({
 
   const setTag = () => {
     if (inputTag === "") return;
+    if (!regex.test(inputTag)) {
+      dispatch(
+        addAlertMessage("한글, 숫자, 영어, 언더바만 태그로 등록이 가능합니다")
+      );
+      return;
+    }
     if (tagList.includes(inputTag) === false && tagList.length <= 4) {
       const newList = [...tagList];
       newList.push(inputTag);
@@ -48,6 +59,8 @@ const TagEditor = ({
       newList.splice(index, 1);
       setTagList(newList);
       setInputTag("");
+    } else {
+      dispatch(addAlertMessage("태그는 최대 5개까지 등록이 가능합니다"));
     }
   };
 
