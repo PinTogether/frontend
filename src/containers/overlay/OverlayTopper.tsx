@@ -1,7 +1,7 @@
 import styles from "@/styles/containers/overlay/_overlay.module.scss";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
-import { locationGetterByAmount } from "@/redux/locationSlice";
+import { locationGetterByAmount, mainContentWidthByAmount } from "@/redux/locationSlice";
 
 export default function OverlayTopper() {
   const dispatch = useAppDispatch();
@@ -12,8 +12,14 @@ export default function OverlayTopper() {
   const locationGetter = useAppSelector(
     (state) => state.location.locationGetter
   );
+  const FlexbarWidth = useAppSelector(
+    (state) => state.location.mainContentWidth
+  );
 
   function moveURL(url: string) {
+    if (FlexbarWidth == "0px") {
+      dispatch(mainContentWidthByAmount("500px"));
+    }
     router.push(url);
   }
 

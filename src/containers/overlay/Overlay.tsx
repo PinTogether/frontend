@@ -2,7 +2,6 @@
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import styles from "@/styles/containers/overlay/_overlay.module.scss";
-import CardSlider from "@/components/CardSlider";
 import CardSlider2 from "@/components/CardSlider2";
 import MarkerData from "@/types/Marker";
 import { CollectionDetail } from "@/types/Collection";
@@ -11,10 +10,8 @@ import Pin from "@/types/Pin";
 import { useState, useEffect } from "react";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
 import { cleanSelectedCollectionByAmount } from "@/redux/locationSlice";
-import fetchGetProfileCollections from "@/utils/members/fetchGetProfileCollections";
 
 import {
-  ArrowDropDownIcon,
   ExpendDownIcon,
   ExpendUpIcon,
 } from "@/components/IconSvg";
@@ -325,13 +322,13 @@ export default function Overlay() {
   //   setSelectedCardId([])
   // }, [outerMarkerdata])
 
-  useEffect(() => {}, []); // 로그인 정보 변경 redux 추가
-
   useEffect(()=>{
-    getTopCollectionData();
     if(myProfile){
       getMyCollectionData();
       getScrappedCollectionData();
+    }
+    else{
+      getTopCollectionData();
     }
   },[myProfile])
 
