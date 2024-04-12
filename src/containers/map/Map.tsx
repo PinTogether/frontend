@@ -709,6 +709,9 @@ const MapNaverDefault = () => {
       // 만약 새로 들어온 markerDatas가 1개이고, 기존의 마커에 존재하는 마커 데이터라면 마커들 없에지말고 위치만 이동
       // 1개지만 기존 마커에 존재하지않다면 기존과 똑같이 작동
     }
+    if(window.naver && !reduxMarkerDatas[0] && isScriptLoaded){
+      deleteMarker();
+    }
   }, [reduxMarkerDatas, isScriptLoaded]);
 
   useLayoutEffect(() => {

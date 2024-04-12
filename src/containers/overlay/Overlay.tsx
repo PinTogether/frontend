@@ -128,6 +128,7 @@ export default function Overlay() {
   const handleClickBottomButton = (num: number) => {
     setCollectionSelector(num);
     setSelectedCardId([]);
+    setMarkerDatas([]);
   };
 
   const removeMarkerData = (id: number) => {
@@ -332,12 +333,14 @@ export default function Overlay() {
 
   useEffect(() => {
     if (!cleanSelectedCollection) makeMarkerList();
+    else{
+      dispatch(cleanSelectedCollectionByAmount(false));
+    }
   }, [markerDatas]);
 
   useEffect(() => {
     if (cleanSelectedCollection) {
       setSelectedCardId([]);
-      dispatch(cleanSelectedCollectionByAmount(false));
       setMarkerDatas([]);
     }
   }, [cleanSelectedCollection]);
