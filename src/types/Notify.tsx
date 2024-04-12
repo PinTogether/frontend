@@ -8,6 +8,7 @@ export interface Notify {
     | "FOLLOW"
     | "CREATE_COLLECTION";
   object: string | null; // collectionName
+  objectId: number;
 }
 
 export interface NotifyResponse {

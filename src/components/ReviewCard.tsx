@@ -3,6 +3,7 @@ import styles from "@/styles/components/_review.module.scss";
 import Pin from "@/types/Pin";
 import { CommentIcon } from "./IconSvg";
 import Link from "next/link";
+import MultilineTextRenderer from "@/components/MultilineTextRenderer";
 
 export { ReviewCard, MyReviewCard };
 
@@ -31,7 +32,9 @@ export default function ReviewCard({
           className={styles.userNick}
         >{`@${reviewData.writerMembername}`}</span>
       </Link>
-      <span className={styles.text}>{`${reviewData.review}`}</span>
+      <div className={styles.text}>
+        <MultilineTextRenderer text={reviewData.review} />
+      </div>
 
       <div className={styles.content}>
         {reviewData.imagePaths.map((path, index) => (
@@ -76,7 +79,9 @@ const MyReviewCard = ({ reviewData }: { reviewData: Pin }) => {
       {reviewData.review && (
         <div className={styles.text}>
           <CommentIcon />
-          <span>{`${reviewData.review}`}</span>
+          <div>
+            <MultilineTextRenderer text={reviewData.review} />
+          </div>
         </div>
       )}
       {reviewData.imagePaths?.length > 0 && (

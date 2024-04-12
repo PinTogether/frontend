@@ -13,7 +13,9 @@ interface SubPageLayoutProps {
   children?: ReactNode;
   topperMsg: string;
   completeButtonMsg?: string;
+  deleteButtonMsg?: string;
   onClickCompleteButton?: () => void;
+  onClickDeleteButton?: () => void;
 }
 
 const SubPageLayout = forwardRef<HTMLDivElement, SubPageLayoutProps>(
@@ -22,7 +24,9 @@ const SubPageLayout = forwardRef<HTMLDivElement, SubPageLayoutProps>(
       children,
       topperMsg,
       completeButtonMsg,
+      deleteButtonMsg,
       onClickCompleteButton,
+      onClickDeleteButton,
     }: SubPageLayoutProps,
     ref
   ) => {
@@ -51,6 +55,8 @@ const SubPageLayout = forwardRef<HTMLDivElement, SubPageLayoutProps>(
           msg={topperMsg}
           completeButtonMsg={completeButtonMsg}
           onClickCompleteButton={onClickCompleteButton}
+          deleteButtonMsg={deleteButtonMsg}
+          onClickDeleteButton={onClickDeleteButton}
         />
         <div className={styles.subPage} ref={pageRef}>
           {children}
@@ -76,11 +82,15 @@ export default SubPageLayout;
 const SubPageTopper = ({
   msg,
   completeButtonMsg,
+  deleteButtonMsg,
   onClickCompleteButton,
+  onClickDeleteButton,
 }: {
   msg?: string;
   completeButtonMsg?: string;
+  deleteButtonMsg?: string;
   onClickCompleteButton?: () => void;
+  onClickDeleteButton?: () => void;
 }) => {
   const router = useRouter();
   return (
@@ -94,12 +104,20 @@ const SubPageTopper = ({
         />
       </button>
       <b>{msg}</b>
-      <button
-        onClick={onClickCompleteButton}
-        className={completeButtonMsg ? styles.completeButton : styles.hidden}
-      >
-        {completeButtonMsg}
-      </button>
+      <div className={styles.submitButtons}>
+        <button
+          onClick={onClickCompleteButton}
+          className={completeButtonMsg ? styles.completeButton : styles.hidden}
+        >
+          {completeButtonMsg}
+        </button>
+        <button
+          onClick={onClickDeleteButton}
+          className={deleteButtonMsg ? styles.completeButton : styles.hidden}
+        >
+          {deleteButtonMsg}
+        </button>
+      </div>
     </section>
   );
 };

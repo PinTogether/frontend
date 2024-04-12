@@ -10,6 +10,7 @@ import Link from "next/link";
 import fetchPostFollow from "@/utils/members/fetchPostFollow";
 import fetchDeleteFollow from "@/utils/members/fetchDeleteFollow";
 import { useGetMyProfile } from "@/hooks/myProfileHooks";
+import MultilineTextRenderer from "@/components/MultilineTextRenderer";
 
 const ProfileInfoRenderer = ({
   userId,
@@ -111,7 +112,9 @@ const ProfileInfoRenderer = ({
                 팔로우
               </button>
             )}
-            <p className={styles.bio}>{profileInfo.bio}</p>
+            <p className={styles.bio}>
+              <MultilineTextRenderer text={profileInfo.bio} />
+            </p>
           </div>
           <div className={styles.profileLog}>
             <div className={styles.profileLogBox}>
