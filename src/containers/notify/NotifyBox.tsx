@@ -36,7 +36,10 @@ const ScrapCollectionBox = ({ data }: { data: Notify }) => {
         {data.subject}
       </Link>
       {"님이 "}
-      <span className={styles.purpleEmphasis}>{`${data.object}`}</span>
+      <Link
+        href={`/collection/${data.objectId}`}
+        className={styles.purpleEmphasis}
+      >{`${data.object}`}</Link>
       {"컬렉션을 스크랩 하였습니다."}
     </span>
   );
@@ -49,7 +52,12 @@ const CommentOnCollectionBox = ({ data }: { data: Notify }) => {
         {data.subject}
       </Link>
       {"님이 "}
-      <span className={styles.purpleEmphasis}>{data.object}</span>
+      <Link
+        href={`/collection/${data.objectId}`}
+        className={styles.purpleEmphasis}
+      >
+        {data.object}
+      </Link>
       {"컬렉션에 댓글을 달았습니다."}
     </span>
   );
@@ -62,7 +70,12 @@ const LikeCollectionBox = ({ data }: { data: Notify }) => {
         {data.subject}
       </Link>
       {"님이 "}
-      <span className={styles.purpleEmphasis}>{data.object}</span>
+      <Link
+        href={`/collection/${data.objectId}`}
+        className={styles.purpleEmphasis}
+      >
+        {data.object}
+      </Link>
       {"컬렉션에 좋아요를 눌렀습니다."}
     </span>
   );
@@ -75,7 +88,7 @@ const FollowBox = ({ data }: { data: Notify }) => {
         {data.subject}
       </Link>
       {" 님이 "}
-      <span className={styles.purpleEmphasis}>{"나"}</span>
+      <span className={styles.purpleEmphasis}>{`나`}</span>
       {"를 팔로우 하였습니다."}
     </span>
   );
@@ -88,7 +101,12 @@ const CreateCollectionBox = ({ data }: { data: Notify }) => {
         {data.subject}
       </Link>
       {"님이 새 컬렉션 "}
-      <span className={styles.purpleEmphasis}>{data.object}</span>
+      <Link
+        href={`/collection/${data.objectId}`}
+        className={styles.purpleEmphasis}
+      >
+        {data.object}
+      </Link>
       {"을 만들었습니다."}
     </span>
   );
