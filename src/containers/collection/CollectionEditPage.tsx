@@ -116,6 +116,8 @@ export default function CollectionEditPage({
   /* 컬렉션 삭제 */
   const deleteCollection = async () => {
     if (isUploading || !collectionId || !collectionInfo) return;
+    if (!confirm(`"${collectionInfo.title}" 컬렉션을 삭제하시겠습니까?`))
+      return;
     setIsUploading(true);
     const { success, errorMessage } = await fetchDeleteCollection(collectionId);
     if (!success) {
@@ -321,7 +323,9 @@ export default function CollectionEditPage({
     <SubPageLayout
       topperMsg={topperMsg}
       completeButtonMsg={collectionId ? "수정" : "생성"}
+      deleteButtonMsg={collectionId ? "삭제" : undefined}
       onClickCompleteButton={submitCollectionEdit}
+      onClickDeleteButton={collectionId ? deleteCollection : undefined}
     >
       <EditPageLayout>
         {/* 컬렉션 이미지 */}

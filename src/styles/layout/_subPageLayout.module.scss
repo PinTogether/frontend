@@ -84,6 +84,10 @@
     width: 1.5rem;
     height: 1.5rem;
   }
+  .submitButtons {
+    display: flex;
+    gap: 1rem;
+  }
   .completeButton {
     color: $color-text-caption;
     &:hover {
