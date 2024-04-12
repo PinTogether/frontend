@@ -1,7 +1,10 @@
 import styles from "@/styles/containers/overlay/_overlay.module.scss";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
-import { locationGetterByAmount, mainContentWidthByAmount } from "@/redux/locationSlice";
+import {
+  locationGetterByAmount,
+  mainContentWidthByAmount,
+} from "@/redux/locationSlice";
 
 export default function OverlayTopper() {
   const dispatch = useAppDispatch();
@@ -40,7 +43,11 @@ export default function OverlayTopper() {
   return (
     <div className={styles.topOuter}>
       <div className={styles.top}>
-        <button className={styles.topButton} title="내 위치 불러오기" onClick={getLocation}>
+        <button
+          className={styles.topButton}
+          title="내 위치 불러오기"
+          onClick={getLocation}
+        >
           {locationGetter && (
             <div className={styles.loader}>
               <div className={styles.ball}></div>
@@ -64,11 +71,28 @@ export default function OverlayTopper() {
         <LocationRenderer />
       </div>
       <div className={styles.topBottom}>
-        <button className={styles.topButton2} title="지도 내 장소 찾기" onClick={()=>{moveURL("/search?keyword=&type=place&rangefilter=map")}}>
-          <img src="/icons/location.svg" alt="장소" width="18px" height="18px" />
+        <button
+          className={styles.topButton2}
+          title="지도 내 장소 찾기"
+          onClick={() => {
+            moveURL("/search?keyword=&type=place&rangefilter=map");
+          }}
+        >
+          <img
+            src="/icons/location.svg"
+            alt="장소"
+            width="18px"
+            height="18px"
+          />
           지도 범위 장소
         </button>
-        <button className={styles.topButton2} title="지도 내 핀 찾기" onClick={()=>{moveURL("/search?keyword=&type=pin&rangefilter=map")}}>
+        <button
+          className={styles.topButton2}
+          title="지도 내 핀 찾기"
+          onClick={() => {
+            moveURL("/search?keyword=&type=pin&rangefilter=map");
+          }}
+        >
           <img src="/icons/pin.svg" alt="핀" width="16px" height="16px" />
           지도 범위 핀
         </button>
