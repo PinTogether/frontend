@@ -8,7 +8,10 @@ import styles from "@/styles/containers/search/_searchPage.module.scss";
 import PlaceCard from "@/components/PlaceCard";
 import BouncingLoader from "@/components/BouncingLoader";
 import fetchGetSearchPlace from "@/utils/search/fetchGetSearchPlace";
-import { markerDataByAmount, cleanSelectedCollectionByAmount } from "@/redux/locationSlice";
+import {
+  markerDataByAmount,
+  cleanSelectedCollectionByAmount,
+} from "@/redux/locationSlice";
 import { RangeFilter } from "./SearchPage";
 import { SearchRangeFilter } from "@/types/SearchRangeFilter";
 import MarkerData from "@/types/Marker";
@@ -22,7 +25,6 @@ export default function SearchPlaceRender({
   rangeFilter: RangeFilter;
   setRangeFilterType: (rangeFilter: RangeFilter) => void;
 }) {
-
   const dispatch = useAppDispatch();
   const pageNum = useRef(0);
   const pageEndDiv = useRef<HTMLDivElement>(null);
