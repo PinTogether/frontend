@@ -18,7 +18,7 @@ const UserCard = ({
   showUnfollowButton?: boolean;
 }) => {
   const dispatch = useAppDispatch();
-  const [isFollowing, setIsFollowing] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(user.isFollowed ?? true);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFollow = async () => {
