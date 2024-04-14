@@ -417,7 +417,7 @@ const MapNaverDefault = () => {
   useEffect(() => {
     if (window.naver && pinMarkerList[0] && newMap) {
       var distance = 0;
-      if (pinMarkerList.length == 1) distance = 1000;
+      if (pinMarkerList.length == 1) distance = 500;
       var centerBounds = new naver.maps.LatLng(pinMarkerList[0].getPosition());
       var bounds = new naver.maps.LatLngBounds(centerBounds, centerBounds);
       pinMarkerList.forEach((marker) => {
@@ -685,10 +685,10 @@ const MapNaverDefault = () => {
           bounds,
           { easing: "linear", duration: 300 },
           {
-            top: 1100,
-            right: 1100,
-            bottom: 1100,
-            left: sideWidth / 2 + 1100,
+            top: 500,
+            right: 500,
+            bottom: 500,
+            left: sideWidth / 2 + 500,
           }
         );
         setTimeout(() => {
@@ -708,6 +708,9 @@ const MapNaverDefault = () => {
       }
       // 만약 새로 들어온 markerDatas가 1개이고, 기존의 마커에 존재하는 마커 데이터라면 마커들 없에지말고 위치만 이동
       // 1개지만 기존 마커에 존재하지않다면 기존과 똑같이 작동
+    }
+    if (window.naver && !reduxMarkerDatas[0] && isScriptLoaded) {
+      deleteMarker();
     }
   }, [reduxMarkerDatas, isScriptLoaded]);
 

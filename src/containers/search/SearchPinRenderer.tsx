@@ -2,7 +2,9 @@
 
 import Pin from "@/types/Pin";
 import PinCard from "@/components/PinCard";
+import MarkerData from "@/types/Marker";
 
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useState, useRef, useEffect } from "react";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
@@ -11,6 +13,11 @@ import fetchGetSearchPin from "@/utils/search/fetchGetSearchPin";
 
 import { RangeFilter } from "./SearchPage";
 import { SearchRangeFilter } from "@/types/SearchRangeFilter";
+
+import {
+  markerDataByAmount,
+  cleanSelectedCollectionByAmount,
+} from "@/redux/locationSlice";
 
 export default function SearchPinRender({
   searchKeyword,
@@ -23,6 +30,7 @@ export default function SearchPinRender({
   mapRange: SearchRangeFilter | null;
   setRangeFilterType: (rangeFilter: RangeFilter) => void;
 }) {
+  const dispatch = useAppDispatch();
   const pageNum = useRef(0);
   const pageEndDiv = useRef<HTMLDivElement>(null);
   const [pinDatas, setPinDatas] = useState<Pin[]>([]);
@@ -70,11 +78,30 @@ export default function SearchPinRender({
     if (newPinDatas.length > 0) {
       setPinDatas((prev) => [...prev, ...newPinDatas]);
       pageNum.current += 1;
+      makeMarker([...pinDatas, ...newPinDatas]);
     } else {
       setErrorMessage(errorMessage);
       setIsEnd(true);
     }
     setIsLoading(false);
+  };
+
+  const makeMarker = (pinDatas: Pin[]) => {
+    // 마커 리스트를 생성하고 Map에 전달 및 center 좌표 변경
+    if (!pinDatas) return;
+    const markerList: MarkerData[] = [];
+    for (let i = 0; i < pinDatas.length; i++) {
+      markerList.push({
+        id: pinDatas[i].id,
+        placeId: pinDatas[i].placeId,
+        placeName: pinDatas[i].placeName,
+        pinCount: pinDatas[i].placePinCnt,
+        latitude: pinDatas[i].latitude,
+        longitude: pinDatas[i].longitude,
+      });
+    }
+    dispatch(markerDataByAmount(markerList));
+    dispatch(cleanSelectedCollectionByAmount(true));
   };
 
   const onClickRangeFilter = (rangeFilter: RangeFilter) => {
