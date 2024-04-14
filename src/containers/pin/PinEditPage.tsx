@@ -111,6 +111,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
       return;
     } else {
       const collectionEditId = searchParams.get("collectionEditId");
+      if (!collectionEditId || pinData.id === -1) router.back();
       if (collectionEditId) setCollectionEditId(collectionEditId);
       setImageFiles(
         pinData.imagePaths.map((imagePath, index) => ({
