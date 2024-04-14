@@ -1,7 +1,5 @@
-import SearchPage from "@/containers/search/SearchPage"
+import SearchPage from "@/containers/search/SearchPage";
 
 export default function Page() {
-	return(
-		<SearchPage />
-	 	);
-  }
+  return <SearchPage />;
+}

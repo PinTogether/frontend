@@ -23,16 +23,23 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${placeInfo.name}`,
+    title: `${placeInfo.name} ∙ pintogether`,
     description: `${placeInfo.placePinCnt}개의 핀 / ${placeInfo.roadNameAddress}`,
-    applicationName: "pintogether",
-    generator: "Next.js 14",
-    keywords: [placeInfo.name, placeInfo.category, "pintogether", "place"],
-    creator: "pintogether team",
-    robots: "index, follow",
-
+    keywords: [
+      placeInfo.name,
+      placeInfo.category,
+      "pintogether",
+      "핀투게더",
+      "장소",
+      "지도",
+      "컬렉션",
+      "핀",
+      "공유",
+      "리뷰",
+      "맛집",
+    ],
     openGraph: {
-      title: `${placeInfo.name}`,
+      title: `${placeInfo.name} ∙ pintogether`,
       description: `${placeInfo.placePinCnt}개의 핀 / ${placeInfo.roadNameAddress}`,
       type: "website",
       url: `https://pintogether.co.kr/place/${placeId}`,

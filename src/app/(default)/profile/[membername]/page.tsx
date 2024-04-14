@@ -23,28 +23,41 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${profileInfo.membername}/${profileInfo.name}의 프로필`,
+    title: `${profileInfo.name}(${profileInfo.membername})  ∙ pintogether`,
     description: `${profileInfo.bio}`,
-    applicationName: "pintogether",
+    icons: {
+      icon: [
+        {
+          url: "/logo/favicon.png",
+          type: "image/png",
+        },
+      ],
+    },
     authors: [
       {
-        name: `${profileInfo.membername}`,
+        name: `pintogether team`,
+        url: `https://github.com/PinTogether`,
+      },
+      {
+        name: `${profileInfo.name}(${profileInfo.membername})  ∙ pintogether`,
         url: `https://pintogether.co.kr/profile/${profileInfo.membername}`,
       },
     ],
-    generator: "Next.js 14",
     keywords: [
       profileInfo.membername,
       profileInfo.name,
       "pintogether",
-      "profile",
+      "핀투게더",
+      "장소",
+      "지도",
+      "컬렉션",
+      "핀",
+      "공유",
+      "리뷰",
+      "맛집",
     ],
-
-    creator: "pintogether team",
-    robots: "index, follow",
-
     openGraph: {
-      title: `${profileInfo.membername}/${profileInfo.name}의 프로필`,
+      title: `${profileInfo.name}(${profileInfo.membername})  ∙ pintogether`,
       description: `${profileInfo.bio}`,
       images: [profileInfo?.avatar],
       type: "website",

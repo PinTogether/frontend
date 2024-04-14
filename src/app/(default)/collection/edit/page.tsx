@@ -1,10 +1,10 @@
 import CollectionEditPage from "@/containers/collection/CollectionEditPage";
-import SubPageLayout from "@/containers/layout/SubPageLayout";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: "noindex, nofollow",
+};
 
 export default function Page() {
-  return (
-    // <SubPageLayout topperMsg="컬렉션 생성">
-      <CollectionEditPage topperMsg="컬렉션 생성"/>
-    // </SubPageLayout>
-  );
+  return <CollectionEditPage topperMsg="컬렉션 생성" />;
 }
