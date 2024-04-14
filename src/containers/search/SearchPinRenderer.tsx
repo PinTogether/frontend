@@ -8,7 +8,6 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useState, useRef, useEffect } from "react";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import styles from "@/styles/containers/search/_searchPage.module.scss";
-import PlaceCard from "@/components/PlaceCard";
 import BouncingLoader from "@/components/BouncingLoader";
 import fetchGetSearchPin from "@/utils/search/fetchGetSearchPin";
 
@@ -23,10 +22,12 @@ import {
 export default function SearchPinRender({
   searchKeyword,
   rangeFilter,
+  mapRange,
   setRangeFilterType,
 }: {
   searchKeyword: string;
   rangeFilter: RangeFilter;
+  mapRange: SearchRangeFilter | null;
   setRangeFilterType: (rangeFilter: RangeFilter) => void;
 }) {
   const dispatch = useAppDispatch();
@@ -36,8 +37,6 @@ export default function SearchPinRender({
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
-
-  const mapNESW = useAppSelector((state) => state.location.mapNESW);
 
   const option = {
     root: null,
@@ -55,7 +54,7 @@ export default function SearchPinRender({
       setErrorMessage("");
     };
     resetSearch();
-  }, [searchKeyword, rangeFilter]);
+  }, [searchKeyword, rangeFilter, mapRange]);
 
   useEffect(() => {
     if (isIntersecting && !isLoading && !isEnd) {
@@ -66,16 +65,7 @@ export default function SearchPinRender({
   const searchPin = async (searchKeyword: string) => {
     const size = 10;
     const page = pageNum.current;
-    // TODO : 현재 보고 있는 지도 좌표값 넣기
-    const filter: SearchRangeFilter | null =
-      rangeFilter === RangeFilter.ALL
-        ? null
-        : {
-            leftBottomLatitude: mapNESW[2],
-            leftBottomLongitude: mapNESW[3],
-            rightTopLatitude: mapNESW[0],
-            rightTopLongitude: mapNESW[1],
-          };
+    const filter: SearchRangeFilter | null = mapRange;
 
     if (isLoading || isEnd) return;
     setIsLoading(true);
