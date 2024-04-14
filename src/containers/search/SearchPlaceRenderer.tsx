@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { useState, useRef, useEffect } from "react";
 import useIntersectionObserver from "@/hooks/useInteresectionObserver";
 import { PlaceDetail } from "@/types/Place";
@@ -8,7 +8,10 @@ import styles from "@/styles/containers/search/_searchPage.module.scss";
 import PlaceCard from "@/components/PlaceCard";
 import BouncingLoader from "@/components/BouncingLoader";
 import fetchGetSearchPlace from "@/utils/search/fetchGetSearchPlace";
-import { markerDataByAmount, cleanSelectedCollectionByAmount } from "@/redux/locationSlice";
+import {
+  markerDataByAmount,
+  cleanSelectedCollectionByAmount,
+} from "@/redux/locationSlice";
 import { RangeFilter } from "./SearchPage";
 import { SearchRangeFilter } from "@/types/SearchRangeFilter";
 import MarkerData from "@/types/Marker";
@@ -16,22 +19,22 @@ import MarkerData from "@/types/Marker";
 export default function SearchPlaceRender({
   searchKeyword,
   rangeFilter,
+  mapRange,
   setRangeFilterType,
 }: {
   searchKeyword: string;
   rangeFilter: RangeFilter;
+  mapRange: SearchRangeFilter | null;
   setRangeFilterType: (rangeFilter: RangeFilter) => void;
 }) {
-
   const dispatch = useAppDispatch();
+
   const pageNum = useRef(0);
   const pageEndDiv = useRef<HTMLDivElement>(null);
   const [placeDatas, setPlaceDatas] = useState<PlaceDetail[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
-
-  const mapNESW = useAppSelector((state) => state.location.mapNESW);
 
   const option = {
     root: null,
@@ -40,16 +43,17 @@ export default function SearchPlaceRender({
   };
   const isIntersecting = useIntersectionObserver(pageEndDiv, option);
 
+  const resetSearch = () => {
+    pageNum.current = 0;
+    setPlaceDatas([]);
+    setIsEnd(false);
+    setIsLoading(false);
+    setErrorMessage("");
+  };
+
   useEffect(() => {
-    const resetSearch = () => {
-      pageNum.current = 0;
-      setPlaceDatas([]);
-      setIsEnd(false);
-      setIsLoading(false);
-      setErrorMessage("");
-    };
     resetSearch();
-  }, [searchKeyword, rangeFilter]);
+  }, [searchKeyword, rangeFilter, mapRange]);
 
   useEffect(() => {
     if (isIntersecting && !isLoading && !isEnd) {
@@ -60,16 +64,8 @@ export default function SearchPlaceRender({
   const searchPlace = async (searchKeyword: string) => {
     const size = 10;
     const page = pageNum.current;
-    // TODO : 현재 보고 있는 지도 좌표값 넣기
-    const filter: SearchRangeFilter | null =
-      rangeFilter === RangeFilter.ALL
-        ? null
-        : {
-            leftBottomLatitude: mapNESW[2],
-            leftBottomLongitude: mapNESW[3],
-            rightTopLatitude: mapNESW[0],
-            rightTopLongitude: mapNESW[1],
-          };
+    const filter: SearchRangeFilter | null = mapRange;
+
     if (isLoading || isEnd) return;
     setIsLoading(true);
     const { placeDatas: newPlaceDatas, errorMessage } =

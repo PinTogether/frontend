@@ -18,6 +18,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import SearchPinRender from "./SearchPinRenderer";
 import SearchUserRender from "./SearchUserRenderer";
 
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+
+import { SearchRangeFilter } from "@/types/SearchRangeFilter";
+import { shallowEqual } from "react-redux"; // TODO rerendering 최적화
+
 enum SearchCategory {
   HISTORY = -1,
   PLACE = 0,
@@ -41,14 +46,28 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [rangeFilter, setRangeFilter] = useState<RangeFilter>(RangeFilter.MAP);
+  const [mapRange, setMapRange] = useState<SearchRangeFilter | null>(null);
+  const mapNESW = useAppSelector((state) => state.location.mapNESW);
 
   /* 검색하기 */
   useEffect(() => {
-    const type = searchParams.get("type");
-    const keyword = searchParams.get("keyword");
+    const newcategory = searchParams.get("category");
+    const newKeyword = searchParams.get("keyword");
     const newRangefilter = searchParams.get("rangefilter");
+    const paramMapRange = searchParams
+      .get("mapRange")
+      ?.split(",")
+      .map((str) => Number(str));
+    const newMapRange = paramMapRange
+      ? {
+          leftBottomLatitude: paramMapRange[2],
+          leftBottomLongitude: paramMapRange[3],
+          rightTopLatitude: paramMapRange[0],
+          rightTopLongitude: paramMapRange[1],
+        }
+      : null;
 
-    const search = async (type: string, keyword: string) => {
+    const search = async (category: string, keyword: string) => {
       if (isLoading) return;
       setIsLoading(true);
       if (searchParams.has("keyword")) {
@@ -62,85 +81,43 @@ export default function Page() {
           }
         };
         const decodeKeyword = getDecodeKeyword(keyword);
-        const convertedRangeFileter = convertToRangeFilter(newRangefilter);
+        const convertedRangeFilter = convertToRangeFilter(newRangefilter);
         setSearchInputValue(decodeKeyword);
         setSearchKeyword(decodeKeyword);
-        setRangeFilter(convertedRangeFileter);
-        if (decodeKeyword && (!type || type === "history")) {
+        setRangeFilter(convertedRangeFilter);
+        setMapRange(newMapRange);
+        if (decodeKeyword && (!category || category === "history")) {
           setSelectedMenu(SearchCategory.PLACE);
-        } else setSelectedMenu(convertToSearchCategory(type));
+        } else setSelectedMenu(convertToSearchCategory(category));
       } else {
         console.log("검색어가 없습니다.");
         setSearchInputValue("");
-        // setSearchKeyword(""); // ?
+        setSearchKeyword("");
         setSelectedMenu(SearchCategory.HISTORY);
         setRangeFilter(RangeFilter.MAP);
       }
       setIsLoading(false);
     };
-    search(type || "", keyword || "");
+    search(newcategory || "", newKeyword || "");
   }, [searchParams]);
-
-  const convertToSearchCategory = (type: string) => {
-    switch (type) {
-      case "place":
-        return SearchCategory.PLACE;
-      case "collection":
-        return SearchCategory.COLLECTION;
-      case "history":
-        return SearchCategory.HISTORY;
-      case "pin":
-        return SearchCategory.PIN;
-      case "user":
-        return SearchCategory.USER;
-      default:
-        return SearchCategory.HISTORY;
-    }
-  };
-
-  const convertToType = (selectedMenu: number) => {
-    switch (selectedMenu) {
-      case SearchCategory.PLACE:
-        return "place";
-      case SearchCategory.COLLECTION:
-        return "collection";
-      case SearchCategory.HISTORY:
-        return "history";
-      case SearchCategory.PIN:
-        return "pin";
-      case SearchCategory.USER:
-        return "user";
-      default:
-        return "history";
-    }
-  };
-
-  const convertToRangeFilter = (rangefilter: string | null) => {
-    switch (rangefilter) {
-      case "all":
-        return RangeFilter.ALL;
-      case "map":
-        return RangeFilter.MAP;
-      default:
-        return RangeFilter.MAP;
-    }
-  };
 
   // /* menu 변경 */
   const customSetSelectedMenu = (index: SearchCategory) => {
     setSelectedMenu(index);
-    const type = convertToType(selectedMenu);
+    const category = convertToSearchCategoryStr(selectedMenu);
     const keyword = encodeURIComponent(searchInputValue);
     const newRangefilter = rangeFilter;
-    router.push(
-      `/search?keyword=${keyword}&type=${type}&rangefilter=${newRangefilter}`
-    );
+
+    const newUrl = makeUrl(keyword, category, newRangefilter, mapNESW);
+    router.push(newUrl);
   };
 
-  const setRangeFilterType = (index: RangeFilter) => {
-    const type = convertToType(selectedMenu);
+  const setRangeFilterType = (newRangefilter: RangeFilter) => {
+    const category = convertToSearchCategoryStr(selectedMenu);
     const keyword = encodeURIComponent(searchInputValue);
-    router.push(`/search?keyword=${keyword}&type=${type}&rangefilter=${index}`);
+
+    const newUrl = makeUrl(keyword, category, newRangefilter, mapNESW);
+    router.push(newUrl);
   };
 
   /* submit */
@@ -148,13 +125,14 @@ export default function Page() {
     e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
-    const type =
-      searchParams.get("type") || convertToType(SearchCategory.PLACE);
+    const category =
+      searchParams.get("category") ||
+      convertToSearchCategoryStr(SearchCategory.PLACE);
     const keyword = encodeURIComponent(searchInputValue);
     const newRangefilter = rangeFilter;
-    router.push(
-      `/search?keyword=${keyword}&type=${type}&rangefilter=${newRangefilter}`
-    );
+
+    const newUrl = makeUrl(keyword, category, newRangefilter, mapNESW);
+    router.push(newUrl);
   };
 
   /* 검색어 입력 */
@@ -239,6 +217,7 @@ export default function Page() {
               <SearchPlaceRender
                 searchKeyword={searchKeyword}
                 rangeFilter={rangeFilter}
+                mapRange={mapRange}
                 setRangeFilterType={setRangeFilterType}
               />
             </SlideMenuInnerPage>
@@ -249,6 +228,7 @@ export default function Page() {
               <SearchPinRender
                 searchKeyword={searchKeyword}
                 rangeFilter={rangeFilter}
+                mapRange={mapRange}
                 setRangeFilterType={setRangeFilterType}
               />
             </SlideMenuInnerPage>
@@ -262,3 +242,86 @@ export default function Page() {
     </section>
   );
 }
+
+/* Utils */
+
+const makeUrl = (
+  newKeyword: string,
+  newCategory: string | SearchCategory,
+  newRangefilter: RangeFilter,
+  newMapRange: number[]
+) => {
+  const convertedCategory =
+    typeof newCategory === "string"
+      ? newCategory
+      : convertToSearchCategoryStr(newCategory);
+
+  const newUrl =
+    `/search?keyword=${newKeyword}&category=${convertedCategory}` +
+    (convertedCategory === "pin" || convertedCategory === "place"
+      ? newRangefilter === RangeFilter.MAP
+        ? `&rangefilter=${newRangefilter}&mapRange=${newMapRange}`
+        : `&rangefilter=${newRangefilter}`
+      : ``);
+  return newUrl;
+};
+
+const convertToSearchCategory = (category: string) => {
+  switch (category) {
+    case "place":
+      return SearchCategory.PLACE;
+    case "collection":
+      return SearchCategory.COLLECTION;
+    case "history":
+      return SearchCategory.HISTORY;
+    case "pin":
+      return SearchCategory.PIN;
+    case "user":
+      return SearchCategory.USER;
+    default:
+      return SearchCategory.HISTORY;
+  }
+};
+
+const convertToSearchCategoryStr = (selectedMenu: number) => {
+  switch (selectedMenu) {
+    case SearchCategory.PLACE:
+      return "place";
+    case SearchCategory.COLLECTION:
+      return "collection";
+    case SearchCategory.HISTORY:
+      return "history";
+    case SearchCategory.PIN:
+      return "pin";
+    case SearchCategory.USER:
+      return "user";
+    default:
+      return "history";
+  }
+};
+
+const convertToRangeFilter = (rangefilter: string | null) => {
+  switch (rangefilter) {
+    case "all":
+      return RangeFilter.ALL;
+    case "map":
+      return RangeFilter.MAP;
+    default:
+      return RangeFilter.MAP;
+  }
+};
+
+const useGetMapSSSS = () => {
+  const [mapNESWState, setMapNESWState] = useState<number[]>([]);
+  const mapNESW = useAppSelector(
+    (state) => state.location.mapNESW,
+    shallowEqual
+  );
+
+  const getMapNESW = () => {
+    setMapNESWState(mapNESW);
+    return mapNESW;
+  };
+
+  return { mapNESWState, getMapNESW };
+};
