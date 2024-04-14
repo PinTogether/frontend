@@ -26,7 +26,7 @@ export interface ProfileOthers extends Profile {
 
 export interface ProfileFollower extends Profile {
   id: number;
-  isFollowed?: boolean;
+  followed?: boolean;
 }
 
 interface ERDMember {
