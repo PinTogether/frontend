@@ -25,6 +25,8 @@ import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPin
 import CollectionReplyRenderer from "@/containers/collection/CollectionReplyRenderer";
 import CollectionInfoRenderer from "@/containers/collection/CollectionInfoRenderer";
 import CollectionPageSkeleton from "./CollectionPageSkeleton";
+import { addAlertMessage } from "@/redux/globalAlertSlice";
+import fetchDeleteCollection from "@/utils/collections/fetchDeleteCollection";
 
 enum ShowState {
   PIN_PLACE = 1,
@@ -90,6 +92,32 @@ export default function CollectionPage({
     const result = await fetchGetCollectionComments(collectionId);
     setReplyFetchDatas(result);
     setIsReplyFetching(false);
+  };
+
+  /* 컬렉션 삭제 */
+  const deleteCollection = async () => {
+    if (
+      isCollectionFetching ||
+      !collectionId ||
+      !collectionFetchDatas.collectionInfo
+    )
+      return;
+    if (
+      !confirm(
+        `"${collectionFetchDatas.collectionInfo.title}" 컬렉션을 삭제하시겠습니까?`
+      )
+    )
+      return;
+    setIsCollectionFetching(true);
+    const { success, errorMessage } = await fetchDeleteCollection(collectionId);
+    if (!success) {
+      dispatch(addAlertMessage(errorMessage));
+    } else {
+      router.push(
+        `/profile/${collectionFetchDatas.collectionInfo.writerMembername}`
+      );
+    }
+    setIsCollectionFetching(false);
   };
 
   /* button state */
@@ -160,9 +188,11 @@ export default function CollectionPage({
     <SubPageLayout
       topperMsg={"컬렉션 조회"}
       completeButtonMsg={isMyCollection ? "수정" : undefined}
+      deleteButtonMsg={isMyCollection ? "삭제" : undefined}
       onClickCompleteButton={() =>
         router.push(`/collection/edit/${collectionId}`)
       }
+      onClickDeleteButton={() => deleteCollection()}
     >
       {isCollectionFetching ? (
         <CollectionPageSkeleton />
