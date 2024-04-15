@@ -8,6 +8,7 @@ import BouncingLoader from "@/components/BouncingLoader";
 import fetchGetSearchUser from "@/utils/search/fetchGetSearchUser";
 
 import UserCard from "@/components/UserCard";
+import { useGetMyProfile } from "@/hooks/myProfileHooks";
 
 export default function SearchUserRender({
   searchKeyword,
@@ -20,6 +21,7 @@ export default function SearchUserRender({
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
+  const profile = useGetMyProfile();
 
   const option = {
     root: null,
@@ -77,7 +79,11 @@ export default function SearchUserRender({
       ) : (
         <>
           {userDatas.map((userData, index) => (
-            <UserCard key={index} user={userData} showUnfollowButton={true} />
+            <UserCard
+              key={index}
+              user={userData}
+              showUnfollowButton={profile ? true : false}
+            />
           ))}
           {isLoading && <BouncingLoader />}
         </>
