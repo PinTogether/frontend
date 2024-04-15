@@ -4,6 +4,8 @@ import Pin from "@/types/Pin";
 import { CommentIcon } from "./IconSvg";
 import Link from "next/link";
 import MultilineTextRenderer from "@/components/MultilineTextRenderer";
+import ImageViewBox from "./ImageViewBox";
+import { useState } from "react";
 
 export { ReviewCard, MyReviewCard };
 
@@ -15,6 +17,7 @@ export default function ReviewCard({
   activeGoCollectionBtn?: boolean;
 }) {
   const defaultAvatarUrl = process.env.NEXT_PUBLIC_DEFAULT_AVATAR_URL;
+  const [selectedImageNum, setSelectedImageNum] = useState<number | null>(null);
 
   return (
     <article className={styles.review}>
@@ -44,6 +47,7 @@ export default function ReviewCard({
             alt="review image"
             width={100}
             height={100}
+            onClick={() => setSelectedImageNum(index)}
           />
         ))}
       </div>
@@ -69,11 +73,20 @@ export default function ReviewCard({
         )}
         <br />
       </div>
+      <ImageViewBox
+        selectedImageNum={selectedImageNum}
+        setSelectedImageNum={setSelectedImageNum}
+        review={reviewData.review}
+        membername={reviewData.writerMembername}
+        imagePaths={reviewData.imagePaths}
+      />
     </article>
   );
 }
 
 const MyReviewCard = ({ reviewData }: { reviewData: Pin }) => {
+  const [selectedImageNum, setSelectedImageNum] = useState<number | null>(null);
+
   return (
     <article className={styles.review}>
       {reviewData.review && (
@@ -93,10 +106,18 @@ const MyReviewCard = ({ reviewData }: { reviewData: Pin }) => {
               alt="review image"
               width={100}
               height={100}
+              onClick={() => setSelectedImageNum(index)}
             />
           ))}
         </div>
       )}
+      <ImageViewBox
+        selectedImageNum={selectedImageNum}
+        setSelectedImageNum={setSelectedImageNum}
+        review={reviewData.review}
+        membername={reviewData.writerMembername}
+        imagePaths={reviewData.imagePaths}
+      />
     </article>
   );
 };
