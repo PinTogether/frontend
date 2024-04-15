@@ -113,7 +113,7 @@ export default function CollectionPage({
     if (!success) {
       dispatch(addAlertMessage(errorMessage));
     } else {
-      router.push(
+      router.replace(
         `/profile/${collectionFetchDatas.collectionInfo.writerMembername}`
       );
     }
@@ -181,7 +181,7 @@ export default function CollectionPage({
           pinFetchDatas.pinList?.map((pin) => pin.placeId || -1) || [],
       })
     );
-    router.push(`/pin/select?collectionId=${collectionId}`);
+    router.replace(`/pin/select?collectionId=${collectionId}`);
   };
 
   return (
@@ -190,7 +190,7 @@ export default function CollectionPage({
       completeButtonMsg={isMyCollection ? "수정" : undefined}
       deleteButtonMsg={isMyCollection ? "삭제" : undefined}
       onClickCompleteButton={() =>
-        router.push(`/collection/edit/${collectionId}`)
+        router.replace(`/collection/edit/${collectionId}`)
       }
       onClickDeleteButton={() => deleteCollection()}
     >

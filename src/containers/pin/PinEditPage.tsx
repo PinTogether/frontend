@@ -141,8 +141,8 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
       if (success) {
         dispatch(clearPinEditState());
         if (collectionEditId)
-          router.push(`/collection/edit/${collectionEditId}`);
-        else router.push(`/collection/${pinData.collectionId}`);
+          router.replace(`/collection/edit/${collectionEditId}`);
+        else router.replace(`/collection/${pinData.collectionId}`);
       }
     } else {
       const newPinId = await createPin();
@@ -151,8 +151,8 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
           await editPinWithImage(newPinId);
         }
         if (collectionEditId) {
-          router.push(`/collection/edit/${collectionEditId}`);
-        } else router.push(`/collection/${createInfo?.collectionId}`);
+          router.replace(`/collection/edit/${collectionEditId}`);
+        } else router.replace(`/collection/${createInfo?.collectionId}`);
       }
     }
     setIsLoading(false);
@@ -247,7 +247,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     } else if (!imageFiles.length) {
       // 이미지 없이 핀 생성 성공
       dispatch(clearPinEditState());
-      router.push(`/collection/${createInfo.collectionId}`);
+      router.replace(`/collection/${createInfo.collectionId}`);
       return null;
     }
     return newPinId; // 핀 생성 성공 후 이미지 업로드
@@ -287,8 +287,8 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     }
     setIsLoading(false);
     dispatch(clearPinEditState());
-    if (collectionEditId) router.push(`/collection/edit/${collectionEditId}`);
-    else router.push(`/collection/${pinData.collectionId}`);
+    if (collectionEditId) router.replace(`/collection/edit/${collectionEditId}`);
+    else router.replace(`/collection/${pinData.collectionId}`);
   };
 
   return (
