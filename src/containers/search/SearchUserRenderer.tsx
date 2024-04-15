@@ -82,7 +82,9 @@ export default function SearchUserRender({
             <UserCard
               key={index}
               user={userData}
-              showUnfollowButton={profile ? true : false}
+              showUnfollowButton={
+                profile && profile.id != userData.id ? true : false
+              }
             />
           ))}
           {isLoading && <BouncingLoader />}
