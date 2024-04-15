@@ -22,35 +22,33 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${collectionInfo.title}`,
+    title: `${collectionInfo.title} ∙ pintogether`,
     description: `${collectionInfo.details}`,
     applicationName: "pintogether",
     authors: [
       {
-        name: `${collectionInfo.writerMembername}`,
+        name: `${collectionInfo.writerMembername} ∙ pintogether`,
         url: `https://pintogether.co.kr/profile/${collectionInfo.writerMembername}`,
       },
+      {
+        name: `pintogether team`,
+        url: `https://github.com/PinTogether`,
+      },
     ],
-    generator: "Next.js 14",
-    keywords: [...collectionInfo.tags, "pintogether", "collection"],
-    // referrer
-    // themeColor
-    // colorScheme
-    // viewport
-    creator: "pintogether team",
-    robots: "index, follow", // 크롤러 탐색
-    // alternate
-    // icons: [
-    //   {
-    //     src: collectionInfo.thumbnail,
-    //     sizes: "192x192",
-    //     type: "image/png",
-    //   },
-    // ],
-    // manifest: {
-
+    keywords: [
+      ...collectionInfo.tags,
+      "pintogether",
+      "핀투게더",
+      "장소",
+      "지도",
+      "컬렉션",
+      "핀",
+      "공유",
+      "리뷰",
+      "맛집",
+    ],
     openGraph: {
-      title: `${collectionInfo.title}`,
+      title: `${collectionInfo.title} ∙ pintogether`,
       description: `${collectionInfo.details} / ${collectionInfo.tags.join(", ")}`,
       images: [collectionInfo?.thumbnail],
       type: "website",

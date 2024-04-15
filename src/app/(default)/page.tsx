@@ -12,6 +12,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  applicationName: "pintogether",
+  authors: [
+    {
+      name: `pintogether team`,
+      url: `https://github.com/PinTogether`,
+    },
+  ],
   generator: "Next.js 14",
   keywords: ["pintogether", "장소", "지도", "컬렉션", "핀", "공유"],
   creator: "pintogether team",
