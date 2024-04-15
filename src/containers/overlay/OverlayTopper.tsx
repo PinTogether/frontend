@@ -76,7 +76,7 @@ export default function OverlayTopper() {
           className={styles.topButton2}
           title="지도 내 장소 찾기"
           onClick={() => {
-            moveURL(`/search?keyword=&type=place&rangefilter=map&mapRange=${mapNESW}`);
+            moveURL(`/search?keyword=&category=place&rangefilter=map&mapRange=${mapNESW}`);
           }}
         >
           <img
@@ -91,7 +91,7 @@ export default function OverlayTopper() {
           className={styles.topButton2}
           title="지도 내 핀 찾기"
           onClick={() => {
-            moveURL(`/search?keyword=&type=pin&rangefilter=map&mapRange=${mapNESW}`);
+            moveURL(`/search?keyword=&category=pin&rangefilter=map&mapRange=${mapNESW}`);
           }}
         >
           <img src="/icons/pin.svg" alt="핀" width="16px" height="16px" />
