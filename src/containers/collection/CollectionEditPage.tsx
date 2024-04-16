@@ -123,7 +123,7 @@ export default function CollectionEditPage({
     if (!success) {
       setAlertMessage(errorMessage);
     } else {
-      router.push(`/profile/${collectionInfo?.writerMembername}`);
+      router.replace(`/profile/${collectionInfo?.writerMembername}`);
     }
     setIsUploading(false);
   };
@@ -142,7 +142,7 @@ export default function CollectionEditPage({
       setAlertMessage(errorMessage);
       return;
     } else if (!imgFile) {
-      router.push(`/collection/${newCollectionId}`);
+      router.replace(`/collection/${newCollectionId}`);
       return;
     }
     // S3 이미지 업로드
@@ -167,7 +167,7 @@ export default function CollectionEditPage({
           setAlertMessage(errorMessage);
           return;
         }
-        router.push(`/collection/${newCollectionId}`);
+        router.replace(`/collection/${newCollectionId}`);
       }
     }
   };
@@ -218,7 +218,7 @@ export default function CollectionEditPage({
       }
     }
     clearDraftSave();
-    router.push(`/collection/${collectionId}`);
+    router.replace(`/collection/${collectionId}`);
   };
 
   /* 초기화 */

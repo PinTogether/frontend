@@ -163,7 +163,7 @@ export default function ProfileEditPage() {
     if (success) {
       updateReduxProfile();
       const membername = inputMembername;
-      router.push(`/profile/${membername}`);
+      router.replace(`/profile/${membername}`);
     } else setTotalErrorMessage(errorMessage);
   };
 
