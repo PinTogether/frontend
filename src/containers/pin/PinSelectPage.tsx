@@ -1,20 +1,14 @@
 "use client";
 
-import { useState, useEffect, SetStateAction } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 
 import styles from "@/styles/containers/pin/_pinSelectPage.module.scss";
 import { PlaceDetail } from "@/types/Place";
-import {
-  CheckRingRoundIcon,
-  CloseRoundIcon,
-  PinIcon,
-} from "@/components/IconSvg";
+import { CheckRingRoundIcon, PinIcon } from "@/components/IconSvg";
 import { SimplePlaceCard } from "@/components/PlaceCard";
-import { InputComponent } from "@/components/InputComponent";
 import { SlideMenu, SlideMenuInnerPage } from "@/components/SlideMenu";
 
 import fetchGetStars from "@/utils/stars/fetchGetStars";
@@ -110,7 +104,7 @@ const PinSelectPage = () => {
     );
     if (success) {
       dispatch(addAlertMessage("핀이 추가되었습니다."));
-      router.push(`/collection/${collectionId}`);
+      router.replace(`/collection/${collectionId}`);
     } else {
       dispatch(addAlertMessage(errorMessage));
     }
