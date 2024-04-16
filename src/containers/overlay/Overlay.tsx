@@ -188,7 +188,8 @@ export default function Overlay() {
         return ;
       }
     }
-    setIsSectorChanged(false);
+    if(isSectorChanged)
+      setIsSectorChanged(false);
     return ;
   }
 
