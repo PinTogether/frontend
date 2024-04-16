@@ -29,14 +29,14 @@ interface markerDataByCollection {
 
 export default function Overlay() {
   const dispatch = useAppDispatch();
-  // const param = useSearchParams();
+  const param = useSearchParams();
   const router = useRouter();
 
-  // const [mapRangeParam, setMapRangeParam] = useState<string|null>("");
-  // const [rangeFilterParam, setRangeFilterParam] = useState<string|null>("");
-  // const [keywordParam, setKeywordParam] = useState<string|null>("");
-  // const [categoryParam, setCategoryParam] = useState<string|null>("");
-  // const [isSectorChanged, setIsSectorChanged] = useState(false);
+  const [mapRangeParam, setMapRangeParam] = useState<string|null>("");
+  const [rangeFilterParam, setRangeFilterParam] = useState<string|null>("");
+  const [keywordParam, setKeywordParam] = useState<string|null>("");
+  const [categoryParam, setCategoryParam] = useState<string|null>("");
+  const [isSectorChanged, setIsSectorChanged] = useState(false);
   const [collectionSelector, setCollectionSelector] = useState(0);
   const [isCardSliderOn, setIsCardSliderOn] = useState(1);
   const [showCardSlider, setShowCardSlider] = useState(false);
@@ -180,21 +180,21 @@ export default function Overlay() {
       });
   };
 
-  // function sectorChangeCheck() {
-  //   if(mapNESW && mapRangeParam){
-  //     const str = mapNESW.toString();
-  //     if(mapRangeParam != str){
-  //       setIsSectorChanged(true);
-  //       return ;
-  //     }
-  //   }
-  //   setIsSectorChanged(false);
-  //   return ;
-  // }
+  function sectorChangeCheck() {
+    if(mapNESW && mapRangeParam){
+      const str = mapNESW.toString();
+      if(mapRangeParam != str){
+        setIsSectorChanged(true);
+        return ;
+      }
+    }
+    setIsSectorChanged(false);
+    return ;
+  }
 
-  // function sectorSearchAgain() {
-  //   router.push(`/search?keyword=${keywordParam}&category=${categoryParam}&rangefilter=map&mapRange=${mapNESW}`)
-  // }
+  function sectorSearchAgain() {
+    router.push(`/search?keyword=${keywordParam}&category=${categoryParam}&rangefilter=map&mapRange=${mapNESW}`)
+  }
 
   function makeMarkerList() {
     let markerLists: MarkerData[] = [];
@@ -232,7 +232,7 @@ export default function Overlay() {
   function OverlayCollectionSelector() {
     return (
       <>
-        {/* {rangeFilterParam == "map" && isSectorChanged && (
+        {rangeFilterParam == "map" && isSectorChanged && (
           <div
             className={styles.researchButton}
             onClick={() => sectorSearchAgain()}
@@ -240,7 +240,7 @@ export default function Overlay() {
             <RefreshIcon style={{ width: 16, height: 16 }} />
             범위 내 재검색
           </div>
-        )} */}
+        )}
         {myProfile ? (
           <div className={styles.bottom}>
             <div
@@ -397,9 +397,9 @@ export default function Overlay() {
   //   setSelectedCardId([])
   // }, [outerMarkerdata])
 
-  // useEffect(()=>{
-  //   sectorChangeCheck();
-  // },[mapNESW])
+  useEffect(()=>{
+    sectorChangeCheck();
+  },[mapNESW])
 
   useEffect(() => {
     if (!myProfile) {
@@ -407,18 +407,18 @@ export default function Overlay() {
     }
   }, [myProfile]);
 
-  // useEffect(()=>{
-  //   console.log("호출");
-  //   if(param.get('rangefilter')){
-  //     setMapRangeParam(param.get('mapRange'));
-  //     setCategoryParam(param.get('category'));
-  //     setKeywordParam(param.get('keyword'));
-  //     setRangeFilterParam(param.get('rangefilter'));
-  //   }
-  //   else{
-  //     setRangeFilterParam(null);
-  //   }
-  // },[param])
+  useEffect(()=>{
+    console.log("호출");
+    if(param.get('rangefilter')){
+      setMapRangeParam(param.get('mapRange'));
+      setCategoryParam(param.get('category'));
+      setKeywordParam(param.get('keyword'));
+      setRangeFilterParam(param.get('rangefilter'));
+    }
+    else{
+      setRangeFilterParam(null);
+    }
+  },[param])
 
   return (
     <section className={styles.overlay}>
