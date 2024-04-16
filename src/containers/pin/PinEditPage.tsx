@@ -111,7 +111,7 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
       return;
     } else {
       const collectionEditId = searchParams.get("collectionEditId");
-      if (!collectionEditId || pinData.id === -1) router.back();
+      if (pinData.id === -1) router.back();
       if (collectionEditId) setCollectionEditId(collectionEditId);
       setImageFiles(
         pinData.imagePaths.map((imagePath, index) => ({
@@ -131,10 +131,6 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     if (isLoading) return;
     setIsLoading(true);
     if (pinId) {
-      console.log(
-        "editPin",
-        imageFiles.find((imageFile) => imageFile.file !== null)
-      );
       const success = !imageFiles.find((imageFile) => imageFile.file !== null)
         ? await editPin()
         : await editPinWithImage(Number(pinId));
@@ -287,7 +283,8 @@ export default function PinEditPage({ pinId }: { pinId?: string }) {
     }
     setIsLoading(false);
     dispatch(clearPinEditState());
-    if (collectionEditId) router.replace(`/collection/edit/${collectionEditId}`);
+    if (collectionEditId)
+      router.replace(`/collection/edit/${collectionEditId}`);
     else router.replace(`/collection/${pinData.collectionId}`);
   };
 
