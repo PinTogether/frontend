@@ -32,7 +32,11 @@ export default function Overlay() {
   // const param = useSearchParams();
   const router = useRouter();
 
-  const [isSectorChanged, setIsSectorChanged] = useState(false);
+  // const [mapRangeParam, setMapRangeParam] = useState<string|null>("");
+  // const [rangeFilterParam, setRangeFilterParam] = useState<string|null>("");
+  // const [keywordParam, setKeywordParam] = useState<string|null>("");
+  // const [categoryParam, setCategoryParam] = useState<string|null>("");
+  // const [isSectorChanged, setIsSectorChanged] = useState(false);
   const [collectionSelector, setCollectionSelector] = useState(0);
   const [isCardSliderOn, setIsCardSliderOn] = useState(1);
   const [showCardSlider, setShowCardSlider] = useState(false);
@@ -177,9 +181,9 @@ export default function Overlay() {
   };
 
   // function sectorChangeCheck() {
-  //   if(mapNESW && param.get('mapRange')){
+  //   if(mapNESW && mapRangeParam){
   //     const str = mapNESW.toString();
-  //     if(param.get('mapRange') != str){
+  //     if(mapRangeParam != str){
   //       setIsSectorChanged(true);
   //       return ;
   //     }
@@ -189,7 +193,7 @@ export default function Overlay() {
   // }
 
   // function sectorSearchAgain() {
-  //   router.push(`/search?keyword=${param.get('keyword')}&category=${param.get('category')}&rangefilter=map&mapRange=${mapNESW}`)
+  //   router.push(`/search?keyword=${keywordParam}&category=${categoryParam}&rangefilter=map&mapRange=${mapNESW}`)
   // }
 
   function makeMarkerList() {
@@ -228,7 +232,7 @@ export default function Overlay() {
   function OverlayCollectionSelector() {
     return (
       <>
-        {/* {param.get('rangefilter') == "map" && isSectorChanged && (
+        {/* {rangeFilterParam == "map" && isSectorChanged && (
           <div
             className={styles.researchButton}
             onClick={() => sectorSearchAgain()}
@@ -402,6 +406,19 @@ export default function Overlay() {
       getTopCollectionData();
     }
   }, [myProfile]);
+
+  // useEffect(()=>{
+  //   console.log("호출");
+  //   if(param.get('rangefilter')){
+  //     setMapRangeParam(param.get('mapRange'));
+  //     setCategoryParam(param.get('category'));
+  //     setKeywordParam(param.get('keyword'));
+  //     setRangeFilterParam(param.get('rangefilter'));
+  //   }
+  //   else{
+  //     setRangeFilterParam(null);
+  //   }
+  // },[param])
 
   return (
     <section className={styles.overlay}>
