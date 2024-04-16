@@ -134,7 +134,7 @@ const CollectionSelectPage = () => {
       const collectionTitle = collectionDataList.find(
         (collection) => collection.id === selectedCollection[0]
       )?.title;
-      router.push(
+      router.replace(
         `/pin/edit?placeId=${placeId}&placeName=${placeName}&collectionId=${selectedCollection[0]}&collectionTitle=${collectionTitle}`
       );
       return;
@@ -150,7 +150,7 @@ const CollectionSelectPage = () => {
     } else {
       setAlertMessage("핀이 추가되었습니다.");
       setSelectedCollection([]);
-      router.push(`/place/${placeId}`);
+      router.replace(`/place/${placeId}`);
     }
   };
 

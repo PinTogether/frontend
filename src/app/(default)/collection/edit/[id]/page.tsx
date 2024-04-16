@@ -1,5 +1,9 @@
 import CollectionEditPage from "@/containers/collection/CollectionEditPage";
-import SubPageLayout from "@/containers/layout/SubPageLayout";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: "noindex, nofollow",
+};
 
 type PageParams = {
   id: number;

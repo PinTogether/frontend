@@ -9,7 +9,7 @@ import Pin from "@/types/Pin";
 
 // Define the initial state using that type
 const initialState: Pin = {
-  id: 0,
+  id: -1,
   placeId: 0,
   collectionId: 0,
   writerMembername: "",
