@@ -29,7 +29,7 @@ interface markerDataByCollection {
 
 export default function Overlay() {
   const dispatch = useAppDispatch();
-  const param = useSearchParams();
+  // const param = useSearchParams();
   const router = useRouter();
 
   const [isSectorChanged, setIsSectorChanged] = useState(false);
@@ -176,21 +176,21 @@ export default function Overlay() {
       });
   };
 
-  function sectorChangeCheck() {
-    if(mapNESW && param.get('mapRange')){
-      const str = mapNESW.toString();
-      if(param.get('mapRange') != str){
-        setIsSectorChanged(true);
-        return ;
-      }
-    }
-    setIsSectorChanged(false);
-    return ;
-  }
+  // function sectorChangeCheck() {
+  //   if(mapNESW && param.get('mapRange')){
+  //     const str = mapNESW.toString();
+  //     if(param.get('mapRange') != str){
+  //       setIsSectorChanged(true);
+  //       return ;
+  //     }
+  //   }
+  //   setIsSectorChanged(false);
+  //   return ;
+  // }
 
-  function sectorSearchAgain() {
-    router.push(`/search?keyword=${param.get('keyword')}&category=${param.get('category')}&rangefilter=map&mapRange=${mapNESW}`)
-  }
+  // function sectorSearchAgain() {
+  //   router.push(`/search?keyword=${param.get('keyword')}&category=${param.get('category')}&rangefilter=map&mapRange=${mapNESW}`)
+  // }
 
   function makeMarkerList() {
     let markerLists: MarkerData[] = [];
@@ -228,7 +228,7 @@ export default function Overlay() {
   function OverlayCollectionSelector() {
     return (
       <>
-        {param.get('rangefilter') == "map" && isSectorChanged && (
+        {/* {param.get('rangefilter') == "map" && isSectorChanged && (
           <div
             className={styles.researchButton}
             onClick={() => sectorSearchAgain()}
@@ -236,7 +236,7 @@ export default function Overlay() {
             <RefreshIcon style={{ width: 16, height: 16 }} />
             범위 내 재검색
           </div>
-        )}
+        )} */}
         {myProfile ? (
           <div className={styles.bottom}>
             <div
@@ -393,9 +393,9 @@ export default function Overlay() {
   //   setSelectedCardId([])
   // }, [outerMarkerdata])
 
-  useEffect(()=>{
-    sectorChangeCheck();
-  },[mapNESW])
+  // useEffect(()=>{
+  //   sectorChangeCheck();
+  // },[mapNESW])
 
   useEffect(() => {
     if (!myProfile) {
