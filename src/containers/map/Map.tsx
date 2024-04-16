@@ -429,10 +429,10 @@ const MapNaverDefault = () => {
           bounds,
           { easing: "linear", duration: 300 },
           {
-            top: 100 + distance,
-            right: 100 + distance,
-            bottom: 100 + distance,
-            left: sideWidth / 2 + 100 + distance,
+            top: distance,
+            right: distance,
+            bottom: distance,
+            left: distance,
           }
         );
         pinMarkerList.forEach((marker) => {

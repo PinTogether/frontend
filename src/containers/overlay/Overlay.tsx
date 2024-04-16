@@ -1,6 +1,7 @@
 "use client";
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useSearchParams, useRouter } from "next/navigation";
 import styles from "@/styles/containers/overlay/_overlay.module.scss";
 import CardSlider2 from "@/components/CardSlider2";
 import MarkerData from "@/types/Marker";
@@ -10,8 +11,11 @@ import Pin from "@/types/Pin";
 import { useState, useEffect } from "react";
 import { SimpleCollectionCard } from "@/components/CollectionCard";
 import { cleanSelectedCollectionByAmount } from "@/redux/locationSlice";
-
-import { ExpendDownIcon, ExpendUpIcon } from "@/components/IconSvg";
+import {
+  ExpendDownIcon,
+  ExpendUpIcon,
+  RefreshIcon,
+} from "@/components/IconSvg";
 
 import { markerDataByAmount } from "@/redux/locationSlice";
 
@@ -25,7 +29,10 @@ interface markerDataByCollection {
 
 export default function Overlay() {
   const dispatch = useAppDispatch();
+  const param = useSearchParams();
+  const router = useRouter();
 
+  const [isSectorChanged, setIsSectorChanged] = useState(false);
   const [collectionSelector, setCollectionSelector] = useState(0);
   const [isCardSliderOn, setIsCardSliderOn] = useState(1);
   const [showCardSlider, setShowCardSlider] = useState(false);
@@ -41,6 +48,7 @@ export default function Overlay() {
   const cleanSelectedCollection = useAppSelector(
     (state) => state.location.cleanSelectedCollection
   );
+  const mapNESW = useAppSelector((state) => state.location.mapNESW);
   const myProfile = useGetMyProfile();
 
   const getTopCollectionData = async () => {
@@ -168,6 +176,22 @@ export default function Overlay() {
       });
   };
 
+  function sectorChangeCheck() {
+    if(mapNESW && param.get('mapRange')){
+      const str = mapNESW.toString();
+      if(param.get('mapRange') != str){
+        setIsSectorChanged(true);
+        return ;
+      }
+    }
+    setIsSectorChanged(false);
+    return ;
+  }
+
+  function sectorSearchAgain() {
+    router.push(`/search?keyword=${param.get('keyword')}&category=${param.get('category')}&rangefilter=map&mapRange=${mapNESW}`)
+  }
+
   function makeMarkerList() {
     let markerLists: MarkerData[] = [];
     //최종 마커 리스트를 생성하고 Map에 전달
@@ -204,6 +228,15 @@ export default function Overlay() {
   function OverlayCollectionSelector() {
     return (
       <>
+        {param.get('rangefilter') == "map" && isSectorChanged && (
+          <div
+            className={styles.researchButton}
+            onClick={() => sectorSearchAgain()}
+          >
+            <RefreshIcon style={{ width: 16, height: 16 }} />
+            범위 내 재검색
+          </div>
+        )}
         {myProfile ? (
           <div className={styles.bottom}>
             <div
@@ -333,7 +366,7 @@ export default function Overlay() {
 
   useEffect(() => {
     if (!cleanSelectedCollection) makeMarkerList();
-    else{
+    else {
       dispatch(cleanSelectedCollectionByAmount(false));
     }
   }, [markerDatas]);
@@ -345,16 +378,27 @@ export default function Overlay() {
     }
   }, [cleanSelectedCollection]);
 
+  useEffect(() => {
+    if (myProfile) {
+      if (collectionSelector == 0 && myCollectionDatas[0]) {
+        getMyCollectionData();
+      } else if (collectionSelector == 1 && scrappedCollectionDatas[0]) {
+        getScrappedCollectionData();
+      }
+    }
+  }, [collectionSelector]);
+
   // useEffect(() => {
   //   if(outerMarkerdata != markerList)
   //   setSelectedCardId([])
   // }, [outerMarkerdata])
 
+  useEffect(()=>{
+    sectorChangeCheck();
+  },[mapNESW])
+
   useEffect(() => {
-    if (myProfile) {
-      getMyCollectionData();
-      getScrappedCollectionData();
-    } else {
+    if (!myProfile) {
       getTopCollectionData();
     }
   }, [myProfile]);
