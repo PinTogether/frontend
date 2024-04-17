@@ -58,6 +58,15 @@ export const metadata: Metadata = {
     locale: "ko_KR",
     siteName: "pintogether",
   },
+
+  // <meta name="google-site-verification" content="Y1g6QAr3-rP58ge-Ztqbg94QHtxsBmsualQ-276t9oo" />
+  // <meta name="naver-site-verification" content="9cb8bbf6f19707817fe9325d05536e836241781a" />
+  verification: {
+    google: "Y1g6QAr3-rP58ge-Ztqbg94QHtxsBmsualQ-276t9oo",
+    other: {
+      "naver-site-verification": "9cb8bbf6f19707817fe9325d05536e836241781a",
+    },
+  },
 };
 
 export default function RootLayout({
