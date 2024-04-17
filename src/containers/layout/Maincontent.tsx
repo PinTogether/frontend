@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import styles from "@/styles/layout/_maincontent.module.scss";
 import Overlay from "../overlay/Overlay";
 import { mainContentWidthByAmount } from "@/redux/locationSlice";
+import { Suspense } from "react";
 
 export default function MainContent({
   children,
@@ -58,7 +59,9 @@ export default function MainContent({
         </button>
       </div>
       <div className={styles.overlay}>
-        <Overlay />
+        <Suspense>
+          <Overlay />
+        </Suspense>
       </div>
     </section>
   );

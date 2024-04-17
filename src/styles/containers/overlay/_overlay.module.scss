@@ -194,6 +194,28 @@
   background-color: $color-button-active;
 }
 
+.researchButton{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  justify-self: center;
+  margin: 0;
+  padding: 0;
+  gap: 5px;
+  width: 140px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: rgba(241, 241, 241, 0.9);
+  cursor: pointer;
+  pointer-events: auto;
+  border: 1px solid;
+}
+.researchButton:hover{
+  background-color: $color-primary-light;
+}
+
 .visible {
   opacity: 1;
   pointer-events: auto;
