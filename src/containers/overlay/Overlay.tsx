@@ -383,15 +383,15 @@ export default function Overlay() {
     }
   }, [cleanSelectedCollection]);
 
-  useEffect(() => {
-    if (myProfile) {
-      if (collectionSelector == 0 && myCollectionDatas[0]) {
-        getMyCollectionData();
-      } else if (collectionSelector == 1 && scrappedCollectionDatas[0]) {
-        getScrappedCollectionData();
-      }
-    }
-  }, [collectionSelector]);
+  // useEffect(() => {
+  //   if (myProfile) {
+  //     if (collectionSelector == 0 && myCollectionDatas[0]) {
+  //       getMyCollectionData();
+  //     } else if (collectionSelector == 1 && scrappedCollectionDatas[0]) {
+  //       getScrappedCollectionData();
+  //     }
+  //   }
+  // }, [collectionSelector]);
 
   // useEffect(() => {
   //   if(outerMarkerdata != markerList)
@@ -405,6 +405,10 @@ export default function Overlay() {
   useEffect(() => {
     if (!myProfile) {
       getTopCollectionData();
+    }
+    else{
+      getMyCollectionData();
+      getScrappedCollectionData();
     }
   }, [myProfile]);
 
