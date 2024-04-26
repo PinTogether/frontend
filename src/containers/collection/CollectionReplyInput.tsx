@@ -12,10 +12,10 @@ import AlertModal from "@/components/AlertModal";
 
 const ReplyInputContent = ({
   collectionId,
-  getReplyDatas,
+  afterSuccessSubmit,
 }: {
   collectionId: number;
-  getReplyDatas: () => void;
+  afterSuccessSubmit: () => void;
 }) => {
   const sizeImage = 100;
 
@@ -42,7 +42,7 @@ const ReplyInputContent = ({
       setIsPosting(false);
       return;
     } // TODO Api reply => CollectionReply
-    getReplyDatas();
+    afterSuccessSubmit();
     setInputText("");
     setIsPosting(false);
     setAlertMessage("댓글이 등록되었습니다.");

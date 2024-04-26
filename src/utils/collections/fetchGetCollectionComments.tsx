@@ -5,7 +5,7 @@ import { logout } from "@/hooks/useLogout";
 const fetchGetCollectionComments = async (
   collectionId: number
 ): Promise<{
-  replyDatas: CollectionReply[];
+  replyList: CollectionReply[];
   errorMessage: string;
 }> => {
   try {
@@ -18,7 +18,7 @@ const fetchGetCollectionComments = async (
     if (res.status === 401) {
       logout();
       return {
-        replyDatas: [],
+        replyList: [],
         errorMessage: "로그인이 필요합니다.",
       };
     }
@@ -26,16 +26,16 @@ const fetchGetCollectionComments = async (
     const data: APIResponse = await res.json();
     if (data.metadata.resultCount === 0) {
       return {
-        replyDatas: [],
+        replyList: [],
         errorMessage: "첫 댓글을 달아주세요! 📝",
       };
     }
     const replyDatas: CollectionReply[] = data.results;
-    return { replyDatas, errorMessage: "" };
+    return { replyList: replyDatas, errorMessage: "" };
   } catch (err: any) {
     console.error(err);
     return {
-      replyDatas: [],
+      replyList: [],
       errorMessage: "컬렉션 댓글 가져오기에 실패했습니다.",
     };
   }

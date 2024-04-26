@@ -1,5 +1,11 @@
-import CollectionPage from "@/containers/collection/CollectionPage";
+import {
+  CollectionPage,
+  CollectionNotFoundPage,
+} from "@/containers/collection/CollectionPage";
+
 import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
+import fetchGetCollectionAllPins from "@/utils/collections/fetchGetCollectionAllPins";
+
 import { Metadata } from "next";
 
 interface PageParams {
@@ -59,6 +65,23 @@ export async function generateMetadata({
   };
 }
 
-export default function Page({ params }: PageParams) {
-  return <CollectionPage collectionId={params.id} />;
+export default async function Page({ params }: PageParams) {
+  const collectionId = params.id;
+  const { collectionInfo, errorMessage: collectionInfoErrMsg } =
+    await fetchGetCollectionInfo(collectionId);
+  const { pinList, errorMessage: pinListErrMsg } =
+    await fetchGetCollectionAllPins(collectionId);
+
+  console.log("server-component : collectionPage");
+
+  return collectionInfo && pinList && collectionInfoErrMsg === "" ? (
+    <CollectionPage
+      collectionId={collectionId}
+      collectionInfo={collectionInfo}
+      pinList={pinList}
+      pinListErrMsg={pinListErrMsg}
+    />
+  ) : (
+    <CollectionNotFoundPage collectionInfoErrMsg={collectionInfoErrMsg} />
+  );
 }
