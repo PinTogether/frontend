@@ -3,31 +3,23 @@ import APIResponse from "@/types/APIResponse";
 import { logout } from "@/hooks/useLogout";
 // TODO
 
-const fetchPostCollection = async (
-  title: string,
-  details: string,
-  tags: string[],
-  contentType: string | null
-) => {
+const fetchPostCollection = async (title: string, details: string, tags: string[], contentType: string | null) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections`,
-      {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: title,
-          details: details,
-          tags: tags,
-          contentType: contentType,
-        }),
-      }
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: title,
+        details: details,
+        tags: tags,
+        contentType: contentType,
+      }),
+    });
     if (res.status === 401) {
       logout();
       return {
-        presingedUrlData: null,
+        presignedUrlData: null,
         newCollectionId: null,
         errorMessage: "로그인이 필요합니다.",
       };
@@ -35,10 +27,10 @@ const fetchPostCollection = async (
     if (!res.ok) throw new Error("컬렉션 생성을 실패했습니다.");
     const data: APIResponse = await res.json();
     if (contentType) {
-      const presingedUrlData: PresignedUrl = data.results[0];
+      const presignedUrlData: PresignedUrl = data.results[0];
       return {
-        presingedUrlData: presingedUrlData,
-        newCollectionId: presingedUrlData.id,
+        presignedUrlData: presignedUrlData,
+        newCollectionId: presignedUrlData.id,
         errorMessage: "",
       };
     } else {
@@ -46,7 +38,7 @@ const fetchPostCollection = async (
         id: number;
       } = data.results[0];
       return {
-        presingedUrlData: null,
+        presignedUrlData: null,
         newCollectionId: result.id,
         errorMessage: "",
       };
@@ -54,7 +46,7 @@ const fetchPostCollection = async (
   } catch (err: any) {
     console.error(err);
     return {
-      presingedUrlData: null,
+      presignedUrlData: null,
       newCollectionId: null,
       errorMessage: "컬렉션 생성을 실패했습니다.",
     };
