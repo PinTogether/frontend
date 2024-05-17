@@ -10,12 +10,12 @@ import { PlatformType } from "@/types/Report";
 import CollectionReply from "@/types/CollectionReply";
 import { CloseRoundIcon } from "@/components/IconSvg";
 import AlertModal from "@/components/AlertModal";
-import ReplyInputContent from "./CollectionReplyInput";
+import ReplyForm from "./ReplyForm";
 
 import fetchDeleteCollectionComment from "@/utils/collections/fetchDeleteCollectionComment";
 import fetchGetCollectionComments from "@/utils/collections/fetchGetCollectionComments";
 
-const CollectionReplyRenderer = ({
+const ReplyRenderer = ({
   collectionInfo,
   myId,
 }: {
@@ -54,7 +54,7 @@ const CollectionReplyRenderer = ({
 
   return (
     <section className={styles.collectionReplyContainer}>
-      <ReplyInputContent
+      <ReplyForm
         collectionId={collectionInfo.id}
         afterSuccessSubmit={getReplys}
       />
@@ -74,7 +74,7 @@ const CollectionReplyRenderer = ({
     </section>
   );
 };
-export default CollectionReplyRenderer;
+export default ReplyRenderer;
 
 const ReplyContent = ({
   data,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ import { useGetMyProfile } from "@/hooks/myProfileHooks";
 import fetchPostCollectionComments from "@/utils/collections/fetchPostCollectionComment";
 import AlertModal from "@/components/AlertModal";
 
-const ReplyInputContent = ({
+const ReplyForm = ({
   collectionId,
   afterSuccessSubmit,
 }: {
@@ -86,4 +86,4 @@ const ReplyInputContent = ({
     </>
   );
 };
-export default ReplyInputContent;
+export default ReplyForm;

@@ -16,11 +16,11 @@ import MarkerData from "@/types/Marker";
 import { CollectionDetail } from "@/types/Collection";
 import { PinForPlace } from "@/types/Pin";
 
-import SubPageLayout from "../layout/SubPageLayout";
-import CollectionWithPinCommentRenderer from "@/containers/collection/CollecionWithPinCommentRenderer";
-import CollectionWithPinRenderer from "@/containers/collection/CollectionWithPinRenderer";
-import CollectionReplyRenderer from "@/containers/collection/CollectionReplyRenderer";
-import CollectionInfoRenderer from "@/containers/collection/CollectionInfoRenderer";
+import SubPageLayout from "@/containers/layout/SubPageLayout";
+import PinsCommentRenderer from "./PinsCommentRenderer";
+import PinsRenderer from "./PinsRenderer";
+import ReplyRenderer from "./ReplyRenderer";
+import CollectionInfoRenderer from "./CollectionInfoRenderer";
 import { addAlertMessage } from "@/redux/globalAlertSlice";
 import fetchDeleteCollection from "@/utils/collections/fetchDeleteCollection";
 
@@ -30,7 +30,7 @@ enum MenuCategory {
   COLLECTION_COMMENT = 3,
 }
 
-export function CollectionPage({
+export default function CollectionPage({
   collectionId,
   collectionInfo,
   pinList,
@@ -132,19 +132,19 @@ export function CollectionPage({
       {/* 메뉴 */}
       <section className={styles.buttonContainer}>
         <button
-          className={`${styles.buttons} ${currentMenu == 2 ? styles.clickedButtons : ""}`}
+          className={`${styles.buttons} ${currentMenu == MenuCategory.PIN_COMMENT ? styles.clickedButtons : ""}`}
           onClick={() => hanldeClickMenuBtn(MenuCategory.PIN_COMMENT)}
         >
           핀 리뷰
         </button>
         <button
-          className={`${styles.buttons} ${currentMenu == 1 ? styles.clickedButtons : ""}`}
+          className={`${styles.buttons} ${currentMenu == MenuCategory.PIN_PLACE ? styles.clickedButtons : ""}`}
           onClick={() => hanldeClickMenuBtn(MenuCategory.PIN_PLACE)}
         >
           핀 장소
         </button>
         <button
-          className={`${styles.buttons} ${currentMenu == 3 ? styles.clickedButtons : ""}`}
+          className={`${styles.buttons} ${currentMenu == MenuCategory.COLLECTION_COMMENT ? styles.clickedButtons : ""}`}
           onClick={() => hanldeClickMenuBtn(MenuCategory.COLLECTION_COMMENT)}
         >
           컬렉션 댓글
@@ -160,29 +160,17 @@ export function CollectionPage({
         (pinListErrMsg ? (
           <p className={styles.errorMessage}>{pinListErrMsg}</p>
         ) : (
-          <CollectionWithPinCommentRenderer data={pinList} />
+          <PinsCommentRenderer pins={pinList} />
         ))}
       {currentMenu === MenuCategory.PIN_PLACE &&
         (pinListErrMsg ? (
           <p className={styles.errorMessage}>{pinListErrMsg}</p>
         ) : (
-          <CollectionWithPinRenderer pins={pinList} />
+          <PinsRenderer pins={pinList} />
         ))}
       {currentMenu === MenuCategory.COLLECTION_COMMENT && collectionInfo && (
-        <CollectionReplyRenderer collectionInfo={collectionInfo} myId={myId} />
+        <ReplyRenderer collectionInfo={collectionInfo} myId={myId} />
       )}
-    </SubPageLayout>
-  );
-}
-
-export function CollectionNotFoundPage({
-  collectionInfoErrMsg,
-}: {
-  collectionInfoErrMsg: string;
-}) {
-  return (
-    <SubPageLayout topperMsg={"컬렉션 조회"}>
-      <p className={styles.errorMessage}>{collectionInfoErrMsg}</p>
     </SubPageLayout>
   );
 }
