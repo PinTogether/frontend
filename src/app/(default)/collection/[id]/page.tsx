@@ -1,7 +1,5 @@
-import {
-  CollectionPage,
-  CollectionNotFoundPage,
-} from "@/containers/collection/CollectionPage";
+import CollectionPage from "@/containers/collection/collection/CollectionPage";
+import CollectionNotFoundPage from "@/containers/collection/collection/CollectionNotFoundPage";
 
 import fetchGetCollectionInfo from "@/utils/collections/fetchGetCollectionInfo";
 import fetchGetCollectionAllPins from "@/utils/collections/fetchGetCollectionAllPins";
@@ -14,13 +12,10 @@ interface PageParams {
   };
 }
 
-export async function generateMetadata({
-  params,
-}: PageParams): Promise<Metadata> {
+export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
   const collectionId = params.id;
 
-  const { collectionInfo, errorMessage } =
-    await fetchGetCollectionInfo(collectionId);
+  const { collectionInfo, errorMessage } = await fetchGetCollectionInfo(collectionId);
   if (!collectionInfo) {
     return {
       title: "컬렉션 정보를 불러오는 중 오류가 발생했습니다.",
@@ -67,10 +62,8 @@ export async function generateMetadata({
 
 export default async function Page({ params }: PageParams) {
   const collectionId = params.id;
-  const { collectionInfo, errorMessage: collectionInfoErrMsg } =
-    await fetchGetCollectionInfo(collectionId);
-  const { pinList, errorMessage: pinListErrMsg } =
-    await fetchGetCollectionAllPins(collectionId);
+  const { collectionInfo, errorMessage: collectionInfoErrMsg } = await fetchGetCollectionInfo(collectionId);
+  const { pinList, errorMessage: pinListErrMsg } = await fetchGetCollectionAllPins(collectionId);
 
   console.log("server-component : collectionPage");
 
