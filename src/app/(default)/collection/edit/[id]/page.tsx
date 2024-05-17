@@ -1,4 +1,4 @@
-import CollectionEditPage from "@/containers/collection/CollectionEditPage";
+import CollectionEditPage from "@/containers/collection/edit/CollectionEditPage";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
