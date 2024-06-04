@@ -4,10 +4,12 @@ import { logout } from "@/hooks/useLogout";
 
 const fetchGetCollectionInfo = async (collectionId: number) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${collectionId}`, {
-      credentials: "include",
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${collectionId}`,
+      {
+        credentials: "include",
+      }
+    );
     if (res.status === 401) {
       logout();
       return {
