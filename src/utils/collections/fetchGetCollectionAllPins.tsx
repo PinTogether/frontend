@@ -6,7 +6,7 @@ const fetchGetCollectionAllPins = async (collectionId: number) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections/${collectionId}/pins`, {
       credentials: "include",
-      cache: "no-store",
+      next: { revalidate: 0 },
     });
     if (res.status === 401) {
       logout();
